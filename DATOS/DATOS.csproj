@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CC342927-133E-42F2-A789-60F7202ABEF4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DATOS</RootNamespace>
+    <AssemblyName>DATOS</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ConexionBD, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\SISTEMA_BOLETOS_TASA\SISTEMA_BOLETOS_TASA\bin\ConexionBD.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClaseAnden.cs" />
+    <Compile Include="ClaseAsignarViaje.cs" />
+    <Compile Include="ClaseAsistente.cs" />
+    <Compile Include="ClaseCategorias.cs" />
+    <Compile Include="ClaseChofer.cs" />
+    <Compile Include="ClaseChoferAsistente.cs" />
+    <Compile Include="ClaseComboDatos.cs" />
+    <Compile Include="ClaseCorteCaja.cs" />
+    <Compile Include="ClaseDetalleRuta.cs" />
+    <Compile Include="ClaseDetalleTasaUsuario.cs" />
+    <Compile Include="ClaseDirectorio.cs" />
+    <Compile Include="ClaseDisco.cs" />
+    <Compile Include="ClaseEstablecimiento.cs" />
+    <Compile Include="ClaseExtras.cs" />
+    <Compile Include="ClaseFacturasItinerario.cs" />
+    <Compile Include="ClaseGenerarToken.cs" />
+    <Compile Include="ClaseGenerarXML.cs" />
+    <Compile Include="ClaseHoraPueblos.cs" />
+    <Compile Include="ClaseHorario.cs" />
+    <Compile Include="ClaseHorarioMasivo.cs" />
+    <Compile Include="ClaseImpresiones.cs" />
+    <Compile Include="ClaseItinerario.cs" />
+    <Compile Include="ClaseMarcaVehiculo.cs" />
+    <Compile Include="ClaseModeloVehiculo.cs" />
+    <Compile Include="ClaseOficinista.cs" />
+    <Compile Include="ClasePagosAtrasadosPagados.cs" />
+    <Compile Include="ClasePagosPendientes.cs" />
+    <Compile Include="ClasePagoTasaUsuario.cs" />
+    <Compile Include="ClaseParametrosLocalidad.cs" />
+    <Compile Include="ClasePasajeros.cs" />
+    <Compile Include="ClasePrecioPasajes.cs" />
+    <Compile Include="ClasePrecioTickets.cs" />
+    <Compile Include="ClaseProgramacion.cs" />
+    <Compile Include="ClasePueblos.cs" />
+    <Compile Include="ClasePueblosHorarios.cs" />
+    <Compile Include="ClaseReporteCobroRetenciones.cs" />
+    <Compile Include="ClaseReporteVentaClientes.cs" />
+    <Compile Include="ClaseReporteViajesActivos.cs" />
+    <Compile Include="ClaseReporteViajesAgrupados.cs" />
+    <Compile Include="ClaseRuta.cs" />
+    <Compile Include="ClaseSincronizarTasasAnuladas.cs" />
+    <Compile Include="ClaseSincronizarTasaUsuario.cs" />
+    <Compile Include="ClaseTerminal.cs" />
+    <Compile Include="ClaseTipoAsiento.cs" />
+    <Compile Include="ClaseTipoComprobante.cs" />
+    <Compile Include="ClaseTipoVehiculo.cs" />
+    <Compile Include="ClaseVariables.cs" />
+    <Compile Include="ClaseVehiculo.cs" />
+    <Compile Include="ClaseVehiculoPropietario.cs" />
+    <Compile Include="ClaseVehiculoViaje.cs" />
+    <Compile Include="ClaseVendidos.cs" />
+    <Compile Include="ClaseViajes.cs" />
+    <Compile Include="ClaseViajesActivosCierre.cs" />
+    <Compile Include="Conexion.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ENTIDADES\ENTIDADES.csproj">
+      <Project>{9a0181e5-94b7-4b38-89ab-431003ed9e00}</Project>
+      <Name>ENTIDADES</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,4 @@
+C:\Users\APLICSIS\Desktop\Solucion Buses\Solution_CTT\ENTIDADES\bin\Debug\ENTIDADES.dll
+C:\Users\APLICSIS\Desktop\Solucion Buses\Solution_CTT\ENTIDADES\bin\Debug\ENTIDADES.pdb
+C:\Users\APLICSIS\Desktop\Solucion Buses\Solution_CTT\ENTIDADES\obj\Debug\ENTIDADES.dll
+C:\Users\APLICSIS\Desktop\Solucion Buses\Solution_CTT\ENTIDADES\obj\Debug\ENTIDADES.pdb

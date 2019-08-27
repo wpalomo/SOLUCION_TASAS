@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9A0181E5-94B7-4B38-89AB-431003ED9E00}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ENTIDADES</RootNamespace>
+    <AssemblyName>ENTIDADES</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ENTAnden.cs" />
+    <Compile Include="ENTAsistente.cs" />
+    <Compile Include="ENTCategorias.cs" />
+    <Compile Include="ENTChofer.cs" />
+    <Compile Include="ENTChoferAsistente.cs" />
+    <Compile Include="ENTComboDatos.cs" />
+    <Compile Include="ENTCorteCaja.cs" />
+    <Compile Include="ENTDetalleRuta.cs" />
+    <Compile Include="ENTDetalleTasaUsuario.cs" />
+    <Compile Include="ENTDirectorio.cs" />
+    <Compile Include="ENTDisco.cs" />
+    <Compile Include="ENTEstablecimiento.cs" />
+    <Compile Include="ENTExtras.cs" />
+    <Compile Include="ENTFacturasItinerario.cs" />
+    <Compile Include="ENTGenerarToken.cs" />
+    <Compile Include="ENTGenerarXML.cs" />
+    <Compile Include="ENTHoraPueblos.cs" />
+    <Compile Include="ENTHorario.cs" />
+    <Compile Include="ENTHorarioMasivo.cs" />
+    <Compile Include="ENTImpresoras.cs" />
+    <Compile Include="ENTItinierario.cs" />
+    <Compile Include="ENTMarcaVehiculo.cs" />
+    <Compile Include="ENTModeloVehiculo.cs" />
+    <Compile Include="ENTModoViaje.cs" />
+    <Compile Include="ENTOficinista.cs" />
+    <Compile Include="ENTPagosAtrasadosPagados.cs" />
+    <Compile Include="ENTPagosPendientes.cs" />
+    <Compile Include="ENTPagoTasaUsuario.cs" />
+    <Compile Include="ENTParametrosLocalidad.cs" />
+    <Compile Include="ENTPasajeros.cs" />
+    <Compile Include="ENTPrecioPasajes.cs" />
+    <Compile Include="ENTPrecioTickets.cs" />
+    <Compile Include="ENTProgramacion.cs" />
+    <Compile Include="ENTPueblos.cs" />
+    <Compile Include="ENTPueblosHorarios.cs" />
+    <Compile Include="ENTReporteCobroRetenciones.cs" />
+    <Compile Include="ENTReporteVentaClientes.cs" />
+    <Compile Include="ENTReporteViajesActivos.cs" />
+    <Compile Include="ENTReporteViajesAgrupados.cs" />
+    <Compile Include="ENTRuta.cs" />
+    <Compile Include="ENTSincronizarTasasAnuladas.cs" />
+    <Compile Include="ENTSincronizarTasaUsuario.cs" />
+    <Compile Include="ENTTerminal.cs" />
+    <Compile Include="ENTTipoAsiento.cs" />
+    <Compile Include="ENTTipoComprobante.cs" />
+    <Compile Include="ENTTipoVehiculo.cs" />
+    <Compile Include="ENTVehiculo.cs" />
+    <Compile Include="ENTVehiculoPropietario.cs" />
+    <Compile Include="ENTVehiculoViaje.cs" />
+    <Compile Include="ENTVendidos.cs" />
+    <Compile Include="ENTViajes.cs" />
+    <Compile Include="ENTViajesActivosCierre.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

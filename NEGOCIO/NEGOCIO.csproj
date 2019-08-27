@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D2EEA7C3-499A-4EA4-BFD4-BDE5327C425D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NEGOCIO</RootNamespace>
+    <AssemblyName>NEGOCIO</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>buses_app.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="manejadorAnden.cs" />
+    <Compile Include="manejadorAsignarViaje.cs" />
+    <Compile Include="manejadorAsistente.cs" />
+    <Compile Include="manejadorCategorias.cs" />
+    <Compile Include="manejadorChofer.cs" />
+    <Compile Include="manejadorChoferAsistente.cs" />
+    <Compile Include="manejadorComboDatos.cs" />
+    <Compile Include="manejadorConexion.cs" />
+    <Compile Include="manejadorCorteCaja.cs" />
+    <Compile Include="manejadorDetalleRuta.cs" />
+    <Compile Include="manejadorDetalleTasaUsuario.cs" />
+    <Compile Include="manejadorDirectorio.cs" />
+    <Compile Include="manejadorDisco.cs" />
+    <Compile Include="manejadorEstablecimiento.cs" />
+    <Compile Include="manejadorExtras.cs" />
+    <Compile Include="manejadorFacturasItinerario.cs" />
+    <Compile Include="manejadorGenerarToken.cs" />
+    <Compile Include="manejadorGenerarXML.cs" />
+    <Compile Include="manejadorHoraPueblos.cs" />
+    <Compile Include="manejadorHorario.cs" />
+    <Compile Include="manejadorHorarioMasivo.cs" />
+    <Compile Include="manejadorImpresiones.cs" />
+    <Compile Include="manejadorItinerario.cs" />
+    <Compile Include="manejadorMarcaVehiculo.cs" />
+    <Compile Include="manejadorModeloVehiculo.cs" />
+    <Compile Include="manejadorOficinista.cs" />
+    <Compile Include="manejadorPagosAtrasadosPagados.cs" />
+    <Compile Include="manejadorPagosPendientes.cs" />
+    <Compile Include="manejadorPagoTasaUsuario.cs" />
+    <Compile Include="manejadorParametrosLocalidad.cs" />
+    <Compile Include="manejadorPasajeros.cs" />
+    <Compile Include="manejadorPrecioPasajes.cs" />
+    <Compile Include="manejadorPrecioTickets.cs" />
+    <Compile Include="manejadorProgramacion.cs" />
+    <Compile Include="manejadorPueblos.cs" />
+    <Compile Include="manejadorPueblosHorarios.cs" />
+    <Compile Include="manejadorReporteCobroRetenciones.cs" />
+    <Compile Include="manejadorReporteVentaClientes.cs" />
+    <Compile Include="manejadorReporteViajesActivos.cs" />
+    <Compile Include="manejadorReporteViajesAgrupados.cs" />
+    <Compile Include="manejadorRuta.cs" />
+    <Compile Include="manejadorSincronizarTasasAnuladas.cs" />
+    <Compile Include="manejadorSincronizarTasaUsuario.cs" />
+    <Compile Include="manejadorTerminal.cs" />
+    <Compile Include="manejadorTipoAsiento.cs" />
+    <Compile Include="manejadorTipoComprobante.cs" />
+    <Compile Include="manejadorTipoVehiculo.cs" />
+    <Compile Include="manejadorVehiculo.cs" />
+    <Compile Include="manejadorVehiculoPropietario.cs" />
+    <Compile Include="manejadorVehiculoViaje.cs" />
+    <Compile Include="manejadorVendidos.cs" />
+    <Compile Include="manejadorViajes.cs" />
+    <Compile Include="manejadorViajesActivosCierre.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DATOS\DATOS.csproj">
+      <Project>{1fa02e41-a05e-47a2-9cd2-baa4e8cb8243}</Project>
+      <Name>DATOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ENTIDADES\ENTIDADES.csproj">
+      <Project>{9a0181e5-94b7-4b38-89ab-431003ed9e00}</Project>
+      <Name>ENTIDADES</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="buses_app.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
