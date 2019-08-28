@@ -13,15 +13,6 @@ namespace Solution_CTT {
     public partial class frmTransacciones {
         
         /// <summary>
-        /// Control ScriptManager1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.ScriptManager ScriptManager1;
-        
-        /// <summary>
         /// Control UpdatePanel1.
         /// </summary>
         /// <remarks>
@@ -292,15 +283,6 @@ namespace Solution_CTT {
         protected global::System.Web.UI.WebControls.Panel pnlVerTasas;
         
         /// <summary>
-        /// Control btnValidacionToken.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnValidacionToken;
-        
-        /// <summary>
         /// Control txtCantidadTasasDisponibles.
         /// </summary>
         /// <remarks>
@@ -310,13 +292,22 @@ namespace Solution_CTT {
         protected global::System.Web.UI.WebControls.TextBox txtCantidadTasasDisponibles;
         
         /// <summary>
-        /// Control btnNotificacionToken.
+        /// Control btnValidacionToken.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnNotificacionToken;
+        protected global::System.Web.UI.WebControls.LinkButton btnValidacionToken;
+        
+        /// <summary>
+        /// Control txtPorcentajeDisponibles.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtPorcentajeDisponibles;
         
         /// <summary>
         /// Control btnReporteToken.
@@ -337,22 +328,13 @@ namespace Solution_CTT {
         protected global::System.Web.UI.WebControls.TextBox txtTasaUsuario;
         
         /// <summary>
-        /// Control btnFacturaRapida.
+        /// Control lblTotalCobradoBus.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnFacturaRapida;
-        
-        /// <summary>
-        /// Control btnFacturaDatos.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnFacturaDatos;
+        protected global::System.Web.UI.WebControls.Label lblTotalCobradoBus;
         
         /// <summary>
         /// Control btnLimpiarAsignacion.
@@ -364,13 +346,22 @@ namespace Solution_CTT {
         protected global::System.Web.UI.WebControls.Button btnLimpiarAsignacion;
         
         /// <summary>
-        /// Control lblTotalCobradoBus.
+        /// Control btnFacturaDatos.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTotalCobradoBus;
+        protected global::System.Web.UI.WebControls.Button btnFacturaDatos;
+        
+        /// <summary>
+        /// Control btnFacturaRapida.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnFacturaRapida;
         
         /// <summary>
         /// Control txtNumeroViaje.
@@ -427,15 +418,6 @@ namespace Solution_CTT {
         protected global::System.Web.UI.WebControls.TextBox txtRutaViaje;
         
         /// <summary>
-        /// Control btnReimprimirFactura.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnReimprimirFactura;
-        
-        /// <summary>
         /// Control btnCerrarViaje.
         /// </summary>
         /// <remarks>
@@ -452,6 +434,15 @@ namespace Solution_CTT {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnRegresar;
+        
+        /// <summary>
+        /// Control btnReimprimirFactura.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnReimprimirFactura;
         
         /// <summary>
         /// Control btnGenerarTasaAcompanante.
@@ -724,6 +715,24 @@ namespace Solution_CTT {
         protected global::System.Web.UI.WebControls.TextBox txtTotalNetoModal;
         
         /// <summary>
+        /// Control Label111.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label111;
+        
+        /// <summary>
+        /// Control txtObservacionProgramacion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtObservacionProgramacion;
+        
+        /// <summary>
         /// Control btnRecalcular.
         /// </summary>
         /// <remarks>
@@ -749,42 +758,6 @@ namespace Solution_CTT {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCancelarModal;
-        
-        /// <summary>
-        /// Control lbAccion.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbAccion;
-        
-        /// <summary>
-        /// Control lblMensajeModal.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMensajeModal;
-        
-        /// <summary>
-        /// Control btnNo.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnNo;
-        
-        /// <summary>
-        /// Control btnAccept.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAccept;
         
         /// <summary>
         /// Control lblMensaje.
@@ -832,13 +805,13 @@ namespace Solution_CTT {
         protected global::System.Web.UI.WebControls.Label Label11;
         
         /// <summary>
-        /// Control Label12.
+        /// Control lblAlertaMensajeCierre.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label12;
+        protected global::System.Web.UI.WebControls.Label lblAlertaMensajeCierre;
         
         /// <summary>
         /// Control btnNoCerrar.
@@ -974,6 +947,15 @@ namespace Solution_CTT {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCerrarModalCrearEditar;
+        
+        /// <summary>
+        /// Control Panel100.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel Panel100;
         
         /// <summary>
         /// Control Label17.
@@ -1579,6 +1561,24 @@ namespace Solution_CTT {
         protected global::System.Web.UI.WebControls.Button btnCerrarModalValidarToken;
         
         /// <summary>
+        /// Control Label26.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label26;
+        
+        /// <summary>
+        /// Control pnlEnterValidar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlEnterValidar;
+        
+        /// <summary>
         /// Control txtNumeroTokenModal.
         /// </summary>
         /// <remarks>
@@ -1597,6 +1597,15 @@ namespace Solution_CTT {
         protected global::System.Web.UI.WebControls.Button btnValidarTokenModal;
         
         /// <summary>
+        /// Control btnContinuarToken.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnContinuarToken;
+        
+        /// <summary>
         /// Control lblTituloValidacionModal.
         /// </summary>
         /// <remarks>
@@ -1613,15 +1622,6 @@ namespace Solution_CTT {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblMensajeValidacionModal;
-        
-        /// <summary>
-        /// Control btnContinuarToken.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnContinuarToken;
         
         /// <summary>
         /// Control btnModalInfoToken.
@@ -1667,6 +1667,15 @@ namespace Solution_CTT {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCerrarModalInfoToken;
+        
+        /// <summary>
+        /// Control Label27.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label27;
         
         /// <summary>
         /// Control txtCodigoOficina.
@@ -1723,6 +1732,15 @@ namespace Solution_CTT {
         protected global::System.Web.UI.WebControls.Button btnCerrarModalReporteTokenInfo;
         
         /// <summary>
+        /// Control Label28.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label28;
+        
+        /// <summary>
         /// Control dgvReporteTokenInfo.
         /// </summary>
         /// <remarks>
@@ -1768,31 +1786,49 @@ namespace Solution_CTT {
         protected global::System.Web.UI.UpdatePanel UpdatePanel12;
         
         /// <summary>
-        /// Control btnCerrarModalNotificacionAutomatica.
+        /// Control Label25.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCerrarModalNotificacionAutomatica;
+        protected global::System.Web.UI.WebControls.Label Label25;
         
         /// <summary>
-        /// Control pnlMensajeNotificacion.
+        /// Control divTitulo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlMensajeNotificacion;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divTitulo;
         
         /// <summary>
-        /// Control pnlDatosMensajeNotificacion.
+        /// Control lblMensajeNotificacion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlDatosMensajeNotificacion;
+        protected global::System.Web.UI.WebControls.Label lblMensajeNotificacion;
+        
+        /// <summary>
+        /// Control lblDatosMensajeNotificacion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDatosMensajeNotificacion;
+        
+        /// <summary>
+        /// Control lblCantidadMensajeNotificacion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCantidadMensajeNotificacion;
         
         /// <summary>
         /// Control chkConfirmacionVisualizacion.
@@ -1822,31 +1858,31 @@ namespace Solution_CTT {
         protected global::System.Web.UI.WebControls.Label Label16;
         
         /// <summary>
-        /// Control lblMensajeNotificacion.
+        /// Control Label19.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMensajeNotificacion;
+        protected global::System.Web.UI.WebControls.Label Label19;
         
         /// <summary>
-        /// Control lblDatosMensajeNotificacion.
+        /// Control Label21.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDatosMensajeNotificacion;
+        protected global::System.Web.UI.WebControls.Label Label21;
         
         /// <summary>
-        /// Control lblCantidadMensajeNotificacion.
+        /// Control Label22.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCantidadMensajeNotificacion;
+        protected global::System.Web.UI.WebControls.Label Label22;
         
         /// <summary>
         /// Control CheckBox1.

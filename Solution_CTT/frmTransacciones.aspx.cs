@@ -1701,7 +1701,7 @@ namespace Solution_CTT
             {
                 if (conexionM.iniciarTransaccion() == false)
                 {
-                    lblMensajeModal.Text = "No se pudo iniciar la transacción para guardar los registros.";
+                    lblMensajeError.Text = "No se pudo iniciar la transacción para guardar los registros.";
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#myModal1').modal('show');</script>", false);
                     goto fin;
                 }
@@ -1780,7 +1780,7 @@ namespace Solution_CTT
             {
                 if (conexionM.iniciarTransaccion() == false)
                 {
-                    lblMensajeModal.Text = "No se pudo iniciar la transacción para guardar los registros.";
+                    lblMensajeError.Text = "No se pudo iniciar la transacción para guardar los registros.";
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#myModal1').modal('show');</script>", false);
                     goto fin;
                 }
@@ -3345,7 +3345,7 @@ namespace Solution_CTT
             catch (Exception ex)
             {
                 cerrarModal();
-                lblMensajeModal.Text = ex.ToString();
+                lblMensajeError.Text = ex.ToString();
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#myModal1').modal('show');</script>", false);
                 return false;
             }
@@ -4129,7 +4129,7 @@ namespace Solution_CTT
 
                     else
                     {
-                        lblMensajeModal.Text = "No ha registros en el sistema. Favor comuníquese con el administrador del sistema.";
+                        lblMensajeError.Text = "No ha registros en el sistema. Favor comuníquese con el administrador del sistema.";
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#myModal1').modal('show');</script>", false);
                     }
                 }
@@ -4291,7 +4291,7 @@ namespace Solution_CTT
             {
                 if (conexionM.iniciarTransaccion() == false)
                 {
-                    lblMensajeModal.Text = "No se pudo iniciar la transacción para guardar los registros.";
+                    lblMensajeError.Text = "No se pudo iniciar la transacción para guardar los registros.";
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#myModal1').modal('show');</script>", false);
                     return false;
                 }
@@ -4536,7 +4536,7 @@ namespace Solution_CTT
 
                     else
                     {
-                        lblMensajeModal.Text = "No se pudo obtener el valor total cobrado.";
+                        lblMensajeError.Text = "No se pudo obtener el valor total cobrado.";
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#myModal1').modal('show');</script>", false);
                     }
                 }
@@ -5100,7 +5100,7 @@ namespace Solution_CTT
             {
                 if (conexionM.iniciarTransaccion() == false)
                 {
-                    lblMensajeModal.Text = "No se pudo iniciar la transacción para guardar los registros.";
+                    lblMensajeError.Text = "No se pudo iniciar la transacción para guardar los registros.";
                     cerrarModal();
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#myModal1').modal('show');</script>", false);
                     return;
@@ -5147,7 +5147,7 @@ namespace Solution_CTT
             {
                 if (conexionM.iniciarTransaccion() == false)
                 {
-                    lblMensajeModal.Text = "No se pudo iniciar la transacción para guardar los registros.";
+                    lblMensajeError.Text = "No se pudo iniciar la transacción para guardar los registros.";
                     cerrarModal();
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#myModal1').modal('show');</script>", false);
                     return;
@@ -5787,7 +5787,7 @@ namespace Solution_CTT
             catch (Exception ex)
             {
                 cerrarModal();
-                lblMensajeModal.Text = ex.ToString();
+                lblMensajeError.Text = ex.ToString();
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#myModal1').modal('show');</script>", false);
             }
         }
@@ -7057,38 +7057,10 @@ namespace Solution_CTT
 
                 else
                 {
-                    ModalPopupExtender_NotificacionAutomatica.Show();
-                    lblMensajeNotificacion.Text = "Has consumido el " + (100 - iPorcentajeNotificacionEntero).ToString() + "% de la cantidad de tasas de usuario";
-                    lblDatosMensajeNotificacion.Text = "Hoy " + DateTime.Now.ToString("dd-MM-yyyy") + " a las " + DateTime.Now.ToString("HH:mm") + ".</br>Se le notifica que solo dispone de:";
-                    lblCantidadMensajeNotificacion.Text = Convert.ToInt32(dbDisponible_Notificacion).ToString();
-
-                    lblMensajeNotificacion.ForeColor = Color.White;
-
-                    if (iPorcentajeNotificacionEntero == 100)
-                    {
-                        pnlMensajeNotificacion.BackColor = ColorTranslator.FromHtml("#00369C");
-                    }
-
-                    else if (iPorcentajeNotificacionEntero == 50)
-                    {
-                        pnlMensajeNotificacion.BackColor = ColorTranslator.FromHtml("#F3E212");
-                        lblMensajeNotificacion.ForeColor = Color.Black;
-                    }
-
-                    else if (iPorcentajeNotificacionEntero >= 25)
-                    {
-                        pnlMensajeNotificacion.BackColor = ColorTranslator.FromHtml("#F16A10");
-                    }
-
-                    else if (iPorcentajeNotificacionEntero == 10)
-                    {
-                        pnlMensajeNotificacion.BackColor = ColorTranslator.FromHtml("#A31F11");
-                    }
-
-                    else if (iPorcentajeNotificacionEntero == 0)
-                    {
-                        pnlMensajeNotificacion.BackColor = ColorTranslator.FromHtml("#FF0000");
-                    }
+                    string str = DateTime.Now.ToString();
+                    Session["ver_notificacion"] = "1";
+                    Session["lblMensajeNotificacion"] = "Hoy " + Convert.ToDateTime(str).ToString("dd-MM-yyyy") + " a las " + Convert.ToDateTime(str).ToString("HH:mm") + ".</br>Se le notifica que solo dispone de:";
+                    ((Master)Master).mostrarNotificacionEmergente();
                 }
 
                 return true;

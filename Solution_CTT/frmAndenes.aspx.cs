@@ -317,7 +317,8 @@ namespace Solution_CTT
             llenarComboDatos();
             btnSave.Text = "Crear";
             MsjValidarCampos.Visible = false;
-            txtCodigo.ReadOnly = false;            
+            txtCodigo.ReadOnly = false;
+            chkPrincipal.Checked = false;
             txtCodigo.Focus();
             llenarGrid(0);
         }

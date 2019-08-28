@@ -71,6 +71,7 @@ namespace Solution_CTT
                 sFecha = DateTime.Now.ToString("yyyy/MM/dd");
                 llenarCajasTexto();
                 llenarGrid(sFecha);
+                llenarGridVigentes(sFecha);
                 llenarGridPagosAdministrativos(sFecha);
                 llenarGridPagosAtrasadosPagados(sFecha);
                 llenarViajesActivos(sFecha);
@@ -302,7 +303,7 @@ namespace Solution_CTT
             try
             {
                 sSql = "";
-                sSql += "id_ctt_programacion, hora_salida, fecha_grid, vehiculo, ruta, asientos_ocupados, tipo_viaje, valor" + Environment.NewLine;
+                sSql += "select id_ctt_programacion, hora_salida, fecha_grid, vehiculo, ruta, asientos_ocupados, tipo_viaje, valor" + Environment.NewLine;
                 sSql += "from ctt_vw_cierre_caja_2" + Environment.NewLine;
                 sSql += "where fecha_viaje = '" + sFecha_P + "'" + Environment.NewLine;
                 sSql += "and estado_salida = 'Abierta'" + Environment.NewLine;

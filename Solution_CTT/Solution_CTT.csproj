@@ -631,6 +631,67 @@
     <Content Include="dist\css\adminlte.css.map" />
     <Content Include="dist\css\adminlte.min.css.map" />
     <Content Include="dist\img\Thumbs.db" />
+    <Content Include="frmDetalleRuta.aspx" />
+    <Content Include="frmDetalleTransaccionesTasa.aspx" />
+    <Content Include="frmDirectorio.aspx" />
+    <Content Include="frmEmisor.aspx" />
+    <Content Include="frmEnvioComprobantes.aspx" />
+    <Content Include="frmEnvioCorreo.aspx" />
+    <Content Include="frmEstablecimiento.aspx" />
+    <Content Include="frmEstadoComprobantesElectronicos.aspx" />
+    <Content Include="frmExtras.aspx" />
+    <Content Include="frmFirmarXML.aspx" />
+    <Content Include="frmGenerarRIDE.aspx" />
+    <Content Include="frmGenerarToken.aspx" />
+    <Content Include="frmGenerarXML.aspx" />
+    <Content Include="frmHorarios.aspx" />
+    <Content Include="frmImpresoras.aspx" />
+    <Content Include="frmImprimirFactura.aspx" />
+    <Content Include="frmIngresoPagosPendientes.aspx" />
+    <Content Include="frmItinerarios.aspx" />
+    <Content Include="frmItinerariosExtras.aspx" />
+    <Content Include="frmMarcaVehiculos.aspx" />
+    <Content Include="frmModeloVehiculos.aspx" />
+    <Content Include="frmNumeroDisco.aspx" />
+    <Content Include="frmOficinistas.aspx" />
+    <Content Include="frmPagosPendientes.aspx" />
+    <Content Include="frmPagosTasaUsuario.aspx" />
+    <Content Include="frmParametroCorreo.aspx" />
+    <Content Include="frmParametros.aspx" />
+    <Content Include="frmParametrosFacturacionElectronica.aspx" />
+    <Content Include="frmParametrosLocalidad.aspx" />
+    <Content Include="frmParametrosTasaUsuario.aspx" />
+    <Content Include="frmPrecios.aspx" />
+    <Content Include="frmPreciosPasajes.aspx" />
+    <Content Include="frmPrecioTickets.aspx" />
+    <Content Include="frmPropietario.aspx" />
+    <Content Include="frmPruebas.aspx" />
+    <Content Include="frmPueblos.aspx" />
+    <Content Include="frmPueblosHorarios.aspx" />
+    <Content Include="frmReabrirViaje.aspx" />
+    <Content Include="frmReimpresionFacturas.aspx" />
+    <Content Include="frmReporteCodigo.aspx" />
+    <Content Include="frmReporteFactura.aspx" />
+    <Content Include="frmReporteListaPasajeros.aspx" />
+    <Content Include="frmReportePasajerosBus.aspx" />
+    <Content Include="frmReportePrueba.aspx" />
+    <Content Include="frmReporteRetenciones.aspx" />
+    <Content Include="frmReporteVentaClientes.aspx" />
+    <Content Include="frmReporteViajesActivos.aspx" />
+    <Content Include="frmReporteViajesAgrupados.aspx" />
+    <Content Include="frmRutas.aspx" />
+    <Content Include="frmSincronizacioIndividual.aspx" />
+    <Content Include="frmSincronizarTasasUsuario.aspx" />
+    <Content Include="frmTasaAcompanante.aspx" />
+    <Content Include="frmTasaUsuarioPrueba.aspx" />
+    <Content Include="frmTerminales.aspx" />
+    <Content Include="frmTipoAsientos.aspx" />
+    <Content Include="frmTipoComprobante.aspx" />
+    <Content Include="frmTipoVehiculos.aspx" />
+    <Content Include="frmTipoViajes.aspx" />
+    <Content Include="frmVehiculos.aspx" />
+    <Content Include="frmVentasOtrasLocalidades.aspx" />
+    <Content Include="frmViajesMasivos.aspx" />
     <Content Include="plugins\input-mask\phone-codes\phone-be.json" />
     <Content Include="plugins\input-mask\phone-codes\phone-codes.json" />
     <Content Include="DSReportes.xsc">
@@ -7221,12 +7282,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Clases\ClaseCierreBoleteria.cs" />
     <Compile Include="Clases\ClaseCierreItinerario.cs" />
+    <Compile Include="Clases\ClaseCobrarPagoPendiente.cs" />
     <Compile Include="Clases\ClaseCrearTasaUsuario.cs" />
     <Compile Include="Clases\ClaseEnviarCorreo.cs" />
     <Compile Include="Clases\ClaseGenerarTasaAcompanante.cs" />
     <Compile Include="Clases\ClaseGenerarToken.cs" />
     <Compile Include="Clases\ClaseImpresion.cs" />
     <Compile Include="Clases\ClaseImprimirManifiesto.cs" />
+    <Compile Include="Clases\ClaseIngresarDeudaPendiente.cs" />
     <Compile Include="Clases\ClaseInstruccionesCierre.cs" />
     <Compile Include="Clases\ClaseInstruccionesReabrirViaje.cs" />
     <Compile Include="Clases\ClaseManejoCaracteres.cs" />
@@ -7364,12 +7427,222 @@
     <Compile Include="frmCrearViajeExtra.aspx.designer.cs">
       <DependentUpon>frmCrearViajeExtra.aspx</DependentUpon>
     </Compile>
+    <Compile Include="frmDetalleRuta.aspx.cs">
+      <DependentUpon>frmDetalleRuta.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmDetalleRuta.aspx.designer.cs">
+      <DependentUpon>frmDetalleRuta.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmDetalleTransaccionesTasa.aspx.cs">
+      <DependentUpon>frmDetalleTransaccionesTasa.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmDetalleTransaccionesTasa.aspx.designer.cs">
+      <DependentUpon>frmDetalleTransaccionesTasa.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmDirectorio.aspx.cs">
+      <DependentUpon>frmDirectorio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmDirectorio.aspx.designer.cs">
+      <DependentUpon>frmDirectorio.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmEmisor.aspx.cs">
+      <DependentUpon>frmEmisor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmEmisor.aspx.designer.cs">
+      <DependentUpon>frmEmisor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmEnvioComprobantes.aspx.cs">
+      <DependentUpon>frmEnvioComprobantes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmEnvioComprobantes.aspx.designer.cs">
+      <DependentUpon>frmEnvioComprobantes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmEnvioCorreo.aspx.cs">
+      <DependentUpon>frmEnvioCorreo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmEnvioCorreo.aspx.designer.cs">
+      <DependentUpon>frmEnvioCorreo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmEstablecimiento.aspx.cs">
+      <DependentUpon>frmEstablecimiento.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmEstablecimiento.aspx.designer.cs">
+      <DependentUpon>frmEstablecimiento.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmEstadoComprobantesElectronicos.aspx.cs">
+      <DependentUpon>frmEstadoComprobantesElectronicos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmEstadoComprobantesElectronicos.aspx.designer.cs">
+      <DependentUpon>frmEstadoComprobantesElectronicos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmExtras.aspx.cs">
+      <DependentUpon>frmExtras.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmExtras.aspx.designer.cs">
+      <DependentUpon>frmExtras.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmFirmarXML.aspx.cs">
+      <DependentUpon>frmFirmarXML.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmFirmarXML.aspx.designer.cs">
+      <DependentUpon>frmFirmarXML.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmGenerarRIDE.aspx.cs">
+      <DependentUpon>frmGenerarRIDE.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmGenerarRIDE.aspx.designer.cs">
+      <DependentUpon>frmGenerarRIDE.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmGenerarToken.aspx.cs">
+      <DependentUpon>frmGenerarToken.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmGenerarToken.aspx.designer.cs">
+      <DependentUpon>frmGenerarToken.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmGenerarXML.aspx.cs">
+      <DependentUpon>frmGenerarXML.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmGenerarXML.aspx.designer.cs">
+      <DependentUpon>frmGenerarXML.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmHorarios.aspx.cs">
+      <DependentUpon>frmHorarios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmHorarios.aspx.designer.cs">
+      <DependentUpon>frmHorarios.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmImpresoras.aspx.cs">
+      <DependentUpon>frmImpresoras.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmImpresoras.aspx.designer.cs">
+      <DependentUpon>frmImpresoras.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmImprimirFactura.aspx.cs">
+      <DependentUpon>frmImprimirFactura.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmImprimirFactura.aspx.designer.cs">
+      <DependentUpon>frmImprimirFactura.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmIngresoPagosPendientes.aspx.cs">
+      <DependentUpon>frmIngresoPagosPendientes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmIngresoPagosPendientes.aspx.designer.cs">
+      <DependentUpon>frmIngresoPagosPendientes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmItinerarios.aspx.cs">
+      <DependentUpon>frmItinerarios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmItinerarios.aspx.designer.cs">
+      <DependentUpon>frmItinerarios.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmItinerariosExtras.aspx.cs">
+      <DependentUpon>frmItinerariosExtras.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmItinerariosExtras.aspx.designer.cs">
+      <DependentUpon>frmItinerariosExtras.aspx</DependentUpon>
+    </Compile>
     <Compile Include="frmLogin.aspx.cs">
       <DependentUpon>frmLogin.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="frmLogin.aspx.designer.cs">
       <DependentUpon>frmLogin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmMarcaVehiculos.aspx.cs">
+      <DependentUpon>frmMarcaVehiculos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmMarcaVehiculos.aspx.designer.cs">
+      <DependentUpon>frmMarcaVehiculos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmModeloVehiculos.aspx.cs">
+      <DependentUpon>frmModeloVehiculos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmModeloVehiculos.aspx.designer.cs">
+      <DependentUpon>frmModeloVehiculos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmNumeroDisco.aspx.cs">
+      <DependentUpon>frmNumeroDisco.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmNumeroDisco.aspx.designer.cs">
+      <DependentUpon>frmNumeroDisco.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmOficinistas.aspx.cs">
+      <DependentUpon>frmOficinistas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmOficinistas.aspx.designer.cs">
+      <DependentUpon>frmOficinistas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmPagosPendientes.aspx.cs">
+      <DependentUpon>frmPagosPendientes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmPagosPendientes.aspx.designer.cs">
+      <DependentUpon>frmPagosPendientes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmPagosTasaUsuario.aspx.cs">
+      <DependentUpon>frmPagosTasaUsuario.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmPagosTasaUsuario.aspx.designer.cs">
+      <DependentUpon>frmPagosTasaUsuario.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmParametroCorreo.aspx.cs">
+      <DependentUpon>frmParametroCorreo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmParametroCorreo.aspx.designer.cs">
+      <DependentUpon>frmParametroCorreo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmParametros.aspx.cs">
+      <DependentUpon>frmParametros.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmParametros.aspx.designer.cs">
+      <DependentUpon>frmParametros.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmParametrosFacturacionElectronica.aspx.cs">
+      <DependentUpon>frmParametrosFacturacionElectronica.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmParametrosFacturacionElectronica.aspx.designer.cs">
+      <DependentUpon>frmParametrosFacturacionElectronica.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmParametrosLocalidad.aspx.cs">
+      <DependentUpon>frmParametrosLocalidad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmParametrosLocalidad.aspx.designer.cs">
+      <DependentUpon>frmParametrosLocalidad.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmParametrosTasaUsuario.aspx.cs">
+      <DependentUpon>frmParametrosTasaUsuario.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmParametrosTasaUsuario.aspx.designer.cs">
+      <DependentUpon>frmParametrosTasaUsuario.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmPermisos.aspx.cs">
       <DependentUpon>frmPermisos.aspx</DependentUpon>
@@ -7378,6 +7651,27 @@
     <Compile Include="frmPermisos.aspx.designer.cs">
       <DependentUpon>frmPermisos.aspx</DependentUpon>
     </Compile>
+    <Compile Include="frmPrecios.aspx.cs">
+      <DependentUpon>frmPrecios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmPrecios.aspx.designer.cs">
+      <DependentUpon>frmPrecios.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmPreciosPasajes.aspx.cs">
+      <DependentUpon>frmPreciosPasajes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmPreciosPasajes.aspx.designer.cs">
+      <DependentUpon>frmPreciosPasajes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmPrecioTickets.aspx.cs">
+      <DependentUpon>frmPrecioTickets.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmPrecioTickets.aspx.designer.cs">
+      <DependentUpon>frmPrecioTickets.aspx</DependentUpon>
+    </Compile>
     <Compile Include="frmPrincipal.aspx.cs">
       <DependentUpon>frmPrincipal.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -7385,12 +7679,208 @@
     <Compile Include="frmPrincipal.aspx.designer.cs">
       <DependentUpon>frmPrincipal.aspx</DependentUpon>
     </Compile>
+    <Compile Include="frmPropietario.aspx.cs">
+      <DependentUpon>frmPropietario.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmPropietario.aspx.designer.cs">
+      <DependentUpon>frmPropietario.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmPruebas.aspx.cs">
+      <DependentUpon>frmPruebas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmPruebas.aspx.designer.cs">
+      <DependentUpon>frmPruebas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmPueblos.aspx.cs">
+      <DependentUpon>frmPueblos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmPueblos.aspx.designer.cs">
+      <DependentUpon>frmPueblos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmPueblosHorarios.aspx.cs">
+      <DependentUpon>frmPueblosHorarios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmPueblosHorarios.aspx.designer.cs">
+      <DependentUpon>frmPueblosHorarios.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmReabrirViaje.aspx.cs">
+      <DependentUpon>frmReabrirViaje.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmReabrirViaje.aspx.designer.cs">
+      <DependentUpon>frmReabrirViaje.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmReimpresionFacturas.aspx.cs">
+      <DependentUpon>frmReimpresionFacturas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmReimpresionFacturas.aspx.designer.cs">
+      <DependentUpon>frmReimpresionFacturas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmReporteCodigo.aspx.cs">
+      <DependentUpon>frmReporteCodigo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmReporteCodigo.aspx.designer.cs">
+      <DependentUpon>frmReporteCodigo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmReporteFactura.aspx.cs">
+      <DependentUpon>frmReporteFactura.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmReporteFactura.aspx.designer.cs">
+      <DependentUpon>frmReporteFactura.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmReporteListaPasajeros.aspx.cs">
+      <DependentUpon>frmReporteListaPasajeros.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmReporteListaPasajeros.aspx.designer.cs">
+      <DependentUpon>frmReporteListaPasajeros.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmReportePasajerosBus.aspx.cs">
+      <DependentUpon>frmReportePasajerosBus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmReportePasajerosBus.aspx.designer.cs">
+      <DependentUpon>frmReportePasajerosBus.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmReportePrueba.aspx.cs">
+      <DependentUpon>frmReportePrueba.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmReportePrueba.aspx.designer.cs">
+      <DependentUpon>frmReportePrueba.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmReporteRetenciones.aspx.cs">
+      <DependentUpon>frmReporteRetenciones.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmReporteRetenciones.aspx.designer.cs">
+      <DependentUpon>frmReporteRetenciones.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmReporteVentaClientes.aspx.cs">
+      <DependentUpon>frmReporteVentaClientes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmReporteVentaClientes.aspx.designer.cs">
+      <DependentUpon>frmReporteVentaClientes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmReporteViajesActivos.aspx.cs">
+      <DependentUpon>frmReporteViajesActivos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmReporteViajesActivos.aspx.designer.cs">
+      <DependentUpon>frmReporteViajesActivos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmReporteViajesAgrupados.aspx.cs">
+      <DependentUpon>frmReporteViajesAgrupados.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmReporteViajesAgrupados.aspx.designer.cs">
+      <DependentUpon>frmReporteViajesAgrupados.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmRutas.aspx.cs">
+      <DependentUpon>frmRutas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmRutas.aspx.designer.cs">
+      <DependentUpon>frmRutas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmSincronizacioIndividual.aspx.cs">
+      <DependentUpon>frmSincronizacioIndividual.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmSincronizacioIndividual.aspx.designer.cs">
+      <DependentUpon>frmSincronizacioIndividual.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmSincronizarTasasUsuario.aspx.cs">
+      <DependentUpon>frmSincronizarTasasUsuario.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmSincronizarTasasUsuario.aspx.designer.cs">
+      <DependentUpon>frmSincronizarTasasUsuario.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmTasaAcompanante.aspx.cs">
+      <DependentUpon>frmTasaAcompanante.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmTasaAcompanante.aspx.designer.cs">
+      <DependentUpon>frmTasaAcompanante.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmTasaUsuarioPrueba.aspx.cs">
+      <DependentUpon>frmTasaUsuarioPrueba.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmTasaUsuarioPrueba.aspx.designer.cs">
+      <DependentUpon>frmTasaUsuarioPrueba.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmTerminales.aspx.cs">
+      <DependentUpon>frmTerminales.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmTerminales.aspx.designer.cs">
+      <DependentUpon>frmTerminales.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmTipoAsientos.aspx.cs">
+      <DependentUpon>frmTipoAsientos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmTipoAsientos.aspx.designer.cs">
+      <DependentUpon>frmTipoAsientos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmTipoComprobante.aspx.cs">
+      <DependentUpon>frmTipoComprobante.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmTipoComprobante.aspx.designer.cs">
+      <DependentUpon>frmTipoComprobante.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmTipoVehiculos.aspx.cs">
+      <DependentUpon>frmTipoVehiculos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmTipoVehiculos.aspx.designer.cs">
+      <DependentUpon>frmTipoVehiculos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmTipoViajes.aspx.cs">
+      <DependentUpon>frmTipoViajes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmTipoViajes.aspx.designer.cs">
+      <DependentUpon>frmTipoViajes.aspx</DependentUpon>
+    </Compile>
     <Compile Include="frmTransacciones.aspx.cs">
       <DependentUpon>frmTransacciones.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="frmTransacciones.aspx.designer.cs">
       <DependentUpon>frmTransacciones.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmVehiculos.aspx.cs">
+      <DependentUpon>frmVehiculos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmVehiculos.aspx.designer.cs">
+      <DependentUpon>frmVehiculos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmVentasOtrasLocalidades.aspx.cs">
+      <DependentUpon>frmVentasOtrasLocalidades.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmVentasOtrasLocalidades.aspx.designer.cs">
+      <DependentUpon>frmVentasOtrasLocalidades.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmViajesMasivos.aspx.cs">
+      <DependentUpon>frmViajesMasivos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmViajesMasivos.aspx.designer.cs">
+      <DependentUpon>frmViajesMasivos.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

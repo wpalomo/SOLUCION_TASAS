@@ -4,7 +4,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script type="text/javascript">
         function doClick(buttonName, e) {
-            var key;
+            var key; lblMensajeError
             if (window.event)
                 key = window.event.keyCode;
             else
@@ -20,13 +20,11 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server" EnableScriptGlobalization="True"></asp:ScriptManager>
+    <%--<asp:ScriptManager ID="ScriptManager1" runat="server" EnableScriptGlobalization="True"></asp:ScriptManager>--%>
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
-            <section class="content">
-                    
-                <asp:Panel ID="pnlGrid" runat="server">
-                    
+            <section class="content">                    
+                <asp:Panel ID="pnlGrid" runat="server">                    
                         <div class="col-xs-12">
                             <div class="box box-primary">
                                 <div class="box-header with-border">
@@ -234,13 +232,14 @@
                                             </div>
                                             <asp:Panel ID="pnlVerTasas" runat="server" Visible="false">
                                                 <div class="form-group">
-                                                    <label class="col-sm-3 control-label"></label>
-                                                    <div class="input-group col-sm-8">
-                                                        <span class="input-group-addon input-sm"><asp:LinkButton ID="btnValidacionToken" runat="server" Text="" tooltip="Ingreso y validación de Token" OnClick="btnValidacionToken_Click"><i class="fa fa-user"></i></asp:LinkButton></span>
-                                                        <asp:TextBox ID="txtCantidadTasasDisponibles" runat="server" BackColor="maroon" ForeColor="White" class="form-control input-sm" Text="" ToolTip="Tasas de Usuario Disponible" ReadOnly="true" Font-Bold="True"></asp:TextBox>
-                                                        <span class="input-group-addon input-sm"><asp:LinkButton ID="btnNotificacionToken" runat="server" Text="" tooltip="Notificación de Tasas de Usuario" OnClick="btnNotificacionToken_Click"><i class="fa fa-plus"></i></asp:LinkButton></span>
-                                                        <span class="input-group-addon input-sm"><asp:LinkButton ID="btnReporteToken" runat="server" Text="" tooltip="Reporte de Token" onclick="btnReporteToken_Click"><i class="fa fa-print"></i></asp:LinkButton></span>
-                                                        <asp:TextBox ID="txtTasaUsuario" runat="server" BackColor="White" class="form-control input-sm" Text="0" ReadOnly="true" placeholder="Tasas de Usuario que se emitirán en el boleto." Font-Bold="True"></asp:TextBox>
+                                                    <label class="col-sm-3 control-label">Info Tasas</label>
+                                                    <div class="input-group col-sm-8">                                                        
+                                                        <asp:TextBox ID="txtCantidadTasasDisponibles" runat="server" ForeColor="White" class="form-control input-sm" Text="" ToolTip="Tasas de Usuario Disponible para el oficinista logueado." ReadOnly="true" Font-Bold="True" style="text-align:center;"></asp:TextBox>                                                        
+                                                        <span class="input-group-addon input-sm" style="background-color:#5df127"><asp:LinkButton ID="btnValidacionToken" runat="server" Text="" tooltip="Ingreso y validación de Token" OnClick="btnValidacionToken_Click"><i class="fa fa-cloud" style="color:white;"></i></asp:LinkButton></span>
+                                                        <%--<span class="input-group-addon input-sm"><asp:LinkButton ID="btnNotificacionToken" runat="server" Text="" tooltip="Notificación de Tasas de Usuario" OnClick="btnNotificacionToken_Click"><i class="fa fa-plus"></i></asp:LinkButton></span>--%>
+                                                        <asp:TextBox ID="txtPorcentajeDisponibles" runat="server" ForeColor="White" class="form-control input-sm" Text="" ToolTip="Porcentaje de Tasas de Usuario Disponible para el oficinista logueado." ReadOnly="true" Font-Bold="True" style="text-align:center;"></asp:TextBox>
+                                                        <span class="input-group-addon input-sm" style="background-color:#f237d8"><asp:LinkButton ID="btnReporteToken" runat="server" Text="" tooltip="Reporte de Token" onclick="btnReporteToken_Click"><i class="fa fa-print" style="color:white;"></i></asp:LinkButton></span>
+                                                        <asp:TextBox ID="txtTasaUsuario" runat="server" class="form-control input-sm" Text="0" ReadOnly="true" placeholder="Tasas de Usuario que se emitirán en el boleto." Font-Bold="True" style="text-align:center; background-color:#fcded5"></asp:TextBox>
                                                     </div>
                                                 </div>
                                             </asp:Panel>
@@ -253,21 +252,17 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="col-md-3 col-sm-12 col-xs-12">
-                                                <asp:Button ID="btnFacturaRapida" runat="server" Text="Factura Rápida" data-backdrop="false" class="btn btn-block btn-success " OnClick="btnFacturaRapida_Click" />
+                                                <asp:Label ID="lblTotalCobradoBus" runat="server" Text="COBRADO: $ 0.00" class="form-control input-sm" BackColor="Blue" Font-Bold="true" ForeColor="White" ToolTip="Total cobrado en el viaje" style="text-align:center;"></asp:Label>                                                
                                             </div>
-                                            <div class="col-md-3 col-sm-12 col-xs-12">
-                                                <asp:Button ID="btnFacturaDatos" runat="server" Text="Factura con Datos" data-backdrop="false" class="btn btn-block btn-warning" ToolTip="Clic aquí para facturar con datos" OnClick="btnFacturaDatos_Click" />
-                                            </div>
-                                            <%--<div class="col-md-3 col-sm-12 col-xs-12">
-                                                <asp:Button ID="btnFacturaConsumidorFinal" runat="server" Text="Factura Consumidor Final" data-backdrop="false" class="btn btn-block btn-primary" ToolTip="Clic aquí para facturar como Consumidor Final" OnClick="btnFacturaConsumidorFinal_Click" />
-                                            </div>--%>
                                             <div class="col-md-3 col-sm-12 col-xs-12">
                                                 <asp:Button ID="btnLimpiarAsignacion" runat="server" Text="Limpiar" data-backdrop="false" class="btn btn-block btn-danger" OnClick="btnLimpiarAsignacion_Click" ToolTip="Clic aquí para limpiar el formulario" />
                                             </div>
+                                            <div class="col-md-3 col-sm-12 col-xs-12">
+                                                <asp:Button ID="btnFacturaDatos" runat="server" Text="Factura con Datos" data-backdrop="false" class="btn btn-block btn-warning" ToolTip="Clic aquí para facturar con datos" OnClick="btnFacturaDatos_Click" />                                                
+                                            </div>
 
                                             <div class="col-md-3 col-sm-12 col-xs-12">
-                                                <%--<asp:TextBox ID="txtTotalCobradoBus" runat="server" ReadOnly="true" class="form-control input-sm" Text="0.00"  Font-Bold="True"></asp:TextBox>--%>
-                                                <asp:Label ID="lblTotalCobradoBus" runat="server" Text="COBRADO: $ 0.00" class="form-control input-sm" BackColor="Blue" Font-Bold="true" ForeColor="White" ToolTip="Total cobrado en el viaje"></asp:Label>
+                                                <asp:Button ID="btnFacturaRapida" runat="server" Text="Factura Rápida" data-backdrop="false" class="btn btn-block btn-success " OnClick="btnFacturaRapida_Click" />
                                             </div>
                                         </div>
                                    </div>
@@ -364,15 +359,15 @@
                                 <%--BOTONES--%>
                                     <div class="box-footer">
                                         <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="col-md-3">
-                                                    <asp:Button ID="btnReimprimirFactura" runat="server" Text="Reimprimir Factura" data-backdrop="false" class="btn btn-block btn-warning" OnClick="btnReimprimirFactura_Click" />
-                                                </div>
+                                            <div class="col-md-12">                                                
                                                 <div class="col-md-2">
                                                     <asp:Button ID="btnCerrarViaje" runat="server" Text="Cerrar Viaje" data-backdrop="false" class="btn btn-block btn-success" OnClick="btnCerrarViaje_Click" />
                                                 </div>
                                                 <div class="col-md-2">
                                                     <asp:Button ID="btnRegresar" runat="server" Text="Regresar" class="btn btn-block btn-danger" OnClick="btnRegresar_Click" />
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <asp:Button ID="btnReimprimirFactura" runat="server" Text="Reimprimir Factura" data-backdrop="false" class="btn btn-block btn-warning" OnClick="btnReimprimirFactura_Click" />
                                                 </div>
                                                 <div class="col-md-4">
                                                     <asp:Button ID="btnGenerarTasaAcompanante" runat="server" Text="Generar Tasa Acompañante" class="btn btn-block btn-info" Visible="false" ToolTip="Se generará una tasa de usuario dependieno la cantidad ingresada en la caja de texto." OnClick="btnGenerarTasaAcompanante_Click" />
@@ -603,35 +598,14 @@
                                             </div>
                                         </div>
 
-                                        <%--<div class="col-md-2">
+                                        <div class="col-md-6">
                                             <div class="form-group">
-                                                <b><asp:Label ID="Label11" runat="server" Text="PAGADO"></asp:Label></b>
+                                                <b><asp:Label ID="Label111" runat="server" Text="OBSERVACIONES"></asp:Label></b>
                                                 <div class="input-group col-sm-12">
-                                                    <asp:TextBox ID="TextBox1" runat="server" class="form-control input-sm" Text="Pagado" ReadOnly="true" BackColor="White"></asp:TextBox>
-                                                    <span class="input-group-addon input-sm"><asp:RadioButton ID="rdbPagado" runat="server" Text="" GroupName="estadoPago" Enabled="false" /></span>
+                                                    <asp:TextBox ID="txtObservacionProgramacion" runat="server" class="form-control" placeholder="Ingrese una observación en caso de que exista novedades." Autocomplete="off" BackColor="White"></asp:TextBox>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <b><asp:Label ID="Label12" runat="server" Text="PENDIENTE"></asp:Label></b>
-                                                <div class="input-group col-sm-12">
-                                                    <asp:TextBox ID="TextBox2" runat="server" class="form-control input-sm" Text="Pendiente" ReadOnly="true" BackColor="White"></asp:TextBox>
-                                                    <span class="input-group-addon input-sm"><asp:RadioButton ID="rdbPendiente" runat="server" Text="" GroupName="estadoPago" Enabled="false" /></span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <b><asp:Label ID="Label14" runat="server" Text="PAGO PARCIAL"></asp:Label></b>
-                                                <div class="input-group col-sm-12">
-                                                    <asp:TextBox ID="TextBox3" runat="server" class="form-control input-sm" Text="Pago Parcial" ReadOnly="true" BackColor="White"></asp:TextBox>
-                                                    <span class="input-group-addon input-sm"><asp:RadioButton ID="rdbPagoParcial" runat="server" Text="" GroupName="estadoPago" Enabled="false" /></span>
-                                                </div>
-                                            </div>
-                                        </div> --%>                          
+                                        </div>   
                                     </div>
                                     <%--FIN SEGUNDA FILA--%>
                                 </div>
@@ -656,34 +630,6 @@
                     </asp:Panel>
                 </div>
 
-
-                <%--MODAL SI / NO--%>
-                <div class="modal fade" id="myModal2" data-backdrop="static" data-keyboard="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">
-                                    <asp:Label ID="lbAccion" runat="server" Text="¿ Está seguro ?"></asp:Label>
-                                </h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-10">
-                                            <asp:Label ID="lblMensajeModal" runat="server" Text=""></asp:Label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <asp:Button ID="btnNo" runat="server" Text="No, cancelar" class="btn btn-default" data-dismiss="modal" />
-                                <asp:Button ID="btnAccept" runat="server" Text="Sí, eliminar" class="btn btn-danger" data-dismiss="modal" UseSubmitBehavior="false" OnClick="btnAccept_Click" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Modal MENSAJE-->
                 <div class="modal fade" id="myModal1" data-backdrop="static" data-keyboard="true">
                     <div class="modal-dialog">
@@ -699,7 +645,6 @@
                             </div>
 
                             <div class="col-md-offset-8">
-                                <%--<button type="button" class="btn btn-success" id="btnYesCancelNotification"><span class="glyphicon glyphicon-ok"></span>Sí</button>--%>
                                 <button type="submit" class="btn btn-success" data-dismiss="modal" id="btnNoCancelNotification"><span class="glyphicon glyphicon-remove"></span>OK</button>
                             </div>
                             <br />
@@ -748,7 +693,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-10">
-                                            <asp:Label ID="Label12" runat="server" Text="¿Está seguro que desea cerrar el viaje?"></asp:Label>
+                                            <asp:Label ID="lblAlertaMensajeCierre" runat="server" Text="¿Está seguro que desea cerrar el viaje?"></asp:Label>
                                         </div>
                                     </div>
                                 </div>
@@ -843,7 +788,7 @@
         PopupControlID="pnlCrearEditar" BackgroundCssClass="modalBackground">
     </ajaxToolkit:ModalPopupExtender>
 
-    <asp:Panel ID="pnlCrearEditar" runat="server" DefaultButton="btnGuardarPasajero">
+    <asp:Panel ID="pnlCrearEditar" runat="server">
         <asp:UpdatePanel ID="UpdatePanel3" runat="server">
             <ContentTemplate>
                 <!-- Modal GRIDS-->
@@ -854,62 +799,64 @@
                         <asp:Button ID="btnCerrarModalCrearEditar" runat="server" Text="x" class="close" data-dismiss="modal" aria-label="Close" OnClick="btnCerrarModalCrearEditar_Click" />
                         <h4 class="modal-title" id="myModalLabel6">Registro de Pasajeros</h4>
                     </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <asp:Label ID="Label17" runat="server" Text="Tipo de Identificacion"></asp:Label>
-                                    <asp:DropDownList ID="cmbIdentificacion" runat="server" class="form-control"></asp:DropDownList>
-                                </div>
+                    <asp:Panel ID="Panel100" runat="server" DefaultButton="btnGuardarPasajero">
+                        <div class="modal-body">                        
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <asp:Label ID="Label17" runat="server" Text="Tipo de Identificacion"></asp:Label>
+                                        <asp:DropDownList ID="cmbIdentificacion" runat="server" class="form-control"></asp:DropDownList>
+                                    </div>
 
-                                <div class="col-md-6">
-                                    <asp:Label ID="Label18" runat="server" Text="Número de Identificación"></asp:Label>
-                                    <asp:TextBox ID="txtIdentificacionRegistro" runat="server" class="form-control" placeholder="CÉDULA" Style="text-transform: uppercase" OnTextChanged="txtIdentificacionRegistro_TextChanged" AutoPostBack="true" onkeypress="return validar_numeros(event)"></asp:TextBox>
+                                    <div class="col-md-6">
+                                        <asp:Label ID="Label18" runat="server" Text="Número de Identificación"></asp:Label>
+                                        <asp:TextBox ID="txtIdentificacionRegistro" runat="server" class="form-control" placeholder="CÉDULA" Style="text-transform: uppercase" OnTextChanged="txtIdentificacionRegistro_TextChanged" AutoPostBack="true" onkeypress="return validar_numeros(event)"></asp:TextBox>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         
-                        <div class="form-group"></div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <asp:Label ID="Label20" runat="server" Text="Razón Social / Apellidos"></asp:Label>
-                                    <asp:TextBox ID="txtRazonSocial" runat="server" class="form-control" placeholder="RAZÓN SOCIAL / APELLIDOS" Style="text-transform: uppercase" onkeypress="return validar_letras(event)" autocomplete="off"></asp:TextBox>
+                            <div class="form-group"></div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <asp:Label ID="Label20" runat="server" Text="Razón Social / Apellidos"></asp:Label>
+                                        <asp:TextBox ID="txtRazonSocial" runat="server" class="form-control" placeholder="RAZÓN SOCIAL / APELLIDOS" Style="text-transform: uppercase" autocomplete="off"></asp:TextBox>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         
-                        <div class="form-group"></div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <asp:Label ID="Label23" runat="server" Text="Ingrese el nombre"></asp:Label>
-                                    <asp:TextBox ID="txtNombreRegistro" runat="server" class="form-control" placeholder="NOMBRES" Style="text-transform: uppercase" onkeypress="return validar_letras(event)" autocomplete="off"></asp:TextBox>
-                                </div>
+                            <div class="form-group"></div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <asp:Label ID="Label23" runat="server" Text="Ingrese el nombre"></asp:Label>
+                                        <asp:TextBox ID="txtNombreRegistro" runat="server" class="form-control" placeholder="NOMBRES" Style="text-transform: uppercase" autocomplete="off"></asp:TextBox>
+                                    </div>
 
-                                <div class="col-md-6">
-                                    <asp:Label ID="Label24" runat="server" Text="Ingrese la fecha de nacimiento"></asp:Label>
-                                    <asp:TextBox ID="txtFechaNacimiento" runat="server" class="form-control" BackColor="White"></asp:TextBox>
-                                    <ajaxToolkit:MaskedEditExtender ID="txtFechaNacimiento_MaskedEditExtender" runat="server" BehaviorID="txtFechaNacimiento_MaskedEditExtender" Century="2000" CultureAMPMPlaceholder="" CultureCurrencySymbolPlaceholder="" CultureDateFormat="" CultureDatePlaceholder="" CultureDecimalPlaceholder="" CultureThousandsPlaceholder="" CultureTimePlaceholder="" Mask="99/99/9999" MaskType="Date" TargetControlID="txtFechaNacimiento" />
-                                    <%--<ajaxToolkit:CalendarExtender ID="txtFechaNacimiento_CalendarExtender" runat="server" BehaviorID="txtFechaNacimiento_CalendarExtender" Format="dd/MM/yyyy" TargetControlID="txtFechaNacimiento" />--%>
+                                    <div class="col-md-6">
+                                        <asp:Label ID="Label24" runat="server" Text="Ingrese la fecha de nacimiento"></asp:Label>
+                                        <asp:TextBox ID="txtFechaNacimiento" runat="server" class="form-control" BackColor="White"></asp:TextBox>
+                                        <ajaxToolkit:MaskedEditExtender ID="txtFechaNacimiento_MaskedEditExtender" runat="server" BehaviorID="txtFechaNacimiento_MaskedEditExtender" Century="2000" CultureAMPMPlaceholder="" CultureCurrencySymbolPlaceholder="" CultureDateFormat="" CultureDatePlaceholder="" CultureDecimalPlaceholder="" CultureThousandsPlaceholder="" CultureTimePlaceholder="" Mask="99/99/9999" MaskType="Date" TargetControlID="txtFechaNacimiento" />
+                                        <%--<ajaxToolkit:CalendarExtender ID="txtFechaNacimiento_CalendarExtender" runat="server" BehaviorID="txtFechaNacimiento_CalendarExtender" Format="dd/MM/yyyy" TargetControlID="txtFechaNacimiento" />--%>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         
-                        <%--<div class="form-group">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <asp:CheckBox ID="chkDiscapacidad" class="form-control" runat="server" Text="&nbsp&nbspDiscapacidad" />
+                            <%--<div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <asp:CheckBox ID="chkDiscapacidad" class="form-control" runat="server" Text="&nbsp&nbspDiscapacidad" />
+                                    </div>
                                 </div>
-                            </div>
-                        </div>--%>
+                            </div>--%>
 
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <asp:Label ID="lblAlerta" runat="server" Text="" ForeColor="Red"></asp:Label>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <asp:Label ID="lblAlerta" runat="server" Text="" ForeColor="Red"></asp:Label>
+                                    </div>
                                 </div>
-                            </div>
+                            </div>                        
                         </div>
 
                         <div class="modal-footer">
@@ -917,7 +864,7 @@
                             <asp:Button ID="btnLimpiarPasajero" runat="server" Text="Limpiar" data-backdrop="false" data-dismiss="modal" class="btn btn btn-warning" />
                             <asp:Button ID="btnCerrarPasajero" runat="server" Text="Salir" class="btn btn-danger" OnClick="btnCerrarPasajero_Click" />
                         </div>
-                    </div>
+                    </asp:Panel>
                 </div>
             </ContentTemplate>
         </asp:UpdatePanel>
@@ -1018,7 +965,7 @@
         <asp:UpdatePanel ID="UpdatePanel6" runat="server">
             <ContentTemplate>
                 <div class="modal-content modal-lg">
-                    <div class="modal-header">
+                    <div class="modal-header bg-teal-active color-palette">
                         <asp:Button ID="Button4" runat="server" Text="x" class="close" data-dismiss="modal" aria-label="Close" OnClick="btnCerrarModal_Click" />
                         <h4 class="modal-title" id="myModalLabel2">Lista de Pasajeros Vendidos</h4>
                     </div>
@@ -1071,7 +1018,7 @@
                 <%--<div id="modalGrid" class="modal">
             <div class="modal-dialog modal-lg" role="document">--%>
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header bg-teal-active color-palette">
                         <asp:Button ID="btnCerrarModalReport" runat="server" Text="x" class="close" data-dismiss="modal" aria-label="Close" />
                         <h4 class="modal-title" id="myModalLabel15">Factura</h4>
                     </div>
@@ -1112,8 +1059,9 @@
     <asp:Panel ID="pnlReimprimirFacturas" runat="server" >
     <asp:UpdatePanel ID="UpdatePanel8" runat="server">
         <ContentTemplate>
+            
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header bg-teal-active color-palette">
                         <asp:Button ID="btnCerrarModalFacturasEmitidas" runat="server" Text="x" class="close" data-dismiss="modal" aria-label="Close" OnClick="btnCerrarModalFacturasEmitidas_Click" />
                         <h4 class="modal-title" id="myModalLabel7">Facturas emitidas en el viaje</h4>
                     </div>
@@ -1127,7 +1075,7 @@
                                            
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-md-15">
+                                <div class="col-md-12">
                                     <asp:GridView ID="dgvVendidos" runat="server" class="mGrid"
                                         AutoGenerateColumns="False"
                                         EmptyDataText="No hay Registros o Coindicencias..!!"
@@ -1154,7 +1102,8 @@
                         </div>                  
                                      
                         </div>
-                    </div> 
+                    </div>
+                
             </ContentTemplate>
         </asp:UpdatePanel>
     </asp:Panel>
@@ -1222,51 +1171,52 @@
     <asp:Panel ID="pnlValidaToken" runat="server">
         <asp:UpdatePanel ID="UpdatePanel9" runat="server">
             <ContentTemplate>
-                <!-- Modal GRIDS-->
-                <%--<div id="modalGrid" class="modal">
-            <div class="modal-dialog modal-lg" role="document">--%>
-                <div class="modal-content">
-                    <div class="modal-header" style="color: #4485b8; background-color: #4485b8; color: #ffffff; padding: 0 5px;">
-                        <asp:Button ID="btnAbrirModalInfoToken" runat="server" Text="?" class="close" aria-label="Close" OnClick="btnAbrirModalInfoToken_Click" />
-                        <asp:Button ID="btnCerrarModalValidarToken" runat="server" Text="x" class="close" data-dismiss="modal" aria-label="Close" OnClick="btnCerrarModalValidarToken_Click" />
-                        <h3 class="modal-title" id="myModalLabel18">Token</h3>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="inputEmail3" class="col-sm-12 control-label">Ingrese el código TOKEN de 5 dígitos (00000)<br></br>emitido por los operadores de la EPMMOP</label>
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-teal-active color-palette">
+                            <asp:Button ID="btnAbrirModalInfoToken" runat="server" Text="?" class="close" aria-label="Close" OnClick="btnAbrirModalInfoToken_Click" />
+                            <asp:Button ID="btnCerrarModalValidarToken" runat="server" Text="x" class="close" data-dismiss="modal" aria-label="Close" OnClick="btnCerrarModalValidarToken_Click" /></span></button>
+                            <h4 class="modal-title">
+                                <asp:Label ID="Label26" runat="server" Text="Ingreso de un nuevo TOKEN"></asp:Label>
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="alert alert-success alert-dismissible text-center">
+                                            <label for="inputEmail3" class="col-sm-12 control-label">Ingrese el código TOKEN de 5 dígitos (00000)</label></br>
+                                            <label for="inputEmail3" class="col-sm-12 control-label">emitido por los operadores de la EPMMOP</label></br>
+                                        </div>                                        
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <asp:Panel ID="pnlEnterValidar" runat="server" DefaultButton="btnValidarTokenModal">
+                                        <div class="col-md-12">
+                                            <div class="col-md-4 text-center">
+                                                <asp:TextBox ID="txtNumeroTokenModal" runat="server" MaxLength="5" class="form-control" style="text-align:center;" onkeypress="return ValidarSoloNumeros(event)"></asp:TextBox>
+                                            </div>
+                                            <div class="col-md-4 text-center">
+                                                <asp:Button ID="btnValidarTokenModal" runat="server" Text="Validar Nuevo Token" class="btn btn btn-danger" OnClick="btnValidarTokenModal_Click" />                                            
+                                            </div>
+                                            <div class="col-md-4 text-center">
+                                                <asp:Button ID="btnContinuarToken" runat="server" Text="CONTINUAR" class="btn btn btn-warning" OnClick="btnContinuarToken_Click" />
+                                            </div>
+                                        </div>
+                                    </asp:Panel>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="alert alert-dismissible text-center">
+                                            <h2><asp:Label ID="lblTituloValidacionModal" Font-Bold="true" runat="server" Text="RESPUESTA"></asp:Label></h2>
+                                            <asp:Label ID="lblMensajeValidacionModal" runat="server" Text="Mensaje a Recibir"></asp:Label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="col-md-5">
-                                        <asp:TextBox ID="txtNumeroTokenModal" runat="server" MaxLength="5" class="form-control"></asp:TextBox>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <asp:Button ID="btnValidarTokenModal" runat="server" Text="Validar Token" class="btn btn btn-info" OnClick="btnValidarTokenModal_Click" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <asp:Label ID="lblTituloValidacionModal" Font-Bold="true" runat="server" Text=""></asp:Label>                                    
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <asp:Label ID="lblMensajeValidacionModal" runat="server" Text=""></asp:Label>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="modal-footer">
-                        <asp:Button ID="btnContinuarToken" runat="server" Text="CONTINUAR" class="btn btn btn-success" OnClick="btnContinuarToken_Click" />
                     </div>
                 </div>
             </ContentTemplate>
@@ -1275,8 +1225,8 @@
 
     <%--CIERRE DE MODAL PARA INGRESAR UN NUEVO TOKEN--%>
 
-    <%--MODAL PARA CAMBIAR LA HORA--%>
-
+    <%--MODAL PARA INFORMACION DEL TOKEN--%>
+    
     <asp:Button ID="btnModalInfoToken" runat="server" Text="Button" Style="display: none" />
 
     <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender_InfoToken" runat="server"
@@ -1287,39 +1237,45 @@
     <asp:Panel ID="pnlInfoToken" runat="server">
         <asp:UpdatePanel ID="UpdatePanel10" runat="server">
             <ContentTemplate>
-                <!-- Modal GRIDS-->
-                <%--<div id="modalGrid" class="modal">
-            <div class="modal-dialog modal-lg" role="document">--%>
-                <div class="modal-content">
-                    <div class="modal-header" style="color: #4485b8; background-color: #4485b8; color: #ffffff; padding: 0 5px;">
-                        <asp:Button ID="btnCerrarModalInfoToken" runat="server" Text="x" class="close" data-dismiss="modal" aria-label="Close" OnClick="btnCerrarModalInfoToken_Click" />
-                        <h4 class="modal-title" id="myModalLabel19">Procedimiento de Activación de Token</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="inputEmail3" class="col-sm-12 control-label"><b>1. </b>Anote bien su código de<br></br>oficina que es este</label>
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-teal-active color-palette">
+                            <asp:Button ID="btnCerrarModalInfoToken" runat="server" Text="x" class="close" data-dismiss="modal" aria-label="Close" OnClick="btnCerrarModalInfoToken_Click" />
+                            <h4 class="modal-title">
+                                <asp:Label ID="Label27" runat="server" Text="Procedimiento de Activación de Token"></asp:Label>
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="alert alert-success alert-dismissible text-center">
+                                            <label for="inputEmail3" class="col-sm-12 control-label"><b>1. </b>Anote bien su código de oficina que es este</label>
+                                            <asp:TextBox ID="txtCodigoOficina" runat="server" MaxLength="5" Font-Size="XX-Large" style="text-align:center;" ReadOnly="true" BackColor="White" ForeColor="Red" Font-Bold="true"></asp:TextBox>
+                                            </br>
+                                        </div>                                        
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <asp:TextBox ID="txtCodigoOficina" runat="server" MaxLength="5" class="form-control" ReadOnly="true" BackColor="White" ForeColor="Red" Font-Bold="true"></asp:TextBox>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="alert alert-warning alert-dismissible text-center">
+                                            <label for="inputEmail3" class="col-sm-12 control-label"><b>2. </b>Acérquese a la taquilla de EPMMOP y solicite un nuevo<b>TOKEN</b></label></br>
+                                        </div>                                        
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="inputEmail3" class="col-sm-12 control-label"><b>2. </b>Acérquese a la taquilla de<br></br>EPMMOP y solicite un nuevo<br></br><b>TOKEN</b></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="inputEmail3" class="col-sm-12 control-label"><b>3. </b>Ingrese el código del TOKEN de<br></br>5 dígitos entregado.</label>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="alert alert-info alert-dismissible text-center">
+                                            <label for="inputEmail3" class="col-sm-12 control-label"><b>3. </b>Ingrese el código del TOKEN de 5 dígitos entregado.</label></br>
+                                        </div>                                        
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>                
+                </div>
             </ContentTemplate>
         </asp:UpdatePanel>
     </asp:Panel>
@@ -1328,27 +1284,29 @@
 
     <%--MODAL DE TOKENS GENERADOS--%>
 
-    <asp:Button ID="btnReporteTokenInfo" runat="server" Text="Button" style="display:none"/>
+    <asp:Button ID="btnReporteTokenInfo" runat="server" Text="Button" Style="display: none" />
 
-    <%--<ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server"></ajaxToolkit:ModalPopupExtender>--%>
     <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender_ReporteTokenInfo" runat="server"
-        DynamicServicePath="" Enabled="True" TargetControlID="btnReporteTokenInfo" 
+        DynamicServicePath="" Enabled="True" TargetControlID="btnReporteTokenInfo"
         PopupControlID="pnlReporteTokenInfo" BackgroundCssClass="modalBackground">
     </ajaxToolkit:ModalPopupExtender>
 
-    <asp:Panel ID="pnlReporteTokenInfo" runat="server" >
+    <asp:Panel ID="pnlReporteTokenInfo" runat="server">
         <asp:UpdatePanel ID="UpdatePanel11" runat="server">
-        <ContentTemplate>
-                <div class="modal-content">
-                    <div class="modal-header" style="color: #4485b8; background-color: #4485b8; color: #ffffff; padding: 0 5px;">
-                        <asp:Button ID="btnCerrarModalReporteTokenInfo" runat="server" Text="x" class="close" data-dismiss="modal" aria-label="Close" OnClick="btnCerrarModalReporteTokenInfo_Click" />
-                        <h4 class="modal-title" id="myModalLabel20">Reporte de Token</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <asp:GridView ID="dgvReporteTokenInfo" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" AllowPaging="True" PageSize="10" OnPageIndexChanging="dgvReporteTokenInfo_PageIndexChanging">
+            <ContentTemplate>
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-teal-active color-palette">
+                            <asp:Button ID="btnCerrarModalReporteTokenInfo" runat="server" Text="x" class="close" data-dismiss="modal" aria-label="Close" OnClick="btnCerrarModalReporteTokenInfo_Click" />
+                            <h4 class="modal-title">
+                                <asp:Label ID="Label28" runat="server" Text="Reporte de Token"></asp:Label>
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                         <asp:GridView ID="dgvReporteTokenInfo" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" AllowPaging="True" PageSize="10" OnPageIndexChanging="dgvReporteTokenInfo_PageIndexChanging">
                                         <Columns>
                                             <asp:BoundField DataField="token" HeaderText="TOKEN" ItemStyle-HorizontalAlign="Center" />
                                             <asp:BoundField DataField="fecha_compra" HeaderText="FECHA DE COMPRA" ItemStyle-HorizontalAlign="Center" />
@@ -1364,33 +1322,13 @@
                                             </asp:TemplateField>
                                         </Columns>
                                         <PagerStyle CssClass="pagination-ys" />
-                                    </asp:GridView>
-                                </div>                                 
-                            </div>                                           
-                        </div>       
-                    </div>
-                    <%--<div class="modal-footer">
-                        <div class="row center-block">
-                            <div class="col-md-12 ">
-                                <div class="col-md-2">
-                                    <asp:Label ID="lbl100_P" runat="server" class="form-control" Text="51 - 100 %"></asp:Label>
-                                </div>
-                                <div class="col-md-2">
-                                    <asp:Label ID="lbl50_P" runat="server" class="form-control" ForeColor="Black" Text="50 %"></asp:Label>
-                                </div>
-                                <div class="col-md-2">
-                                    <asp:Label ID="lbl25_P" runat="server" class="form-control" Text="25 %"></asp:Label>
-                                </div>
-                                <div class="col-md-2">
-                                    <asp:Label ID="lbl10_P" runat="server" class="form-control" Text="10 %"></asp:Label>
-                                </div>
-                                <div class="col-md-2">
-                                    <asp:Label ID="lbl5_P" runat="server" class="form-control" Text="5 %"></asp:Label>
+                                    </asp:GridView>                                     
+                                    </div>
                                 </div>
                             </div>
-                        </div> --%>
+                        </div>
                     </div>
-                </div> 
+                </div>
             </ContentTemplate>
         </asp:UpdatePanel>
     </asp:Panel>
@@ -1409,64 +1347,43 @@
     <asp:Panel ID="pnlNotificacionAutomatica" runat="server">
         <asp:UpdatePanel ID="UpdatePanel12" runat="server">
             <ContentTemplate>
-                <!-- Modal GRIDS-->
-                <%--<div id="modalGrid" class="modal">
-            <div class="modal-dialog modal-lg" role="document">--%>
-                <div class="modal-content">
-                    <div class="modal-header" style="color: #4485b8; background-color: #4485b8; color: #ffffff; padding: 0 5px;">
-                        <asp:Button ID="btnCerrarModalNotificacionAutomatica" runat="server" Text="x" class="close" data-dismiss="modal" aria-label="Close" OnClick="btnCerrarModalNotificacionAutomatica_Click" />
-                        <h3 class="modal-title" id="myModalLabel21">Notificaciones</h3>
-                    </div>
-                    <div class="modal-body">
-                        <asp:Panel ID="pnlMensajeNotificacion" runat="server">
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <%--<h2><asp:Label ID="lblMensajeNotificacion" runat="server" Text=""></asp:Label></h2>--%>
-                                    </div>
-                                </div>
-                            </div>
-                        </asp:Panel>
-
-                        <asp:Panel ID="pnlDatosMensajeNotificacion" runat="server" BackColor="White">
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <%--<h3><asp:Label ID="lblDatosMensajeNotificacion" runat="server" Text=""></asp:Label></h3>--%>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <%--<h1><b><asp:Label ID="lblCantidadMensajeNotificacion" runat="server" Text="" ForeColor="Blue"></asp:Label></b></h1>--%>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <%--<label for="inputEmail3" class="col-sm-12 control-label"><b>Tasas de Usuario</label>--%>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <%--<label for="inputEmail3" class="col-sm-12 control-label"><b>Se recomienda que prepare con anticipación la compra de un nuevo TOKEN</label>--%>
-                                    </div>
-                                </div>
-                            </div>
-                        </asp:Panel>
-
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <asp:CheckBox ID="chkConfirmacionVisualizacion" runat="server" Text="&nbsp&nbspConfirmo que he visto esta notificación" />
-                                </div>
-                            </div>                                
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-teal-active color-palette">
+                            <%--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>--%>
+                            <h4 class="modal-title">
+                                <asp:Label ID="Label25" runat="server" Text="Notificación Automática"></asp:Label>
+                            </h4>
                         </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <asp:Button ID="btnOkNotificacionAutomatica" runat="server" Text="OK" class="btn btn btn-success" OnClick="btnOkNotificacionAutomatica_Click" />
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="divTitulo" class="alert alert-dismissible text-center" runat="server">
+                                            <%--<asp:Panel ID="pnlMensajeNotificacion" runat="server">--%>
+                                            <h4 class="modal-title"><asp:Label ID="lblMensajeNotificacion" runat="server" Text=""></asp:Label></h4>
+                                            <%--</asp:Panel>--%>
+                                        </div>
+                                        <div class="text-center">
+                                            <h3 class="modal-title"><asp:Label ID="lblDatosMensajeNotificacion" runat="server" Text=""></asp:Label></h3>
+                                        </div>
+                                        <div class="text-center">
+                                            <h1 class="modal-title"><label><asp:Label ID="lblCantidadMensajeNotificacion" runat="server" Text="" ForeColor="Blue"></asp:Label></label></h1>
+                                            <h3 class="modal-title"><label>Tasas de Usuario</label></h3>
+                                        </div>
+                                        <div class="text-center">
+                                            Se recomienda que prepare con anticipación la compra de un nuevo TOKEN
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="text-center">
+                                <asp:CheckBox ID="chkConfirmacionVisualizacion" runat="server" Text="&nbsp&nbspConfirmo que he visto esta notificación" />
+                            </div>
+                            <asp:Button ID="btnOkNotificacionAutomatica" runat="server" Text="OK" class="btn btn btn-success" OnClick="btnOkNotificacionAutomatica_Click" />
+                        </div>
                     </div>
                 </div>
             </ContentTemplate>
@@ -1475,50 +1392,51 @@
 
     <%--CIERRE DE MODAL PARA NOTIFICACIONES AUTOMATICAS--%>
 
-    <%--MODAL DE ERRORES--%>
-                <div class="modal fade" id="modalNotify" data-keyboard="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header bg-teal-active color-palette">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">
-                                    <asp:Label ID="Label16" runat="server" Text="Notificación Automática"></asp:Label>
-                                </h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="alert alert-danger alert-dismissible text-center">
-                                                <h4 class="modal-title"><asp:Label ID="lblMensajeNotificacion" runat="server" Text="Has consumido el 40% de la cantidad de tasas de usuario"></asp:Label></h4>
-                                            </div>
-                                            <div class="text-center">
-                                                <asp:Label ID="lblDatosMensajeNotificacion" runat="server" Text="Hoy 24-07-2019 a las 10:08"></asp:Label>
-                                            </div>
-                                            <div class="text-center">
-                                                Se le notifica que solo dispone de:
-                                            </div>
-                                            <div class="text-center">
-                                                <h1 class="modal-title"><label><asp:Label ID="lblCantidadMensajeNotificacion" runat="server" Text="68" ForeColor="Blue"></asp:Label></label></h1>
-                                                <h3 class="modal-title"><label>Tasas de Usuario</label></h3>
-                                            </div>
-                                            <div class="text-center">
-                                                Se recomienda que prepare con anticipación la compra de un nuevo TOKEN
-                                            </div>
-                                        </div>
-                                    </div>
+    <%--CIERRE DE MODAL PARA NOTIFICACIONES AUTOMATICAS 2--%>
+    <div class="modal fade" id="modalNotify" data-keyboard="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-teal-active color-palette">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <asp:Label ID="Label16" runat="server" Text="Notificación Automática"></asp:Label>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="alert alert-dismissible text-center">
+                                    <h4 class="modal-title"><asp:Label ID="Label19" runat="server" Text="Has consumido el 40% de la cantidad de tasas de usuario"></asp:Label></h4>
                                 </div>
-                            </div>
-                            <div class="modal-footer">
                                 <div class="text-center">
-                                    <asp:CheckBox ID="CheckBox1" runat="server" Text="&nbsp&nbsp Confirmo que he visto esta notificación" />
+                                    <asp:Label ID="Label21" runat="server" Text="Hoy 24-07-2019 a las 10:08"></asp:Label>
                                 </div>
-                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>                                
+                                <div class="text-center">
+                                    Se le notifica que solo dispone de:
+                                </div>
+                                <div class="text-center">
+                                    <h1 class="modal-title"><label><asp:Label ID="Label22" runat="server" Text="68" ForeColor="Blue"></asp:Label></label></h1>
+                                    <h3 class="modal-title"><label>Tasas de Usuario</label></h3>
+                                </div>
+                                <div class="text-center">
+                                    Se recomienda que prepare con anticipación la compra de un nuevo TOKEN
+                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="text-center">
+                        <asp:CheckBox ID="CheckBox1" runat="server" Text="&nbsp&nbsp Confirmo que he visto esta notificación" />
                     </div>
-                <%--FIN MODAL DE ERRORES--%>
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>                                
+                </div>
+            </div>
+        </div>
+    </div>
+    <%--FIN MODAL--%>
+
 
     <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="UpdatePanel1">
         <ProgressTemplate>
@@ -1531,7 +1449,5 @@
         </ProgressTemplate>
     </asp:UpdateProgress>
 <%--FIN MODAL VER PASAJEROS--%>
-
-    </b></b>
 
 </asp:Content>

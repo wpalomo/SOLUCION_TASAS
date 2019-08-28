@@ -741,6 +741,8 @@ namespace Solution_CTT
         {
             if (CargarDatosModal(0) != true) return;
             ModalBuscarXML.Show();
+            txtFiltrarModalBuscarXML.Text = "";
+            txtFiltrarModalBuscarXML.Focus();
         }
 
         protected void cmbTipoComprobante_SelectedIndexChanged(object sender, EventArgs e)
