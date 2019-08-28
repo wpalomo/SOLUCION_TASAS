@@ -653,6 +653,7 @@
     <Content Include="frmMarcaVehiculos.aspx" />
     <Content Include="frmModeloVehiculos.aspx" />
     <Content Include="frmNumeroDisco.aspx" />
+    <Content Include="frmObtenerTokens.aspx" />
     <Content Include="frmOficinistas.aspx" />
     <Content Include="frmPagosPendientes.aspx" />
     <Content Include="frmPagosTasaUsuario.aspx" />
@@ -7587,6 +7588,13 @@
     </Compile>
     <Compile Include="frmNumeroDisco.aspx.designer.cs">
       <DependentUpon>frmNumeroDisco.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmObtenerTokens.aspx.cs">
+      <DependentUpon>frmObtenerTokens.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmObtenerTokens.aspx.designer.cs">
+      <DependentUpon>frmObtenerTokens.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmOficinistas.aspx.cs">
       <DependentUpon>frmOficinistas.aspx</DependentUpon>
