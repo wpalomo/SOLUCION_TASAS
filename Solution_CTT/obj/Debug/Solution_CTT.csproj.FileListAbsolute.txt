@@ -22,8 +22,6 @@ C:\Users\APLICSIS\Desktop\Solucion Buses\Solution_CTT\Solution_CTT\obj\Debug\Rdl
 C:\Users\APLICSIS\Desktop\Solucion Buses\Solution_CTT\Solution_CTT\obj\Debug\RdlCompile.compiled
 C:\Users\APLICSIS\Desktop\Solucion Buses\Solution_CTT\Solution_CTT\obj\Debug\Solution_CTT.dll
 C:\Users\APLICSIS\Desktop\Solucion Buses\Solution_CTT\Solution_CTT\obj\Debug\Solution_CTT.pdb
-C:\Users\APLICSIS\Desktop\SISTEMA\Solution_CTT\obj\Debug\RdlCompile.cache
-C:\Users\APLICSIS\Desktop\SISTEMA\Solution_CTT\obj\Debug\RdlCompile.compiled
 C:\Users\APLICSIS\Desktop\SISTEMA\Solution_CTT\bin\SqlServerTypes\x64\msvcr100.dll
 C:\Users\APLICSIS\Desktop\SISTEMA\Solution_CTT\bin\SqlServerTypes\x64\SqlServerSpatial110.dll
 C:\Users\APLICSIS\Desktop\SISTEMA\Solution_CTT\bin\SqlServerTypes\x86\msvcr100.dll
@@ -49,6 +47,8 @@ C:\Users\APLICSIS\Desktop\SISTEMA\Solution_CTT\bin\ENTIDADES.pdb
 C:\Users\APLICSIS\Desktop\SISTEMA\Solution_CTT\bin\NEGOCIO.pdb
 C:\Users\APLICSIS\Desktop\SISTEMA\Solution_CTT\bin\Microsoft.AspNet.FriendlyUrls.xml
 C:\Users\APLICSIS\Desktop\SISTEMA\Solution_CTT\bin\DATOS.pdb
+C:\Users\APLICSIS\Desktop\SISTEMA\Solution_CTT\obj\Debug\Solution_CTT.csprojResolveAssemblyReference.cache
+C:\Users\APLICSIS\Desktop\SISTEMA\Solution_CTT\obj\Debug\RdlCompile.cache
+C:\Users\APLICSIS\Desktop\SISTEMA\Solution_CTT\obj\Debug\RdlCompile.compiled
 C:\Users\APLICSIS\Desktop\SISTEMA\Solution_CTT\obj\Debug\Solution_CTT.dll
 C:\Users\APLICSIS\Desktop\SISTEMA\Solution_CTT\obj\Debug\Solution_CTT.pdb
-C:\Users\APLICSIS\Desktop\SISTEMA\Solution_CTT\obj\Debug\Solution_CTT.csprojResolveAssemblyReference.cache

@@ -20,7 +20,8 @@ namespace Solution_CTT.Clases
         string sCiudad;
         string sDireccion;
         string sTelefono;
-        string sCorreoElectronico;        
+        string sCorreoElectronico;
+        string sObservacion;
         string []sDatosMaximo = new string[5];
 
         int iIdPersona;
@@ -75,7 +76,8 @@ namespace Solution_CTT.Clases
 
         public bool iniciarCierre(DataTable dtConsulta_P, double dbTotalCobrado_P, double dbPagoRetencion_P, 
             double dbPagoAdministracion_P, int iIdProgramacion_P, string sFecha_P, string[] sDatosMaximo_P, 
-            string[,] sIdPedido_P, int iLongitud_P, int iExtra_P, Decimal dbPagoPendienteInfo_P, Decimal dbIngresoEfectivoInfo_P)
+            string[,] sIdPedido_P, int iLongitud_P, int iExtra_P, Decimal dbPagoPendienteInfo_P, 
+            Decimal dbIngresoEfectivoInfo_P, string sObservacion_P)
         {
             try
             {
@@ -102,6 +104,7 @@ namespace Solution_CTT.Clases
                 iCobraAdministracion = 0;
                 dbPagoPendienteInfo = 0;
                 dbIngresoEfectivoInfo = 0;
+                sObservacion = "";
 
                 //PRIMERA LLAMADA PARA INSERTAR EL REGISTRO DE RETENCION
                 if (creaRegistroRetencion(dbPagoRetencion) == false)
@@ -114,7 +117,7 @@ namespace Solution_CTT.Clases
                 iCobraAdministracion = 1;
                 this.dbPagoPendienteInfo = dbPagoPendienteInfo_P;
                 this.dbIngresoEfectivoInfo = dbIngresoEfectivoInfo_P;
-
+                sObservacion = sObservacion_P;
 
                 if (iExtra_P == 0)
                 {
@@ -495,7 +498,7 @@ namespace Solution_CTT.Clases
                 sSql += "cg_facturado, id_ctt_programacion, id_ctt_oficinista," + Environment.NewLine;
                 sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso, ctt_fecha_pago_pendiente," + Environment.NewLine;
                 sSql += "cobro_boletos, cobro_retencion, cobro_administrativo, pago_cumplido, id_ctt_jornada," + Environment.NewLine;
-                sSql += "pago_pendiente_info, ingreso_efectivo_info)" + Environment.NewLine;
+                sSql += "pago_pendiente_info, ingreso_efectivo_info, comentarios)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(HttpContext.Current.Application["idEmpresa"].ToString()) + ", " + Convert.ToInt32(HttpContext.Current.Application["cgEmpresa"].ToString()) + ", ";
                 sSql += Convert.ToInt32(HttpContext.Current.Application["idLocalidad"].ToString()) + ", '" + sFecha + "', " + iIdPersona + "," + Environment.NewLine;
@@ -517,7 +520,7 @@ namespace Solution_CTT.Clases
 
                 sSql += "0, " + iCobraRetencion + ", " + iCobraAdministracion + ", " + iBanderaPagoCumplido + ", ";
                 sSql += Convert.ToInt32(HttpContext.Current.Session["idJornada"].ToString()) + ", ";
-                sSql += dbPagoPendienteInfo + ", " + dbIngresoEfectivoInfo + ")";
+                sSql += dbPagoPendienteInfo + ", " + dbIngresoEfectivoInfo + ", '" + sObservacion + "')";
 
                 //EJECUCION DE LA INSTRUCCION SQL
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)

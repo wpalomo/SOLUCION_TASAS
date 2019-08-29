@@ -108,6 +108,7 @@ namespace Solution_CTT
         DataTable dtAsientos;
         DataTable dtOcupados;
         DataTable dtTipos;
+        DataTable dtTasasDisponibles;
 
         bool bRespuesta;
 
@@ -220,6 +221,8 @@ namespace Solution_CTT
             sDatosMaximo[1] = Environment.MachineName.ToString();
             sDatosMaximo[2] = "A";
 
+            Session["modulo"] = "MÓDULO DE VENTA DE PASAJES";
+
             txtIdentificacion.Attributes.Add("onKeyPress", "doClick('" + btnBuscarCliente.ClientID + "',event)");
 
             if (!IsPostBack)
@@ -248,6 +251,7 @@ namespace Solution_CTT
             {
                 if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
                 {
+                    btnReimprimirFactura.Visible = false;
                     consultarParametrosTasa();
                 }
 
@@ -260,6 +264,89 @@ namespace Solution_CTT
                 }
             }
         }
+
+        #region FUNCIONES DE INTEGRACION
+
+        //FUNCION PARA CONSULTAR LAS TASAS PENDIENTES POR SINCRONIZAR
+        private int consultarTasasPendientesSincronizar()
+        {
+            try
+            {
+                sSql = "";
+                sSql += "select count(*) cuenta" + Environment.NewLine;
+                sSql += "from ctt_vw_tasa_usuario_no_enviada" + Environment.NewLine;
+                sSql += "where id_localidad = " + Convert.ToInt32(Application["idLocalidad"].ToString()) + Environment.NewLine;
+                sSql += "and ambiente_tasa_usuario = " + Convert.ToInt32(Session["emision"].ToString()) + Environment.NewLine;
+                sSql += "and emite_tasa_usuario = 1";
+
+                dtConsulta = new DataTable();
+                dtConsulta.Clear();
+
+                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
+
+                if (bRespuesta == true)
+                {
+                    return Convert.ToInt32(dtConsulta.Rows[0][0].ToString());
+                }
+
+                cerrarModal();
+                lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + this.sSql.Replace("\n", "<br/>");
+                ScriptManager.RegisterStartupScript(this, GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                return 0;
+            }
+
+            catch (Exception ex)
+            {
+                cerrarModal();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                ScriptManager.RegisterStartupScript(this, GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                return 0;
+            }
+        }
+
+        //FUNCION PARA CONTAR LAS TASAS DISPONIBLES EN EL TOKEN
+        private void contarTasasToken()
+        {
+            try
+            {
+                sSql = "";
+                sSql += "select token, isnull(maximo_secuencial, 0) - isnull(emitidos, 0) total_tasas_disponibles" + Environment.NewLine;
+                sSql += "from ctt_tasa_token" + Environment.NewLine;
+                sSql += "where estado = 'A'" + Environment.NewLine;
+                sSql += "and estado_token = 'Abierta'" + Environment.NewLine;
+                sSql += "and ambiente_token = " + Convert.ToInt32(Session["emision"].ToString()) + Environment.NewLine;
+                sSql += "and validado = 1" + Environment.NewLine;
+                sSql += "and id_ctt_oficinista = " + Convert.ToInt32(Session["idUsuario"].ToString());
+
+                dtTasasDisponibles = new DataTable();
+                dtTasasDisponibles.Clear();
+
+                bRespuesta = conexionM.consultarRegistro(sSql, dtTasasDisponibles);
+
+                if (bRespuesta)
+                {
+                    Session["dtTasasDisponibles"] = dtTasasDisponibles;
+                }
+
+                else
+                {
+                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                    ScriptManager.RegisterStartupScript(this, GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                }
+            }
+            catch (Exception ex)
+            {
+                cerrarModal();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                ScriptManager.RegisterStartupScript(this, GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
+
+ 
+
+
+
+        #endregion
 
         #region FUNCIONES PARA CREAR UNA TASA ACOMPAÑANTE
 
@@ -925,8 +1012,33 @@ namespace Solution_CTT
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'No ha seleccionado el tipo de cliente.', 'warning');", true);
                     goto fin;
-                }               
+                }
 
+                if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
+                {
+                    dtTasasDisponibles = new DataTable();
+                    dtTasasDisponibles.Clear();
+                    dtTasasDisponibles = Session["dtTasasDisponibles"] as DataTable;
+
+                    int num = Convert.ToInt32(txtTasaUsuario.Text.Trim()) + 1;
+                    int num2 = 0;
+
+                    for (int i = 0; i < this.dtTasasDisponibles.Rows.Count; i++)
+                    {
+                        if (num <= Convert.ToInt32(dtTasasDisponibles.Rows[i][1].ToString()))
+                        {
+                            num2 = 1;
+                            break;
+                        }
+                    }
+
+                    if (num2 == 0)
+                    {
+                        ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'La cantidad de pasajeros a vender supera a las tasas de usuario disponibles en los tokens del sistema. Se recomienda vender en facturas separadas o  verifique en el reporte de tokens.', 'warning');", true);
+                        return;
+                    }
+                }
+                
                 if (Session["dtClientes"] != null)
                 {
                     dtAlmacenar = new DataTable();
@@ -1708,6 +1820,45 @@ namespace Solution_CTT
 
                 sFecha = Convert.ToDateTime(txtFechaNacimiento.Text.Trim()).ToString("yyyy/MM/dd");
 
+                int iIdTipoPersona_P;
+                int iIdTipoIdentificacion_P;
+
+                int iTercerDigito = Convert.ToInt32(txtIdentificacionRegistro.Text.Trim().Substring(2, 1));
+                int iLongitud_P = txtIdentificacionRegistro.Text.Trim().Length;
+
+                if (iLongitud_P == 13)
+                {
+                    if (iTercerDigito == 9)
+                    {
+                        iIdTipoPersona_P = 2448;
+                        iIdTipoIdentificacion_P = 179;
+                    }
+
+                    else if (iTercerDigito == 6)
+                    {
+                        iIdTipoPersona_P = 2448;
+                        iIdTipoIdentificacion_P = 179;
+                    }
+
+                    else
+                    {
+                        iIdTipoPersona_P = 2447;
+                        iIdTipoIdentificacion_P = 179;
+                    }
+                }
+
+                else if (iLongitud_P == 10)
+                {
+                    iIdTipoPersona_P = 2447;
+                    iIdTipoIdentificacion_P = 178;
+                }
+
+                else
+                {
+                    iIdTipoPersona_P = 2447;
+                    iIdTipoIdentificacion_P = 180;
+                }
+
                 sSql = "";
                 sSql += "insert into tp_personas (" + Environment.NewLine;
                 sSql += "identificacion, apellidos, nombres, fecha_nacimiento, discapacidad," + Environment.NewLine;
@@ -1717,8 +1868,9 @@ namespace Solution_CTT
                 sSql += "'" + txtIdentificacionRegistro.Text.Trim().ToUpper() + "', '" + txtRazonSocial.Text.Trim().ToUpper() + "'," + Environment.NewLine;
                 sSql += "'" + txtNombreRegistro.Text.Trim().ToUpper() + "', '" + sFecha + "', " + iDiscapacidad + "," + Environment.NewLine;
                 sSql += Convert.ToInt32(Application["idEmpresa"].ToString()) + ", ";
-                sSql += Convert.ToInt32(Session["cgTipoPersona"].ToString()) + ", ";
-                sSql += Convert.ToInt32(cmbIdentificacion.SelectedValue) + "," + Environment.NewLine;
+                sSql += iIdTipoPersona_P + ", " + iIdTipoIdentificacion_P + "," + Environment.NewLine;
+                //sSql += Convert.ToInt32(Session["cgTipoPersona"].ToString()) + ", ";
+                //sSql += Convert.ToInt32(cmbIdentificacion.SelectedValue) + "," + Environment.NewLine;
                 sSql += "'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                 //EJECUCION DE LA INSTRUCCION SQL
@@ -1785,10 +1937,51 @@ namespace Solution_CTT
                     goto fin;
                 }
 
+                int iIdTipoPersona_P;
+                int iIdTipoIdentificacion_P;
+
+                int iTercerDigito = Convert.ToInt32(txtIdentificacionRegistro.Text.Trim().Substring(2, 1));
+                int iLongitud_P = txtIdentificacionRegistro.Text.Trim().Length;
+
+                if (iLongitud_P == 13)
+                {
+                    if (iTercerDigito == 9)
+                    {
+                        iIdTipoPersona_P = 2448;
+                        iIdTipoIdentificacion_P = 179;
+                    }
+
+                    else if (iTercerDigito == 6)
+                    {
+                        iIdTipoPersona_P = 2448;
+                        iIdTipoIdentificacion_P = 179;
+                    }
+
+                    else
+                    {
+                        iIdTipoPersona_P = 2447;
+                        iIdTipoIdentificacion_P = 179;
+                    }
+                }
+
+                else if (iLongitud_P == 10)
+                {
+                    iIdTipoPersona_P = 2447;
+                    iIdTipoIdentificacion_P = 178;
+                }
+
+                else
+                {
+                    iIdTipoPersona_P = 2447;
+                    iIdTipoIdentificacion_P = 180;
+                }
+
                 sSql = "";
                 sSql += "update tp_personas set" + Environment.NewLine;
-                sSql += "cg_tipo_persona = " + Convert.ToInt32(Session["cgTipoPersona"].ToString()) + "," + Environment.NewLine;
-                sSql += "cg_tipo_identificacion = " + Convert.ToInt32(cmbIdentificacion.SelectedValue) + "," + Environment.NewLine;
+                sSql += "cg_tipo_persona = " + iIdTipoPersona_P + "," + Environment.NewLine;
+                sSql += "cg_tipo_identificacion = " + iIdTipoIdentificacion_P + "," + Environment.NewLine;
+                //sSql += "cg_tipo_persona = " + Convert.ToInt32(Session["cgTipoPersona"].ToString()) + "," + Environment.NewLine;
+                //sSql += "cg_tipo_identificacion = " + Convert.ToInt32(cmbIdentificacion.SelectedValue) + "," + Environment.NewLine;
                 sSql += "identificacion = '" + txtIdentificacionRegistro.Text.Trim() + "'," + Environment.NewLine;
                 sSql += "nombres = '" + txtNombreRegistro.Text.Trim().ToUpper() + "'," + Environment.NewLine;
                 sSql += "apellidos = '" + txtRazonSocial.Text.Trim().ToUpper() + "'," + Environment.NewLine;
@@ -2071,6 +2264,7 @@ namespace Solution_CTT
                 if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
                 {
                     consultarDatosToken();
+                    contarTasasToken();
                 }
 
                 Session["idPersonaFactura"] = null;
@@ -2078,8 +2272,23 @@ namespace Solution_CTT
                 lblRazonSocial.Text = "";
                 lblMensajeFactura.Text = "";
                 ModalPopupExtender_Factura.Hide();
-                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Boletos generados éxitosamente', 'success');", true);
-                //cmbDestino.Focus();
+
+                if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
+                {
+                    if (sIdTasaRespuesta == "0")
+                    {
+                        ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Boletos generados éxitosamente. Tasa pendiente por sincronizar.', 'success');", true);
+                    }
+                    else
+                    {
+                        ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Boletos generados éxitosamente', 'success');", true);
+                    }
+                }
+                else
+                {
+                    ScriptManager.RegisterStartupScript((Page)this, base.GetType(), "Popup", "swal('Éxito.!', 'Boletos generados éxitosamente', 'success');", true);
+                }
+
                 goto fin;
             }
 
@@ -2510,7 +2719,7 @@ namespace Solution_CTT
                 sSql += "idempresa, id_persona, fecha_pago, cg_moneda, valor," + Environment.NewLine;
                 sSql += "propina, cg_empresa, id_localidad, cg_cajero, fecha_ingreso," + Environment.NewLine;
                 sSql += "usuario_ingreso, terminal_ingreso, estado, " + Environment.NewLine;
-                sSql += "numero_replica_trigger, numero_control_replica,cambio) " + Environment.NewLine;
+                sSql += "numero_replica_trigger, numero_control_replica, cambio) " + Environment.NewLine;
                 sSql += "values(" + Environment.NewLine;
                 sSql += Convert.ToInt32(Application["idEmpresa"].ToString()) + ", " + iIdPersona + ", '" + sFecha + "', " + Convert.ToInt32(Application["cgMoneda"].ToString()) + "," + Environment.NewLine;
                 //sSql += dbTotal + ", 0, " + Convert.ToInt32(Application["cgEmpresa"].ToString()) + "," + Environment.NewLine;
@@ -2989,7 +3198,7 @@ namespace Solution_CTT
 
                     else
                     {
-                        iTasaEmitidaBandera = 0;
+                        iTasaEmitidaBandera = 1;
                     }
 
                     //ACTUALIZAR LA TABLA CV403_FACTURAS
@@ -3239,7 +3448,8 @@ namespace Solution_CTT
             try
             {
                 sSql = "";
-                sSql += "select isnull(sum(isnull(maximo_secuencial, 0)) - sum(isnull(emitidos, 0)), 0) disponibles" + Environment.NewLine;
+                sSql += "select isnull(sum(isnull(maximo_secuencial, 0)) - sum(isnull(emitidos, 0)), 0) disponibles," + Environment.NewLine;
+                sSql += "isnull(sum(isnull(maximo_secuencial, 0) - isnull(anulados, 0)), 0) total" + Environment.NewLine;
                 sSql += "from ctt_tasa_token" + Environment.NewLine;
                 sSql += "where estado = 'A'" + Environment.NewLine;
                 sSql += "and estado_token = 'Abierta'" + Environment.NewLine;
@@ -3255,6 +3465,65 @@ namespace Solution_CTT
                 if (bRespuesta == true)
                 {
                     txtCantidadTasasDisponibles.Text = dtConsulta.Rows[0][0].ToString();
+
+                    int iDisponible_T = Convert.ToInt32(dtConsulta.Rows[0][0].ToString());
+                    int iTotal_T = Convert.ToInt32(dtConsulta.Rows[0][1].ToString());
+
+                    if (iTotal_T == 0)
+                    {
+                        txtPorcentajeDisponibles.Text = "0 %";
+                        txtCantidadTasasDisponibles.BackColor = ColorTranslator.FromHtml("#FF0000");
+                        txtPorcentajeDisponibles.BackColor = ColorTranslator.FromHtml("#FF0000");
+                    }
+
+                    else
+                    {
+                        int iPorcentajeDisponible_P = (iDisponible_T * 100) / iTotal_T;
+                        txtPorcentajeDisponibles.Text = iPorcentajeDisponible_P.ToString() + "%";
+
+                        if (iPorcentajeDisponible_P > 50)
+                        {
+                            txtCantidadTasasDisponibles.BackColor = ColorTranslator.FromHtml("#00369C");
+                            txtPorcentajeDisponibles.BackColor = ColorTranslator.FromHtml("#00369C");
+                            txtCantidadTasasDisponibles.ForeColor = Color.White;
+                            txtPorcentajeDisponibles.ForeColor = Color.White;
+                        }
+
+                        else if (iPorcentajeDisponible_P > 25)
+                        {
+                            txtCantidadTasasDisponibles.BackColor = ColorTranslator.FromHtml("#F3E212");
+                            txtPorcentajeDisponibles.BackColor = ColorTranslator.FromHtml("#F3E212");
+                            txtCantidadTasasDisponibles.ForeColor = Color.Black;
+                            txtPorcentajeDisponibles.ForeColor = Color.Black;
+                        }
+
+                        else if (iPorcentajeDisponible_P > 10)
+                        {
+                            txtCantidadTasasDisponibles.BackColor = ColorTranslator.FromHtml("#F16A10");
+                            txtPorcentajeDisponibles.BackColor = ColorTranslator.FromHtml("#F16A10");
+                        }
+
+                        else if (iPorcentajeDisponible_P > 5)
+                        {
+                            txtCantidadTasasDisponibles.BackColor = ColorTranslator.FromHtml("#A31F11");
+                            txtPorcentajeDisponibles.BackColor = ColorTranslator.FromHtml("#A31F11");
+                            txtCantidadTasasDisponibles.ForeColor = Color.White;
+                            txtPorcentajeDisponibles.ForeColor = Color.White;
+                        }
+
+                        if (iPorcentajeDisponible_P >= 0)
+                        {
+                            txtCantidadTasasDisponibles.BackColor = ColorTranslator.FromHtml("#FF0000");
+                            txtPorcentajeDisponibles.BackColor = ColorTranslator.FromHtml("#FF0000");
+                            txtCantidadTasasDisponibles.ForeColor = Color.White;
+                            txtPorcentajeDisponibles.ForeColor = Color.White;
+                        }
+                    }
+
+
+
+
+
                 }
 
                 else
@@ -3636,7 +3905,7 @@ namespace Solution_CTT
 
                 catch (Exception)
                 {
-                    sIdTasaRespuesta = "";
+                    //sIdTasaRespuesta = "";
                     iTasaEmitidaBandera = 0;
                 }
 
@@ -3696,8 +3965,7 @@ namespace Solution_CTT
                         DateTime nacimiento = Convert.ToDateTime(sFechaAyuda);
 
                         //DateTime nacimiento = Convert.ToDateTime(dtConsulta.Rows[0][5].ToString()).ToString("yyyy/MM/dd");
-                        int edad = calcularEdad(nacimiento, DateTime.Now);
-                        
+                        int edad = calcularEdad(nacimiento, DateTime.Now);                        
 
                         if (sDescripcionMes == "")
                         {
@@ -4428,7 +4696,7 @@ namespace Solution_CTT
                         bRespuesta = cierreViajeInstrucciones.iniciarCierre(dtConsulta, Convert.ToDouble(txtTotalCobradoModal.Text.Trim()), Convert.ToDouble(txtPagoRetencionModal.Text.Trim()),
                                      Convert.ToDouble(txtPagoModal.Text.Trim()), Convert.ToInt32(Session["idProgramacion"].ToString()),
                                      DateTime.Now.ToString("yyyy/MM/dd"), sDatosMaximo, sIdPedido, i, Convert.ToInt32(Session["extra"].ToString()),
-                                     Convert.ToDecimal(txtPagosPendientesModal.Text.Trim()), Convert.ToDecimal(txtEfectivoModal.Text.Trim()));
+                                     Convert.ToDecimal(txtPagosPendientesModal.Text.Trim()), Convert.ToDecimal(txtEfectivoModal.Text.Trim()), txtObservacionProgramacion.Text.Trim());
 
                         if (bRespuesta == false)                        
                         {
@@ -4636,101 +4904,110 @@ namespace Solution_CTT
             try
             {
                 extraerTotalCobrado();
-
                 double dbTotalCobrado_P = Convert.ToDouble(txtTotalCobradoModal.Text.Trim());
-                double dbIngresoEfectivo_P = Convert.ToDouble(txtEfectivoModal.Text.Trim());
                 double dbPorcentajeRetencion_P = Convert.ToDouble(Session["porcentaje_retencion"].ToString()) / 100;
-                double dbPagoRetencion_P = dbTotalCobrado_P * dbPorcentajeRetencion_P;
+                txtPagoRetencionModal.Text = (dbTotalCobrado_P * dbPorcentajeRetencion_P).ToString("N2");
+                double dbPagoRetencion_P = Convert.ToDouble(txtPagoRetencionModal.Text.Trim());
+                double num4 = dbTotalCobrado_P - dbPagoRetencion_P;
+                txtPrimerTotalModal.Text = num4.ToString("N2");
+                txtPagoModal.Text = "0.00";
+                txtSegundoTotalModal.Text = num4.ToString("N2");
+                txtTotalNetoModal.Text = num4.ToString("N2");
 
-                txtPagoRetencionModal.Text = dbPagoRetencion_P.ToString("N2");
-                dbPagoRetencion_P = Convert.ToDouble(txtPagoRetencionModal.Text.Trim());
+                //double dbTotalCobrado_P = Convert.ToDouble(txtTotalCobradoModal.Text.Trim());
+                //double dbIngresoEfectivo_P = Convert.ToDouble(txtEfectivoModal.Text.Trim());
+                //double dbPorcentajeRetencion_P = Convert.ToDouble(Session["porcentaje_retencion"].ToString()) / 100;
+                //double dbPagoRetencion_P = dbTotalCobrado_P * dbPorcentajeRetencion_P;
 
-                double dbPrimerTotal_P = dbTotalCobrado_P + dbIngresoEfectivo_P - dbPagoRetencion_P;
-                double dbPagoAdministracion_P = Convert.ToDouble(txtPagoModal.Text.Trim());
+                //txtPagoRetencionModal.Text = dbPagoRetencion_P.ToString("N2");
+                //dbPagoRetencion_P = Convert.ToDouble(txtPagoRetencionModal.Text.Trim());
 
-                //BREVE VALIDACION PARA PAGAR A ADMINISTRACION
-                if (dbPrimerTotal_P < dbPagoAdministracion_P)
-                {
-                    txtPagoModal.Text = "0.00";
-                    txtPagoModal.BorderStyle = BorderStyle.Groove;
-                    txtPagoModal.BackColor = Color.Red;
-                    txtPagoModal.ForeColor = Color.White;
-                    dbPagoAdministracion_P = 0;                    
-                }
+                //double dbPrimerTotal_P = dbTotalCobrado_P + dbIngresoEfectivo_P - dbPagoRetencion_P;
+                //double dbPagoAdministracion_P = Convert.ToDouble(txtPagoModal.Text.Trim());
 
-                else
-                {
-                    txtPagoModal.BackColor = Color.White;
-                    txtPagoModal.ForeColor = Color.Black;
-                }
+                ////BREVE VALIDACION PARA PAGAR A ADMINISTRACION
+                //if (dbPrimerTotal_P < dbPagoAdministracion_P)
+                //{
+                //    txtPagoModal.Text = "0.00";
+                //    txtPagoModal.BorderStyle = BorderStyle.Groove;
+                //    txtPagoModal.BackColor = Color.Red;
+                //    txtPagoModal.ForeColor = Color.White;
+                //    dbPagoAdministracion_P = 0;                    
+                //}
 
-                double dbSegundoTotal_P = dbPrimerTotal_P - dbPagoAdministracion_P;
-                double dbPagosPendientes_P = 0;
+                //else
+                //{
+                //    txtPagoModal.BackColor = Color.White;
+                //    txtPagoModal.ForeColor = Color.Black;
+                //}
 
-                if (dgvDetalle.Rows.Count == 0)
-                {
-                    dbPagosPendientes_P = 0;
-                }
+                //double dbSegundoTotal_P = dbPrimerTotal_P - dbPagoAdministracion_P;
+                //double dbPagosPendientes_P = 0;
 
-                else
-                {
-                    columnasGridPendiente(true);
+                //if (dgvDetalle.Rows.Count == 0)
+                //{
+                //    dbPagosPendientes_P = 0;
+                //}
 
-                    //RECORRER EL GRIDVIEW
-                    foreach (GridViewRow row in dgvDetalle.Rows)
-                    {
-                        CheckBox check = row.FindControl("chkSeleccionar") as CheckBox;
+                //else
+                //{
+                //    columnasGridPendiente(true);
 
-                        if (check.Checked == true)
-                        {
-                            dbAbonoGrid = Convert.ToDouble(row.Cells[5].Text);
-                            dbValorRealGrid = Convert.ToDouble(row.Cells[6].Text);
+                //    //RECORRER EL GRIDVIEW
+                //    foreach (GridViewRow row in dgvDetalle.Rows)
+                //    {
+                //        CheckBox check = row.FindControl("chkSeleccionar") as CheckBox;
 
-                            dbPagosPendientes_P = dbPagosPendientes_P + (dbValorRealGrid - dbAbonoGrid);
-                        }
+                //        if (check.Checked == true)
+                //        {
+                //            dbAbonoGrid = Convert.ToDouble(row.Cells[5].Text);
+                //            dbValorRealGrid = Convert.ToDouble(row.Cells[6].Text);
 
-                    }
+                //            dbPagosPendientes_P = dbPagosPendientes_P + (dbValorRealGrid - dbAbonoGrid);
+                //        }
 
-                    columnasGridPendiente(false);
-                }
+                //    }
 
-                double dbTotalNeto_P = 0;
+                //    columnasGridPendiente(false);
+                //}
 
-                if (dbSegundoTotal_P < dbPagosPendientes_P)
-                {
-                    txtPagosPendientesModal.Text = "0.00";
-                    dbPagosPendientes_P = 0;
+                //double dbTotalNeto_P = 0;
 
-                    if (Session["idVehiculoReemplazo"].ToString() != "0")
-                    {
-                        llenarGridPendientes();
-                    }
-                }
+                //if (dbSegundoTotal_P < dbPagosPendientes_P)
+                //{
+                //    txtPagosPendientesModal.Text = "0.00";
+                //    dbPagosPendientes_P = 0;
 
-                else
-                {
-                    txtPagosPendientesModal.Text = dbPagosPendientes_P.ToString("N2");
+                //    if (Session["idVehiculoReemplazo"].ToString() != "0")
+                //    {
+                //        llenarGridPendientes();
+                //    }
+                //}
+
+                //else
+                //{
+                //    txtPagosPendientesModal.Text = dbPagosPendientes_P.ToString("N2");
                     
-                }
+                //}
 
-                double dbPendiente_P;
+                //double dbPendiente_P;
 
-                dbTotalNeto_P = dbSegundoTotal_P - dbPagosPendientes_P;
-                txtPrimerTotalModal.Text = dbPrimerTotal_P.ToString("N2");
-                txtSegundoTotalModal.Text = dbSegundoTotal_P.ToString("N2");
-                txtTotalNetoModal.Text = dbTotalNeto_P.ToString("N2");
+                //dbTotalNeto_P = dbSegundoTotal_P - dbPagosPendientes_P;
+                //txtPrimerTotalModal.Text = dbPrimerTotal_P.ToString("N2");
+                //txtSegundoTotalModal.Text = dbSegundoTotal_P.ToString("N2");
+                //txtTotalNetoModal.Text = dbTotalNeto_P.ToString("N2");
 
-                if (Convert.ToDouble(Session["pago_administracion"].ToString()) < dbPrimerTotal_P)
-                {
-                    dbPendiente_P = 0;
-                }
+                //if (Convert.ToDouble(Session["pago_administracion"].ToString()) < dbPrimerTotal_P)
+                //{
+                //    dbPendiente_P = 0;
+                //}
 
-                else
-                {
-                    dbPendiente_P = Convert.ToDouble(Session["pago_administracion"].ToString()) - dbPrimerTotal_P;
-                }
+                //else
+                //{
+                //    dbPendiente_P = Convert.ToDouble(Session["pago_administracion"].ToString()) - dbPrimerTotal_P;
+                //}
 
-                txtFaltanteModal.Text = dbPendiente_P.ToString("N2");
+                //txtFaltanteModal.Text = dbPendiente_P.ToString("N2");
             }
 
             catch (Exception ex)
@@ -5313,6 +5590,7 @@ namespace Solution_CTT
                     if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
                     {
                         sumaTotalTasasDisponibles();
+                        contarTasasToken();
                         pnlVerTasas.Visible = true;
                     }
 
@@ -6101,33 +6379,33 @@ namespace Solution_CTT
 
         protected void btnLimpiarAsignacion_Click(object sender, EventArgs e)
         {
-            //Session["auxiliar"] = "1";
-            //mostrarBotones();
+            Session["auxiliar"] = "1";
+            mostrarBotones();
 
-            //limpiar();
+            limpiar();
 
-            ////extraerTotalCobrado();
-            ////validarCobro();
+            //extraerTotalCobrado();
+            //validarCobro();
 
-            //Session["idPersonaFactura"] = null;
-            //txtBuscarClienteFactura.Text = "";
-            //lblRazonSocial.Text = "";
-            //lblMensajeFactura.Text = "";
-            //txtPrecio.Text = "0.00";
-            //txtDescuento.Text = "0.00";
-            //txtPrecioFinal.Text = "0.00";
-            //cmbDestino.SelectedIndex = 0;
+            Session["idPersonaFactura"] = null;
+            txtBuscarClienteFactura.Text = "";
+            lblRazonSocial.Text = "";
+            lblMensajeFactura.Text = "";
+            txtPrecio.Text = "0.00";
+            txtDescuento.Text = "0.00";
+            txtPrecioFinal.Text = "0.00";
+            cmbDestino.SelectedIndex = 0;
 
-            iPorcentajeNotificacionEntero = 67; 
-            lblMensajeNotificacion.Text = "Has consumido el " + (100 - iPorcentajeNotificacionEntero).ToString() + "% de la cantidad de tasas de usuario";
-            lblDatosMensajeNotificacion.Text = "Hoy " + DateTime.Now.ToString("dd-MM-yyyy") + " a las " + DateTime.Now.ToString("HH:mm") + ".</br>Se le notifica que solo dispone de:";
-            lblCantidadMensajeNotificacion.Text = "45"; //Convert.ToInt32(dbDisponible_Notificacion).ToString();
+            //iPorcentajeNotificacionEntero = 67; 
+            //lblMensajeNotificacion.Text = "Has consumido el " + (100 - iPorcentajeNotificacionEntero).ToString() + "% de la cantidad de tasas de usuario";
+            //lblDatosMensajeNotificacion.Text = "Hoy " + DateTime.Now.ToString("dd-MM-yyyy") + " a las " + DateTime.Now.ToString("HH:mm") + ".</br>Se le notifica que solo dispone de:";
+            //lblCantidadMensajeNotificacion.Text = "45"; //Convert.ToInt32(dbDisponible_Notificacion).ToString();
 
-            //lblMensajeNotificacion.ForeColor = Color.White;
+            ////lblMensajeNotificacion.ForeColor = Color.White;
 
            
 
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalNotify').modal('show');</script>", false);
+            //ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalNotify').modal('show');</script>", false);
         }
 
 
@@ -6461,6 +6739,7 @@ namespace Solution_CTT
                     if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
                     {
                         sumaTotalTasasDisponibles();
+                        contarTasasToken();
                         pnlVerTasas.Visible = true;
                     }
 
@@ -6574,31 +6853,6 @@ namespace Solution_CTT
 
         protected void btnAbonarAdministracion_Click(object sender, EventArgs e)
         {
-            //double dbPrimerPago_P;
-            //double dbPagoAdministracion_P;
-
-            //dbPagoAdministracion_P = Convert.ToDouble(Session["pago_administracion"].ToString());            
-
-            //dbPrimerPago_P = Convert.ToDouble(txtPrimerTotalModal.Text.Trim());
-            //txtPagoModal.Text = dbPrimerPago_P.ToString("N2");
-            //txtSegundoTotalModal.Text = "0.00";
-            //txtEfectivoModal.Text = "0.00";
-            //txtTotalNetoModal.Text = "0.00";
-            //txtPagosPendientesModal.Text = "0.00";
-            //rdbPagado.Checked = false;
-            //rdbPendiente.Checked = false;
-            //rdbPagoParcial.Checked = true;
-            //txtPagoModal.ForeColor = Color.Red;
-
-            //txtFaltanteModal.Text = (dbPagoAdministracion_P - dbPrimerPago_P).ToString("N2");
-
-            ////RECORRER EL GRIDVIEW
-            //foreach (GridViewRow row in dgvDetalle.Rows)
-            //{
-            //    CheckBox check = row.FindControl("chkSeleccionar") as CheckBox;
-            //    check.Checked = false;
-            //}
-
             if (Convert.ToDecimal(txtSegundoTotalModal.Text.Trim()) == 0)
             {
                 return;
@@ -6786,6 +7040,7 @@ namespace Solution_CTT
                 //Configurar las propiedad del objeto de llamada
                 request.Method = "POST";
                 request.ContentType = "application/json";
+                request.Timeout = 5000;
 
                 //Serializar el objeto a enviar. Para esto uso la libreria Newtonsoft
                 //string sb = JsonConvert.SerializeObject(sAyuda);
@@ -6846,8 +7101,12 @@ namespace Solution_CTT
 
                 catch (Exception)
                 {
+                    lblTituloValidacionModal.ForeColor = Color.Red;
+                    lblTituloValidacionModal.Text = "INFORMACION.";
+                    lblMensajeValidacionModal.Text = "Error con el servidor remoto.</br>Favor intente nuevamente.";
                     sIdTasaRespuesta = "";
                     iTasaEmitidaBandera = 0;
+                    return "ERROR";
                 }
 
                 return "OK";
@@ -6990,18 +7249,17 @@ namespace Solution_CTT
 
                     iPorcentajeNotificacionEntero = Convert.ToInt32(dbPorcentaje_Notificacion);
 
-                    if ((iPorcentajeNotificacionEntero == 0) || (iPorcentajeNotificacionEntero == 5) || (iPorcentajeNotificacionEntero == 10) || (iPorcentajeNotificacionEntero == 25) || (iPorcentajeNotificacionEntero == 50))
+                    if ((iPorcentajeNotificacionEntero == 0) || ((iPorcentajeNotificacionEntero >= 5) && (iPorcentajeNotificacionEntero <= 6)) || ((iPorcentajeNotificacionEntero >= 9) && (iPorcentajeNotificacionEntero <= 11)) || ((iPorcentajeNotificacionEntero >= 24) && (iPorcentajeNotificacionEntero <= 26)) || ((iPorcentajeNotificacionEntero >= 49) && (iPorcentajeNotificacionEntero <= 51)))
                     {
-                        crearJsonNotificaciones();
-                    }
+                        Session["dbCantidad_Notificacion"] = dbCantidad_Notificacion.ToString();
+                        Session["dbDisponible_Notificacion"] = dbDisponible_Notificacion.ToString();
+                        Session["iPorcentajeNotificacionEntero"] = iPorcentajeNotificacionEntero.ToString();
 
-                    Session["dbCantidad_Notificacion"] = dbCantidad_Notificacion.ToString();
-                    Session["dbDisponible_Notificacion"] = dbDisponible_Notificacion.ToString();
-                    Session["iPorcentajeNotificacionEntero"] = iPorcentajeNotificacionEntero.ToString();
+                        string sFecha_Notificacion = DateTime.Now.ToString();
+                        Session["ver_notificacion"] = "1";
 
-                    if (conexionInternet() == true)
-                    {
-                        crearJsonNotificaciones();
+                        Session["lblMensajeNotificacion"] = "Hoy " + Convert.ToDateTime(sFecha_Notificacion).ToString("dd-MM-yyyy") + " a las " + Convert.ToDateTime(sFecha_Notificacion).ToString("HH:mm") + ".</br>Se le notifica que solo dispone de:";
+                        ((Master)Master).mostrarNotificacionEmergente();
                     }
                 }
 
@@ -7101,6 +7359,7 @@ namespace Solution_CTT
                 //Configurar las propiedad del objeto de llamada
                 request.Method = "POST";
                 request.ContentType = "application/json";
+                request.Timeout = 5000;
 
                 //Serializar el objeto a enviar. Para esto uso la libreria Newtonsoft
                 //string sb = JsonConvert.SerializeObject(sAyuda);
@@ -7176,6 +7435,7 @@ namespace Solution_CTT
                 Session["dbCantidad_Notificacion"] = null;
                 Session["dbDisponible_Notificacion"] = null;
                 Session["iPorcentajeNotificacionEntero"] = null;
+                Session["ver_notificacion"] = "0";
                 return;
             }
 
@@ -7204,8 +7464,18 @@ namespace Solution_CTT
 
         protected void btnValidarTokenModal_Click(object sender, EventArgs e)
         {
-            consultarParametrosTasa();
-            crearJsonValidarToken();
+            if (conexionInternet() == false)
+            {
+                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'No hay conexión a Internet para verificar el TOKEN.', 'error');", true);
+            }
+
+            else
+            {
+                consultarParametrosTasa();
+                crearJsonValidarToken();
+                sumaTotalTasasDisponibles();
+                contarTasasToken();
+            }
         }
 
         protected void btnAbrirModalInfoToken_Click(object sender, EventArgs e)
@@ -7232,20 +7502,16 @@ namespace Solution_CTT
 
         protected void btnReporteToken_Click(object sender, EventArgs e)
         {
-            llenarGridTokenReporte();
-            //lbl100_P.Attributes.Add("class", "badge btn-block");
-            //lbl50_P.Attributes.Add("class", "badge btn-block");
-            //lbl25_P.Attributes.Add("class", "badge btn-block");
-            //lbl10_P.Attributes.Add("class", "badge btn-block");
-            //lbl5_P.Attributes.Add("class", "badge btn-block");
+            if (conexionInternet() == false)
+            {
+                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'No hay conexión a Internet para realizar la consulta.', 'error');", true);
+            }
 
-            //lbl100_P.BackColor = ColorTranslator.FromHtml("#00369C");
-            //lbl50_P.BackColor = ColorTranslator.FromHtml("#F3E212");
-            //lbl25_P.BackColor = ColorTranslator.FromHtml("#F16A10");
-            //lbl10_P.BackColor = ColorTranslator.FromHtml("#A31F11");
-            //lbl5_P.BackColor = ColorTranslator.FromHtml("#FF0000");
-
-            ModalPopupExtender_ReporteTokenInfo.Show();
+            else
+            {
+                llenarGridTokenReporte();
+                ModalPopupExtender_ReporteTokenInfo.Show();
+            }
         }
 
         protected void dgvReporteTokenInfo_PageIndexChanging(object sender, GridViewPageEventArgs e)
@@ -7269,6 +7535,8 @@ namespace Solution_CTT
             else
             {
                 enviarJsonNotificaciones();
+                chkConfirmacionVisualizacion.Checked = false;
+                chkConfirmacionVisualizacion.ForeColor = Color.Black;
                 ModalPopupExtender_NotificacionAutomatica.Hide();
             }
         }

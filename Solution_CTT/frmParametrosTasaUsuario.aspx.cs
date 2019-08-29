@@ -86,7 +86,7 @@ namespace Solution_CTT
                 sSql += "servidor_produccion, webservice_tasa_credenciales," + Environment.NewLine;
                 sSql += "webservice_tasa_usuario, webservice_tasa_anulacion, permite_anular_tasa," + Environment.NewLine;
                 sSql += "webservice_verifica_token, webservice_tasa_lote, webservice_detalle_transacciones," + Environment.NewLine;
-                sSql += "webservice_tasa_notificacion, notificacion_emergente" + Environment.NewLine;
+                sSql += "webservice_tasa_notificacion, notificacion_emergente, webservice_get_tokens" + Environment.NewLine;
                 sSql += "from ctt_tasa_parametros" + Environment.NewLine;
                 sSql += "where estado = 'A'";
 
@@ -115,6 +115,7 @@ namespace Solution_CTT
                         txtUrlEmisionLote.Text = dtConsulta.Rows[0]["webservice_tasa_lote"].ToString();
                         txtUrlDetalleTransacciones.Text = dtConsulta.Rows[0]["webservice_detalle_transacciones"].ToString();
                         txtUrlEnviarNotificacion.Text = dtConsulta.Rows[0]["webservice_tasa_notificacion"].ToString();
+                        txtUrlGetTokens.Text = dtConsulta.Rows[0]["webservice_get_tokens"].ToString();
 
                         if (Convert.ToInt32(dtConsulta.Rows[0]["permite_anular_tasa"].ToString()) == 0)
                         {
@@ -196,7 +197,8 @@ namespace Solution_CTT
                 sSql += "servidor_produccion, webservice_tasa_credenciales, webservice_tasa_usuario," + Environment.NewLine;
                 sSql += "webservice_tasa_anulacion, emision, valor_tasa, permite_anular_tasa," + Environment.NewLine;
                 sSql += "webservice_verifica_token, webservice_tasa_lote, webservice_detalle_transacciones," + Environment.NewLine;
-                sSql += "webservice_tasa_notificacion, notificacion_emergente, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                sSql += "webservice_tasa_notificacion, notificacion_emergente, webservice_get_tokens," + Environment.NewLine;
+                sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(cmbTerminal.SelectedValue) + ", " + Convert.ToInt32(txtIdOficina.Text.Trim()) + ", ";
                 sSql += Convert.ToInt32(txtIdCooperativa.Text.Trim()) + ", '" + txtWsPruebas.Text.Trim() + "'," + Environment.NewLine;
@@ -205,7 +207,7 @@ namespace Solution_CTT
                 sSql += Convert.ToInt32(cmbAmbiente.SelectedValue) + ", " + Convert.ToDecimal(txtValorTasa.Text.Trim()) + ", " + iPermitir + "," + Environment.NewLine;
                 sSql += "'" + txtUrlVerificarToken.Text.Trim() + "', '" + txtUrlEmisionLote.Text.Trim() + "'," + Environment.NewLine;
                 sSql += "'" + txtUrlDetalleTransacciones.Text.Trim() + "', '" + txtUrlEnviarNotificacion.Text.Trim() + "'," + Environment.NewLine;
-                sSql += iNotificacionEmergente + ", 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
+                sSql += iNotificacionEmergente + ", '" + txtUrlGetTokens.Text.Trim() + "', 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
                 {
@@ -258,7 +260,8 @@ namespace Solution_CTT
                 sSql += "emision = " + Convert.ToInt32(cmbAmbiente.SelectedValue) + "," + Environment.NewLine;
                 sSql += "valor_tasa = " + Convert.ToDecimal(txtValorTasa.Text.Trim()) + "," + Environment.NewLine;
                 sSql += "permite_anular_tasa = " + iPermitir + "," + Environment.NewLine;
-                sSql += "notificacion_emergente = " + iNotificacionEmergente + Environment.NewLine;
+                sSql += "notificacion_emergente = " + iNotificacionEmergente + "," + Environment.NewLine;
+                sSql += "webservice_get_tokens = '" + txtUrlGetTokens.Text.Trim() + Environment.NewLine;
                 sSql += "where id_ctt_tasa_parametro = " + Convert.ToInt32(Session["idParametroTasa"]) + Environment.NewLine;
                 sSql += "and estado = 'A'";
 
