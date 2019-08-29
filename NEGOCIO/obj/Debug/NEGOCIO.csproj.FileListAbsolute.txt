@@ -227,3 +227,13 @@ C:\Users\APLICSIS\Desktop\Solucion Buses\Solution_CTT\NEGOCIO\bin\Debug\ENTIDADE
 C:\Users\APLICSIS\Desktop\Solucion Buses\Solution_CTT\NEGOCIO\obj\Debug\NEGOCIO.csprojResolveAssemblyReference.cache
 C:\Users\APLICSIS\Desktop\Solucion Buses\Solution_CTT\NEGOCIO\obj\Debug\NEGOCIO.dll
 C:\Users\APLICSIS\Desktop\Solucion Buses\Solution_CTT\NEGOCIO\obj\Debug\NEGOCIO.pdb
+C:\Users\APLICSIS\Desktop\SISTEMA\NEGOCIO\bin\Debug\NEGOCIO.dll
+C:\Users\APLICSIS\Desktop\SISTEMA\NEGOCIO\bin\Debug\NEGOCIO.pdb
+C:\Users\APLICSIS\Desktop\SISTEMA\NEGOCIO\bin\Debug\DATOS.dll
+C:\Users\APLICSIS\Desktop\SISTEMA\NEGOCIO\bin\Debug\ENTIDADES.dll
+C:\Users\APLICSIS\Desktop\SISTEMA\NEGOCIO\bin\Debug\ConexionBD.dll
+C:\Users\APLICSIS\Desktop\SISTEMA\NEGOCIO\bin\Debug\DATOS.pdb
+C:\Users\APLICSIS\Desktop\SISTEMA\NEGOCIO\bin\Debug\ENTIDADES.pdb
+C:\Users\APLICSIS\Desktop\SISTEMA\NEGOCIO\obj\Debug\NEGOCIO.csprojResolveAssemblyReference.cache
+C:\Users\APLICSIS\Desktop\SISTEMA\NEGOCIO\obj\Debug\NEGOCIO.dll
+C:\Users\APLICSIS\Desktop\SISTEMA\NEGOCIO\obj\Debug\NEGOCIO.pdb

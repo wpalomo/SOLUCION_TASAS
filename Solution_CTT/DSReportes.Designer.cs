@@ -4149,7 +4149,7 @@ namespace Solution_CTT {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class dtFrecuenciasCierreDataTable : global::System.Data.TypedTableBase<dtFrecuenciasCierreRow> {
             
-            private global::System.Data.DataColumn columnfecha_viaje;
+            private global::System.Data.DataColumn columnfecha_grid;
             
             private global::System.Data.DataColumn columnhora_salida;
             
@@ -4196,9 +4196,9 @@ namespace Solution_CTT {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn fecha_viajeColumn {
+            public global::System.Data.DataColumn fecha_gridColumn {
                 get {
-                    return this.columnfecha_viaje;
+                    return this.columnfecha_grid;
                 }
             }
             
@@ -4279,10 +4279,10 @@ namespace Solution_CTT {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public dtFrecuenciasCierreRow AdddtFrecuenciasCierreRow(System.DateTime fecha_viaje, System.DateTime hora_salida, string disco, int cuenta, decimal valor, string tipo_viaje) {
+            public dtFrecuenciasCierreRow AdddtFrecuenciasCierreRow(System.DateTime fecha_grid, System.DateTime hora_salida, string disco, int cuenta, decimal valor, string tipo_viaje) {
                 dtFrecuenciasCierreRow rowdtFrecuenciasCierreRow = ((dtFrecuenciasCierreRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        fecha_viaje,
+                        fecha_grid,
                         hora_salida,
                         disco,
                         cuenta,
@@ -4310,7 +4310,7 @@ namespace Solution_CTT {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             internal void InitVars() {
-                this.columnfecha_viaje = base.Columns["fecha_viaje"];
+                this.columnfecha_grid = base.Columns["fecha_grid"];
                 this.columnhora_salida = base.Columns["hora_salida"];
                 this.columndisco = base.Columns["disco"];
                 this.columncuenta = base.Columns["cuenta"];
@@ -4321,8 +4321,8 @@ namespace Solution_CTT {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             private void InitClass() {
-                this.columnfecha_viaje = new global::System.Data.DataColumn("fecha_viaje", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnfecha_viaje);
+                this.columnfecha_grid = new global::System.Data.DataColumn("fecha_grid", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnfecha_grid);
                 this.columnhora_salida = new global::System.Data.DataColumn("hora_salida", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnhora_salida);
                 this.columndisco = new global::System.Data.DataColumn("disco", typeof(string), null, global::System.Data.MappingType.Element);
@@ -10647,18 +10647,17 @@ namespace Solution_CTT {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public System.DateTime fecha_viaje {
+            public System.DateTime fecha_grid {
                 get {
                     try {
-                        return ((global::System.DateTime)(this[this.tabledtFrecuenciasCierre.fecha_viajeColumn]));
+                        return ((global::System.DateTime)(this[this.tabledtFrecuenciasCierre.fecha_gridColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("El valor de la columna \'fecha_viaje\' de la tabla \'dtFrecuenciasCierre\' es DBNull." +
-                                "", e);
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'fecha_grid\' de la tabla \'dtFrecuenciasCierre\' es DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tabledtFrecuenciasCierre.fecha_viajeColumn] = value;
+                    this[this.tabledtFrecuenciasCierre.fecha_gridColumn] = value;
                 }
             }
             
@@ -10745,14 +10744,14 @@ namespace Solution_CTT {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool Isfecha_viajeNull() {
-                return this.IsNull(this.tabledtFrecuenciasCierre.fecha_viajeColumn);
+            public bool Isfecha_gridNull() {
+                return this.IsNull(this.tabledtFrecuenciasCierre.fecha_gridColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void Setfecha_viajeNull() {
-                this[this.tabledtFrecuenciasCierre.fecha_viajeColumn] = global::System.Convert.DBNull;
+            public void Setfecha_gridNull() {
+                this[this.tabledtFrecuenciasCierre.fecha_gridColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

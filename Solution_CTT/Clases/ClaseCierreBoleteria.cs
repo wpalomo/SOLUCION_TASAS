@@ -28,6 +28,7 @@ namespace Solution_CTT.Clases
         bool bRespuesta;
 
         DataTable dtConsulta;
+        DataTable dtAyuda;
 
         public bool llenarReporte(string sFecha_P, int iJornada_P, string sJornada, string sUsuario, DataTable dtTasasPagadas_P, int iIdOficinista_P, int iBanderaEnviaImprime)
         {
@@ -36,24 +37,58 @@ namespace Solution_CTT.Clases
                 DSReportes ds = new DSReportes();
 
                 sSql = "";
-                sSql += "select fecha_viaje, hora_salida, disco, cuenta, valor," + Environment.NewLine;
-                sSql += "substring(tipo_viaje, 1, 3) tipo_viaje" + Environment.NewLine;
-                sSql += "from ctt_vw_cierre_boleteria" + Environment.NewLine;
-                sSql += "where fecha_pedido = '" + sFecha_P  + "'" + Environment.NewLine;
-                sSql += "and cobro_boletos = 1" + Environment.NewLine;
-                sSql += "and cobro_retencion = 0" + Environment.NewLine;
-                sSql += "and cobro_administrativo = 0" + Environment.NewLine;
-                sSql += "and id_ctt_jornada = " + iJornada_P;
+                sSql += "select id_ctt_programacion, hora_salida, fecha_grid, disco," + Environment.NewLine;
+                sSql += "asientos_ocupados cuenta, substring(tipo_viaje, 1, 3) tipo_viaje" + Environment.NewLine;
+                sSql += "from ctt_vw_cierre_caja_2" + Environment.NewLine;
+                sSql += "where fecha_viaje = '" + sFecha_P + "'" + Environment.NewLine;
+                sSql += "and estado_salida = 'Cerrada'" + Environment.NewLine;
+                sSql += "and id_ctt_jornada = " + iJornada_P + Environment.NewLine;
+                sSql += "order by hora_salida";
 
-                DataTable dtFrecuencia = ds.Tables["dtFrecuenciasCierre"];
-                dtFrecuencia.Clear();
+                dtConsulta = new DataTable();
+                dtConsulta.Clear();
 
-                bRespuesta = conexionM.consultarRegistro(sSql, dtFrecuencia);
+                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
 
-                if (bRespuesta == false)
+                if (bRespuesta == true)
                 {
-                    return false;
+                    DataColumn valor = new DataColumn("valor");
+                    valor.DataType = System.Type.GetType("System.Decimal");
+                    dtConsulta.Columns.Add(valor);
+
+                    for (int i = 0; i < dtConsulta.Rows.Count; i++)
+                    {
+                        sSql = "";
+                        sSql += "select ltrim(str(isnull(sum(DP.cantidad * (DP.precio_unitario - DP.valor_dscto + DP.valor_iva)), 0), 10, 2)) valor" + Environment.NewLine;
+                        sSql += "from cv403_cab_pedidos CP INNER JOIN" + Environment.NewLine;
+                        sSql += "cv403_det_pedidos DP ON CP.id_pedido = DP.id_pedido" + Environment.NewLine;
+                        sSql += "and CP.estado = 'A'" + Environment.NewLine;
+                        sSql += "and DP.estado = 'A'" + Environment.NewLine;
+                        sSql += "where CP.cobro_boletos = 1" + Environment.NewLine;
+                        sSql += "and cobro_retencion = 0" + Environment.NewLine;
+                        sSql += "and cobro_administrativo = 0" + Environment.NewLine;
+                        sSql += "and CP.id_ctt_programacion = " + Convert.ToInt32(dtConsulta.Rows[i]["id_ctt_programacion"].ToString());
+                        
+                        dtAyuda = new DataTable();
+                        dtAyuda.Clear();
+
+                        bRespuesta = conexionM.consultarRegistro(sSql, dtAyuda);
+
+                        if (bRespuesta)
+                        {
+                            dtConsulta.Rows[i]["valor"] = Convert.ToDecimal(dtAyuda.Rows[0][0].ToString());
+                        }
+
+                        else
+                        {
+                            return false;
+                        }
+                    }
                 }
+
+                ds.Tables["dtFrecuenciasCierre"].Clear();
+                dtConsulta.Columns.Remove("id_ctt_programacion");
+                DataTable dt = dtConsulta;
 
                 sSql = "";
                 sSql += "select '1. RETENCION:' descripcion," + Environment.NewLine;
@@ -86,48 +121,15 @@ namespace Solution_CTT.Clases
                 }
 
                 sSql = "";
-                sSql += "select isnull(sum(cantidad), 0) cantidad_tasa," + Environment.NewLine;
-                sSql += "isnull(sum(valor), 0) total_tasa" + Environment.NewLine;
-                sSql += "from ctt_movimiento_caja" + Environment.NewLine;
-                sSql += "where fecha = '" + sFecha_P + "'" + Environment.NewLine;
-                sSql += "and cobro_tasa_usuario = 1" + Environment.NewLine;
-                sSql += "and estado = 'A'" + Environment.NewLine;
-                sSql += "and id_ctt_jornada = " + iJornada_P;
-
-                DataTable dtTasas = ds.Tables["dtTasasCierre"];
-                dtTasas.Clear();
-
-                bRespuesta = conexionM.consultarRegistro(sSql, dtTasas);
-
-                if (bRespuesta == false)
-                {
-                    return false;
-                }
-
-                DataTable dtTasasPagadas = ds.Tables["dtTasasPagadasCierre"];
-                dtTasasPagadas.Clear();
-
-                if (dtTasasPagadas_P.Rows.Count == 0)
-                {
-                    DataRow row = dtTasasPagadas_P.NewRow();
-                    row["concepto"] = "NINGUNA";
-                    row["valor"] = "0.00";
-                    row["estado_movimiento"] = "NINGUNA";
-                    dtTasasPagadas_P.Rows.Add(row);
-                }
-
-                dtTasasPagadas = dtTasasPagadas_P;
-
-                sSql = "";
-                sSql += "select fecha_viaje, hora_salida, disco + ' - ' + placa vehiculo, valor" + Environment.NewLine;
-                sSql += "from ctt_vw_pagos_pendientes_atrasados" + Environment.NewLine;
+                sSql +="select fecha_viaje, hora_salida, disco + ' - ' + placa vehiculo, valor" + Environment.NewLine;
+                sSql +="from ctt_vw_pagos_pendientes_atrasados" + Environment.NewLine;
                 sSql += "where fecha_pago = '" + sFecha_P + "'" + Environment.NewLine;
                 sSql += "and id_ctt_jornada = " + iJornada_P;
 
-                DataTable dtPagosAtrasados = ds.Tables["dtPagosAtrasadosPagados"];
-                dtPagosAtrasados.Clear();
+                DataTable dtPendiente = ds.Tables["dtPagosAtrasadosPagados"];
+                dtPendiente.Clear();
 
-                bRespuesta = conexionM.consultarRegistro(sSql, dtPagosAtrasados);
+                bRespuesta = conexionM.consultarRegistro(sSql, dtPendiente);
 
                 if (bRespuesta == false)
                 {
@@ -139,14 +141,13 @@ namespace Solution_CTT.Clases
                 sSql += "ltrim(str(sum(cantidad * (precio_unitario - valor_dscto + valor_iva)), 10, 2)) valor" + Environment.NewLine;
                 sSql += "from ctt_vw_viajes_activos" + Environment.NewLine;
                 sSql += "where fecha_viaje >= '" + sFecha_P + "'" + Environment.NewLine;
-                sSql += "and id_ctt_oficinista = " + iIdOficinista_P + Environment.NewLine;
                 sSql += "group by fecha_viaje, hora_salida" + Environment.NewLine;
                 sSql += "order by fecha_viaje, hora_salida";
 
-                DataTable dtViajesActivos = ds.Tables["dtViajesActivosCaja"];
-                dtViajesActivos.Clear();
+                DataTable dtActivos = ds.Tables["dtViajesActivosCaja"];
+                dtActivos.Clear();
 
-                bRespuesta = conexionM.consultarRegistro(sSql, dtViajesActivos);
+                bRespuesta = conexionM.consultarRegistro(sSql, dtActivos);
 
                 if (bRespuesta == false)
                 {
@@ -155,25 +156,22 @@ namespace Solution_CTT.Clases
 
                 //CREANDO EL REPORTE
                 LocalReport reporteLocal = new LocalReport();
-                reporteLocal.ReportPath = HttpContext.Current.Server.MapPath("~/Reportes/rptCierreBoleteria.rdlc");
+                reporteLocal.ReportPath = HttpContext.Current.Server.MapPath("~/Reportes/rptCierreBoleteria_2.rdlc");
                 //reporteLocal.ReportPath = HttpContext.Current.Server.MapPath("~/Reportes/rptCierrePrueba.rdlc");
                 ReportParameter[] parametros = new ReportParameter[3];
                 parametros[0] = new ReportParameter("P_Fecha", Convert.ToDateTime(sFecha_P).ToString("dd-MMM-yyyy"));
                 parametros[1] = new ReportParameter("P_Jornada", sJornada);
                 parametros[2] = new ReportParameter("P_Usuario", sUsuario);
-                ReportDataSource datasource_1 = new ReportDataSource("dsFrecuencias", dtFrecuencia);
+                ReportDataSource datasource_1 = new ReportDataSource("dsFrecuencias", dt);
                 ReportDataSource datasource_2 = new ReportDataSource("dsPagos", dtPagos);
-                ReportDataSource datasource_3 = new ReportDataSource("dsTasasCierre", dtTasas);
-                ReportDataSource datasource_4 = new ReportDataSource("dsTasasPagadas", dtTasasPagadas);
-                ReportDataSource datasource_5 = new ReportDataSource("dsPagosAtrasados", dtPagosAtrasados);
-                ReportDataSource datasource_6 = new ReportDataSource("dsViajesActivos", dtViajesActivos);
+                ReportDataSource datasource_3 = new ReportDataSource("dsPagosAtrasados", dtPendiente);
+                ReportDataSource datasource_4 = new ReportDataSource("dsViajesActivos", dtActivos);
                 
                 reporteLocal.DataSources.Add(datasource_1);
                 reporteLocal.DataSources.Add(datasource_2);
                 reporteLocal.DataSources.Add(datasource_3);
                 reporteLocal.DataSources.Add(datasource_4);
-                reporteLocal.DataSources.Add(datasource_5);
-                reporteLocal.DataSources.Add(datasource_6);
+
                 reporteLocal.SetParameters(parametros);
 
                 Clases.Impresor imp = new Clases.Impresor();

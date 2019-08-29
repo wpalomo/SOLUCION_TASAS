@@ -9,6 +9,7 @@ using System.Data;
 using System.Net;
 using System.Text;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace Solution_CTT
 {
@@ -20,6 +21,7 @@ namespace Solution_CTT
         string sObjetoJson;
         string sObjetoOficina;
         string sUrlEnvio;
+        string sCadena;
 
         DataTable dtConsulta;
         DataTable dtAlmacenar;
@@ -28,7 +30,12 @@ namespace Solution_CTT
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Session["modulo"] = "MÓDULO DE OBTENCIÓN DE TOKENS ACTIVOS - DEVESOFFT";
 
+            if (!IsPostBack)
+            {
+                cargarParametros();
+            }
         }
 
         #region FUNCIONES DEL USUARIO
@@ -240,36 +247,22 @@ namespace Solution_CTT
                     Stream st = request.GetRequestStream();
                     st.Write(bt, 0, bt.Length);
                     st.Close();
-                }
 
-                catch (Exception)
-                { }
-
-
-
-
-
-
-                ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(AcceptAllCertifications);
-                HttpWebRequest request = WebRequest.Create(sUrlEnvio) as HttpWebRequest;
-                request.Method = "POST";
-                request.ContentType = "application/json";
-                string s = Session["Json"].ToString();
-                byte[] bytes = Encoding.UTF8.GetBytes(s);
-                try
-                {
-                    Stream requestStream = request.GetRequestStream();
-                    requestStream.Write(bytes, 0, bytes.Length);
-                    requestStream.Close();
+                    //Hacer la llamada
                     using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                     {
-                        str = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                        //Leer el resultado de la llamada
+                        Stream stream1 = response.GetResponseStream();
+                        StreamReader sr = new StreamReader(stream1);
+                        respuestaJson = sr.ReadToEnd();
                     }
-                    Get_Tokens tokens = JsonConvert.DeserializeObject<Get_Tokens>(str);
+
+                    Clases_Tasa_Usuario.Get_Tokens tokens = JsonConvert.DeserializeObject<Clases_Tasa_Usuario.Get_Tokens>(respuestaJson);
 
                     if (tokens.Msj.Length != 0)
                     {
                         crearDataTable();
+
                         for (int i = 0; i < tokens.Msj.Length; i++)
                         {
                             DataRow row = dtAlmacenar.NewRow();
@@ -282,14 +275,17 @@ namespace Solution_CTT
                             row["UpdatedAt"] = Convert.ToDateTime(tokens.Msj[i].UpdatedAt.ToString()).ToString("dd/MM/yyyy HH:mm:ss");
                             row["MaxCant"] = tokens.Msj[i].MaxCant.ToString();
                             row["CantActual"] = tokens.Msj[i].CantActual.ToString();
+
                             if (Convert.ToInt32(tokens.Msj[i].EstatusId.ToString()) == 1)
                             {
                                 row["Estado"] = "ACTIVO";
                             }
+
                             else if (Convert.ToInt32(tokens.Msj[i].EstatusId.ToString()) == 12)
                             {
                                 row["Estado"] = "SIN VERIFICAR";
                             }
+
                             dtAlmacenar.Rows.Add(row);
                         }
                     }
@@ -298,11 +294,11 @@ namespace Solution_CTT
                     dgvDatos.DataBind();
                     columnasGrid(false);
                     llenarGrid(1);
+
                 }
 
                 catch (Exception)
-                {
-                }
+                { }
 
                 return "OK";
             }
@@ -313,7 +309,75 @@ namespace Solution_CTT
             }
         }
 
- 
+        //FUNCION PARA LLENAR EL GRIDVIEW
+        private void llenarGrid(int iOp)
+        {
+            try
+            {
+                sSql = "";
+                sSql += "select TT.id_ctt_tasa_token, TT.id_ctt_oficinista, TT.token, TT.fecha_generacion," + Environment.NewLine;
+                sSql += "TT.maximo_secuencial, TT.emitidos, TT.anulados, O.descripcion oficinista, TT.estado_token" + Environment.NewLine;
+                sSql += "from ctt_tasa_token TT INNER JOIN" + Environment.NewLine;
+                sSql += "ctt_oficinista O ON O.id_ctt_oficinista = TT.id_ctt_oficinista" + Environment.NewLine;
+                sSql += "and TT.estado = 'A'" + Environment.NewLine;
+                sSql += "and O.estado = 'A'" + Environment.NewLine;
+                sSql += "where TT.validado = 1" + Environment.NewLine;
+                sSql += "and TT.estado_token = 'Abierta'" + Environment.NewLine;
+
+                if (iOp == 1)
+                {
+                    sSql += "and TT.token in (";
+                    sCadena = "";
+
+                    for (int i = 0; i < dtAlmacenar.Rows.Count; i++)
+                    {
+                        sCadena = sCadena + dtAlmacenar.Rows[i]["Token"].ToString();
+
+                        if ((i + 1) == dtAlmacenar.Rows.Count)
+                        {
+                            sCadena = sCadena + ")";
+                        }
+                        else
+                        {
+                            sCadena = sCadena + ", ";
+                        }
+                    }
+
+                    sSql += sCadena;
+                }
+
+                else
+                {
+                    sSql += "and TT.token = 0";
+                }
+
+                dtConsulta = new DataTable();
+                dtConsulta.Clear();
+                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
+
+                if (bRespuesta)
+                {
+                    columnasGridSistema(true);
+                    dgvDatosSistema.DataSource = dtConsulta;
+                    dgvDatosSistema.DataBind();
+                    columnasGridSistema(false);
+                }
+
+                else
+                {
+                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                }
+            }
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
+
+
+
 
 
 

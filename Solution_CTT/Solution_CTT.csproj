@@ -633,6 +633,7 @@
     <Content Include="dist\img\Thumbs.db" />
     <Content Include="frmDetalleRuta.aspx" />
     <Content Include="frmDetalleTransaccionesTasa.aspx" />
+    <Content Include="frmDevolucionBoletos.aspx" />
     <Content Include="frmDirectorio.aspx" />
     <Content Include="frmEmisor.aspx" />
     <Content Include="frmEnvioComprobantes.aspx" />
@@ -7323,6 +7324,7 @@
     <Compile Include="Clases_Tasa_Usuario\ClaseTasaNotificacion.cs" />
     <Compile Include="Clases_Tasa_Usuario\ClaseTasaUsuarioLote.cs" />
     <Compile Include="Clases_Tasa_Usuario\ClaseValidarToken.cs" />
+    <Compile Include="Clases_Tasa_Usuario\Get_Tokens.cs" />
     <Compile Include="DetalleEnvioAutorizacion.cs" />
     <Compile Include="DetalleGenerarXML.cs" />
     <Compile Include="DSReportes.Designer.cs">
@@ -7441,6 +7443,13 @@
     </Compile>
     <Compile Include="frmDetalleTransaccionesTasa.aspx.designer.cs">
       <DependentUpon>frmDetalleTransaccionesTasa.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmDevolucionBoletos.aspx.cs">
+      <DependentUpon>frmDevolucionBoletos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmDevolucionBoletos.aspx.designer.cs">
+      <DependentUpon>frmDevolucionBoletos.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmDirectorio.aspx.cs">
       <DependentUpon>frmDirectorio.aspx</DependentUpon>
@@ -7901,16 +7910,10 @@
       <DependentUpon>Master.Master</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reportes\CRPasajeros1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CRPasajeros.rpt</DependentUpon>
+    <Compile Include="Reportes\CRPasajeros.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Reportes\rptCodigoPruebas1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>rptCodigoPruebas.rpt</DependentUpon>
+    <Compile Include="Reportes\rptCodigoPruebas.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Site.Mobile.Master.cs">
@@ -7936,11 +7939,25 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ENTIDADES\ENTIDADES.csproj">
+      <Project>{9a0181e5-94b7-4b38-89ab-431003ed9e00}</Project>
+      <Name>ENTIDADES</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NEGOCIO\NEGOCIO.csproj">
+      <Project>{d2eea7c3-499a-4ea4-bfd4-bde5327c425d}</Project>
+      <Name>NEGOCIO</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Reportes\CRPasajeros.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CRPasajeros1.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reportes\rptCierreBoleteria.rdlc" />
+    <EmbeddedResource Include="Reportes\rptCierreBoleteria_2.rdlc" />
     <EmbeddedResource Include="Reportes\rptCierrePrueba.rdlc" />
     <EmbeddedResource Include="Reportes\rptCierreViaje.rdlc" />
     <EmbeddedResource Include="Reportes\rptCodigoBarras.rdlc" />
@@ -7961,19 +7978,6 @@
     <EmbeddedResource Include="Reportes\rptViajesActivos.rdlc" />
     <EmbeddedResource Include="Reportes\rptViajesAgrupados.rdlc" />
     <EmbeddedResource Include="Reportes\RVPruebas.rdlc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ENTIDADES\ENTIDADES.csproj">
-      <Project>{9a0181e5-94b7-4b38-89ab-431003ed9e00}</Project>
-      <Name>ENTIDADES</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NEGOCIO\NEGOCIO.csproj">
-      <Project>{d2eea7c3-499a-4ea4-bfd4-bde5327c425d}</Project>
-      <Name>NEGOCIO</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

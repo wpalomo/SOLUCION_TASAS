@@ -6,3 +6,10 @@ C:\Users\APLICSIS\Desktop\Solucion Buses\Solution_CTT\DATOS\bin\Debug\ENTIDADES.
 C:\Users\APLICSIS\Desktop\Solucion Buses\Solution_CTT\DATOS\obj\Debug\DATOS.csprojResolveAssemblyReference.cache
 C:\Users\APLICSIS\Desktop\Solucion Buses\Solution_CTT\DATOS\obj\Debug\DATOS.dll
 C:\Users\APLICSIS\Desktop\Solucion Buses\Solution_CTT\DATOS\obj\Debug\DATOS.pdb
+C:\Users\APLICSIS\Desktop\SISTEMA\DATOS\bin\Debug\DATOS.dll
+C:\Users\APLICSIS\Desktop\SISTEMA\DATOS\bin\Debug\DATOS.pdb
+C:\Users\APLICSIS\Desktop\SISTEMA\DATOS\bin\Debug\ENTIDADES.dll
+C:\Users\APLICSIS\Desktop\SISTEMA\DATOS\bin\Debug\ENTIDADES.pdb
+C:\Users\APLICSIS\Desktop\SISTEMA\DATOS\obj\Debug\DATOS.csprojResolveAssemblyReference.cache
+C:\Users\APLICSIS\Desktop\SISTEMA\DATOS\obj\Debug\DATOS.dll
+C:\Users\APLICSIS\Desktop\SISTEMA\DATOS\obj\Debug\DATOS.pdb

@@ -250,7 +250,7 @@ namespace Solution_CTT
                         parametros[1] = new ReportParameter("P_Fecha_Hasta", Session["fecha_hasta"].ToString());
                         parametros[2] = new ReportParameter("P_Usuario", Session["usuario"].ToString());
                         parametros[3] = new ReportParameter("P_Vehiculo", Session["vehiculo"].ToString());
-                        parametros[4] = new ReportParameter("P_Jornada", Session["jornada"].ToString());
+                        parametros[4] = new ReportParameter("P_Jornada", "TODAS");
                         rptViajesActivos.LocalReport.ReportPath = Server.MapPath("~/Reportes/rptViajesActivos.rdlc");
                         rptViajesActivos.LocalReport.DataSources.Clear();
                         ReportDataSource datasource = new ReportDataSource("DataSet1", dt);

@@ -540,7 +540,7 @@ namespace Solution_CTT
             {
                 sSql = "";
                 sSql += "select establecimiento, punto_emision, numero_factura, fecha_ingreso," + Environment.NewLine;
-                sSql += "identificacion, isnull(nombres, '') + ' ' + apellidos cliente, descripcion_ruta," + Environment.NewLine;
+                sSql += "identificacion, ltrim(isnull(nombres, '') + ' ' + apellidos) cliente, descripcion_ruta," + Environment.NewLine;
                 sSql += "tipo_viaje, fecha_viaje, hora_salida, descripcion_anden, descripcion_disco," + Environment.NewLine;
                 sSql += "isnull(tasa_usuario, '') tasa_usuario, cantidad, precio_unitario, valor_dscto, valor_iva, clave_acceso," + Environment.NewLine;
                 sSql += "oficinista, numero_asiento, '' as valor_total, '' as vendidos, '' as asientos, '' as secuencia_factura," + Environment.NewLine;

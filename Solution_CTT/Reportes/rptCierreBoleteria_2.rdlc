@@ -427,14 +427,14 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="fecha_viaje">
+                    <Textbox Name="fecha_grid">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!fecha_viaje.Value</Value>
+                              <Value>=Fields!fecha_grid.Value</Value>
                               <Style>
                                 <FontSize>8pt</FontSize>
                                 <Format>d</Format>
@@ -446,7 +446,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>fecha_viaje</rd:DefaultName>
+                      <rd:DefaultName>fecha_grid</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -1002,300 +1002,6 @@
           </Border>
         </Style>
       </Textbox>
-      <Textbox Name="Textbox35">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>TASAS DE USUARIO:</Value>
-                <Style>
-                  <FontSize>8pt</FontSize>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>14.3535cm</Top>
-        <Left>0.13459cm</Left>
-        <Height>0.40598cm</Height>
-        <Width>4.108cm</Width>
-        <ZIndex>15</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-        </Style>
-      </Textbox>
-      <Tablix Name="Tablix3">
-        <TablixBody>
-          <TablixColumns>
-            <TablixColumn>
-              <Width>3.5452cm</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>1.54182cm</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>1.89288cm</Width>
-            </TablixColumn>
-          </TablixColumns>
-          <TablixRows>
-            <TablixRow>
-              <Height>0.48094cm</Height>
-              <TablixCells>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox3">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>Descripción</Value>
-                              <Style>
-                                <FontSize>8pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox3</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox39">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>Cantidad</Value>
-                              <Style>
-                                <FontSize>8pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox39</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox41">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>Total</Value>
-                              <Style>
-                                <FontSize>8pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox41</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-              </TablixCells>
-            </TablixRow>
-            <TablixRow>
-              <Height>0.56031cm</Height>
-              <TablixCells>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="descripcion1">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!descripcion.Value</Value>
-                              <Style>
-                                <FontSize>8pt</FontSize>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Left</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>descripcion1</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="cantidad_tasa">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!cantidad_tasa.Value</Value>
-                              <Style>
-                                <FontSize>8pt</FontSize>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Left</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>cantidad_tasa</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="total_tasa">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!total_tasa.Value</Value>
-                              <Style>
-                                <FontSize>8pt</FontSize>
-                                <Format>0.00</Format>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>total_tasa</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-              </TablixCells>
-            </TablixRow>
-          </TablixRows>
-        </TablixBody>
-        <TablixColumnHierarchy>
-          <TablixMembers>
-            <TablixMember />
-            <TablixMember />
-            <TablixMember />
-          </TablixMembers>
-        </TablixColumnHierarchy>
-        <TablixRowHierarchy>
-          <TablixMembers>
-            <TablixMember>
-              <KeepWithGroup>After</KeepWithGroup>
-            </TablixMember>
-            <TablixMember>
-              <Group Name="Detalles2" />
-            </TablixMember>
-          </TablixMembers>
-        </TablixRowHierarchy>
-        <DataSetName>dsTasasCierre</DataSetName>
-        <Top>14.93587cm</Top>
-        <Left>0.12721cm</Left>
-        <Height>1.04125cm</Height>
-        <Width>6.9799cm</Width>
-        <ZIndex>16</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-        </Style>
-      </Tablix>
-      <Line Name="Line4">
-        <Top>14.17711cm</Top>
-        <Left>0.12872cm</Left>
-        <Height>0cm</Height>
-        <Width>7.00041cm</Width>
-        <ZIndex>17</ZIndex>
-        <Style>
-          <Border>
-            <Style>Solid</Style>
-          </Border>
-        </Style>
-      </Line>
       <Textbox Name="Textbox40">
         <CanGrow>true</CanGrow>
         <KeepTogether>true</KeepTogether>
@@ -1314,11 +1020,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>11.07126cm</Top>
-        <Left>0.08826cm</Left>
+        <Top>11.16386cm</Top>
+        <Left>0.14121cm</Left>
         <Height>0.49858cm</Height>
         <Width>4.55269cm</Width>
-        <ZIndex>18</ZIndex>
+        <ZIndex>15</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1345,11 +1051,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>11.07126cm</Top>
-        <Left>4.94168cm</Left>
+        <Top>11.16386cm</Top>
+        <Left>4.99463cm</Left>
         <Height>0.49858cm</Height>
         <Width>2.11975cm</Width>
-        <ZIndex>19</ZIndex>
+        <ZIndex>16</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1363,7 +1069,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Desarrollado por: www.aplicsis.com</Value>
+                <Value>Desarrollado por: www.aplicsis.net</Value>
                 <Style>
                   <FontStyle>Italic</FontStyle>
                   <FontSize>6pt</FontSize>
@@ -1378,11 +1084,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>16.3299cm</Top>
-        <Left>0.15444cm</Left>
+        <Top>14.6068cm</Top>
+        <Left>0.14198cm</Left>
         <Height>0.40598cm</Height>
         <Width>7.0004cm</Width>
-        <ZIndex>20</ZIndex>
+        <ZIndex>17</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1410,7 +1116,7 @@
         <Left>1.81518cm</Left>
         <Height>0.3707cm</Height>
         <Width>5.34553cm</Width>
-        <ZIndex>21</ZIndex>
+        <ZIndex>18</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1438,7 +1144,7 @@
         <Left>1.81518cm</Left>
         <Height>0.3707cm</Height>
         <Width>5.34553cm</Width>
-        <ZIndex>22</ZIndex>
+        <ZIndex>19</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1466,7 +1172,7 @@
         <Left>1.81518cm</Left>
         <Height>0.40598cm</Height>
         <Width>5.34553cm</Width>
-        <ZIndex>23</ZIndex>
+        <ZIndex>20</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1474,11 +1180,23 @@
         </Style>
       </Textbox>
       <Line Name="Line5">
-        <Top>10.89487cm</Top>
-        <Left>0.06623cm</Left>
+        <Top>10.98747cm</Top>
+        <Left>0.11918cm</Left>
         <Height>0cm</Height>
         <Width>7.04088cm</Width>
-        <ZIndex>24</ZIndex>
+        <ZIndex>21</ZIndex>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+          </Border>
+        </Style>
+      </Line>
+      <Line Name="Line6">
+        <Top>14.50097cm</Top>
+        <Left>0.1015cm</Left>
+        <Height>0cm</Height>
+        <Width>7.04088cm</Width>
+        <ZIndex>22</ZIndex>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -1490,7 +1208,7 @@
         <Left>0.09412cm</Left>
         <Height>0cm</Height>
         <Width>7.07397cm</Width>
-        <ZIndex>25</ZIndex>
+        <ZIndex>23</ZIndex>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -1502,7 +1220,7 @@
         <Left>0.12881cm</Left>
         <Height>0cm</Height>
         <Width>7.07397cm</Width>
-        <ZIndex>26</ZIndex>
+        <ZIndex>24</ZIndex>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -1516,7 +1234,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>COBROS PAGOS ATRASADOS - PARCIALES</Value>
+                <Value>COBROS PAGOS ATRASADOS</Value>
                 <Style>
                   <FontSize>8pt</FontSize>
                   <FontWeight>Bold</FontWeight>
@@ -1530,8 +1248,8 @@
         <Top>8.59567cm</Top>
         <Left>0.14198cm</Left>
         <Height>0.40598cm</Height>
-        <Width>6.91945cm</Width>
-        <ZIndex>27</ZIndex>
+        <Width>4.76661cm</Width>
+        <ZIndex>25</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1560,7 +1278,7 @@
         <Left>0.13979cm</Left>
         <Height>0.40598cm</Height>
         <Width>2.71894cm</Width>
-        <ZIndex>28</ZIndex>
+        <ZIndex>26</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1592,7 +1310,7 @@
         <Left>5.43535cm</Left>
         <Height>0.40598cm</Height>
         <Width>1.62608cm</Width>
-        <ZIndex>29</ZIndex>
+        <ZIndex>27</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1761,7 +1479,7 @@
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Center</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -1772,6 +1490,7 @@
                         </Border>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -1890,7 +1609,7 @@
         <Left>0.13241cm</Left>
         <Height>1.00157cm</Height>
         <Width>6.92902cm</Width>
-        <ZIndex>30</ZIndex>
+        <ZIndex>28</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1898,11 +1617,11 @@
         </Style>
       </Tablix>
       <Line Name="Line9">
-        <Top>11.74623cm</Top>
-        <Left>0.06102cm</Left>
+        <Top>11.83883cm</Top>
+        <Left>0.11397cm</Left>
         <Height>0cm</Height>
         <Width>7.00041cm</Width>
-        <ZIndex>31</ZIndex>
+        <ZIndex>29</ZIndex>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -1927,11 +1646,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>11.85206cm</Top>
-        <Left>0.09412cm</Left>
+        <Top>11.94466cm</Top>
+        <Left>0.14707cm</Left>
         <Height>0.40598cm</Height>
         <Width>4.108cm</Width>
-        <ZIndex>32</ZIndex>
+        <ZIndex>30</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -2222,11 +1941,11 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>dsViajesActivos</DataSetName>
-        <Top>12.43443cm</Top>
-        <Left>0.11397cm</Left>
+        <Top>12.52703cm</Top>
+        <Left>0.16692cm</Left>
         <Height>1.05448cm</Height>
         <Width>6.94746cm</Width>
-        <ZIndex>33</ZIndex>
+        <ZIndex>31</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -2251,11 +1970,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>13.63002cm</Top>
-        <Left>0.11397cm</Left>
+        <Top>13.72262cm</Top>
+        <Left>0.16692cm</Left>
         <Height>0.40598cm</Height>
         <Width>2.71894cm</Width>
-        <ZIndex>34</ZIndex>
+        <ZIndex>32</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -2283,34 +2002,22 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>13.63002cm</Top>
-        <Left>4.94168cm</Left>
+        <Top>13.72262cm</Top>
+        <Left>4.99463cm</Left>
         <Height>0.40598cm</Height>
         <Width>2.09393cm</Width>
-        <ZIndex>35</ZIndex>
+        <ZIndex>33</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
         </Style>
       </Textbox>
-      <Line Name="Line10">
-        <Top>16.15351cm</Top>
-        <Left>0.13459cm</Left>
-        <Height>0cm</Height>
-        <Width>7.00041cm</Width>
-        <ZIndex>36</ZIndex>
-        <Style>
-          <Border>
-            <Style>Solid</Style>
-          </Border>
-        </Style>
-      </Line>
     </ReportItems>
-    <Height>6.82812in</Height>
+    <Height>6.00521in</Height>
     <Style />
   </Body>
-  <Width>2.86435in</Width>
+  <Width>2.91938in</Width>
   <Page>
     <PageHeight>16cm</PageHeight>
     <PageWidth>7.5cm</PageWidth>
@@ -2338,8 +2045,8 @@
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
-        <Field Name="fecha_viaje">
-          <DataField>fecha_viaje</DataField>
+        <Field Name="fecha_grid">
+          <DataField>fecha_grid</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="hora_salida">
@@ -2365,7 +2072,7 @@
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>DSReportes</rd:DataSetName>
-        <rd:SchemaPath>D:\SISTEMAS\BOLETERIA\SOLUCION\Solucion_Buses\Solution_CTT\DSReportes.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\SISTEMAS\BOLETERIA\SOLUCION\Solucion_Buses - 2019-07-21\Solution_CTT\DSReportes.xsd</rd:SchemaPath>
         <rd:TableName>dtFrecuenciasCierre</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
@@ -2391,34 +2098,6 @@
         <rd:DataSetName>DSReportes</rd:DataSetName>
         <rd:SchemaPath>C:\Users\APLICSIS\Desktop\SISTEMA_BUSES\Solucion_Buses\Solution_CTT\DSReportes.xsd</rd:SchemaPath>
         <rd:TableName>dtPagosCierre</rd:TableName>
-        <rd:TableAdapterFillMethod />
-        <rd:TableAdapterGetDataMethod />
-        <rd:TableAdapterName />
-      </rd:DataSetInfo>
-    </DataSet>
-    <DataSet Name="dsTasasCierre">
-      <Query>
-        <DataSourceName>DSReportes</DataSourceName>
-        <CommandText>/* Local Query */</CommandText>
-      </Query>
-      <Fields>
-        <Field Name="cantidad_tasa">
-          <DataField>cantidad_tasa</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="total_tasa">
-          <DataField>total_tasa</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="descripcion">
-          <DataField>descripcion</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-      </Fields>
-      <rd:DataSetInfo>
-        <rd:DataSetName>DSReportes</rd:DataSetName>
-        <rd:SchemaPath>D:\SISTEMAS\BOLETERIA\SOLUCION\Solucion_Buses - Tasa Usuario\Solution_CTT\DSReportes.xsd</rd:SchemaPath>
-        <rd:TableName>dtTasasCierre</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
         <rd:TableAdapterName />
