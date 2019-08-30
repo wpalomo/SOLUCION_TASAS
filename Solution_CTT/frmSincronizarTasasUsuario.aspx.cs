@@ -134,6 +134,7 @@ namespace Solution_CTT
                 sSql += "where id_localidad = " + Convert.ToInt32(Application["idLocalidad"].ToString()) + Environment.NewLine;
                 sSql += "and ambiente_tasa_usuario = " + Convert.ToInt32(Session["emision"].ToString()) + Environment.NewLine;
                 sSql += "and emite_tasa_usuario = 1" + Environment.NewLine;   //SOLO PARA PROBAR, PONER EN 1 CUANDO YA ESTÉ LISTO
+                sSql += "and id_tasa_emitida = 0" + Environment.NewLine;
                 sSql += "order by numero_factura";
 
                 Session["instruccion_SQL"] = sSql;

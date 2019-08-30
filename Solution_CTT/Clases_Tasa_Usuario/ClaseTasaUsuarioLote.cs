@@ -9,13 +9,13 @@ namespace Solution_CTT.Clases_Tasa_Usuario
     public partial class TasaUsuarioLote
     {
         [JsonProperty("tasas_error")]
-        public TasasError[] TasasError { get; set; }
+        public Error[] TasasError { get; set; }
 
         [JsonProperty("msj")]
         public Msj_Lote[] Msj { get; set; }
     }
 
-    public partial class TasasError
+    public partial class Error
     {
         [JsonProperty("error")]
         public string[] Error { get; set; }
