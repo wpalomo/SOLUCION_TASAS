@@ -18,7 +18,7 @@ namespace Solution_CTT.Clases_Tasa_Usuario
     public partial class Error
     {
         [JsonProperty("error")]
-        public string[] Error { get; set; }
+        public string[] error_1 { get; set; }
 
         [JsonProperty("id_tasa")]
         public long IdTasa { get; set; }

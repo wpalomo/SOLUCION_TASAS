@@ -545,7 +545,8 @@ namespace Solution_CTT
                     {
                         sCodigoTasaRespuesta = lote.TasasError[i].Codigo;
                         sIdTasaRespuesta_P = lote.TasasError[i].IdTasa.ToString();
-                        sErrorRespuesta_P = lote.TasasError[i].Error[0].ToString();
+                        //sErrorRespuesta_P = lote.TasasError[i].Error[0].ToString();
+                        sErrorRespuesta_P = lote.TasasError[i].error_1[0].ToString();
 
                         if (sErrorRespuesta_P.Trim() == "Tasa ya registrada")
                         {
