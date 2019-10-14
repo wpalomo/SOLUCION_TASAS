@@ -69,7 +69,7 @@ namespace Solution_CTT.Clases
 
                 sSql = "";
                 sSql += "select CH.descripcion conductor, P.fecha_viaje, P.numero_viaje," + Environment.NewLine;
-                sSql += "case when P.hora_reemplazo_extra is null then H.hora_salida else  P.hora_reemplazo_extra end hora_salida," + Environment.NewLine;
+                sSql += "case when P.hora_reemplazo_extra is null then H.hora_salida else P.hora_reemplazo_extra end hora_salida," + Environment.NewLine;
                 sSql += "D.descripcion + ' - ' + V.placa disco_placa, TS.descripcion tipo_viaje" + Environment.NewLine;
                 sSql += "from ctt_programacion P INNER JOIN" + Environment.NewLine;
                 sSql += "ctt_vehiculo V ON V.id_ctt_vehiculo = P.id_ctt_vehiculo" + Environment.NewLine;

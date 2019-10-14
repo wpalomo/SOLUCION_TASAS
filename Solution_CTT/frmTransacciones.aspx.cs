@@ -4825,6 +4825,46 @@ namespace Solution_CTT
             }
         }
         
+        //EXTRAER HORA EN CASO DE DARSE EL CASO
+        private void consultarHoraCambioNormal(string sRuta_P)
+        {
+            try
+            {
+                sSql = "";
+                sSql += "select isnull(hora_reemplazo_extra, 'SN') hora_reemplazo" + Environment.NewLine;
+                sSql += "from ctt_programacion" + Environment.NewLine;
+                sSql += "where id_ctt_programacion = " + Convert.ToInt32(Session["idProgramacion"].ToString());
+
+                dtConsulta = new DataTable();
+                dtConsulta.Clear();
+
+                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
+
+                if (bRespuesta == false)
+                {
+                    cerrarModal();
+                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    return;
+                }
+
+                Session["hora_modificar"] = dtConsulta.Rows[0][0].ToString().Trim();
+
+                if (dtConsulta.Rows[0][0].ToString() != "SN")
+                {
+                    lblDetalleBus1.Text = sRuta_P + " - " + Convert.ToDateTime(dtConsulta.Rows[0][0].ToString()).ToString("HH:mm"); ;
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                cerrarModal();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
+
         ////FUNCION PARA VALIDAR EL COBRO
         //private void validarCobro()
         //{
@@ -5401,6 +5441,7 @@ namespace Solution_CTT
                 }
 
                 conexionM.terminaTransaccion();
+                consultarHoraCambioNormal(Convert.ToDateTime(Session["fecha_viaje_cierre"].ToString()).ToString("yyyy/MM/dd"));
                 cerrarModal();
 
                 ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Hora actualizada éxitosamente.', 'success');", true);
@@ -5448,6 +5489,7 @@ namespace Solution_CTT
                 }
 
                 conexionM.terminaTransaccion();
+                consultarHoraCambioNormal(Convert.ToDateTime(Session["fecha_viaje_cierre"].ToString()).ToString("yyyy/MM/dd"));
                 cerrarModal();
 
                 ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Hora removida éxitosamente.', 'success');", true);
@@ -5586,6 +5628,7 @@ namespace Solution_CTT
                     cmbDestino.SelectedIndex = 0;
                     asientosOcupados();
                     extraerTotalCobrado();
+                    consultarHoraCambioNormal(dgvDatos.Rows[a].Cells[5].Text);
 
                     if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
                     {
@@ -6940,15 +6983,36 @@ namespace Solution_CTT
 
         protected void lbtnNuevaHora_Click(object sender, EventArgs e)
         {
-            if (Convert.ToInt32(Session["extra"].ToString()) == 0)
+            try
             {
-                ModalPopupExtender_NuevaHora.Show();
-                txtHoraActual.Text = Session["hora_viaje_cierre"].ToString();
+                if (Convert.ToInt32(Session["extra"].ToString()) == 0)
+                {
+                    ModalPopupExtender_NuevaHora.Show();
+
+                    if (Session["hora_modificar"].ToString() == "SN")
+                    {
+                        txtHoraActual.Text = Session["hora_viaje_cierre"].ToString();
+                        txtNuevaHoraSalida.Text = "";
+                    }
+
+                    else
+                    {
+                        txtHoraActual.Text = Session["hora_viaje_cierre"].ToString();
+                        txtNuevaHoraSalida.Text = Convert.ToDateTime(Session["hora_modificar"].ToString()).ToString("HH:mm");
+                    }
+                }
+
+                else
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'No se permite cambiar la hora en un viaje extra', 'error');", true);
+                }
             }
 
-            else
+            catch (Exception ex)
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'No se permite cambiar la hora en un viaje extra', 'error');", true);
+                cerrarModal();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
 
