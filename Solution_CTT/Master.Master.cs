@@ -143,23 +143,22 @@ namespace Solution_CTT
                 sError_P = "";
                 sObjetoJson = "";
                 sObjetoJson = sObjetoJson + "{" + Environment.NewLine;
+
                 sObjetoOficina = "";
-                sObjetoOficina = sObjetoOficina + "\"oficina\": {" + Environment.NewLine;
-                sObjetoOficina = sObjetoOficina + "\"id_oficina\": \"" + Session["id_oficina_Notificacion"].ToString() + "\"," + Environment.NewLine;
-                
-                string str5 = sObjetoOficina;
-                sObjetoOficina = str5 + "\"id_coop\": \"" + Session["id_cooperativa_Notificacion"].ToString() + "\"," + Environment.NewLine;
-                string str6 = sObjetoOficina;
-                sObjetoOficina = str6 + "\"id_terminal\": \"" + Session["id_ctt_tasa_terminal_Notificacion"].ToString() + "\"" + Environment.NewLine;
-                sObjetoOficina = sObjetoOficina + "}," + Environment.NewLine;
-                sObjetoJson = sObjetoJson + sObjetoOficina;
+                sObjetoOficina += "\"oficina\": {" + Environment.NewLine;
+                sObjetoOficina += "\"id_oficina\": \"" + Session["id_oficina_Notificacion"].ToString() + "\"," + Environment.NewLine;
+                sObjetoOficina += "\"id_coop\": \"" + Session["id_cooperativa_Notificacion"].ToString() + "\"," + Environment.NewLine;
+                sObjetoOficina += "\"id_terminal\": \"" + Session["id_ctt_tasa_terminal_Notificacion"].ToString() + "\"" + Environment.NewLine;
+                sObjetoOficina += "}," + Environment.NewLine;
+                sObjetoJson += sObjetoOficina;
+
                 sObjetoNotificacion = "";
-                sObjetoNotificacion = sObjetoNotificacion + "\"notificacion\": {" + Environment.NewLine;
-                sObjetoNotificacion = sObjetoNotificacion + "\"cant_restante\": \"" + Convert.ToInt32(Session["dbDisponible_Notificacion"].ToString()).ToString() + "\"," + Environment.NewLine;
-                object obj2 = sObjetoNotificacion;
-                sObjetoNotificacion = string.Concat(new object[] { obj2, "\"mensaje\": \"Por favor recargue, tiene ", Convert.ToInt32(Session["iPorcentajeNotificacionEntero"].ToString()), "% de tasas restantes.\"", Environment.NewLine });
-                sObjetoNotificacion = sObjetoNotificacion + "}" + Environment.NewLine;
-                sObjetoJson = sObjetoJson + sObjetoNotificacion + "}";
+                sObjetoNotificacion += "\"notificacion\": {" + Environment.NewLine;
+                sObjetoNotificacion += "\"cant_restante\": \"" + Convert.ToInt32(Session["dbDisponible_Notificacion"].ToString()).ToString() + "\"," + Environment.NewLine;
+                sObjetoNotificacion += "\"mensaje\": \"Por favor recargue, tiene " + Convert.ToInt32(Session["iPorcentajeNotificacionEntero"].ToString()) + "% de tasas restantes.\"" + Environment.NewLine;
+                sObjetoNotificacion += "}" + Environment.NewLine;
+                sObjetoJson += sObjetoNotificacion + "}";
+
                 Session["Json"] = sObjetoJson;
 
                 string str = "";

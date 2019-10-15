@@ -42,6 +42,7 @@ namespace Solution_CTT
         double dbValorNuevo;
 
         int iIdProducto;
+        int iCobrarAdministracion;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -463,6 +464,7 @@ namespace Solution_CTT
                 dgvDatos.Columns[21].Visible = ok;
                 dgvDatos.Columns[22].Visible = ok;
                 dgvDatos.Columns[23].Visible = ok;
+                dgvDatos.Columns[24].Visible = ok;
             }
 
             catch (Exception ex)
@@ -650,13 +652,13 @@ namespace Solution_CTT
                 sSql += "insert into ctt_programacion (" + Environment.NewLine;
                 sSql += "id_ctt_chofer, id_ctt_asistente, id_ctt_vehiculo, id_ctt_anden, id_ctt_tipo_servicio," + Environment.NewLine;
                 sSql += "id_ctt_itinerario, codigo, numero_viaje, fecha_viaje, estado_salida, asientos_ocupados," + Environment.NewLine;
-                sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                sSql += "cobrar_administracion, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(Session["id_Chofer"].ToString()) + ", " + Convert.ToInt32(Session["id_Asistente"].ToString()) + ", ";
                 sSql += Convert.ToInt32(Session["id_Vehiculo"].ToString()) + ", " + Convert.ToInt32(cmbAnden.SelectedValue) + ", ";
                 sSql += Convert.ToInt32(Session["id_tipo_viaje"].ToString()) + ", " + Convert.ToInt32(Session["id_Itinerario"].ToString()) + "," + Environment.NewLine;
                 sSql += "'" + txtCodigo.Text.Trim().ToUpper() + "', " + Convert.ToInt32(txtNumeroViaje.Text.Trim().ToUpper()) + ", '" + sFecha + "'," + Environment.NewLine;
-                sSql += "'Abierta', 0, 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
+                sSql += "'Abierta', 0, " + iCobrarAdministracion + ", 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                 //EJECUCIÓN DE INSTRUCCION SQL
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
@@ -707,7 +709,8 @@ namespace Solution_CTT
                 sSql += "id_ctt_itinerario = " + Convert.ToInt32(Session["id_Itinerario"].ToString()) + "," + Environment.NewLine;
                 sSql += "id_ctt_anden = " + Convert.ToInt32(cmbAnden.SelectedValue) + "," + Environment.NewLine;
                 sSql += "codigo = '" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;
-                sSql += "fecha_viaje = '" + sFecha + "'" + Environment.NewLine;
+                sSql += "fecha_viaje = '" + sFecha + "'," + Environment.NewLine;
+                sSql += "cobrar_administracion = " + iCobrarAdministracion + Environment.NewLine;
                 sSql += "where id_ctt_programacion = " + Convert.ToInt32(Session["idRegistro"]) + Environment.NewLine;
                 sSql += "and estado = 'A'";
 
@@ -720,7 +723,7 @@ namespace Solution_CTT
                 }
 
                 conexionM.terminaTransaccion();
-                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Registro actualiado éxitosamente.', 'success');", true);
+                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Registro actualizado éxitosamente.', 'success');", true);
                 limpiar();
                 goto fin;
             }
@@ -1114,6 +1117,16 @@ namespace Solution_CTT
                     //    return;
                     //}
 
+                    if (chkEjecutarCobro.Checked == true)
+                    {
+                        iCobrarAdministracion = 1;
+                    }
+
+                    else
+                    {
+                        iCobrarAdministracion = 0;
+                    }
+
                     if (Session["idRegistro"] != null)
                     {
                         if (Session["id_Vehiculo"].ToString() == Session["idReemplazo"].ToString())
@@ -1251,6 +1264,7 @@ namespace Solution_CTT
                 txtAsistente.Text = Session["nombre_Asistente"].ToString().ToUpper();
             }
 
+            chkEjecutarCobro.Checked = true;
             TxtFechaViaje.Text = DateTime.Now.ToString("dd/MM/yyyy");
         }
 
@@ -1630,7 +1644,7 @@ namespace Solution_CTT
 
                         pnlGrid.Visible = false;
                         pnlRegistro.Visible = true;
-                        pnlVehiculoReemplazo.Visible = true;
+                        //pnlVehiculoReemplazo.Visible = true;
                         TxtFechaViaje.ReadOnly = true;
                     }
 

@@ -167,5 +167,14 @@ namespace ENTIDADES
             get { return iVEHICULO; }
             set { iVEHICULO = value; }
         }
+
+        private string iCOBROADMINISTRATIVO;
+
+        public string ICOBROADMINISTRATIVO
+        {
+            get { return iCOBROADMINISTRATIVO; }
+            set { iCOBROADMINISTRATIVO = value; }
+        }
+
     }
 }

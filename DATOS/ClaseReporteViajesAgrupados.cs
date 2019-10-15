@@ -9,6 +9,7 @@ namespace DATOS
 {
     public class ClaseReporteViajesAgrupados
     {
+        //ConexionBD.ConexionBD conexion = new ConexionBD.ConexionBD();
         ConexionBD.ConexionBD conexion = new ConexionBD.ConexionBD();
         bool bRespuesta;
         DataTable dtConsulta;

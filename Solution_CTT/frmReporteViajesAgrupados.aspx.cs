@@ -56,7 +56,8 @@ namespace Solution_CTT
                 sSql += "from ctt_vehiculo V, ctt_disco D" + Environment.NewLine;
                 sSql += "where V.id_ctt_disco = D.id_ctt_disco" + Environment.NewLine;
                 sSql += "and V.estado = 'A'" + Environment.NewLine;
-                sSql += "and D.estado = 'A'";
+                sSql += "and D.estado = 'A'" + Environment.NewLine;
+                sSql += "order by D.descripcion";
 
                 comboE.ISSQL = sSql;
 
@@ -66,15 +67,15 @@ namespace Solution_CTT
                 cmbTransporte.DataBind();
                 cmbTransporte.Items.Insert(0, new ListItem("Todos", "0"));
 
-                if (cmbTransporte.Items.Count > 24)
-                {
-                    cmbTransporte.SelectedIndex = 24;
-                }
+                //if (cmbTransporte.Items.Count > 24)
+                //{
+                //    cmbTransporte.SelectedIndex = 24;
+                //}
 
-                else
-                {
-                    cmbTransporte.SelectedIndex = 0;
-                }
+                //else
+                //{
+                //    cmbTransporte.SelectedIndex = 0;
+                //}
             }
 
             catch (Exception ex)
@@ -102,15 +103,15 @@ namespace Solution_CTT
                 cmbUsuario.DataBind();
                 cmbUsuario.Items.Insert(0, new ListItem("Todos", "0"));
 
-                if (cmbUsuario.Items.Count > 24)
-                {
-                    cmbUsuario.SelectedIndex = 24;
-                }
+                //if (cmbUsuario.Items.Count > 24)
+                //{
+                //    cmbUsuario.SelectedIndex = 24;
+                //}
 
-                else
-                {
-                    cmbUsuario.SelectedIndex = 0;
-                }
+                //else
+                //{
+                //    cmbUsuario.SelectedIndex = 0;
+                //}
             }
 
             catch (Exception ex)
@@ -136,15 +137,15 @@ namespace Solution_CTT
                 cmbRuta.DataBind();
                 cmbRuta.Items.Insert(0, new ListItem("Todos", "0"));
 
-                if (cmbRuta.Items.Count > 24)
-                {
-                    cmbRuta.SelectedIndex = 24;
-                }
+                //if (cmbRuta.Items.Count > 24)
+                //{
+                //    cmbRuta.SelectedIndex = 24;
+                //}
 
-                else
-                {
-                    cmbRuta.SelectedIndex = 0;
-                }
+                //else
+                //{
+                //    cmbRuta.SelectedIndex = 0;
+                //}
             }
 
             catch (Exception ex)

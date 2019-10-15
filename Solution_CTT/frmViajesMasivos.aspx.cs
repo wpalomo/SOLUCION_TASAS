@@ -368,13 +368,13 @@ namespace Solution_CTT
                     sSql += "insert into ctt_programacion (" + Environment.NewLine;
                     sSql += "id_ctt_chofer, id_ctt_asistente, id_ctt_vehiculo, id_ctt_anden, id_ctt_tipo_servicio," + Environment.NewLine;
                     sSql += "id_ctt_itinerario, codigo, numero_viaje, fecha_viaje, estado_salida, asientos_ocupados," + Environment.NewLine;
-                    sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                    sSql += "cobrar_administracion, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                     sSql += "values (" + Environment.NewLine;
                     sSql += Convert.ToInt32(cmbListarChoferes.SelectedValue) + ", " + Convert.ToInt32(cmbListarAsistentes.SelectedValue) + ", ";
                     sSql += Convert.ToInt32(cmbListarVehiculo.SelectedValue) + ", " + Convert.ToInt32(cmbListarAndenes.SelectedValue) + ", ";
                     sSql += Convert.ToInt32(row.Cells[3].Text) + ", " + Convert.ToInt32(row.Cells[1].Text) + "," + Environment.NewLine;
                     sSql += "'" + iCodigo.ToString() + "', " + iNumeroViaje + ", '" + sFecha + "'," + Environment.NewLine;
-                    sSql += "'Abierta', 0, 'A', GETDATE(), '" + sDatosMaximo[0] + "'," + Environment.NewLine;
+                    sSql += "'Abierta', 0, 1, 'A', GETDATE(), '" + sDatosMaximo[0] + "'," + Environment.NewLine;
                     sSql += "'" + sDatosMaximo[1] + "')";
 
                     //EJECUCIÓN DE INSTRUCCION SQL

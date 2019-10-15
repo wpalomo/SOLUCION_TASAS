@@ -52,11 +52,6 @@ C:\Users\APLICSIS\Desktop\SISTEMA\Solution_CTT\obj\Debug\RdlCompile.cache
 C:\Users\APLICSIS\Desktop\SISTEMA\Solution_CTT\obj\Debug\RdlCompile.compiled
 C:\Users\APLICSIS\Desktop\SISTEMA\Solution_CTT\obj\Debug\Solution_CTT.dll
 C:\Users\APLICSIS\Desktop\SISTEMA\Solution_CTT\obj\Debug\Solution_CTT.pdb
-D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\Solution_CTT\obj\Debug\Solution_CTT.csprojResolveAssemblyReference.cache
-D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\Solution_CTT\obj\Debug\RdlCompile.cache
-D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\Solution_CTT\obj\Debug\RdlCompile.compiled
-D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\Solution_CTT\obj\Debug\Solution_CTT.dll
-D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\Solution_CTT\obj\Debug\Solution_CTT.pdb
 D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\Solution_CTT\bin\SqlServerTypes\x64\msvcr100.dll
 D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\Solution_CTT\bin\SqlServerTypes\x64\SqlServerSpatial110.dll
 D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\Solution_CTT\bin\SqlServerTypes\x86\msvcr100.dll
@@ -82,3 +77,8 @@ D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\Solution_CTT\bin\ENTIDADES.pdb
 D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\Solution_CTT\bin\NEGOCIO.pdb
 D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\Solution_CTT\bin\Microsoft.AspNet.FriendlyUrls.xml
 D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\Solution_CTT\bin\DATOS.pdb
+D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\Solution_CTT\obj\Debug\Solution_CTT.csprojResolveAssemblyReference.cache
+D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\Solution_CTT\obj\Debug\RdlCompile.cache
+D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\Solution_CTT\obj\Debug\RdlCompile.compiled
+D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\Solution_CTT\obj\Debug\Solution_CTT.dll
+D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\Solution_CTT\obj\Debug\Solution_CTT.pdb

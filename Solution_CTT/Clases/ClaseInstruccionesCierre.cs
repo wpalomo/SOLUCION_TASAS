@@ -49,6 +49,7 @@ namespace Solution_CTT.Clases
 
         int iCobraRetencion;
         int iCobraAdministracion;
+        int iEjecutarCobroAdministracion;
 
         /*  7460    Pendiente
             7461    Pagado
@@ -77,7 +78,7 @@ namespace Solution_CTT.Clases
         public bool iniciarCierre(DataTable dtConsulta_P, double dbTotalCobrado_P, double dbPagoRetencion_P, 
             double dbPagoAdministracion_P, int iIdProgramacion_P, string sFecha_P, string[] sDatosMaximo_P, 
             string[,] sIdPedido_P, int iLongitud_P, int iExtra_P, Decimal dbPagoPendienteInfo_P, 
-            Decimal dbIngresoEfectivoInfo_P, string sObservacion_P)
+            Decimal dbIngresoEfectivoInfo_P, string sObservacion_P, int iEjecutarCobroAdministracion_P)
         {
             try
             {
@@ -87,6 +88,7 @@ namespace Solution_CTT.Clases
                 this.iIdProgramacion = iIdProgramacion_P;
                 this.sFecha = sFecha_P;
                 this.sDatosMaximo = sDatosMaximo_P;
+                this.iEjecutarCobroAdministracion = iEjecutarCobroAdministracion_P;
 
                 //CONSULTAR LOS DATOS DEL PROPIETARIO
                 if (consultarPropietario() == false)
@@ -121,11 +123,14 @@ namespace Solution_CTT.Clases
 
                 if (iExtra_P == 0)
                 {
-                    //SEGUNDA LLAMADA PARA INSERTAR EL PAGO DE ADMINISTRACION
-                    if (creaRegistroPagos(dbPagoAdministracion, iExtra_P) == false)
+                    if (iEjecutarCobroAdministracion == 1)
                     {
-                        conexionM.reversaTransaccion();
-                        return false;
+                        //SEGUNDA LLAMADA PARA INSERTAR EL PAGO DE ADMINISTRACION
+                        if (creaRegistroPagos(dbPagoAdministracion, iExtra_P) == false)
+                        {
+                            conexionM.reversaTransaccion();
+                            return false;
+                        }
                     }
                 }
 

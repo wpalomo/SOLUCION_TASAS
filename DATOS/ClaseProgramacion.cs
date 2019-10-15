@@ -59,7 +59,8 @@ namespace DATOS
                             INOMBRESERVICIO = dtConsulta.Rows[i][21].ToString(),
                             ICODIGOITINERARIO = dtConsulta.Rows[i][22].ToString(),
                             IIDITINERARIO = dtConsulta.Rows[i][23].ToString(),
-                            IOCUPADOS = dtConsulta.Rows[i][24].ToString()
+                            IOCUPADOS = dtConsulta.Rows[i][24].ToString(),
+                            ICOBROADMINISTATIVO = dtConsulta.Rows[i][25].ToString()
                         };
                         coleccion.Add(todos);
                     }

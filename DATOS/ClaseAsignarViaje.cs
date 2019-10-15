@@ -54,7 +54,8 @@ namespace DATOS
                             IIDPUEBLO = dtConsulta.Rows[i][13].ToString(),
                             IIDREEMPLAZO = dtConsulta.Rows[i][14].ToString(),
                             IIDPUEBLOORIGEN = dtConsulta.Rows[i][17].ToString(),
-                            IIDPUEBLODESTINO = dtConsulta.Rows[i][18].ToString()
+                            IIDPUEBLODESTINO = dtConsulta.Rows[i][18].ToString(),
+                            ICOBROADMINISTRATIVO = dtConsulta.Rows[i][19].ToString()
                         };
                         coleccion.Add(todos);
                     }

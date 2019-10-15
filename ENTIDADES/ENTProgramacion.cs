@@ -215,5 +215,13 @@ namespace ENTIDADES
             get { return iTRANSPORTE; }
             set { iTRANSPORTE = value; }
         }
+
+        private string iCOBROADMINISTATIVO;
+
+        public string ICOBROADMINISTATIVO
+        {
+            get { return iCOBROADMINISTATIVO; }
+            set { iCOBROADMINISTATIVO = value; }
+        }
     }
 }

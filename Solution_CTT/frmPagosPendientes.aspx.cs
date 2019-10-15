@@ -215,22 +215,26 @@ namespace Solution_CTT
             {
                 sSql = "";
                 sSql += "select * from ctt_vw_pagos_pendientes_itinerario" + Environment.NewLine;
+                sSql += "where fecha_viaje between '" + Convert.ToDateTime(txtFechaDesde.Text.Trim()).ToString("yyyy-MM-dd") + "'" + Environment.NewLine;
+                sSql += "and '" + Convert.ToDateTime(txtFechaHasta.Text.Trim()).ToString("yyyy-MM-dd") + "'" + Environment.NewLine;
 
                 if (iOp == 1)
                 {
-                    sSql += "where id_ctt_vehiculo = " + Convert.ToInt32(cmbVehiculos.SelectedValue);
+                    sSql += "and id_ctt_vehiculo = " + Convert.ToInt32(cmbVehiculos.SelectedValue);
                 }
 
                 else if (iOp == 2)
                 {
-                    sSql += "where id_ctt_vehiculo_propietario = " + Convert.ToInt32(cmbPropietario.SelectedValue);
+                    sSql += "and id_ctt_vehiculo_propietario = " + Convert.ToInt32(cmbPropietario.SelectedValue);
                 }
 
                 else if (iOp == 3)
                 {
-                    sSql += "where id_ctt_vehiculo = " + Convert.ToInt32(cmbVehiculos.SelectedValue) + Environment.NewLine;
+                    sSql += "and id_ctt_vehiculo = " + Convert.ToInt32(cmbVehiculos.SelectedValue) + Environment.NewLine;
                     sSql += "and id_ctt_vehiculo_propietario = " + Convert.ToInt32(cmbPropietario.SelectedValue);
                 }
+
+                sSql += "order by fecha_viaje";
 
                 columnasGridPendiente(true);
                 pendienteE.ISQL = sSql;
@@ -328,8 +332,36 @@ namespace Solution_CTT
 
         protected void dgvDetalle_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
-            //dgvDetalle.PageIndex = e.NewPageIndex;
-            //llenarGridPendientes();
+            try
+            {
+                dgvDetalle.PageIndex = e.NewPageIndex;
+
+                if ((Convert.ToInt32(cmbVehiculos.SelectedValue) == 0) && (Convert.ToInt32(cmbPropietario.SelectedValue) == 0))
+                {
+                    llenarGridPendientes(0);
+                }
+
+                else if ((Convert.ToInt32(cmbVehiculos.SelectedValue) != 0) && (Convert.ToInt32(cmbPropietario.SelectedValue) == 0))
+                {
+                    llenarGridPendientes(1);
+                }
+
+                else if ((Convert.ToInt32(cmbVehiculos.SelectedValue) == 0) && (Convert.ToInt32(cmbPropietario.SelectedValue) != 0))
+                {
+                    llenarGridPendientes(2);
+                }
+
+                else if ((Convert.ToInt32(cmbVehiculos.SelectedValue) != 0) && (Convert.ToInt32(cmbPropietario.SelectedValue) != 0))
+                {
+                    llenarGridPendientes(3);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
         }
 
         protected void btnConsultar_Click(object sender, EventArgs e)

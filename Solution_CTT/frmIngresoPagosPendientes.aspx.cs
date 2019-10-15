@@ -301,13 +301,13 @@ namespace Solution_CTT
                 sSql += "insert into ctt_programacion (" + Environment.NewLine;
                 sSql += "id_ctt_chofer, id_ctt_asistente, id_ctt_vehiculo, id_ctt_anden, id_ctt_tipo_servicio," + Environment.NewLine;
                 sSql += "id_ctt_itinerario, codigo, numero_viaje, fecha_viaje, estado_salida, asientos_ocupados," + Environment.NewLine;
-                sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso, visualizar)" + Environment.NewLine;
+                sSql += "cobrar_administracion, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso, visualizar)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(Session["id_Chofer"].ToString()) + ", " + Convert.ToInt32(Session["id_Asistente"].ToString()) +  ", ";
                 sSql += Convert.ToInt32(cmbVehiculos.SelectedValue) + ", " + Convert.ToInt32(Session["idAnden"].ToString()) + ", ";
                 sSql += Convert.ToInt32(Session["id_tipo_viaje"].ToString()) + ", " + Convert.ToInt32(Session["id_Itinerario"].ToString()) + "," + Environment.NewLine;
                 sSql += "'" + Session["codigo_max"].ToString() + "', " + Convert.ToInt32(Session["numero_viaje"].ToString()) + ", '" + sFecha + "'," + Environment.NewLine;
-                sSql += "'Cerrada', 0, 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', 0)";
+                sSql += "'Cerrada', 0, 1, 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', 0)";
 
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {

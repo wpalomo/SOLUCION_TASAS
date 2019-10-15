@@ -14,7 +14,6 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Drawing.Printing;
 using Microsoft.Reporting.WebForms;
-using CrystalDecisions.CrystalReports.Engine;
 
 namespace Solution_CTT
 {
@@ -342,10 +341,6 @@ namespace Solution_CTT
             }
         }
 
- 
-
-
-
         #endregion
 
         #region FUNCIONES PARA CREAR UNA TASA ACOMPAÑANTE
@@ -528,98 +523,6 @@ namespace Solution_CTT
 
         #region FUNCIONES PARA LA IMPRESION
 
-        //FUNCION PARA CONSULTAR LA IMPRESORA DEL TERMINAL
-        private void consultarImpresora()
-        {
-            try
-            {
-                sSql = "";
-                sSql += "select descripcion, path_url, cortar_papel," + Environment.NewLine;
-                sSql += "abrir_cajon, numero_impresion" + Environment.NewLine;
-                sSql += "from ctt_impresora" + Environment.NewLine;
-                sSql += "where id_localidad = " + Convert.ToInt32(Application["idLocalidad"].ToString()) + Environment.NewLine;
-                sSql += "and estado = 'A'";
-
-                dtConsulta = new DataTable();
-                dtConsulta.Clear();
-
-                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
-
-                if (bRespuesta == true)
-                {
-                    if (dtConsulta.Rows.Count > 0)
-                    {
-                        sNombreImpresora = dtConsulta.Rows[0][0].ToString();
-                        sPathImpresora = dtConsulta.Rows[0][1].ToString();
-                        iCortarPapel = Convert.ToInt32(dtConsulta.Rows[0][2].ToString());
-                        iNumeroImpresiones = Convert.ToInt32(dtConsulta.Rows[0][4].ToString());
-
-                        imprimir.iniciarImpresion();
-                        imprimir.escritoEspaciadoCorto(sImprimir);       
-                        imprimir.cortarPapel(iCortarPapel);
-                        imprimir.imprimirReporte(sPathImpresora);
-
-                        if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
-                        {
-                            imprimeCodigo();
-                            imprimir.iniciarImpresion();
-                            imprimir.escritoEspaciadoCorto("");   
-                            imprimir.cortarPapel(iCortarPapel);
-                            imprimir.imprimirReporte(sPathImpresora);
-                        }
-                    }
-
-                    else
-                    {
-                        //MENSAJE DE QUE NO HAY IMPRESORA INSTALADA O CONFIGURADA
-                        lblMensaje.Text = "No se encuentra una impresora configurada para la localidad";
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#dialogCancelNotification').modal('show');</script>", false);
-                    }
-                }
-
-                else
-                {
-                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                }
-            }
-
-            catch (Exception ex)
-            {
-                cerrarModal();
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-            }
-        }
-
-        private void imprimeCodigo()
-        {
-            try
-            {
-                //LocalReport reporte = new LocalReport();
-                //reporte.ReportPath = Server.MapPath("~/Reportes/rptCodigoBarras.rdlc");
-                //ReportParameter[] parametros = new ReportParameter[1];
-                //parametros[0] = new ReportParameter("P_St_Tasa_Usuario", Session["tasa_usuario_generado"].ToString());
-                //reporte.SetParameters(parametros);
-                //reporte.Refresh();
-                //impresiones.Imprime(reporte, sPathImpresora);
-
-                ReportDocument reporte = new ReportDocument();
-                reporte.Load(Server.MapPath("~/Reportes/rptCodigoPruebas.rpt"));
-                reporte.SetParameterValue("codigoBarras", Session["tasa_usuario_generado"].ToString());
-                reporte.PrintOptions.PrinterName = sPathImpresora;
-                reporte.PrintToPrinter(1, false, 0, 0);
-                
-            }
-
-            catch (Exception ex)
-            {
-                cerrarModal();
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-            }
-        }
-
         //FUNCION PARA IMPRIMIR DIRECTAMENTE EL REPORT VIEWER
         private void crearReporteImprimir()
         {
@@ -716,7 +619,15 @@ namespace Solution_CTT
 
                             if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
                             {
-                                reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFactura.rdlc");
+                                if (Convert.ToInt32(Session["adjuntar_tasa_boleto"].ToString()) == 1)
+                                {
+                                    reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFactura.rdlc");
+                                }
+
+                                else
+                                {
+                                    reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFactura_2.rdlc");
+                                }
                             }
 
                             else
@@ -1703,7 +1614,6 @@ namespace Solution_CTT
             dgvDatos.Columns[8].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
             dgvDatos.Columns[9].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
 
-
             dgvDatos.Columns[1].Visible = ok;
             dgvDatos.Columns[10].Visible = ok;
             dgvDatos.Columns[11].Visible = ok;
@@ -1713,6 +1623,7 @@ namespace Solution_CTT
             dgvDatos.Columns[15].Visible = ok;
             dgvDatos.Columns[16].Visible = ok;
             dgvDatos.Columns[17].Visible = ok;
+            dgvDatos.Columns[18].Visible = ok;
         }
 
         //FUNCION PARA LLENAR EL GRID
@@ -1776,6 +1687,7 @@ namespace Solution_CTT
             dgvDatosExtras.Columns[15].Visible = ok;
             dgvDatosExtras.Columns[16].Visible = ok;
             dgvDatosExtras.Columns[17].Visible = ok;
+            dgvDatosExtras.Columns[18].Visible = ok;
         }
 
         //FUNCION PARA LLENAR EL GRID
@@ -2263,7 +2175,11 @@ namespace Solution_CTT
 
                 if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
                 {
-                    consultarDatosToken();
+                    if (Convert.ToInt32(Session["notificacion_emergente"].ToString()) == 1)
+                    {
+                        consultarDatosToken();
+                    }
+
                     contarTasasToken();
                 }
 
@@ -3551,7 +3467,7 @@ namespace Solution_CTT
                 sSql += "servidor_produccion, webservice_tasa_credenciales, webservice_tasa_usuario," + Environment.NewLine;
                 sSql += "webservice_tasa_anulacion, webservice_verifica_token, webservice_tasa_lote," + Environment.NewLine;
                 sSql += "webservice_detalle_transacciones, webservice_tasa_notificacion, emision, valor_tasa," + Environment.NewLine;
-                sSql += "notificacion_emergente" + Environment.NewLine;
+                sSql += "notificacion_emergente, adjuntar_tasa_boleto" + Environment.NewLine;
                 sSql += "from ctt_tasa_parametros" + Environment.NewLine;
                 sSql += "where estado = 'A'";
 
@@ -3580,6 +3496,7 @@ namespace Solution_CTT
                     Session["emision"] = dtConsulta.Rows[0]["emision"].ToString();
                     Session["valor_tasa_usuario"] = dtConsulta.Rows[0]["valor_tasa"].ToString();
                     Session["notificacion_emergente"] = dtConsulta.Rows[0]["notificacion_emergente"].ToString();
+                    Session["adjuntar_tasa_boleto"] = dtConsulta.Rows[0]["adjuntar_tasa_boleto"].ToString();
                 }
 
                 else
@@ -4696,7 +4613,8 @@ namespace Solution_CTT
                         bRespuesta = cierreViajeInstrucciones.iniciarCierre(dtConsulta, Convert.ToDouble(txtTotalCobradoModal.Text.Trim()), Convert.ToDouble(txtPagoRetencionModal.Text.Trim()),
                                      Convert.ToDouble(txtPagoModal.Text.Trim()), Convert.ToInt32(Session["idProgramacion"].ToString()),
                                      DateTime.Now.ToString("yyyy/MM/dd"), sDatosMaximo, sIdPedido, i, Convert.ToInt32(Session["extra"].ToString()),
-                                     Convert.ToDecimal(txtPagosPendientesModal.Text.Trim()), Convert.ToDecimal(txtEfectivoModal.Text.Trim()), txtObservacionProgramacion.Text.Trim());
+                                     Convert.ToDecimal(txtPagosPendientesModal.Text.Trim()), Convert.ToDecimal(txtEfectivoModal.Text.Trim()), txtObservacionProgramacion.Text.Trim(),
+                                     Convert.ToInt32(Session["cobrar_administracion_boletos"].ToString()));
 
                         if (bRespuesta == false)                        
                         {
@@ -5372,8 +5290,11 @@ namespace Solution_CTT
                 {
                     if (Convert.ToInt32(Session["extra"].ToString()) == 0)
                     {
-                        dtConsulta.Rows.Add("0", Session["numero_viaje_cierre"].ToString(), Session["fecha_viaje_cierre"].ToString(),
-                                            Session["hora_viaje_cierre"].ToString(), "0.00", Session["pago_administracion"].ToString(), "7460", "PAGO ACTUAL");
+                        if (Convert.ToInt32(Session["cobrar_administracion_boletos"]) == 1)
+                        {
+                            dtConsulta.Rows.Add("0", Session["numero_viaje_cierre"].ToString(), Session["fecha_viaje_cierre"].ToString(),
+                                                Session["hora_viaje_cierre"].ToString(), "0.00", Session["pago_administracion"].ToString(), "7460", "PAGO ACTUAL");
+                        }
                     }
 
                     columnasGridPendiente(true);
@@ -5551,6 +5472,7 @@ namespace Solution_CTT
                     Session["idPuebloOrigen"] = cmbFiltrarGrid.SelectedValue;
                     Session["id_pueblo_origen_tasa"] = dgvDatos.Rows[a].Cells[16].Text;
                     Session["id_pueblo_destino_tasa"] = dgvDatos.Rows[a].Cells[17].Text;
+                    Session["cobrar_administracion_boletos"] = dgvDatos.Rows[a].Cells[18].Text;
 
                     Session["auxiliar"] = "1";
                     Session["dtClientes"] = null;
@@ -6710,6 +6632,7 @@ namespace Solution_CTT
                     Session["idPuebloOrigen"] = cmbFiltrarGrid.SelectedValue;
                     Session["id_pueblo_origen_tasa"] = dgvDatosExtras.Rows[a].Cells[16].Text;
                     Session["id_pueblo_destino_tasa"] = dgvDatosExtras.Rows[a].Cells[17].Text;
+                    Session["cobrar_administracion_boletos"] = dgvDatosExtras.Rows[a].Cells[18].Text;
 
                     Session["auxiliar"] = "1";
                     Session["dtClientes"] = null;
@@ -7289,7 +7212,8 @@ namespace Solution_CTT
                 sSql += "where estado = 'A'" + Environment.NewLine;
                 sSql += "and estado_token = 'Abierta'" + Environment.NewLine;
                 sSql += "and ambiente_token = " + Convert.ToInt32(Session["emision"].ToString()) + Environment.NewLine;
-                sSql += "and validado = 1";
+                sSql += "and validado = 1" + Environment.NewLine;
+                sSql += "and id_ctt_oficinista = " + Convert.ToInt32(Session["idUsuario"].ToString());
 
                 dtConsulta = new DataTable();
                 dtConsulta.Clear();

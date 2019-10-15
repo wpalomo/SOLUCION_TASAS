@@ -12,7 +12,7 @@ namespace Solution_CTT
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            //RouteConfig.RegisterRoutes(System.Web.Routing.RouteTable.Routes);
+            RouteConfig.RegisterRoutes(System.Web.Routing.RouteTable.Routes);
 
             Application["idEmpresa"] = null;
             Application["idLocalidad"] = null;
