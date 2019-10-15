@@ -232,7 +232,8 @@ namespace Solution_CTT
                 sSql += "where estado = 'A'" + Environment.NewLine;
                 sSql += "and estado_token = 'Abierta'" + Environment.NewLine;
                 sSql += "and ambiente_token = " + Convert.ToInt32(Session["emision"].ToString()) + Environment.NewLine;
-                sSql += "and validado = 1";
+                sSql += "and validado = 1" + Environment.NewLine;
+                sSql += "and id_ctt_oficinista = " + Convert.ToInt32(Session["idUsuario"].ToString());
 
                 dtConsulta = new DataTable();
                 dtConsulta.Clear();
@@ -376,20 +377,9 @@ namespace Solution_CTT
 
                 sObjetoJson += sObjetoInfo + Environment.NewLine;
 
-                if (sCiudad.Trim() == "")
-                {
-                    sCiudad = Application["ciudad_default"].ToString().ToUpper();
-                }
-
-                if (sCorreoElectronico.Trim() == "")
-                {
-                    sCorreoElectronico = Application["correo_default"].ToString().ToLower();
-                }
-
-                if (sTelefono.Trim() == "")
-                {
-                    sTelefono = Application["telefono_default"].ToString();
-                }
+                sCiudad = Application["ciudad_default"].ToString().ToUpper();
+                sCorreoElectronico = Application["correo_default"].ToString().ToLower();
+                sTelefono = Application["telefono_default"].ToString();
 
                 sObjetoCliente = "";
                 sObjetoCliente += "\"cliente\": {" + Environment.NewLine;
@@ -534,10 +524,6 @@ namespace Solution_CTT
             }
         }
 
-
-
-
-
         #endregion
 
         #region FUNCIONES PARA IMPRIMIR
@@ -635,7 +621,15 @@ namespace Solution_CTT
 
                             if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
                             {
-                                reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFactura.rdlc");
+                                if (Convert.ToInt32(Session["adjuntar_tasa_dev"].ToString()) == 1)
+                                {
+                                    reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFactura.rdlc");
+                                }
+
+                                else
+                                {
+                                    reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFactura_2.rdlc");
+                                }
                             }
 
                             else
@@ -697,7 +691,7 @@ namespace Solution_CTT
                 sSql += "select id_ctt_tasa_parametro, id_ctt_tasa_terminal, id_oficina, id_cooperativa," + Environment.NewLine;
                 sSql += "servidor_pruebas, servidor_produccion, webservice_tasa_anulacion, emision," + Environment.NewLine;
                 sSql += "valor_tasa, permite_anular_tasa, webservice_tasa_usuario, webservice_verifica_token," + Environment.NewLine;
-                sSql += "webservice_tasa_usuario" + Environment.NewLine;
+                sSql += "webservice_tasa_usuario, notificacion_emergente, adjuntar_tasa_boleto" + Environment.NewLine;
                 sSql += "from ctt_tasa_parametros" + Environment.NewLine;
                 sSql += "where estado = 'A'";
 
@@ -720,6 +714,8 @@ namespace Solution_CTT
                     Session["webservice_tasa_usuario"] = dtConsulta.Rows[0]["webservice_tasa_usuario"].ToString();
                     Session["webservice_verifica_token"] = dtConsulta.Rows[0]["webservice_verifica_token"].ToString();
                     Session["tasa_usuario"] = dtConsulta.Rows[0]["webservice_tasa_usuario"].ToString();
+                    Session["notificacion_emergente_dev"] = dtConsulta.Rows[0]["notificacion_emergente"].ToString();
+                    Session["adjuntar_tasa_dev"] = dtConsulta.Rows[0]["adjuntar_tasa_boleto"].ToString();
                 }
 
                 else
@@ -910,20 +906,24 @@ namespace Solution_CTT
 
                 sObjetoJson += sObjetoInfo + Environment.NewLine;
 
-                if (sCiudad.Trim() == "")
-                {
-                    sCiudad = Application["ciudad_default"].ToString().ToUpper();
-                }
+                sCiudad = Application["ciudad_default"].ToString().ToUpper();
+                sCorreoElectronico = Application["correo_default"].ToString().ToLower();
+                sTelefono = Application["telefono_default"].ToString();
 
-                if (sCorreoElectronico.Trim() == "")
-                {
-                    sCorreoElectronico = Application["correo_default"].ToString().ToLower();
-                }
+                //if (sCiudad.Trim() == "")
+                //{
+                //    sCiudad = Application["ciudad_default"].ToString().ToUpper();
+                //}
 
-                if (sTelefono.Trim() == "")
-                {
-                    sTelefono = Application["telefono_default"].ToString();
-                }
+                //if (sCorreoElectronico.Trim() == "")
+                //{
+                //    sCorreoElectronico = Application["correo_default"].ToString().ToLower();
+                //}
+
+                //if (sTelefono.Trim() == "")
+                //{
+                //    sTelefono = Application["telefono_default"].ToString();
+                //}
 
                 sObjetoCliente = "";
                 sObjetoCliente += "\"cliente\": {" + Environment.NewLine;
@@ -1170,53 +1170,6 @@ namespace Solution_CTT
 
         #region FUNCIONES DEL USUARIO PARA ANULAR LA FACTURA O DETALLE DE LA FACTURA
 
-        //FUNCION PARA CONSULTAR LA IMPRESORA DEL TERMINAL
-        private void consultarImpresora()
-        {
-            try
-            {
-                sSql = "";
-                sSql += "select descripcion, path_url, cortar_papel," + Environment.NewLine;
-                sSql += "abrir_cajon, numero_impresion" + Environment.NewLine;
-                sSql += "from ctt_impresora" + Environment.NewLine;
-                sSql += "where id_localidad = " + Convert.ToInt32(Application["idLocalidad"].ToString()) + Environment.NewLine;
-                sSql += "and estado = 'A'";
-
-                dtConsulta = new DataTable();
-                dtConsulta.Clear();
-
-                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
-
-                if (bRespuesta == true)
-                {
-                    if (dtConsulta.Rows.Count > 0)
-                    {
-                        imprimir.iniciarImpresion();
-                        imprimir.escritoEspaciadoCorto(sImprimir);
-                        imprimir.cortarPapel(iCortarPapel);
-                        imprimir.imprimirReporte(sPathImpresora);
-                    }
-
-                    else
-                    {
-                        ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'No se encuentran los parámetros para la impresión.', 'warning');", true);
-                    }
-                }
-
-                else
-                {
-                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                }
-            }
-
-            catch (Exception ex)
-            {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-            }
-        }
-
         //  FUNCION PARA PROCESAR LA ELIMINACION
         //  1. ELIMINA LA FACTURA Y GENERA UNA NUEVA CON LOS ITEMS VIGENTES
         //  2. ELIMINA TODA LA FACTURA ELIMINANDO TODO EL PEDIDO        
@@ -1351,7 +1304,10 @@ namespace Solution_CTT
                         ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'Factura anulada éxitosamente. La tasa de usuario se encuentra pendiente a sincronizar.', 'info');", true);
                     }
 
-                    consultarDatosToken();
+                    if (Convert.ToInt32(Session["notificacion_emergente_dev"].ToString()) == 1)
+                    {
+                        consultarDatosToken();
+                    }
                 }
 
                 else if (iOp == 1)
@@ -1519,9 +1475,6 @@ namespace Solution_CTT
                 }
 
                 //PROCEDIMINTO PARA EXTRAER EL ID DE LA TABLA CV403_CAB_DESPACHOS
-                dtConsulta = new DataTable();
-                dtConsulta.Clear();
-
                 sTabla = "cv403_cab_despachos";
                 sCampo = "id_despacho";
 
@@ -1557,9 +1510,6 @@ namespace Solution_CTT
                 }
 
                 //PROCEDIMINTO PARA EXTRAER EL ID DE LA TABLA CV403_CAB_DESPACHOS_PEDIDOS
-                dtConsulta = new DataTable();
-                dtConsulta.Clear();
-
                 sTabla = "cv403_despachos_pedidos";
                 sCampo = "id_despacho_pedido";
 
@@ -1596,9 +1546,6 @@ namespace Solution_CTT
                 }
 
                 //PROCEDIMINTO PARA EXTRAER EL ID DE LA TABLA CV403_EVENTOS_COBROS
-                dtConsulta = new DataTable();
-                dtConsulta.Clear();
-
                 sTabla = "cv403_eventos_cobros";
                 sCampo = "id_evento_cobro";
 
@@ -1706,10 +1653,10 @@ namespace Solution_CTT
             {
                 //EXTRAER EL ID DE LA TABLA CV403_DCTOS_POR_COBRAR
                 sSql = "";
-                sSql = sSql + "select id_documento_cobrar" + Environment.NewLine;
-                sSql = sSql + "from cv403_dctos_por_cobrar" + Environment.NewLine;
-                sSql = sSql + "where id_pedido = " + iIdPedido + Environment.NewLine;
-                sSql = sSql + "and estado = 'A'";
+                sSql += "select id_documento_cobrar" + Environment.NewLine;
+                sSql += "from cv403_dctos_por_cobrar" + Environment.NewLine;
+                sSql += "where id_pedido = " + iIdPedido + Environment.NewLine;
+                sSql += "and estado = 'A'";
 
                 dtConsulta = new DataTable();
                 dtConsulta.Clear();
@@ -1730,16 +1677,16 @@ namespace Solution_CTT
 
                 //INSTRUCCION SQL PARA INSERTAR EN LA TABLA CV403_PAGOS
                 sSql = "";
-                sSql = sSql + "insert into cv403_pagos (" + Environment.NewLine;
-                sSql = sSql + "idempresa, id_persona, fecha_pago, cg_moneda, valor," + Environment.NewLine;
-                sSql = sSql + "propina, cg_empresa, id_localidad, cg_cajero, fecha_ingreso," + Environment.NewLine;
-                sSql = sSql + "usuario_ingreso, terminal_ingreso, estado, " + Environment.NewLine;
-                sSql = sSql + "numero_replica_trigger, numero_control_replica, cambio) " + Environment.NewLine;
-                sSql = sSql + "values(" + Environment.NewLine;
-                sSql = sSql + Convert.ToInt32(Application["idEmpresa"].ToString()) + ", " + iIdPersona + ", '" + sFecha + "', " + Convert.ToInt32(Application["cgMoneda"].ToString()) + "," + Environment.NewLine;
-                sSql = sSql + dbTotal + ", 0, " + Convert.ToInt32(Application["cgEmpresa"].ToString()) + "," + Environment.NewLine;
-                sSql = sSql + Convert.ToInt32(Application["idLocalidad"].ToString()) + ", 7799, GETDATE(), '" + sDatosMaximo[0] + "'," + Environment.NewLine;
-                sSql = sSql + "'" + sDatosMaximo[1] + "', 'A' , 1, 0, 0)";
+                sSql += "insert into cv403_pagos (" + Environment.NewLine;
+                sSql += "idempresa, id_persona, fecha_pago, cg_moneda, valor," + Environment.NewLine;
+                sSql += "propina, cg_empresa, id_localidad, cg_cajero, fecha_ingreso," + Environment.NewLine;
+                sSql += "usuario_ingreso, terminal_ingreso, estado, " + Environment.NewLine;
+                sSql += "numero_replica_trigger, numero_control_replica, cambio) " + Environment.NewLine;
+                sSql += "values(" + Environment.NewLine;
+                sSql += Convert.ToInt32(Application["idEmpresa"].ToString()) + ", " + iIdPersona + ", '" + sFecha + "', " + Convert.ToInt32(Application["cgMoneda"].ToString()) + "," + Environment.NewLine;
+                sSql += dbTotal + ", 0, " + Convert.ToInt32(Application["cgEmpresa"].ToString()) + "," + Environment.NewLine;
+                sSql += Convert.ToInt32(Application["idLocalidad"].ToString()) + ", 7799, GETDATE(), '" + sDatosMaximo[0] + "'," + Environment.NewLine;
+                sSql += "'" + sDatosMaximo[1] + "', 'A' , 1, 0, 0)";
 
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
@@ -1751,9 +1698,6 @@ namespace Solution_CTT
 
                 //EXTRAER ID DEL REGISTRO CV403_PAGOS
                 //=========================================================================================================
-                dtConsulta = new DataTable();
-                dtConsulta.Clear();
-
                 sTabla = "cv403_pagos";
                 sCampo = "id_pago";
 
@@ -1773,9 +1717,9 @@ namespace Solution_CTT
 
                 //EXTRAEMOS EL NUMERO_PAGO DE LA TABLA_TP_LOCALIDADES_IMPRESORAS
                 sSql = "";
-                sSql = sSql + "select numero_pago" + Environment.NewLine;
-                sSql = sSql + "from tp_localidades_impresoras" + Environment.NewLine;
-                sSql = sSql + "where id_localidad = " + Convert.ToInt32(Application["idLocalidad"].ToString());
+                sSql += "select numero_pago" + Environment.NewLine;
+                sSql += "from tp_localidades_impresoras" + Environment.NewLine;
+                sSql += "where id_localidad = " + Convert.ToInt32(Application["idLocalidad"].ToString());
 
                 dtConsulta = new DataTable();
                 dtConsulta.Clear();
@@ -1795,12 +1739,12 @@ namespace Solution_CTT
 
                 //INSERTAMOS EN LA TABLA CV403_NUMEROS_PAGOS
                 sSql = "";
-                sSql = sSql + "insert into cv403_numeros_pagos (" + Environment.NewLine;
-                sSql = sSql + "id_pago, serie, numero_pago, fecha_ingreso, usuario_ingreso," + Environment.NewLine;
-                sSql = sSql + "terminal_ingreso, estado, numero_replica_trigger, numero_control_replica)" + Environment.NewLine;
-                sSql = sSql + "values(" + Environment.NewLine;
-                sSql = sSql + iIdPago + ", 'A', " + iNumeroPago + ", GETDATE(), '" + sDatosMaximo[0] + "'," + Environment.NewLine;
-                sSql = sSql + "'" + sDatosMaximo[1] + "', 'A', 1, 0)";
+                sSql += "insert into cv403_numeros_pagos (" + Environment.NewLine;
+                sSql += "id_pago, serie, numero_pago, fecha_ingreso, usuario_ingreso," + Environment.NewLine;
+                sSql += "terminal_ingreso, estado, numero_replica_trigger, numero_control_replica)" + Environment.NewLine;
+                sSql += "values(" + Environment.NewLine;
+                sSql += iIdPago + ", 'A', " + iNumeroPago + ", GETDATE(), '" + sDatosMaximo[0] + "'," + Environment.NewLine;
+                sSql += "'" + sDatosMaximo[1] + "', 'A', 1, 0)";
 
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
@@ -1812,15 +1756,15 @@ namespace Solution_CTT
 
                 //INSERTAMOS EN LA TABLA CV403_DOCUMENTOS_PAGOS 
                 sSql = "";
-                sSql = sSql + "insert into cv403_documentos_pagos (" + Environment.NewLine;
-                sSql = sSql + "id_pago, cg_tipo_documento, numero_documento, fecha_vcto, " + Environment.NewLine;
-                sSql = sSql + "cg_moneda, cotizacion, valor, estado," + Environment.NewLine;
-                sSql = sSql + "fecha_ingreso, usuario_ingreso, terminal_ingreso," + Environment.NewLine;
-                sSql = sSql + "numero_replica_trigger, numero_control_replica, valor_recibido) " + Environment.NewLine;
-                sSql = sSql + "values(" + Environment.NewLine;
-                sSql = sSql + iIdPago + ", " + iCgTipoDocumento + ", 9999, '" + sFecha + "', " + Environment.NewLine;
-                sSql = sSql + Convert.ToInt32(Application["cgMoneda"].ToString()) + ", 1, " + dbTotal + ", 'A', GETDATE()," + Environment.NewLine;
-                sSql = sSql + "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', 1, 0, null)";
+                sSql += "insert into cv403_documentos_pagos (" + Environment.NewLine;
+                sSql += "id_pago, cg_tipo_documento, numero_documento, fecha_vcto, " + Environment.NewLine;
+                sSql += "cg_moneda, cotizacion, valor, estado," + Environment.NewLine;
+                sSql += "fecha_ingreso, usuario_ingreso, terminal_ingreso," + Environment.NewLine;
+                sSql += "numero_replica_trigger, numero_control_replica, valor_recibido) " + Environment.NewLine;
+                sSql += "values(" + Environment.NewLine;
+                sSql += iIdPago + ", " + iCgTipoDocumento + ", 9999, '" + sFecha + "', " + Environment.NewLine;
+                sSql += Convert.ToInt32(Application["cgMoneda"].ToString()) + ", 1, " + dbTotal + ", 'A', GETDATE()," + Environment.NewLine;
+                sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', 1, 0, null)";
 
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
@@ -1831,9 +1775,6 @@ namespace Solution_CTT
                 }
 
                 //OBTENEMOS EL MAX ID DE LA TABLA CV403_DOCUMENTOS_PAGOS
-                dtConsulta = new DataTable();
-                dtConsulta.Clear();
-
                 sTabla = "cv403_documentos_pagos";
                 sCampo = "id_documento_pago";
 
@@ -1853,13 +1794,13 @@ namespace Solution_CTT
 
                 //INSERTAMOS EL ÚNICO DOCUMENTO PAGADO
                 sSql = "";
-                sSql = sSql + "insert into cv403_documentos_pagados (" + Environment.NewLine;
-                sSql = sSql + "id_documento_cobrar, id_pago, valor," + Environment.NewLine;
-                sSql = sSql + "estado, numero_replica_trigger,numero_control_replica," + Environment.NewLine;
-                sSql = sSql + "fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
-                sSql = sSql + "values (" + Environment.NewLine;
-                sSql = sSql + iIdDocumentoCobrar + ", " + iIdPago + ", " + dbTotal + ", 'A', 1, 0, " + Environment.NewLine;
-                sSql = sSql + "GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
+                sSql += "insert into cv403_documentos_pagados (" + Environment.NewLine;
+                sSql += "id_documento_cobrar, id_pago, valor," + Environment.NewLine;
+                sSql += "estado, numero_replica_trigger,numero_control_replica," + Environment.NewLine;
+                sSql += "fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                sSql += "values (" + Environment.NewLine;
+                sSql += iIdDocumentoCobrar + ", " + iIdPago + ", " + dbTotal + ", 'A', 1, 0, " + Environment.NewLine;
+                sSql += "GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
@@ -1871,9 +1812,9 @@ namespace Solution_CTT
 
                 //ACTUALIZAR EL NUMERO DE PAGOS EN LA TABLA TP_LOCALIDADES_IMPRESORAS
                 sSql = "";
-                sSql = sSql + "update tp_localidades_impresoras set" + Environment.NewLine;
-                sSql = sSql + "numero_pago = numero_pago + 1" + Environment.NewLine;
-                sSql = sSql + "where id_localidad = " + Convert.ToInt32(Application["idLocalidad"].ToString());
+                sSql += "update tp_localidades_impresoras set" + Environment.NewLine;
+                sSql += "numero_pago = numero_pago + 1" + Environment.NewLine;
+                sSql += "where id_localidad = " + Convert.ToInt32(Application["idLocalidad"].ToString());
 
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
@@ -2119,9 +2060,6 @@ namespace Solution_CTT
                 }
 
                 //EXTRAER ID DEL REGISTRO CV403_FACTURAS
-                dtConsulta = new DataTable();
-                dtConsulta.Clear();
-
                 sTabla = "cv403_facturas";
                 sCampo = "id_factura";
 
@@ -2141,12 +2079,12 @@ namespace Solution_CTT
 
                 //INSERTAR EN LA TABLA CV403_NUMEROS_FACTURAS
                 sSql = "";
-                sSql = sSql + "insert into cv403_numeros_facturas (id_factura, idtipocomprobante, numero_factura, " + Environment.NewLine;
-                sSql = sSql + "fecha_ingreso, usuario_ingreso, terminal_ingreso, estado, numero_replica_trigger, " + Environment.NewLine;
-                sSql = sSql + "numero_control_replica) " + Environment.NewLine;
-                sSql = sSql + "values (" + Environment.NewLine;
-                sSql = sSql + iIdFactura + ", 1, " + iNumeroFactura + ", GETDATE()," + Environment.NewLine;
-                sSql = sSql + "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', 'A', 1, 0 )";
+                sSql += "insert into cv403_numeros_facturas (id_factura, idtipocomprobante, numero_factura, " + Environment.NewLine;
+                sSql += "fecha_ingreso, usuario_ingreso, terminal_ingreso, estado, numero_replica_trigger, " + Environment.NewLine;
+                sSql += "numero_control_replica) " + Environment.NewLine;
+                sSql += "values (" + Environment.NewLine;
+                sSql += iIdFactura + ", 1, " + iNumeroFactura + ", GETDATE()," + Environment.NewLine;
+                sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', 'A', 1, 0 )";
 
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
@@ -2158,11 +2096,11 @@ namespace Solution_CTT
 
                 //ACTUALIZAMOS LA TABLA CV403_DCTOS_POR_COBRAR
                 sSql = "";
-                sSql = sSql + "update cv403_dctos_por_cobrar set" + Environment.NewLine;
-                sSql = sSql + "id_factura = " + iIdFactura + "," + Environment.NewLine;
-                sSql = sSql + "cg_estado_dcto = " + iCgEstadoDctoPorCobrar + "," + Environment.NewLine;
-                sSql = sSql + "numero_documento = " + iNumeroFactura + Environment.NewLine;
-                sSql = sSql + "where id_pedido = " + iIdPedido;
+                sSql += "update cv403_dctos_por_cobrar set" + Environment.NewLine;
+                sSql += "id_factura = " + iIdFactura + "," + Environment.NewLine;
+                sSql += "cg_estado_dcto = " + iCgEstadoDctoPorCobrar + "," + Environment.NewLine;
+                sSql += "numero_documento = " + iNumeroFactura + Environment.NewLine;
+                sSql += "where id_pedido = " + iIdPedido;
 
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
@@ -2174,11 +2112,11 @@ namespace Solution_CTT
 
                 //INSTRUCCION SQL PARA INSERTAR EN LA TABLA CV403_FACTURAS_PEDIDOS
                 sSql = "";
-                sSql = sSql + "insert into cv403_facturas_pedidos (" + Environment.NewLine;
-                sSql = sSql + "id_factura, id_pedido, fecha_ingreso, usuario_ingreso, terminal_ingreso, estado) " + Environment.NewLine;
-                sSql = sSql + "values (" + Environment.NewLine;
-                sSql = sSql + iIdFactura + ", " + iIdPedido + ", GETDATE()," + Environment.NewLine;
-                sSql = sSql + "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', 'A')";
+                sSql += "insert into cv403_facturas_pedidos (" + Environment.NewLine;
+                sSql += "id_factura, id_pedido, fecha_ingreso, usuario_ingreso, terminal_ingreso, estado) " + Environment.NewLine;
+                sSql += "values (" + Environment.NewLine;
+                sSql += iIdFactura + ", " + iIdPedido + ", GETDATE()," + Environment.NewLine;
+                sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', 'A')";
 
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
@@ -2355,9 +2293,6 @@ namespace Solution_CTT
                     }
 
                     //PROCEDIMINTO PARA EXTRAER EL ID DE LA TABLA CTT_MOVIMIENTO_CAJA
-                    dtConsulta = new DataTable();
-                    dtConsulta.Clear();
-
                     sTabla = "ctt_movimiento_caja";
                     sCampo = "id_ctt_movimiento_caja";
 

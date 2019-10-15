@@ -238,17 +238,7 @@ namespace Solution_CTT
                         if (bRespuesta == true)
                         {
                             LocalReport reporteLocal = new LocalReport();
-
-                            if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
-                            {
-                                reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFactura.rdlc");
-                            }
-
-                            else
-                            {
-                                reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFactura_2.rdlc");
-                            }
-
+                            reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFactura_2.rdlc");
                             ReportDataSource datasource = new ReportDataSource("DataSet1", dt);
                             ReportDataSource datasource2 = new ReportDataSource("DataSet2", dt2);
                             reporteLocal.DataSources.Add(datasource);

@@ -39,7 +39,7 @@
                                         <asp:BoundField DataField="CreatedAt" HeaderText="FECHA CREACIÓN" />
                                         <asp:BoundField DataField="UpdatedAt" HeaderText="FECHA ACTUALIZACIÓN" />
                                         <asp:BoundField DataField="MaxCant" HeaderText="CANT. MAX." />
-                                        <asp:BoundField DataField="CantActual" HeaderText="CANT. ACTUAL" />
+                                        <asp:BoundField DataField="CantActual" HeaderText="CANT. USADOS" />
                                         <asp:BoundField DataField="Estado" HeaderText="ESTADO" />
                                     </Columns>
                                     <PagerStyle HorizontalAlign="Center" CssClass="pagination-ys" />
@@ -63,8 +63,8 @@
                                         <asp:BoundField DataField="token" HeaderText="TOKEN" />
                                         <asp:BoundField DataField="fecha_generacion" HeaderText="FECHA GENERACIÓN" />
                                         <asp:BoundField DataField="maximo_secuencial" HeaderText="CANT. MÁX." />
-                                        <asp:BoundField DataField="emitidos" HeaderText="CANT. ACTUAL" />
-                                        <asp:BoundField DataField="anulados" HeaderText="ANULADOS" />                                                                
+                                        <asp:BoundField DataField="emitidos" HeaderText="CANT. USADOS" />
+                                        <asp:BoundField DataField="anulados" HeaderText="CANT. ANULADOS" />                                                                
                                         <asp:BoundField DataField="oficinista" HeaderText="OFICINISTA" />
                                         <asp:BoundField DataField="estado_token" HeaderText="ESTADO" />
                                     </Columns>

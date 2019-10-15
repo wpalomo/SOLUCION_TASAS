@@ -16,6 +16,7 @@ using Microsoft.Reporting.WebForms;
 using System.Net.Mail;
 using System.Net;
 using NEGOCIO;
+using System.IO;
 
 namespace Solution_CTT
 {
@@ -770,6 +771,7 @@ namespace Solution_CTT
                 //         + nombre + "\" style=\"width: 980px; height: 100%;\" >  ERROR (no 
                 //         puede mostrarse el objeto)</object>";
             }
+
             catch (Exception ex)
             {
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
@@ -780,6 +782,7 @@ namespace Solution_CTT
         public string destinatarioCorreo;
         public string ccCorreo="";
         public string clienteCorreo;
+        
         //LLENAR DATOS DEL EMISOR 
         private bool EnviarCorreoCliente(int IDFactura)
         {
@@ -889,6 +892,44 @@ namespace Solution_CTT
             }
         }
 
+        //FUNCION PARA ELIMINAR LOS FICHEROS DE LOS DIRECTORIOS
+        private void eliminarFicheros()
+        {
+            try
+            {
+                string[] xmlGenerados = Directory.GetFiles(Application["RutaFacturasGeneradas"].ToString());
+                string[] xmlFirmados = Directory.GetFiles(Application["RutaFacturasFirmadas"].ToString());
+                string[] xmlAutorizados = Directory.GetFiles(Application["RutaFacturasAutorizadas"].ToString());
+                string[] xmlNoAutorizados = Directory.GetFiles(Application["RutaFacturasNoAutorizadas"].ToString());
+
+                foreach (string archivo in xmlGenerados)
+                {
+                    File.Delete(archivo);
+                }
+
+                foreach (string archivo in xmlFirmados)
+                {
+                    File.Delete(archivo);
+                }
+
+                foreach (string archivo in xmlAutorizados)
+                {
+                    File.Delete(archivo);
+                }
+
+                foreach (string archivo in xmlNoAutorizados)
+                {
+                    File.Delete(archivo);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
+
         #endregion
 
         protected void lbtnExtraerDocumentosXML_Click(object sender, EventArgs e)
@@ -947,6 +988,9 @@ namespace Solution_CTT
             string[] resultado;
             string NombreClienteSincronizar;
 
+            //ELIMINAMOS LOS FICHEROS EXISTENTES
+            eliminarFicheros();
+
             foreach (GridViewRow row in dgvDatos.Rows)
             {
                 CheckBox check = row.FindControl("chkSeleccionar") as CheckBox;
@@ -1002,14 +1046,14 @@ namespace Solution_CTT
 
                         if (resultado[0] == "AUTORIZADO")
                         {
-                            row.Cells[7].Text = "XML Autorizado";
+                            row.Cells[7].Text = "Factura Autorizada";
                             CheckBox chkAutorizado = row.FindControl("chkAutorizado") as CheckBox;
                             chkAutorizado.Checked = true;
                         }
 
                         else
                         {
-                            row.Cells[7].Text = "XML No Autorizado";
+                            row.Cells[7].Text = "Factura No Autorizada";
                             CheckBox chkAutorizado = row.FindControl("chkAutorizado") as CheckBox;
                             chkAutorizado.Checked = false;
                         }
@@ -1027,14 +1071,14 @@ namespace Solution_CTT
 
                             if (resultado[0] == "AUTORIZADO")
                             {
-                                row.Cells[7].Text = "XML Autorizado";
+                                row.Cells[7].Text = "Factura Autorizada";
                                 CheckBox chkAutorizado = row.FindControl("chkAutorizado") as CheckBox;
                                 chkAutorizado.Checked = true;
                             }
 
                             else
                             {
-                                row.Cells[7].Text = "XML No Autorizado";
+                                row.Cells[7].Text = "Factura No Autorizada";
                                 CheckBox chkAutorizado = row.FindControl("chkAutorizado") as CheckBox;
                                 chkAutorizado.Checked = false;
                             }

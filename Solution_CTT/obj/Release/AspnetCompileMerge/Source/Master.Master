@@ -417,7 +417,6 @@
                             <li><a href="frmAsistentes.aspx"><i class="fa fa-circle-o"></i>Asistentes</a></li>
                             <li><a href="frmChoferes.aspx"><i class="fa fa-circle-o"></i>Choferes</a></li>
                             <li><a href="frmOficinistas.aspx"><i class="fa fa-circle-o"></i>Oficinistas</a></li>
-                            <li><a href="frmImpresoras.aspx"><i class="fa fa-circle-o"></i>Impresoras</a></li>
                         </ul>
                     </li>
                     <li class="treeview">
@@ -534,6 +533,7 @@
                             <li><a href="frmParametros.aspx"><i class="fa fa-circle-o"></i>Parámetros</a></li>
                             <li><a href="frmParametroCorreo.aspx"><i class="fa fa-circle-o"></i>Configuración del Correo</a></li>
                             <li><a href="frmParametrosLocalidad.aspx"><i class="fa fa-circle-o"></i>Parámetros Terminales</a></li>
+                            <li><a href="frmImpresoras.aspx"><i class="fa fa-circle-o"></i>Configurar Impresoras</a></li>
                         </ul>
                     </li>
                 </ul>

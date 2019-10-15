@@ -92,7 +92,7 @@ namespace Solution_CTT.Clases
 
                 sSql = "";
                 sSql += "select '1. RETENCION:' descripcion," + Environment.NewLine;
-                sSql += "ltrim(str(sum(isnull(valor, 0)), 10, 2)) valor" + Environment.NewLine;
+                sSql += "ltrim(str(isnull(sum(isnull(valor, 0)), 0), 10, 2)) valor" + Environment.NewLine;
                 sSql += "from ctt_vw_cierre_boleteria" + Environment.NewLine;
                 sSql += "where fecha_pedido = '" + sFecha_P + "'" + Environment.NewLine;
                 sSql += "and cobro_boletos = 0" + Environment.NewLine;
@@ -101,7 +101,7 @@ namespace Solution_CTT.Clases
                 sSql += "and id_ctt_jornada = " + iJornada_P + Environment.NewLine;
                 sSql += "union" + Environment.NewLine;
                 sSql += "select '2. ADMINISTRACIÓN:' descripcion," + Environment.NewLine;
-                sSql += "ltrim(str(sum(isnull(valor, 0)), 10, 2)) valor" + Environment.NewLine;
+                sSql += "ltrim(str(isnull(sum(isnull(valor, 0)), 0), 10, 2)) valor" + Environment.NewLine;
                 sSql += "from ctt_vw_cierre_boleteria" + Environment.NewLine;
                 sSql += "where fecha_pedido = '" + sFecha_P + "'" + Environment.NewLine;
                 sSql += "and cobro_boletos = 0" + Environment.NewLine;
