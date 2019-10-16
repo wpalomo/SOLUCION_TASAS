@@ -58,7 +58,7 @@
                                 <asp:BoundField DataField="IFECHAVIAJE" HeaderText="FECHA SALIDA" ItemStyle-HorizontalAlign="Center" />
                                 <asp:BoundField DataField="IHORASALIDA" HeaderText="HORA SALIDA" ItemStyle-HorizontalAlign="Center" />
                                 <asp:BoundField DataField="ITIPOVIAJE" HeaderText="TIPO DE VIAJE" ItemStyle-HorizontalAlign="Center" />
-                                <asp:BoundField DataField="IUSUARIO" HeaderText="USUARIO INGRESO" ItemStyle-HorizontalAlign="Center" />
+                                <asp:BoundField DataField="IUSUARIO" HeaderText="USUARIO RESPONSABLE" ItemStyle-HorizontalAlign="Center" />
                                 <asp:BoundField DataField="ICANTIDAD" HeaderText="TOTAL PASAJEROS" ItemStyle-HorizontalAlign="Center" />
                                 <asp:BoundField DataField="IVALOR" HeaderText="TOTAL INGRESOS" ItemStyle-HorizontalAlign="Right" />
                             </Columns>

@@ -6824,6 +6824,12 @@ namespace Solution_CTT
                 return;
             }
 
+            if (Convert.ToDecimal(txtTotalNetoModal.Text.Trim()) < 0)
+            {
+                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'El valor a abonar como pago administrativo actual es inferior a cero. No puede cerrar el viaje.', 'warning');", true);
+                return;
+            }
+
             Decimal dbPrimerPago_P;
             Decimal dbSegundoPago_P;
             Decimal dbPagosPendientes_P;

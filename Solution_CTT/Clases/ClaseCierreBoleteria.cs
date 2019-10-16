@@ -140,7 +140,7 @@ namespace Solution_CTT.Clases
                 sSql += "select fecha_viaje, hora_salida, sum(cantidad) cantidad," + Environment.NewLine;
                 sSql += "ltrim(str(sum(cantidad * (precio_unitario - valor_dscto + valor_iva)), 10, 2)) valor" + Environment.NewLine;
                 sSql += "from ctt_vw_viajes_activos" + Environment.NewLine;
-                sSql += "where fecha_viaje >= '" + sFecha_P + "'" + Environment.NewLine;
+                sSql += "where fecha_pedido >= '" + sFecha_P + "'" + Environment.NewLine;
                 sSql += "group by fecha_viaje, hora_salida" + Environment.NewLine;
                 sSql += "order by fecha_viaje, hora_salida";
 

@@ -515,6 +515,7 @@ namespace Solution_CTT
                 return sRespuesta;
             }
         }
+
         //CONSULTA XML
         private string ConsultarXML(int IDFactura, string ClaveAccesso)
         {
@@ -609,6 +610,7 @@ namespace Solution_CTT
                 return false;
             }
         }
+
         //ACTUALIZAR EN LA BASE DE DATOS
         private void ActualizarAutorizacionFactura(int IDFactura, string FechaAutorizacion, string NumeroAutorizacion, string ClaveAccesso)
         {
@@ -717,6 +719,7 @@ namespace Solution_CTT
 
         fin: { }
         }
+        
         //CREAR PDF SIN VISOR DE REPORTVIEWER
         private bool RenderReport(int IDFactura)
         {

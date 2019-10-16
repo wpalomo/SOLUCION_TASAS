@@ -141,9 +141,18 @@ namespace Solution_CTT
 
                 sSql = "";
                 sSql += "select numero_viaje, descripcion + '-' + placa vehiculo, fecha_viaje," + Environment.NewLine;
-                sSql += "hora_salida, tipo_viaje, usuario_ingreso, sum(cantidad) cantidad," + Environment.NewLine;
+
+                if (iOp == 0)
+                {
+                    sSql += "hora_salida, tipo_viaje, 'TODOS' usuario_ingreso, sum(cantidad) cantidad," + Environment.NewLine;
+                }
+
+                else
+                {
+                    sSql += "hora_salida, tipo_viaje, usuario_ingreso, sum(cantidad) cantidad," + Environment.NewLine;
+                }
+
                 sSql += "ltrim(str(sum(cantidad * (precio_unitario - valor_dscto + valor_iva)), 10, 2)) valor" + Environment.NewLine;
-                //sSql += "id_ctt_jornada, jornada" + Environment.NewLine;
                 sSql += "from ctt_vw_viajes_activos" + Environment.NewLine;
                 sSql += "where (fecha_viaje between '" + sFechaInicial + "'" + Environment.NewLine;
                 sSql += "and '" + sFechaFinal + "')" + Environment.NewLine;
@@ -170,7 +179,17 @@ namespace Solution_CTT
                 //}
 
                 sSql += "group by numero_viaje, descripcion, placa, fecha_viaje," + Environment.NewLine;
-                sSql += "hora_salida, tipo_viaje, usuario_ingreso" + Environment.NewLine;
+
+                if (iOp == 0)
+                {
+                    sSql += "hora_salida, tipo_viaje" + Environment.NewLine;
+                }
+
+                else
+                {
+                    sSql += "hora_salida, tipo_viaje, usuario_ingreso" + Environment.NewLine;
+                }
+                
                 sSql += "order by fecha_viaje, hora_salida";
 
                 Session["instruccion"] = sSql;
