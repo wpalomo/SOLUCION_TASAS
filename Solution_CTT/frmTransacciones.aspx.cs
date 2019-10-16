@@ -3179,7 +3179,7 @@ namespace Solution_CTT
                                 //ACTUALIZAR LOS CONTADORES DE LA TABLA CTT_TASA_TOKEN
                                 sSql = "";
                                 sSql += "update ctt_tasa_token set" + Environment.NewLine;
-                                sSql += "and estado_token = 'Cerrada'" + Environment.NewLine;
+                                sSql += "estado_token = 'Cerrada'" + Environment.NewLine;
                                 sSql += "where token = '" + sToken + "'" + Environment.NewLine;
                                 sSql += "and estado = 'A'" + Environment.NewLine;
                                 sSql += "and validado = 1" + Environment.NewLine;
