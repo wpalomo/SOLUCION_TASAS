@@ -334,7 +334,7 @@ namespace Solution_CTT
                 sObjetoTasa += "\"secuencial\": \"" + sSecuencialUnico_P.Trim() + "\"," + Environment.NewLine;
                 sObjetoTasa += "\"token\": \"" + sTokenUnico_P.Trim() + "\"," + Environment.NewLine;
                 sObjetoTasa += "\"tipo\": \"1\"," + Environment.NewLine;
-                sObjetoTasa += "\"codigo\": \"" + sTasaUsuario + "\"" + Environment.NewLine;
+                sObjetoTasa += "\"codigo\": \"" + sTasaUsuarioEmitida_P + "\"" + Environment.NewLine;
                 sObjetoTasa += "},";
 
                 sObjetoJson += sObjetoTasa + Environment.NewLine;
