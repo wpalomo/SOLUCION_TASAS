@@ -8,8 +8,8 @@ namespace Solution_CTT.Clases_Tasa_Usuario
 {
     public partial class TasaUsuarioLote
     {
-        [JsonProperty("tasas_error")]
-        public Error[] TasasError { get; set; }
+        [JsonProperty("error")]
+        public Error[] Error { get; set; }
 
         [JsonProperty("msj")]
         public Msj_Lote[] Msj { get; set; }

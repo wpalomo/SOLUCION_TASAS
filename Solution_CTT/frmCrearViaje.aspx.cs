@@ -1642,6 +1642,16 @@ namespace Solution_CTT
                         txtChofer.Text = dgvDatos.Rows[a].Cells[19].Text.Trim();
                         txtAsistente.Text = dgvDatos.Rows[a].Cells[20].Text.Trim();
 
+                        if (Convert.ToInt32(dgvDatos.Rows[a].Cells[24].Text.Trim()) == 1)
+                        {
+                            chkEjecutarCobro.Checked = true;
+                        }
+
+                        else
+                        {
+                            chkEjecutarCobro.Checked = false;
+                        }
+
                         pnlGrid.Visible = false;
                         pnlRegistro.Visible = true;
                         //pnlVehiculoReemplazo.Visible = true;

@@ -541,12 +541,12 @@ namespace Solution_CTT
                         actualizarRegistro(sIdTasaRespuesta_P, iIdFacturaActualizar);
                     }
 
-                    for (int i = 0; i < lote.TasasError.Length; i++)
+                    for (int i = 0; i < lote.Error.Length; i++)
                     {
-                        sCodigoTasaRespuesta = lote.TasasError[i].Codigo;
-                        sIdTasaRespuesta_P = lote.TasasError[i].IdTasa.ToString();
-                        //sErrorRespuesta_P = lote.TasasError[i].Error[0].ToString();
-                        sErrorRespuesta_P = lote.TasasError[i].error_1[0].ToString();
+                        sCodigoTasaRespuesta = lote.Error[i].Codigo;
+                        sIdTasaRespuesta_P = lote.Error[i].IdTasa.ToString();
+                        //sErrorRespuesta_P = lote.Error[i].Error[0].ToString();
+                        sErrorRespuesta_P = lote.Error[i].error_1[0].ToString();
 
                         if (sErrorRespuesta_P.Trim() == "Tasa ya registrada")
                         {
