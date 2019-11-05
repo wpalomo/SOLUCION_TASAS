@@ -87,6 +87,33 @@
                                 </span>
                             </div>--%>
 
+                            <%--PAGOS CUMPLIDOS--%>
+                            <div class="box-header with-border">
+                                <i class="fa fa-table"></i>
+
+                                <h3 class="box-title">Pagos Actuales</h3>
+
+                                <div class="box-tools pull-right">                                    
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <asp:GridView ID="dgvPagosCumplidos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!">
+                                    <Columns>
+                                        <asp:BoundField DataField="INUMERO" HeaderText="No." />
+                                        <asp:BoundField DataField="IFECHA" HeaderText="FECHA DE VIAJE" />
+                                        <asp:BoundField DataField="IHORA" HeaderText="HORA DE VIAJE" />
+                                        <asp:BoundField DataField="IVEHICULO" HeaderText="VEHÍCULO" />
+                                        <asp:BoundField DataField="IVALOR" HeaderText="VALOR RECAUDADO" />
+                                    </Columns>
+                                    <PagerStyle HorizontalAlign="Center" CssClass="pagination-ys" />
+                                </asp:GridView>
+                            </div>
+                            <div class="box-footer">
+                                <span class="pull-right">
+                                    <asp:Label ID="lblPagosAdministrativosCumplidos" runat="server" Text="Total Pagos Administrativos Cumplidos: 0.00 $" class="badge bg-light-blue"></asp:Label>
+                                </span>
+                            </div>
+
                             <%--PAGOS ATRASADOS PAGADOS--%>
                             <div class="box-header with-border">
                                 <i class="fa fa-table"></i>

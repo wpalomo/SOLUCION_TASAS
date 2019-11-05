@@ -669,6 +669,7 @@
     <Content Include="frmPueblosHorarios.aspx" />
     <Content Include="frmReabrirViaje.aspx" />
     <Content Include="frmReimpresionFacturas.aspx" />
+    <Content Include="frmReimprimirCaja.aspx" />
     <Content Include="frmReporteCodigo.aspx" />
     <Content Include="frmReporteFactura.aspx" />
     <Content Include="frmReporteListaPasajeros.aspx" />
@@ -7735,6 +7736,13 @@
     </Compile>
     <Compile Include="frmReimpresionFacturas.aspx.designer.cs">
       <DependentUpon>frmReimpresionFacturas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmReimprimirCaja.aspx.cs">
+      <DependentUpon>frmReimprimirCaja.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmReimprimirCaja.aspx.designer.cs">
+      <DependentUpon>frmReimprimirCaja.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmReporteCodigo.aspx.cs">
       <DependentUpon>frmReporteCodigo.aspx</DependentUpon>

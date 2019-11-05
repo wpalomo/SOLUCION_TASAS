@@ -42,7 +42,8 @@ namespace DATOS
                             ITERMINALORIGEN = dtConsulta.Rows[i][4].ToString(),
                             ITERMINALDESTINO = dtConsulta.Rows[i][5].ToString(),
                             IDESCRIPCION = dtConsulta.Rows[i][6].ToString(),
-                            IESTADO = dtConsulta.Rows[i][7].ToString()
+                            IESTADO = dtConsulta.Rows[i][7].ToString(),
+                            IVIA = dtConsulta.Rows[i][8].ToString()
                         };
                         coleccion.Add(todos);
                     }

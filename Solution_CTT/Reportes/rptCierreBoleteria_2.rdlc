@@ -1020,7 +1020,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>11.16386cm</Top>
+        <Top>13.68735cm</Top>
         <Left>0.14121cm</Left>
         <Height>0.49858cm</Height>
         <Width>4.55269cm</Width>
@@ -1051,7 +1051,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>11.16386cm</Top>
+        <Top>13.68735cm</Top>
         <Left>4.99463cm</Left>
         <Height>0.49858cm</Height>
         <Width>2.11975cm</Width>
@@ -1084,7 +1084,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>14.6068cm</Top>
+        <Top>17.13029cm</Top>
         <Left>0.14198cm</Left>
         <Height>0.40598cm</Height>
         <Width>7.0004cm</Width>
@@ -1180,7 +1180,7 @@
         </Style>
       </Textbox>
       <Line Name="Line5">
-        <Top>10.98747cm</Top>
+        <Top>13.51096cm</Top>
         <Left>0.11918cm</Left>
         <Height>0cm</Height>
         <Width>7.04088cm</Width>
@@ -1192,7 +1192,7 @@
         </Style>
       </Line>
       <Line Name="Line6">
-        <Top>14.50097cm</Top>
+        <Top>17.02446cm</Top>
         <Left>0.1015cm</Left>
         <Height>0cm</Height>
         <Width>7.04088cm</Width>
@@ -1245,7 +1245,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>8.59567cm</Top>
+        <Top>11.11916cm</Top>
         <Left>0.14198cm</Left>
         <Height>0.40598cm</Height>
         <Width>4.76661cm</Width>
@@ -1274,7 +1274,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>10.31629cm</Top>
+        <Top>12.83978cm</Top>
         <Left>0.13979cm</Left>
         <Height>0.40598cm</Height>
         <Width>2.71894cm</Width>
@@ -1306,7 +1306,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>10.31629cm</Top>
+        <Top>12.83978cm</Top>
         <Left>5.43535cm</Left>
         <Height>0.40598cm</Height>
         <Width>1.62608cm</Width>
@@ -1490,7 +1490,6 @@
                         </Border>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -1605,7 +1604,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>dsPagosAtrasados</DataSetName>
-        <Top>9.10749cm</Top>
+        <Top>11.63098cm</Top>
         <Left>0.13241cm</Left>
         <Height>1.00157cm</Height>
         <Width>6.92902cm</Width>
@@ -1617,7 +1616,7 @@
         </Style>
       </Tablix>
       <Line Name="Line9">
-        <Top>11.83883cm</Top>
+        <Top>14.36232cm</Top>
         <Left>0.11397cm</Left>
         <Height>0cm</Height>
         <Width>7.00041cm</Width>
@@ -1646,7 +1645,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>11.94466cm</Top>
+        <Top>14.46815cm</Top>
         <Left>0.14707cm</Left>
         <Height>0.40598cm</Height>
         <Width>4.108cm</Width>
@@ -1941,7 +1940,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>dsViajesActivos</DataSetName>
-        <Top>12.52703cm</Top>
+        <Top>15.05052cm</Top>
         <Left>0.16692cm</Left>
         <Height>1.05448cm</Height>
         <Width>6.94746cm</Width>
@@ -1970,7 +1969,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>13.72262cm</Top>
+        <Top>16.24611cm</Top>
         <Left>0.16692cm</Left>
         <Height>0.40598cm</Height>
         <Width>2.71894cm</Width>
@@ -2002,7 +2001,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>13.72262cm</Top>
+        <Top>16.24611cm</Top>
         <Left>4.99463cm</Left>
         <Height>0.40598cm</Height>
         <Width>2.09393cm</Width>
@@ -2013,11 +2012,424 @@
           </Border>
         </Style>
       </Textbox>
+      <Textbox Name="Textbox45">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>COBROS PAGOS ACTUALES</Value>
+                <Style>
+                  <FontSize>8pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox27</rd:DefaultName>
+        <Top>8.66623cm</Top>
+        <Left>0.20002cm</Left>
+        <Height>0.40598cm</Height>
+        <Width>4.76661cm</Width>
+        <ZIndex>34</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox47">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>TOTAL COBRADO:</Value>
+                <Style>
+                  <FontSize>8pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox27</rd:DefaultName>
+        <Top>10.38685cm</Top>
+        <Left>0.19783cm</Left>
+        <Height>0.40598cm</Height>
+        <Width>2.71894cm</Width>
+        <ZIndex>35</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox53">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=Sum(Fields!valor.Value, "dsCumplidos")</Value>
+                <Style>
+                  <FontSize>8pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                  <Format>0.00</Format>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Right</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox27</rd:DefaultName>
+        <Top>10.38685cm</Top>
+        <Left>5.49339cm</Left>
+        <Height>0.40598cm</Height>
+        <Width>1.62608cm</Width>
+        <ZIndex>36</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Textbox>
+      <Line Name="Line10">
+        <Top>10.96922cm</Top>
+        <Left>0.12136cm</Left>
+        <Height>0cm</Height>
+        <Width>7.07397cm</Width>
+        <ZIndex>37</ZIndex>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+          </Border>
+        </Style>
+      </Line>
+      <Tablix Name="Tablix6">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>1.78136cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.56599cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.95122cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.58855cm</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.49417cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox38">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Fecha</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox38</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox41">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Hora</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox41</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox54">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Bus</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox54</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox56">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Valor</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox56</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.49417cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="fecha_viaje">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!fecha_viaje.Value</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <Format>d</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>fecha_viaje</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="hora_salida3">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!hora_salida.Value</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <Format>t</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>hora_salida3</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="vehiculo1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!vehiculo.Value</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>vehiculo1</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="valor2">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!valor.Value</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>valor2</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+            </TablixMember>
+            <TablixMember>
+              <Group Name="Detalles2" />
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>dsCumplidos</DataSetName>
+        <Top>9.15157cm</Top>
+        <Left>0.20002cm</Left>
+        <Height>0.98834cm</Height>
+        <Width>6.88712cm</Width>
+        <ZIndex>38</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Tablix>
     </ReportItems>
-    <Height>6.00521in</Height>
+    <Height>6.96702in</Height>
     <Style />
   </Body>
-  <Width>2.91938in</Width>
+  <Width>2.88942in</Width>
   <Page>
     <PageHeight>16cm</PageHeight>
     <PageWidth>7.5cm</PageWidth>
@@ -2162,6 +2574,38 @@
         <rd:DataSetName>DSReportes</rd:DataSetName>
         <rd:SchemaPath>D:\SISTEMAS\BOLETERIA\SOLUCION\Solucion_Buses\Solution_CTT\DSReportes.xsd</rd:SchemaPath>
         <rd:TableName>dtViajesActivosCaja</rd:TableName>
+        <rd:TableAdapterFillMethod />
+        <rd:TableAdapterGetDataMethod />
+        <rd:TableAdapterName />
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="dsCumplidos">
+      <Query>
+        <DataSourceName>DSReportes</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="fecha_viaje">
+          <DataField>fecha_viaje</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="hora_salida">
+          <DataField>hora_salida</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="vehiculo">
+          <DataField>vehiculo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="valor">
+          <DataField>valor</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>DSReportes</rd:DataSetName>
+        <rd:SchemaPath>D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\Solution_CTT\DSReportes.xsd</rd:SchemaPath>
+        <rd:TableName>dtPagosCumplidos</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
         <rd:TableAdapterName />

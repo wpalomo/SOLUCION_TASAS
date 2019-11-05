@@ -10,7 +10,7 @@ using NEGOCIO;
 
 namespace Solution_CTT
 {
-    public partial class frmCorteCaja : System.Web.UI.Page
+    public partial class frmReimprimirCaja : System.Web.UI.Page
     {
         ENTCorteCaja corteCajaE = new ENTCorteCaja();
         ENTPagosAtrasadosPagados atrasadosE = new ENTPagosAtrasadosPagados();
@@ -50,14 +50,13 @@ namespace Solution_CTT
         decimal dbSumaTasas;
         decimal dbPagosAdministracion;
         decimal dbPagosAtrasados;
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["usuario"] == null)
             {
                 Response.Redirect("frmPermisos.aspx");
                 return;
-            }            
+            }
 
             sDatosMaximo[0] = Session["usuario"].ToString();
             sDatosMaximo[1] = Environment.MachineName.ToString();
@@ -73,7 +72,6 @@ namespace Solution_CTT
                 llenarGrid(sFecha);
                 llenarGridVigentes(sFecha);
                 llenarGridPagosAdministrativos(sFecha);
-                llenarGridPagosCumplidos(sFecha);
                 llenarGridPagosAtrasadosPagados(sFecha);
                 llenarViajesActivos(sFecha);
             }
@@ -197,7 +195,7 @@ namespace Solution_CTT
                     dgvPagosAdministrativos.DataSource = dtConsulta;
                     dgvPagosAdministrativos.DataBind();
 
-                    dgvPagosAdministrativos.Columns[1].ItemStyle.HorizontalAlign = HorizontalAlign.Center;                    
+                    dgvPagosAdministrativos.Columns[1].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
                 }
 
                 else
@@ -248,44 +246,6 @@ namespace Solution_CTT
                 }
 
                 lblPagosAdministrativos.Text = "Total Pagos Administrativos: " + dbPagosAdministracion.ToString("N2") + " $";
-            }
-
-            catch (Exception ex)
-            {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
-                ScriptManager.RegisterStartupScript(this, GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-            }
-        }
-
-        //FUNCION PARA CARGAR LOS PAGOS CUMPLIDOS
-        private void llenarGridPagosCumplidos(string sFecha_P)
-        {
-            try
-            {
-                sSql = "";
-                sSql += "select fecha_viaje, hora_salida, disco + ' - ' + placa vehiculo, valor" + Environment.NewLine;
-                sSql += "from ctt_vw_pagos_pendientes_cumplidos" + Environment.NewLine;
-                sSql += "where fecha_pago = '" + sFecha_P + "'" + Environment.NewLine;
-                sSql += "and id_ctt_jornada = " + Convert.ToInt32(Session["idJornada"].ToString());
-
-                atrasadosE.ISQL = sSql;
-                dgvPagosCumplidos.DataSource = atrasadosM.listarPagosAtrasadosPagados(atrasadosE);
-                dgvPagosCumplidos.DataBind();
-
-                dgvPagosCumplidos.Columns[0].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
-                dgvPagosCumplidos.Columns[1].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
-                dgvPagosCumplidos.Columns[2].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
-                dgvPagosCumplidos.Columns[3].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
-                dgvPagosCumplidos.Columns[4].ItemStyle.HorizontalAlign = HorizontalAlign.Right;
-
-                dbPagosAdministracion = 0;
-
-                for (int i = 0; i < dgvPagosCumplidos.Rows.Count; i++)
-                {
-                    dbPagosAdministracion += Convert.ToDecimal(dgvPagosCumplidos.Rows[i].Cells[4].Text);
-                }
-
-                lblPagosAdministrativosCumplidos.Text = "Total Pagos Administrativos Cumplidos: " + dbPagosAdministracion.ToString("N2") + " $";
             }
 
             catch (Exception ex)
@@ -367,12 +327,12 @@ namespace Solution_CTT
                         sSql += "and cobro_retencion = 0" + Environment.NewLine;
                         sSql += "and cobro_administrativo = 0" + Environment.NewLine;
                         sSql += "and CP.id_ctt_programacion = " + Convert.ToInt32(dtConsulta.Rows[i]["id_ctt_programacion"].ToString());
-                        
+
                         dtAyuda = new DataTable();
                         dtAyuda.Clear();
-                       
+
                         bRespuesta = conexionM.consultarRegistro(sSql, dtAyuda);
-                        
+
                         if (bRespuesta)
                         {
                             dtConsulta.Rows[i]["id_ctt_programacion"] = (i + 1).ToString();
@@ -422,7 +382,7 @@ namespace Solution_CTT
             }
         }
 
-        
+
 
         //FUNCION PARA LLENAR LAS CAJAS DE TEXTO
         private void llenarCajasTexto()
@@ -439,13 +399,13 @@ namespace Solution_CTT
                 else
                 {
                     txtFechaApertura.Text = Convert.ToDateTime(Session["fechaApertura"].ToString()).ToString("dd/MM/yyyy");
-                    txtHoraApertura.Text = Convert.ToDateTime(Session["horaApertura"].ToString()).ToString("HH:mm");                    
+                    txtHoraApertura.Text = Convert.ToDateTime(Session["horaApertura"].ToString()).ToString("HH:mm");
                 }
 
-                txtOficinista.Text = Session["usuario"].ToString().ToUpper();                
+                txtOficinista.Text = Session["usuario"].ToString().ToUpper();
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
                 ScriptManager.RegisterStartupScript(this, GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
@@ -529,7 +489,7 @@ namespace Solution_CTT
                 }
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
                 ScriptManager.RegisterStartupScript(this, GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
@@ -553,7 +513,7 @@ namespace Solution_CTT
                 sSql = "";
                 sSql += "update ctt_cierre_caja set" + Environment.NewLine;
                 sSql += "fecha_cierre = '" + sFecha + "'," + Environment.NewLine;
-                sSql += "hora_cierre = '" + sHora + "',"  + Environment.NewLine;
+                sSql += "hora_cierre = '" + sHora + "'," + Environment.NewLine;
                 sSql += "estado_cierre_caja = 'Cerrada'," + Environment.NewLine;
                 sSql += "saldo_final = " + Convert.ToDouble(txtSaldoFinal.Text.Trim()) + "," + Environment.NewLine;
                 sSql += "id_ctt_oficinista_cierre = " + Convert.ToInt32(Session["idUsuario"].ToString()) + Environment.NewLine;
@@ -581,15 +541,15 @@ namespace Solution_CTT
                 }
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
                 ScriptManager.RegisterStartupScript(this, GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 goto reversa;
             }
 
-            reversa: { conexionM.reversaTransaccion(); }
-            fin: { }
+        reversa: { conexionM.reversaTransaccion(); }
+        fin: { }
         }
 
         //FUNCION PARA CREAR EL REPORTE 
@@ -640,7 +600,7 @@ namespace Solution_CTT
                 }
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
                 ScriptManager.RegisterStartupScript(this, GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
@@ -733,7 +693,7 @@ namespace Solution_CTT
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'Debe registrar la apertura de caja para imprimir el reporte de cierre.', 'info');", true);
                     return;
                 }
-                
+
                 dtConsulta = new DataTable();
                 dtConsulta.Clear();
                 dtConsulta = Session["dtTasasPagadas"] as DataTable;

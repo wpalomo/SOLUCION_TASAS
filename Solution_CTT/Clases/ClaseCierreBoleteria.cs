@@ -120,6 +120,24 @@ namespace Solution_CTT.Clases
                     return false;
                 }
 
+                //PAGOS CUMPLIDOS
+                sSql = "";
+                sSql += "select fecha_viaje, hora_salida, disco + ' - ' + placa vehiculo, valor" + Environment.NewLine;
+                sSql += "from ctt_vw_pagos_pendientes_cumplidos" + Environment.NewLine;
+                sSql += "where fecha_pago = '" + sFecha_P + "'" + Environment.NewLine;
+                sSql += "and id_ctt_jornada = " + iJornada_P;
+
+                DataTable dtCumplido = ds.Tables["dtPagosCumplidos"];
+                dtCumplido.Clear();
+
+                bRespuesta = conexionM.consultarRegistro(sSql, dtCumplido);
+
+                if (bRespuesta == false)
+                {
+                    return false;
+                }
+
+                //PAGOS ATRASADOS
                 sSql = "";
                 sSql +="select fecha_viaje, hora_salida, disco + ' - ' + placa vehiculo, valor" + Environment.NewLine;
                 sSql +="from ctt_vw_pagos_pendientes_atrasados" + Environment.NewLine;
@@ -167,11 +185,13 @@ namespace Solution_CTT.Clases
                 ReportDataSource datasource_2 = new ReportDataSource("dsPagos", dtPagos);
                 ReportDataSource datasource_3 = new ReportDataSource("dsPagosAtrasados", dtPendiente);
                 ReportDataSource datasource_4 = new ReportDataSource("dsViajesActivos", dtActivos);
+                ReportDataSource datasource_5 = new ReportDataSource("dsCumplidos", dtCumplido);
                 
                 reporteLocal.DataSources.Add(datasource_1);
                 reporteLocal.DataSources.Add(datasource_2);
                 reporteLocal.DataSources.Add(datasource_3);
                 reporteLocal.DataSources.Add(datasource_4);
+                reporteLocal.DataSources.Add(datasource_5);
 
                 reporteLocal.SetParameters(parametros);
 
@@ -199,7 +219,7 @@ namespace Solution_CTT.Clases
                         SCuerpoMensaje += "CIERRE DE CAJA:</br></br>";
                         SCuerpoMensaje += "USUARIO: " + sUsuario + "</br>";
                         SCuerpoMensaje += "JORNADA: " + sJornada + "</br>";
-                        SCuerpoMensaje += "FECHA  :" + sFecha_P + "</br></br>";
+                        SCuerpoMensaje += "FECHA:" + sFecha_P + "</br></br>";
                         SCuerpoMensaje += "Saludos cordiales.";
 
 

@@ -61,6 +61,7 @@ namespace Solution_CTT
             dgvDatos.Columns[0].Visible = ok;
             dgvDatos.Columns[1].Visible = ok;
             dgvDatos.Columns[2].Visible = ok;
+            dgvDatos.Columns[8].Visible = ok;
         }
 
         //FUNCION PARA LLENAR EL COMOBOX DE CLIENTES
@@ -105,7 +106,7 @@ namespace Solution_CTT
                 sSql += "select R.id_ctt_ruta, R.id_ctt_pueblo_origen, R.id_ctt_pueblo_destino," + Environment.NewLine;
                 sSql += "R.codigo, PO.descripcion terminal_origen, PD.descripcion terminal_destino," + Environment.NewLine;
                 sSql += "PO.descripcion + ' - ' + PD.descripcion descripcion," + Environment.NewLine;
-                sSql += "case R.estado when 'A' then 'ACTIVO' else 'INACTIVO' end estado" + Environment.NewLine;
+                sSql += "case R.estado when 'A' then 'ACTIVO' else 'INACTIVO' end estado, isnull(R.via, '') via" + Environment.NewLine;
                 sSql += "from ctt_pueblos PO INNER JOIN" + Environment.NewLine;
                 sSql += "ctt_ruta R ON R.id_ctt_pueblo_origen = PO.id_ctt_pueblo" + Environment.NewLine;
                 sSql += "and R.estado in ('A', 'N')" + Environment.NewLine;
@@ -163,12 +164,12 @@ namespace Solution_CTT
 
                 sSql = "";
                 sSql += "insert into ctt_ruta (" + Environment.NewLine;
-                sSql += "id_ctt_pueblo_origen, id_ctt_pueblo_destino, codigo, descripcion," + Environment.NewLine;
+                sSql += "id_ctt_pueblo_origen, id_ctt_pueblo_destino, codigo, descripcion, via," + Environment.NewLine;
                 sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(cmbTerminalOrigen.SelectedValue) + ", " + Convert.ToInt32(cmbTerminalDestino.SelectedValue) + ", ";
                 sSql += "'" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;
-                sSql += "'" + sDescripcion + "', 'A'," + Environment.NewLine;
+                sSql += "'" + sDescripcion + "', '" + txtVia.Text.Trim().ToUpper() + "', 'A'," + Environment.NewLine;
                 sSql += "GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
@@ -214,7 +215,8 @@ namespace Solution_CTT
                 sSql += "id_ctt_pueblo_origen = " + Convert.ToInt32(cmbTerminalOrigen.SelectedValue) + "," + Environment.NewLine;
                 sSql += "id_ctt_pueblo_destino = " + Convert.ToInt32(cmbTerminalDestino.SelectedValue) + "," + Environment.NewLine;
                 sSql += "codigo = '" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;
-                sSql += "descripcion = '" + sDescripcion + "'" + Environment.NewLine;
+                sSql += "descripcion = '" + sDescripcion + "'," + Environment.NewLine;
+                sSql += "via = '" + txtVia.Text.Trim().ToUpper() + "'" + Environment.NewLine;
                 sSql += "where id_ctt_ruta = " + Convert.ToInt32(Session["idRegistro"]) + Environment.NewLine;
                 sSql += "and estado = 'A'";
 
@@ -327,6 +329,7 @@ namespace Solution_CTT
         private void limpiar()
         {
             txtCodigo.Text = "";
+            txtVia.Text = "";
             cmbTerminalOrigen.SelectedIndex = 0;
             cmbTerminalDestino.SelectedIndex = 0;
             Session["idRegistro"] = null;
@@ -351,7 +354,8 @@ namespace Solution_CTT
                 {
                     cmbTerminalOrigen.SelectedValue = dgvDatos.Rows[a].Cells[1].Text;
                     cmbTerminalDestino.SelectedValue = dgvDatos.Rows[a].Cells[2].Text;
-                    txtCodigo.Text = dgvDatos.Rows[a].Cells[3].Text;
+                    txtCodigo.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[3].Text);
+                    txtVia.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[8].Text);
                 }
 
                 columnasGrid(false);

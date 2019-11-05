@@ -79,5 +79,13 @@ namespace ENTIDADES
             get { return iTERMINALORIGEN; }
             set { iTERMINALORIGEN = value; }
         }
+
+        private string iVIA;
+
+        public string IVIA
+        {
+            get { return iVIA; }
+            set { iVIA = value; }
+        }
     }
 }

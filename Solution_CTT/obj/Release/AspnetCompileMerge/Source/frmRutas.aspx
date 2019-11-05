@@ -32,6 +32,7 @@
                                 <asp:BoundField DataField="ITERMINALDESTINO" HeaderText="DESTINO" />
                                 <asp:BoundField DataField="IDESCRIPCION" HeaderText="DESCRIPCIÓN" />
                                 <asp:BoundField DataField="IESTADO" HeaderText="ESTADO" ItemStyle-HorizontalAlign="Center" />
+                                <asp:BoundField DataField="IVIA" HeaderText="VIA" ItemStyle-HorizontalAlign="Center" />
                                 <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="EDITAR">
                                     <ItemTemplate>
                                         <asp:LinkButton ID="lbtnEdit" runat="server" CommandName="Select" class="btn btn-xs btn-warning" OnClick="lbtnEdit_Click"><i class="fa fa-pencil"></i></asp:LinkButton>
@@ -88,9 +89,9 @@
                                             <div class="form-group has-feedback">
                                                 <asp:TextBox ID="txtCodigo" runat="server" CssClass="form-control" placeholder="Código *"></asp:TextBox>
                                             </div>
-                                            <%--<div class="form-group has-feedback">
-                                                <asp:TextBox ID="txtDescripcion" runat="server" CssClass="form-control" placeholder="Descripción *" onkeypress="return validar_letras(event)"></asp:TextBox>                                                
-                                            </div>--%>
+                                            <div class="form-group has-feedback">
+                                                <asp:TextBox ID="txtVia" runat="server" CssClass="form-control" Style="text-transform: uppercase" placeholder="Vía *" ></asp:TextBox>                                                
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
