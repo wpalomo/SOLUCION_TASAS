@@ -628,6 +628,7 @@
     <Content Include="dist\css\adminlte.css.map" />
     <Content Include="dist\css\adminlte.min.css.map" />
     <Content Include="dist\img\Thumbs.db" />
+    <Content Include="frmCierreCajero.aspx" />
     <Content Include="frmDetalleRuta.aspx" />
     <Content Include="frmDetalleTransaccionesTasa.aspx" />
     <Content Include="frmDevolucionBoletos.aspx" />
@@ -649,6 +650,7 @@
     <Content Include="frmItinerarios.aspx" />
     <Content Include="frmItinerariosExtras.aspx" />
     <Content Include="frmMarcaVehiculos.aspx" />
+    <Content Include="frmMensajeCaja.aspx" />
     <Content Include="frmModeloVehiculos.aspx" />
     <Content Include="frmNumeroDisco.aspx" />
     <Content Include="frmObtenerTokens.aspx" />
@@ -7282,6 +7284,7 @@
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Clases\ClaseCierreBoleteria.cs" />
+    <Compile Include="Clases\ClaseCierreBoleteria_2.cs" />
     <Compile Include="Clases\ClaseCierreItinerario.cs" />
     <Compile Include="Clases\ClaseCobrarPagoPendiente.cs" />
     <Compile Include="Clases\ClaseCrearTasaUsuario.cs" />
@@ -7400,6 +7403,13 @@
     </Compile>
     <Compile Include="frmChoferes.aspx.designer.cs">
       <DependentUpon>frmChoferes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmCierreCajero.aspx.cs">
+      <DependentUpon>frmCierreCajero.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmCierreCajero.aspx.designer.cs">
+      <DependentUpon>frmCierreCajero.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmConsultaAutorizacion.aspx.cs">
       <DependentUpon>frmConsultaAutorizacion.aspx</DependentUpon>
@@ -7582,6 +7592,13 @@
     </Compile>
     <Compile Include="frmMarcaVehiculos.aspx.designer.cs">
       <DependentUpon>frmMarcaVehiculos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmMensajeCaja.aspx.cs">
+      <DependentUpon>frmMensajeCaja.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmMensajeCaja.aspx.designer.cs">
+      <DependentUpon>frmMensajeCaja.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmModeloVehiculos.aspx.cs">
       <DependentUpon>frmModeloVehiculos.aspx</DependentUpon>

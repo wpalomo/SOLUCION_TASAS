@@ -137,7 +137,8 @@ namespace Solution_CTT.Clases
                 //INSTRUCCION SQL PARA CERRAR  EL VIAJE
                 sSql = "";
                 sSql += "update ctt_programacion set" + Environment.NewLine;
-                sSql += "estado_salida = 'Cerrada'" + Environment.NewLine;
+                sSql += "estado_salida = 'Cerrada'," + Environment.NewLine;
+                sSql += "id_ctt_cierre_caja = " + HttpContext.Current.Session["idCierreCaja"].ToString() + Environment.NewLine;
                 sSql += "where id_ctt_programacion = " +iIdProgramacion + Environment.NewLine;
                 sSql += "and estado = 'A'";
 
@@ -503,7 +504,7 @@ namespace Solution_CTT.Clases
                 sSql += "cg_facturado, id_ctt_programacion, id_ctt_oficinista," + Environment.NewLine;
                 sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso, ctt_fecha_pago_pendiente," + Environment.NewLine;
                 sSql += "cobro_boletos, cobro_retencion, cobro_administrativo, pago_cumplido, id_ctt_jornada," + Environment.NewLine;
-                sSql += "pago_pendiente_info, ingreso_efectivo_info, comentarios)" + Environment.NewLine;
+                sSql += "pago_pendiente_info, ingreso_efectivo_info, comentarios, id_ctt_cierre_caja)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(HttpContext.Current.Application["idEmpresa"].ToString()) + ", " + Convert.ToInt32(HttpContext.Current.Application["cgEmpresa"].ToString()) + ", ";
                 sSql += Convert.ToInt32(HttpContext.Current.Application["idLocalidad"].ToString()) + ", '" + sFecha + "', " + iIdPersona + "," + Environment.NewLine;
@@ -525,7 +526,7 @@ namespace Solution_CTT.Clases
 
                 sSql += "0, " + iCobraRetencion + ", " + iCobraAdministracion + ", " + iBanderaPagoCumplido + ", ";
                 sSql += Convert.ToInt32(HttpContext.Current.Session["idJornada"].ToString()) + ", ";
-                sSql += dbPagoPendienteInfo + ", " + dbIngresoEfectivoInfo + ", '" + sObservacion + "')";
+                sSql += dbPagoPendienteInfo + ", " + dbIngresoEfectivoInfo + ", '" + sObservacion + "', " + HttpContext.Current.Session["idCierreCaja"].ToString() + ")";
 
                 //EJECUCION DE LA INSTRUCCION SQL
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
@@ -893,11 +894,12 @@ namespace Solution_CTT.Clases
                 sSql = "";
                 sSql += "insert into cv403_documentos_pagados (" + Environment.NewLine;
                 sSql += "id_documento_cobrar, id_pago, valor, estado," + Environment.NewLine;
-                sSql += "fecha_ingreso, usuario_ingreso, terminal_ingreso, fecha_pago, id_ctt_jornada)" + Environment.NewLine;
+                sSql += "fecha_ingreso, usuario_ingreso, terminal_ingreso, fecha_pago," + Environment.NewLine;
+                sSql += "id_ctt_jornada, id_ctt_cierre_caja)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += iIdDocumentoCobrar + ", " + iIdPago + ", " + dbPagoAdministracion + ", 'A'," + Environment.NewLine;
                 sSql += "GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', '" + DateTime.Now.ToString("yyyy/MM/dd") + "'," + Environment.NewLine;
-                sSql += Convert.ToInt32(HttpContext.Current.Session["idJornada"].ToString()) + ")";
+                sSql += Convert.ToInt32(HttpContext.Current.Session["idJornada"].ToString()) + ", " + HttpContext.Current.Session["idCierreCaja"].ToString() + ")";
 
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
@@ -1261,11 +1263,12 @@ namespace Solution_CTT.Clases
                 sSql = "";
                 sSql += "insert into cv403_documentos_pagados (" + Environment.NewLine;
                 sSql += "id_documento_cobrar, id_pago, valor," + Environment.NewLine;
-                sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso, fecha_pago, id_ctt_jornada)" + Environment.NewLine;
+                sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso," + Environment.NewLine;
+                sSql += "fecha_pago, id_ctt_jornada, id_ctt_cierre_caja)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += iIdDocumentoCobrar + ", " + iIdPago + ", " + dbPago_P + ", 'A'," + Environment.NewLine;
                 sSql += "GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', '" + DateTime.Now.ToString("yyyy/MM/dd") + "'," + Environment.NewLine;
-                sSql += Convert.ToInt32(HttpContext.Current.Session["idJornada"].ToString()) + ")";
+                sSql += Convert.ToInt32(HttpContext.Current.Session["idJornada"].ToString()) + ", " + HttpContext.Current.Session["idCierreCaja"].ToString() + ")";
 
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
@@ -1303,7 +1306,8 @@ namespace Solution_CTT.Clases
                 //INSTRUCCION PARA ACTUALIZAR LA FECHA DE PAGO PENDIENTE 
                 sSql = "";
                 sSql += "update cv403_cab_pedidos set" + Environment.NewLine;
-                sSql += "ctt_fecha_pago_pendiente = '" + sFecha + "'" + Environment.NewLine;
+                sSql += "ctt_fecha_pago_pendiente = '" + sFecha + "'," + Environment.NewLine;
+                sSql += "id_ctt_cierre_caja = " + HttpContext.Current.Session["idCierreCaja"].ToString() + Environment.NewLine;
                 sSql += "where id_pedido = " + iIdPedido_P + Environment.NewLine;
                 sSql += "and estado = 'A'";
 
@@ -1463,11 +1467,12 @@ namespace Solution_CTT.Clases
                 sSql = "";
                 sSql += "insert into cv403_documentos_pagados (" + Environment.NewLine;
                 sSql += "id_documento_cobrar, id_pago, valor," + Environment.NewLine;
-                sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso, fecha_pago, id_ctt_jornada)" + Environment.NewLine;
+                sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso," + Environment.NewLine;
+                sSql += "fecha_pago, id_ctt_jornada, id_ctt_cierre_caja)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += iIdDocumentoCobrar + ", " + iIdPago + ", " + dbPago_P + ", 'A'," + Environment.NewLine;
                 sSql += "GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', '" + DateTime.Now.ToString("yyyy/MM/dd") + "'," + Environment.NewLine;
-                sSql += Convert.ToInt32(HttpContext.Current.Session["idJornada"].ToString()) + ")";
+                sSql += Convert.ToInt32(HttpContext.Current.Session["idJornada"].ToString()) + ", " + HttpContext.Current.Session["idCierreCaja"].ToString() + ")";
 
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
@@ -1583,7 +1588,8 @@ namespace Solution_CTT.Clases
                 //INSTRUCCION PARA ACTUALIZAR LA FECHA DE PAGO PENDIENTE 
                 sSql = "";
                 sSql += "update cv403_cab_pedidos set" + Environment.NewLine;
-                sSql += "ctt_fecha_pago_pendiente = '" + sFecha + "'" + Environment.NewLine;
+                sSql += "ctt_fecha_pago_pendiente = '" + sFecha + "'," + Environment.NewLine;
+                sSql += "id_ctt_cierre_caja = " + HttpContext.Current.Session["idCierreCaja"].ToString() + Environment.NewLine;
                 sSql += "where id_pedido = " + iIdPedido_P + Environment.NewLine;
                 sSql += "and estado = 'A'";
 

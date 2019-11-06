@@ -157,11 +157,12 @@ namespace Solution_CTT.Clases
                 sSql = "";
                 sSql += "insert into cv403_documentos_pagados (" + Environment.NewLine;
                 sSql += "id_documento_cobrar, id_pago, valor, estado," + Environment.NewLine;
-                sSql += "fecha_ingreso, usuario_ingreso, terminal_ingreso, fecha_pago, id_ctt_jornada)" + Environment.NewLine;
+                sSql += "fecha_ingreso, usuario_ingreso, terminal_ingreso, fecha_pago," + Environment.NewLine;
+                sSql += "id_ctt_jornada, id_ctt_cierre_caja)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += iIdDocumentoCobrar + ", " + iIdPago + ", " + dbValor_P + ", 'A'," + Environment.NewLine;
                 sSql += "GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', '" + DateTime.Now.ToString("yyyy/MM/dd") + "'," + Environment.NewLine;
-                sSql += Convert.ToInt32(HttpContext.Current.Session["idJornada"].ToString()) + ")";
+                sSql += Convert.ToInt32(HttpContext.Current.Session["idJornada"].ToString()) + ", " + HttpContext.Current.Session["idCierreCaja"].ToString() + ")";
 
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {

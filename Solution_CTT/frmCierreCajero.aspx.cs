@@ -10,7 +10,7 @@ using NEGOCIO;
 
 namespace Solution_CTT
 {
-    public partial class frmCorteCaja : System.Web.UI.Page
+    public partial class frmCierreCajero : System.Web.UI.Page
     {
         ENTCorteCaja corteCajaE = new ENTCorteCaja();
         ENTPagosAtrasadosPagados atrasadosE = new ENTPagosAtrasadosPagados();
@@ -22,7 +22,8 @@ namespace Solution_CTT
         manejadorViajesActivosCierre viajesM = new manejadorViajesActivosCierre();
 
         Clases.ClaseReporteCierreCaja reporteCierre = new Clases.ClaseReporteCierreCaja();
-        Clases.ClaseCierreBoleteria reporte = new Clases.ClaseCierreBoleteria();
+        //Clases.ClaseCierreBoleteria reporte = new Clases.ClaseCierreBoleteria();
+        Clases.ClaseCierreBoleteria_2 reporte = new Clases.ClaseCierreBoleteria_2();
         Clases.ClaseImpresion imprimir = new Clases.ClaseImpresion();
 
         string sSql;
@@ -57,7 +58,7 @@ namespace Solution_CTT
             {
                 Response.Redirect("frmPermisos.aspx");
                 return;
-            }            
+            }
 
             sDatosMaximo[0] = Session["usuario"].ToString();
             sDatosMaximo[1] = Environment.MachineName.ToString();
@@ -70,12 +71,12 @@ namespace Solution_CTT
                 consultarCaja();
                 sFecha = DateTime.Now.ToString("yyyy/MM/dd");
                 llenarCajasTexto();
-                llenarGrid(sFecha);
+                llenarGrid();
                 llenarGridVigentes(sFecha);
-                llenarGridPagosAdministrativos(sFecha);
-                llenarGridPagosCumplidos(sFecha);
-                llenarGridPagosAtrasadosPagados(sFecha);
-                llenarViajesActivos(sFecha);
+                llenarGridPagosAdministrativos();
+                llenarGridPagosCumplidos();
+                llenarGridPagosAtrasadosPagados();
+                llenarViajesActivos();
             }
         }
 
@@ -143,16 +144,6 @@ namespace Solution_CTT
             try
             {
                 Session["id_jornada_tasa"] = Session["idJornada"].ToString();
-
-                //if (Session["id_jornada_tasa"] != null)
-                //{
-                //    Session["id_jornada_tasa"] = Session["idJornada"].ToString();
-                //}
-
-                //else
-                //{
-                //    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'No se encuentran los parámetros para cerrar la caja.', 'warning');", true);
-                //}
             }
 
             catch (Exception ex)
@@ -163,7 +154,7 @@ namespace Solution_CTT
         }
 
         //FUNCION PARA CARGAR LOS PAGOS ADMINISTRATIVOS COBRADOS
-        private void llenarGridPagosAdministrativos(string sFecha_P)
+        private void llenarGridPagosAdministrativos()
         {
             try
             {
@@ -171,21 +162,23 @@ namespace Solution_CTT
                 sSql += "select '1. RETENCION:' descripcion," + Environment.NewLine;
                 sSql += "ltrim(str(isnull(sum(isnull(valor, 0)), 0), 10, 2)) valor" + Environment.NewLine;
                 sSql += "from ctt_vw_cierre_boleteria" + Environment.NewLine;
-                sSql += "where fecha_pedido = '" + sFecha_P + "'" + Environment.NewLine;
-                sSql += "and cobro_boletos = 0" + Environment.NewLine;
+                //sSql += "where fecha_pedido = '" + sFecha_P + "'" + Environment.NewLine;
+                sSql += "where cobro_boletos = 0" + Environment.NewLine;
                 sSql += "and cobro_retencion = 1" + Environment.NewLine;
                 sSql += "and cobro_administrativo = 0" + Environment.NewLine;
-                sSql += "and id_ctt_jornada = " + Convert.ToInt32(Session["idJornada"].ToString()) + Environment.NewLine;
+                //sSql += "and id_ctt_jornada = " + Convert.ToInt32(Session["idJornada"].ToString()) + Environment.NewLine;
+                sSql += "and id_ctt_cierre_caja = " + Session["idCierreCaja"].ToString() + Environment.NewLine;
                 sSql += "union" + Environment.NewLine;
                 sSql += "select '2. ADMINISTRACIÓN:' descripcion," + Environment.NewLine;
                 sSql += "ltrim(str(isnull(sum(isnull(valor, 0)), 0), 10, 2)) valor" + Environment.NewLine;
                 sSql += "from ctt_vw_cierre_boleteria" + Environment.NewLine;
-                sSql += "where fecha_pedido = '" + sFecha_P + "'" + Environment.NewLine;
-                sSql += "and cobro_boletos = 0" + Environment.NewLine;
+                //sSql += "where fecha_pedido = '" + sFecha_P + "'" + Environment.NewLine;
+                sSql += "where cobro_boletos = 0" + Environment.NewLine;
                 sSql += "and cobro_retencion = 0" + Environment.NewLine;
                 sSql += "and cobro_administrativo = 1" + Environment.NewLine;
                 sSql += "and pago_cumplido = 1" + Environment.NewLine;
-                sSql += "and id_ctt_jornada = " + Convert.ToInt32(Session["idJornada"].ToString());
+                //sSql += "and id_ctt_jornada = " + Convert.ToInt32(Session["idJornada"].ToString());
+                sSql += "and id_ctt_cierre_caja = " + Session["idCierreCaja"].ToString();
 
                 dtConsulta = new DataTable();
                 dtConsulta.Clear();
@@ -197,7 +190,7 @@ namespace Solution_CTT
                     dgvPagosAdministrativos.DataSource = dtConsulta;
                     dgvPagosAdministrativos.DataBind();
 
-                    dgvPagosAdministrativos.Columns[1].ItemStyle.HorizontalAlign = HorizontalAlign.Center;                    
+                    dgvPagosAdministrativos.Columns[1].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
                 }
 
                 else
@@ -215,15 +208,16 @@ namespace Solution_CTT
         }
 
         //FUNCION PARA CARGAR LOS PAGOS ATRASADOS PAGADOS
-        private void llenarGridPagosAtrasadosPagados(string sFecha_P)
+        private void llenarGridPagosAtrasadosPagados()
         {
             try
             {
                 sSql = "";
                 sSql += "select fecha_viaje, hora_salida, disco + ' - ' + placa vehiculo, valor" + Environment.NewLine;
                 sSql += "from ctt_vw_pagos_pendientes_atrasados" + Environment.NewLine;
-                sSql += "where fecha_pago = '" + sFecha_P + "'" + Environment.NewLine;
-                sSql += "and id_ctt_jornada = " + Convert.ToInt32(Session["idJornada"].ToString());
+                //sSql += "where fecha_pago = '" + sFecha_P + "'" + Environment.NewLine;
+                //sSql += "and id_ctt_jornada = " + Convert.ToInt32(Session["idJornada"].ToString());
+                sSql += "where id_ctt_cierre_caja = " + Session["idCierreCaja"].ToString();
 
                 atrasadosE.ISQL = sSql;
                 dgvPagosAtrasados.DataSource = atrasadosM.listarPagosAtrasadosPagados(atrasadosE);
@@ -258,15 +252,16 @@ namespace Solution_CTT
         }
 
         //FUNCION PARA CARGAR LOS PAGOS CUMPLIDOS
-        private void llenarGridPagosCumplidos(string sFecha_P)
+        private void llenarGridPagosCumplidos()
         {
             try
             {
                 sSql = "";
                 sSql += "select fecha_viaje, hora_salida, disco + ' - ' + placa vehiculo, valor" + Environment.NewLine;
                 sSql += "from ctt_vw_pagos_pendientes_cumplidos" + Environment.NewLine;
-                sSql += "where fecha_pago = '" + sFecha_P + "'" + Environment.NewLine;
-                sSql += "and id_ctt_jornada = " + Convert.ToInt32(Session["idJornada"].ToString());
+                //sSql += "where fecha_pago = '" + sFecha_P + "'" + Environment.NewLine;
+                //sSql += "and id_ctt_jornada = " + Convert.ToInt32(Session["idJornada"].ToString());
+                sSql += "where id_ctt_cierre_caja = " + Session["idCierreCaja"].ToString();
 
                 atrasadosE.ISQL = sSql;
                 dgvPagosCumplidos.DataSource = atrasadosM.listarPagosAtrasadosPagados(atrasadosE);
@@ -296,7 +291,7 @@ namespace Solution_CTT
         }
 
         //FUNCION PARA MOSTRAR LOS VIAJES ACTIVOS QUE QUEDAN EN EL SISTEMA
-        private void llenarViajesActivos(string sFecha_P)
+        private void llenarViajesActivos()
         {
             try
             {
@@ -304,8 +299,9 @@ namespace Solution_CTT
                 sSql += "select fecha_viaje, hora_salida, ruta, sum(cantidad) cantidad," + Environment.NewLine;
                 sSql += "ltrim(str(sum(cantidad * (precio_unitario - valor_dscto + valor_iva)), 10, 2)) valor" + Environment.NewLine;
                 sSql += "from ctt_vw_viajes_activos" + Environment.NewLine;
-                sSql += "where fecha_pedido = '" + sFecha + "'" + Environment.NewLine;
-                sSql += "and id_ctt_jornada = " + Convert.ToInt32(Session["idJornada"].ToString()) + Environment.NewLine;
+                //sSql += "where fecha_pedido = '" + sFecha + "'" + Environment.NewLine;
+                //sSql += "and id_ctt_jornada = " + Convert.ToInt32(Session["idJornada"].ToString()) + Environment.NewLine;
+                sSql += "where id_ctt_cierre_caja = " + Session["idCierreCaja"].ToString() + Environment.NewLine;
                 sSql += "group by fecha_viaje, hora_salida, ruta" + Environment.NewLine;
                 sSql += "order by fecha_viaje, hora_salida";
 
@@ -344,7 +340,7 @@ namespace Solution_CTT
                 sSql = "";
                 sSql += "select id_ctt_programacion, hora_salida, fecha_grid, vehiculo, ruta, asientos_ocupados, tipo_viaje, valor" + Environment.NewLine;
                 sSql += "from ctt_vw_cierre_caja_2" + Environment.NewLine;
-                sSql += "where fecha_viaje = '" + sFecha_P + "'" + Environment.NewLine;
+                sSql += "where fecha_viaje >= '" + sFecha_P + "'" + Environment.NewLine;
                 sSql += "and estado_salida = 'Abierta'" + Environment.NewLine;
                 sSql += "order by hora_salida";
 
@@ -367,12 +363,12 @@ namespace Solution_CTT
                         sSql += "and cobro_retencion = 0" + Environment.NewLine;
                         sSql += "and cobro_administrativo = 0" + Environment.NewLine;
                         sSql += "and CP.id_ctt_programacion = " + Convert.ToInt32(dtConsulta.Rows[i]["id_ctt_programacion"].ToString());
-                        
+
                         dtAyuda = new DataTable();
                         dtAyuda.Clear();
-                       
+
                         bRespuesta = conexionM.consultarRegistro(sSql, dtAyuda);
-                        
+
                         if (bRespuesta)
                         {
                             dtConsulta.Rows[i]["id_ctt_programacion"] = (i + 1).ToString();
@@ -421,9 +417,7 @@ namespace Solution_CTT
                 ScriptManager.RegisterStartupScript(this, GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
-
         
-
         //FUNCION PARA LLENAR LAS CAJAS DE TEXTO
         private void llenarCajasTexto()
         {
@@ -440,13 +434,13 @@ namespace Solution_CTT
                 else
                 {
                     txtFechaApertura.Text = Convert.ToDateTime(Session["fechaApertura"].ToString()).ToString("dd/MM/yyyy");
-                    txtHoraApertura.Text = Convert.ToDateTime(Session["horaApertura"].ToString()).ToString("HH:mm");                    
+                    txtHoraApertura.Text = Convert.ToDateTime(Session["horaApertura"].ToString()).ToString("HH:mm");
                 }
 
-                txtOficinista.Text = Session["usuario"].ToString().ToUpper();                
+                txtOficinista.Text = Session["usuario"].ToString().ToUpper();
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
                 ScriptManager.RegisterStartupScript(this, GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
@@ -454,16 +448,17 @@ namespace Solution_CTT
         }
 
         //FUNCION PARA LLENAR EL GRID
-        private void llenarGrid(string sFecha_P)
+        private void llenarGrid()
         {
             try
             {
                 sSql = "";
                 sSql += "select id_ctt_programacion, hora_salida, fecha_grid, vehiculo, ruta, asientos_ocupados, tipo_viaje, valor" + Environment.NewLine;
                 sSql += "from ctt_vw_cierre_caja_2" + Environment.NewLine;
-                sSql += "where fecha_viaje = '" + sFecha_P + "'" + Environment.NewLine;
-                sSql += "and estado_salida = 'Cerrada'" + Environment.NewLine;
-                sSql += "and id_ctt_jornada = " + Convert.ToInt32(Session["idJornada"].ToString()) + Environment.NewLine;
+                //sSql += "where fecha_viaje = '" + sFecha_P + "'" + Environment.NewLine;
+                sSql += "where estado_salida = 'Cerrada'" + Environment.NewLine;
+                //sSql += "and id_ctt_jornada = " + Convert.ToInt32(Session["idJornada"].ToString()) + Environment.NewLine;
+                sSql += "and id_ctt_cierre_caja = " + Session["idCierreCaja"].ToString();
                 sSql += "order by hora_salida";
 
                 dtConsulta = new DataTable();
@@ -530,7 +525,7 @@ namespace Solution_CTT
                 }
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
                 ScriptManager.RegisterStartupScript(this, GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
@@ -554,7 +549,7 @@ namespace Solution_CTT
                 sSql = "";
                 sSql += "update ctt_cierre_caja set" + Environment.NewLine;
                 sSql += "fecha_cierre = '" + sFecha + "'," + Environment.NewLine;
-                sSql += "hora_cierre = '" + sHora + "',"  + Environment.NewLine;
+                sSql += "hora_cierre = '" + sHora + "'," + Environment.NewLine;
                 sSql += "estado_cierre_caja = 'Cerrada'," + Environment.NewLine;
                 sSql += "saldo_final = " + Convert.ToDouble(txtSaldoFinal.Text.Trim()) + "," + Environment.NewLine;
                 sSql += "id_ctt_oficinista_cierre = " + Convert.ToInt32(Session["idUsuario"].ToString()) + Environment.NewLine;
@@ -574,7 +569,8 @@ namespace Solution_CTT
                 dtConsulta.Clear();
                 dtConsulta = Session["dtTasasPagadas"] as DataTable;
 
-                if (reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), dtConsulta, Convert.ToInt32(Session["idUsuario"].ToString()), 1) == true)
+                //if (reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), dtConsulta, Convert.ToInt32(Session["idUsuario"].ToString()), 1) == true)
+                if (reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), dtConsulta, Convert.ToInt32(Session["idUsuario"].ToString()), 1, Convert.ToInt32(Session["idCierreCaja"].ToString())) == true)
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Cierre de caja procesado éxitosamente.', 'success');", true);
                     Response.Redirect("frmCerrarSesion.aspx");
@@ -582,15 +578,15 @@ namespace Solution_CTT
                 }
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
                 ScriptManager.RegisterStartupScript(this, GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 goto reversa;
             }
 
-            reversa: { conexionM.reversaTransaccion(); }
-            fin: { }
+        reversa: { conexionM.reversaTransaccion(); }
+        fin: { }
         }
 
         //FUNCION PARA CREAR EL REPORTE 
@@ -641,7 +637,7 @@ namespace Solution_CTT
                 }
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
                 ScriptManager.RegisterStartupScript(this, GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
@@ -716,8 +712,7 @@ namespace Solution_CTT
                 return -1;
             }
         }
-
-
+        
         #endregion
 
         protected void btnCerrarCaja_Click(object sender, EventArgs e)
@@ -734,16 +729,17 @@ namespace Solution_CTT
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'Debe registrar la apertura de caja para imprimir el reporte de cierre.', 'info');", true);
                     return;
                 }
-                
+
                 dtConsulta = new DataTable();
                 dtConsulta.Clear();
                 dtConsulta = Session["dtTasasPagadas"] as DataTable;
-                reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), dtConsulta, Convert.ToInt32(Session["idUsuario"].ToString()), 0);
+                //reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), dtConsulta, Convert.ToInt32(Session["idUsuario"].ToString()), 0);
+                reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), dtConsulta, Convert.ToInt32(Session["idUsuario"].ToString()), 0, Convert.ToInt32(Session["idCierreCaja"].ToString()));
             }
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
                 ScriptManager.RegisterStartupScript(this, GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -784,7 +780,8 @@ namespace Solution_CTT
 
             else
             {
-                reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), dtConsulta, Convert.ToInt32(Session["idUsuario"].ToString()), 1);
+                //reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), dtConsulta, Convert.ToInt32(Session["idUsuario"].ToString()), 1);
+                reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), dtConsulta, Convert.ToInt32(Session["idUsuario"].ToString()), 1, Convert.ToInt32(Session["idCierreCaja"].ToString()));
             }
         }
     }
