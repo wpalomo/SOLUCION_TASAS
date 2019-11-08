@@ -47,6 +47,7 @@ namespace Solution_CTT
         string sCodigoTasaRespuesta;
         string sIdTasaRespuesta_P;
         string sErrorRespuesta_P;
+        string sMensajeErrorRespuesta_P;
         
         string sNombreCliente;
         string sDireccionCliente;
@@ -547,8 +548,9 @@ namespace Solution_CTT
                         sIdTasaRespuesta_P = lote.Error[i].IdTasa.ToString();
                         //sErrorRespuesta_P = lote.Error[i].Error[0].ToString();
                         sErrorRespuesta_P = lote.Error[i].error_1[0].ToString();
+                        sMensajeErrorRespuesta_P = lote.Error[i].error_1[1].ToString();
 
-                        if (sErrorRespuesta_P.Trim() == "Tasa ya registrada")
+                        if ((sErrorRespuesta_P.Trim() == "Token invalido") && (sMensajeErrorRespuesta_P.Trim() == "Tasa ya registrada"))
                         {
                             DataRow[] dFila = dtDatos.Select("tasa_usuario = " + sCodigoTasaRespuesta);
 

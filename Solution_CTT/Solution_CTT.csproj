@@ -38,8 +38,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AjaxControlToolkit">
-      <HintPath>..\..\..\..\Documents\Visual Studio 2013\Projects\Repository\Solucion_Buses - Tasa Usuario\Solution_CTT\bin\AjaxControlToolkit.dll</HintPath>
+    <Reference Include="AjaxControlToolkit, Version=16.1.1.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\AjaxControlToolkit.dll</HintPath>
     </Reference>
     <Reference Include="BarcodeLib">
       <HintPath>..\packages\BarcodeLib.1.0.0.20\lib\net20\BarcodeLib.dll</HintPath>
@@ -629,6 +630,8 @@
     <Content Include="dist\css\adminlte.min.css.map" />
     <Content Include="dist\img\Thumbs.db" />
     <Content Include="frmCierreCajero.aspx" />
+    <Content Include="frmDefinicionCortaLocalidades.aspx" />
+    <Content Include="frmDefinicionLocalidades.aspx" />
     <Content Include="frmDetalleRuta.aspx" />
     <Content Include="frmDetalleTransaccionesTasa.aspx" />
     <Content Include="frmDevolucionBoletos.aspx" />
@@ -7438,6 +7441,20 @@
     </Compile>
     <Compile Include="frmCrearViajeExtra.aspx.designer.cs">
       <DependentUpon>frmCrearViajeExtra.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmDefinicionCortaLocalidades.aspx.cs">
+      <DependentUpon>frmDefinicionCortaLocalidades.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmDefinicionCortaLocalidades.aspx.designer.cs">
+      <DependentUpon>frmDefinicionCortaLocalidades.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmDefinicionLocalidades.aspx.cs">
+      <DependentUpon>frmDefinicionLocalidades.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmDefinicionLocalidades.aspx.designer.cs">
+      <DependentUpon>frmDefinicionLocalidades.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmDetalleRuta.aspx.cs">
       <DependentUpon>frmDetalleRuta.aspx</DependentUpon>

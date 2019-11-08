@@ -537,6 +537,23 @@
                             <li><a href="frmImpresoras.aspx"><i class="fa fa-circle-o"></i>Configurar Impresoras</a></li>
                         </ul>
                     </li>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-home"></i>
+                            <span>Localidades</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="frmDefinicionCortaLocalidades.aspx"><i class="fa fa-circle-o"></i>Definción Corta de Localidades</a></li>
+                            <li><a href="frmDefinicionLocalidades.aspx"><i class="fa fa-circle-o"></i>Definir Localidades</a></li>
+                            
+                            <%--<li><a href="frmparametroslocalidad.aspx"><i class="fa fa-circle-o"></i>parámetros terminales</a></li>
+                            <li><a href="frmimpresoras.aspx"><i class="fa fa-circle-o"></i>configurar impresoras</a></li>--%>
+                        </ul>
+                    </li>
                 </ul>
             </section>
             <!-- /.sidebar -->
