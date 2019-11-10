@@ -12,10 +12,8 @@ namespace Solution_CTT
 {
     public partial class frmDefinicionLocalidades : System.Web.UI.Page
     {
-        ENTPueblos puebloE = new ENTPueblos();
         ENTComboDatos comboE = new ENTComboDatos();
         manejadorComboDatos comboM = new manejadorComboDatos();
-        manejadorPueblos puebloM = new manejadorPueblos();
         manejadorConexion conexionM = new manejadorConexion();
 
         string sSql;

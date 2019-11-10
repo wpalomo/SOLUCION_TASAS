@@ -549,6 +549,7 @@
                         <ul class="treeview-menu">
                             <li><a href="frmDefinicionCortaLocalidades.aspx"><i class="fa fa-circle-o"></i>Definción Corta de Localidades</a></li>
                             <li><a href="frmDefinicionLocalidades.aspx"><i class="fa fa-circle-o"></i>Definir Localidades</a></li>
+                            <li><a href="frmLocalidadesImpresoras.aspx"><i class="fa fa-circle-o"></i>Localidades Impresoras</a></li>
                             
                             <%--<li><a href="frmparametroslocalidad.aspx"><i class="fa fa-circle-o"></i>parámetros terminales</a></li>
                             <li><a href="frmimpresoras.aspx"><i class="fa fa-circle-o"></i>configurar impresoras</a></li>--%>

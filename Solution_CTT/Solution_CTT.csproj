@@ -652,6 +652,7 @@
     <Content Include="frmIngresoPagosPendientes.aspx" />
     <Content Include="frmItinerarios.aspx" />
     <Content Include="frmItinerariosExtras.aspx" />
+    <Content Include="frmLocalidadesImpresoras.aspx" />
     <Content Include="frmMarcaVehiculos.aspx" />
     <Content Include="frmMensajeCaja.aspx" />
     <Content Include="frmModeloVehiculos.aspx" />
@@ -7595,6 +7596,13 @@
     </Compile>
     <Compile Include="frmItinerariosExtras.aspx.designer.cs">
       <DependentUpon>frmItinerariosExtras.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmLocalidadesImpresoras.aspx.cs">
+      <DependentUpon>frmLocalidadesImpresoras.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmLocalidadesImpresoras.aspx.designer.cs">
+      <DependentUpon>frmLocalidadesImpresoras.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmLogin.aspx.cs">
       <DependentUpon>frmLogin.aspx</DependentUpon>
