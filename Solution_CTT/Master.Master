@@ -365,7 +365,8 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="frmSincronizarTasasUsuario.aspx"><i class="fa fa-circle-o"></i>Sincronizar Tasas Pendientes</a></li>
+                            <li><a href="frmSincronizarTasasUsuario.aspx"><i class="fa fa-circle-o"></i>Sincronizar Tasas Pendientes V1</a></li>
+                            <li><a href="frmSincronizarTasasUsuario_V2.aspx"><i class="fa fa-circle-o"></i>Sincronizar Tasas Pendientes V2</a></li>
                             <%--<li><a href="frmSincronizarTasasAnuladas.aspx"><i class="fa fa-circle-o"></i>Sincronizar Tasas Anuladas</a></li>--%>
                             <li><a href="frmDetalleTransaccionesTasa.aspx"><i class="fa fa-circle-o"></i>Transacciones Tasa Usuario</a></li>
                             <li><a href="frmObtenerTokens.aspx"><i class="fa fa-circle-o"></i>Detalle de Tokens</a></li>

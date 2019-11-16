@@ -6,3 +6,10 @@ D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\DATOS\bin\Release\ENTIDADES.dll
 D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\DATOS\bin\Release\ENTIDADES.pdb
 D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\DATOS\obj\Release\DATOS.dll
 D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\DATOS\obj\Release\DATOS.pdb
+C:\Users\Usuario\Desktop\SOLUCION_TASAS\DATOS\bin\Release\DATOS.dll
+C:\Users\Usuario\Desktop\SOLUCION_TASAS\DATOS\bin\Release\DATOS.pdb
+C:\Users\Usuario\Desktop\SOLUCION_TASAS\DATOS\bin\Release\ENTIDADES.dll
+C:\Users\Usuario\Desktop\SOLUCION_TASAS\DATOS\bin\Release\ENTIDADES.pdb
+C:\Users\Usuario\Desktop\SOLUCION_TASAS\DATOS\obj\Release\DATOS.csprojResolveAssemblyReference.cache
+C:\Users\Usuario\Desktop\SOLUCION_TASAS\DATOS\obj\Release\DATOS.dll
+C:\Users\Usuario\Desktop\SOLUCION_TASAS\DATOS\obj\Release\DATOS.pdb

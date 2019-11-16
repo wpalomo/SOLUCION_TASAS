@@ -81,8 +81,8 @@
                                     <asp:TextBox ID="txtPassword" runat="server" required="" class="form-control" TabIndex="2" TextMode="Password" placeholder="CONTRASEÑA"></asp:TextBox>
 								</div>
 
-								<asp:RadioButton ID="rdbMatutina" runat="server" Text="&nbsp&nbspMAÑANA" Checked="true" GroupName="jornada" />
-                                <asp:RadioButton ID="rdbVespertina" runat="server" Text="&nbsp&nbspTARDE" GroupName="jornada" />
+								<%--<asp:RadioButton ID="rdbMatutina" runat="server" Text="&nbsp&nbspMAÑANA" Checked="true" GroupName="jornada" />
+                                <asp:RadioButton ID="rdbVespertina" runat="server" Text="&nbsp&nbspTARDE" GroupName="jornada" />--%>
 								
                                 <div class="form-group no-margin">
                                     <asp:Button ID="btnIngresar" runat="server" Text="Ingresar" class="btn btn-primary btn-block" TabIndex="4" OnClick="btnIngresar_Click"/>                                    

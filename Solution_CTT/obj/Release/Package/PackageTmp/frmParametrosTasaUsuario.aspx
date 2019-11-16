@@ -210,11 +210,20 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label class="col-sm-5 control-label">&nbsp</label>
                                                     <div class="input-group col-sm-12">
-                                                        <asp:CheckBox ID="chkNotificacionEmergente" runat="server" class="form-control input-sm" Text="&nbsp&nbspMostrar Notificación Emergente de Porcentaje de Tasas de Usuario" />
+                                                        <asp:CheckBox ID="chkNotificacionEmergente" runat="server" class="form-control input-sm" Text="&nbsp&nbspMostrar Notificación de Tasas" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="col-sm-5 control-label">&nbsp</label>
+                                                    <div class="input-group col-sm-12">
+                                                        <asp:CheckBox ID="chkEmitirTasaEnLinea" runat="server" class="form-control input-sm" Text="&nbsp&nbspEmitir tasa de inmediato" />
                                                     </div>
                                                 </div>
                                             </div>

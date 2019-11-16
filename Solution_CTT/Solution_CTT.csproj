@@ -688,6 +688,7 @@
     <Content Include="frmRutas.aspx" />
     <Content Include="frmSincronizacioIndividual.aspx" />
     <Content Include="frmSincronizarTasasUsuario.aspx" />
+    <Content Include="frmSincronizarTasasUsuario_V2.aspx" />
     <Content Include="frmTasaAcompanante.aspx" />
     <Content Include="frmTasaUsuarioPrueba.aspx" />
     <Content Include="frmTerminales.aspx" />
@@ -7869,6 +7870,13 @@
     </Compile>
     <Compile Include="frmSincronizarTasasUsuario.aspx.designer.cs">
       <DependentUpon>frmSincronizarTasasUsuario.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmSincronizarTasasUsuario_V2.aspx.cs">
+      <DependentUpon>frmSincronizarTasasUsuario_V2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmSincronizarTasasUsuario_V2.aspx.designer.cs">
+      <DependentUpon>frmSincronizarTasasUsuario_V2.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmTasaAcompanante.aspx.cs">
       <DependentUpon>frmTasaAcompanante.aspx</DependentUpon>

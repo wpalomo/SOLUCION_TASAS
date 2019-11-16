@@ -192,7 +192,7 @@ namespace Solution_CTT
                 //Configurar las propiedad del objeto de llamada
                 request.Method = "POST";
                 request.ContentType = "application/json";
-                request.Timeout = 5000;
+                request.Timeout = 15000;
 
                 //Serializar el objeto a enviar. Para esto uso la libreria Newtonsoft
                 //string sb = JsonConvert.SerializeObject(sAyuda);

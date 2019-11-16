@@ -27,6 +27,7 @@ namespace Solution_CTT
         int iPermitir;
         int iNotificacionEmergente;
         int iImprimirTasaUsuario;
+        int iEmitirEnLinea;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -88,7 +89,7 @@ namespace Solution_CTT
                 sSql += "webservice_tasa_usuario, webservice_tasa_anulacion, permite_anular_tasa," + Environment.NewLine;
                 sSql += "webservice_verifica_token, webservice_tasa_lote, webservice_detalle_transacciones," + Environment.NewLine;
                 sSql += "webservice_tasa_notificacion, notificacion_emergente, webservice_get_tokens," + Environment.NewLine;
-                sSql += "adjuntar_tasa_boleto" + Environment.NewLine;
+                sSql += "adjuntar_tasa_boleto, emite_inmediato" + Environment.NewLine;
                 sSql += "from ctt_tasa_parametros" + Environment.NewLine;
                 sSql += "where estado = 'A'";
 
@@ -149,6 +150,16 @@ namespace Solution_CTT
                             chkImprimirTasaUsuario.Checked = true;
                         }
 
+                        if (Convert.ToInt32(dtConsulta.Rows[0]["emite_inmediato"].ToString()) == 0)
+                        {
+                            chkEmitirTasaEnLinea.Checked = false;
+                        }
+
+                        else
+                        {
+                            chkEmitirTasaEnLinea.Checked = true;
+                        }
+
                         pnlRegistro.Enabled = false;
                         btnGuardar.Text = "Editar";
                     }
@@ -173,6 +184,7 @@ namespace Solution_CTT
                         chkAnularTasa.Checked = false;
                         chkNotificacionEmergente.Checked = false;
                         chkImprimirTasaUsuario.Checked = false;
+                        chkEmitirTasaEnLinea.Checked = false;
                         btnGuardar.Text = "Guardar";
                         pnlRegistro.Enabled = true;
                         cmbTerminal.Focus();
@@ -211,7 +223,7 @@ namespace Solution_CTT
                 sSql += "webservice_tasa_anulacion, emision, valor_tasa, permite_anular_tasa," + Environment.NewLine;
                 sSql += "webservice_verifica_token, webservice_tasa_lote, webservice_detalle_transacciones," + Environment.NewLine;
                 sSql += "webservice_tasa_notificacion, notificacion_emergente, webservice_get_tokens," + Environment.NewLine;
-                sSql += "adjuntar_tasa_boleto, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                sSql += "adjuntar_tasa_boleto, emite_inmediato, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(cmbTerminal.SelectedValue) + ", " + Convert.ToInt32(txtIdOficina.Text.Trim()) + ", ";
                 sSql += Convert.ToInt32(txtIdCooperativa.Text.Trim()) + ", '" + txtWsPruebas.Text.Trim() + "'," + Environment.NewLine;
@@ -221,7 +233,7 @@ namespace Solution_CTT
                 sSql += "'" + txtUrlVerificarToken.Text.Trim() + "', '" + txtUrlEmisionLote.Text.Trim() + "'," + Environment.NewLine;
                 sSql += "'" + txtUrlDetalleTransacciones.Text.Trim() + "', '" + txtUrlEnviarNotificacion.Text.Trim() + "'," + Environment.NewLine;
                 sSql += iNotificacionEmergente + ", '" + txtUrlGetTokens.Text.Trim() + "', " + iImprimirTasaUsuario + "," + Environment.NewLine;
-                sSql += "'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
+                sSql += iEmitirEnLinea + ", 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
                 {
@@ -276,7 +288,8 @@ namespace Solution_CTT
                 sSql += "permite_anular_tasa = " + iPermitir + "," + Environment.NewLine;
                 sSql += "notificacion_emergente = " + iNotificacionEmergente + "," + Environment.NewLine;
                 sSql += "webservice_get_tokens = '" + txtUrlGetTokens.Text.Trim() + "'," + Environment.NewLine;
-                sSql += "adjuntar_tasa_boleto = " + iImprimirTasaUsuario + Environment.NewLine;
+                sSql += "adjuntar_tasa_boleto = " + iImprimirTasaUsuario + "," + Environment.NewLine;
+                sSql += "emite_inmediato = " + iEmitirEnLinea + Environment.NewLine;
                 sSql += "where id_ctt_tasa_parametro = " + Convert.ToInt32(Session["idParametroTasa"]) + Environment.NewLine;
                 sSql += "and estado = 'A'";
 
@@ -421,6 +434,16 @@ namespace Solution_CTT
                         else
                         {
                             iImprimirTasaUsuario = 0;
+                        }
+
+                        if (chkEmitirTasaEnLinea.Checked == true)
+                        {
+                            iEmitirEnLinea = 1;
+                        }
+
+                        else
+                        {
+                            iEmitirEnLinea = 0;
                         }
 
                         if (Session["idParametroTasa"] == null)

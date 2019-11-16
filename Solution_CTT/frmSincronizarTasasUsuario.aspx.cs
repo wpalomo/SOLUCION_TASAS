@@ -128,7 +128,7 @@ namespace Solution_CTT
             try
             {
                 sSql = "";
-                sSql += "select id_factura, identificacion, cliente, fecha_factura, establecimiento, punto_emision," + Environment.NewLine;
+                sSql += "select top 10 id_factura, identificacion, cliente, fecha_factura, establecimiento, punto_emision," + Environment.NewLine;
                 sSql += "numero_factura, tasa_usuario, cantidad_tasa_emitida, isnull(direccion_factura, '') direccion_factura," + Environment.NewLine;
                 sSql += "isnull(telefono_factura, '') telefono_factura, isnull(correo_electronico, '') correo_electronico" + Environment.NewLine;
                 sSql += "from ctt_vw_tasa_usuario_no_enviada" + Environment.NewLine;
@@ -495,7 +495,7 @@ namespace Solution_CTT
                 //Configurar las propiedad del objeto de llamada
                 request.Method = "POST";
                 request.ContentType = "application/json";
-                request.Timeout = 5000;
+                request.Timeout = 30000;
 
                 //Serializar el objeto a enviar. Para esto uso la libreria Newtonsoft
                 //string sb = JsonConvert.SerializeObject(sAyuda);
@@ -551,6 +551,7 @@ namespace Solution_CTT
                         sMensajeErrorRespuesta_P = lote.Error[i].error_1[1].ToString();
 
                         if ((sErrorRespuesta_P.Trim() == "Token invalido") && (sMensajeErrorRespuesta_P.Trim() == "Tasa ya registrada"))
+                        //if (sErrorRespuesta_P.Trim() == "Tasa ya registrada")
                         {
                             DataRow[] dFila = dtDatos.Select("tasa_usuario = " + sCodigoTasaRespuesta);
 

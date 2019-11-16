@@ -3102,19 +3102,27 @@ namespace Solution_CTT
                 {
                     sIdTasaRespuesta = "";
 
-                    if (conexionInternet() == true)
+                    if (Convert.ToInt32(Session["emite_inmediato_Venta"].ToString()) == 1)
                     {
-                        if (crearJson() == false)
+                        if (conexionInternet() == true)
                         {
-                            return false;
+                            if (crearJson() == false)
+                            {
+                                return false;
+                            }
+
+                            iTasaEmitidaBandera = 1;
                         }
 
-                        iTasaEmitidaBandera = 1;
+                        else
+                        {
+                            iTasaEmitidaBandera = 1;
+                        }
                     }
 
                     else
                     {
-                        iTasaEmitidaBandera = 1;
+                        iTasaEmitidaBandera = 0;
                     }
 
                     //ACTUALIZAR LA TABLA CV403_FACTURAS
@@ -3467,7 +3475,7 @@ namespace Solution_CTT
                 sSql += "servidor_produccion, webservice_tasa_credenciales, webservice_tasa_usuario," + Environment.NewLine;
                 sSql += "webservice_tasa_anulacion, webservice_verifica_token, webservice_tasa_lote," + Environment.NewLine;
                 sSql += "webservice_detalle_transacciones, webservice_tasa_notificacion, emision, valor_tasa," + Environment.NewLine;
-                sSql += "notificacion_emergente, adjuntar_tasa_boleto" + Environment.NewLine;
+                sSql += "notificacion_emergente, adjuntar_tasa_boleto, isnull(emite_inmediato, 0) emite_inmediato" + Environment.NewLine;
                 sSql += "from ctt_tasa_parametros" + Environment.NewLine;
                 sSql += "where estado = 'A'";
 
@@ -3497,6 +3505,7 @@ namespace Solution_CTT
                     Session["valor_tasa_usuario"] = dtConsulta.Rows[0]["valor_tasa"].ToString();
                     Session["notificacion_emergente"] = dtConsulta.Rows[0]["notificacion_emergente"].ToString();
                     Session["adjuntar_tasa_boleto"] = dtConsulta.Rows[0]["adjuntar_tasa_boleto"].ToString();
+                    Session["emite_inmediato_Venta"] = dtConsulta.Rows[0]["emite_inmediato"].ToString();
                 }
 
                 else
