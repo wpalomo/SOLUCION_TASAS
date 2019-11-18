@@ -222,7 +222,9 @@
                                                 <label class="col-sm-3 control-label">Descuento:</label>
                                                 <div class="input-group col-sm-8">
                                                     <asp:TextBox ID="txtDescuento" runat="server" BackColor="White" ReadOnly="true" class="form-control input-sm" Text="0.00" placeholder="Descuento" ></asp:TextBox>
-                                                    <span class="input-group-addon input-sm">$</span>
+                                                    <span class="input-group-addon input-sm">
+                                                        <asp:CheckBox ID="chkCortesia" runat="server" Text="&nbsp&nbspCortesía" AutoPostBack="true" />    
+                                                    </span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -1187,8 +1189,8 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="alert alert-success alert-dismissible text-center">
-                                            <label for="inputEmail3" class="col-sm-12 control-label">Ingrese el código TOKEN de 5 dígitos (00000)</label></br>
-                                            <label for="inputEmail3" class="col-sm-12 control-label">emitido por los operadores de la EPMMOP</label></br>
+                                            <label for="inputEmail3" class="col-sm-12 control-label">Ingrese el código TOKEN de 5 dígitos (00000)</label><br></br>
+                                            <label for="inputEmail3" class="col-sm-12 control-label">emitido por los operadores de la EPMMOP</label><br></br>
                                         </div>                                        
                                     </div>
                                 </div>
@@ -1254,6 +1256,7 @@
                                         <div class="alert alert-success alert-dismissible text-center">
                                             <label for="inputEmail3" class="col-sm-12 control-label"><b>1. </b>Anote bien su código de oficina que es este</label>
                                             <asp:TextBox ID="txtCodigoOficina" runat="server" MaxLength="5" Font-Size="XX-Large" style="text-align:center;" ReadOnly="true" BackColor="White" ForeColor="Red" Font-Bold="true"></asp:TextBox>
+                                            <br>
                                             </br>
                                         </div>                                        
                                     </div>
@@ -1262,7 +1265,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="alert alert-warning alert-dismissible text-center">
-                                            <label for="inputEmail3" class="col-sm-12 control-label"><b>2. </b>Acérquese a la taquilla de EPMMOP y solicite un nuevo<b>TOKEN</b></label></br>
+                                            <label for="inputEmail3" class="col-sm-12 control-label"><b>2. </b>Acérquese a la taquilla de EPMMOP y solicite un nuevo<b>TOKEN</b></label><br></br>
                                         </div>                                        
                                     </div>
                                 </div>
@@ -1270,7 +1273,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="alert alert-info alert-dismissible text-center">
-                                            <label for="inputEmail3" class="col-sm-12 control-label"><b>3. </b>Ingrese el código del TOKEN de 5 dígitos entregado.</label></br>
+                                            <label for="inputEmail3" class="col-sm-12 control-label"><b>3. </b>Ingrese el código del TOKEN de 5 dígitos entregado.</label><br></br>
                                         </div>                                        
                                     </div>
                                 </div>

@@ -5912,12 +5912,21 @@ namespace Solution_CTT
                 txtPrecio.Text = "0.00";
                 txtDescuento.Text = "0.00";
                 txtPrecioFinal.Text = "0.00";
-                //Session["factorDescuento"] = "0";
             }
 
             else
             {
                 consultarPrecio();
+
+                if (chkCortesia.Checked == true)
+                {
+                    txtDescuento.Text = txtPrecio.Text.Trim();
+                }
+
+                else
+                {
+                    txtDescuento.Text = "0.00";
+                }
             }
         }
         
@@ -7547,6 +7556,19 @@ namespace Solution_CTT
         protected void btnNotificacionToken_Click(object sender, EventArgs e)
         {
             ModalPopupExtender_NotificacionAutomatica.Show();
+        }
+
+        protected void chkCortesia_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkCortesia.Checked == true)
+            {
+                txtDescuento.Text = txtPrecio.Text.Trim();
+            }
+
+            else
+            {
+                txtDescuento.Text = "0.00";
+            }
         }
     }
 }
