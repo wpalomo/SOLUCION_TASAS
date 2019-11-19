@@ -178,8 +178,9 @@ namespace Solution_CTT
 
                 sSql = "";
                 sSql += "select * from ctt_vw_reporte_cobro_retenciones" + Environment.NewLine;
-                sSql += "where (fecha_viaje between '" + sFechaInicial + "'" + Environment.NewLine;
-                sSql += "and '" + sFechaFinal + "')" + Environment.NewLine;
+                sSql += "where fecha_viaje between '" + sFechaInicial + "'" + Environment.NewLine;
+                sSql += "and '" + sFechaFinal + "'" + Environment.NewLine;
+                sSql += "and id_ctt_pueblo_origen = " + Session["id_pueblo"].ToString() + Environment.NewLine;
 
                 if (iOp == 1)
                 {

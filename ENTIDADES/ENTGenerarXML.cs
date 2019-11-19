@@ -56,6 +56,14 @@ namespace ENTIDADES
             set { iNUMERO = value; }
         }
 
+        private string iIDLOCALIDAD;
+
+        public string IIDLOCALIDAD
+        {
+            get { return iIDLOCALIDAD; }
+            set { iIDLOCALIDAD = value; }
+        }
+
         private string iSQL;
 
         public string ISQL

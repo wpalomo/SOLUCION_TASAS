@@ -116,7 +116,8 @@ namespace Solution_CTT
                 sSql += "And NP.estado = 'A'" + Environment.NewLine;
                 sSql += "And F.facturaelectronica = 1" + Environment.NewLine;
                 sSql += "And CP.bandera_boleteria = 1" + Environment.NewLine;
-                sSql += "And CP.bandera_encomienda = 0" + Environment.NewLine; 
+                sSql += "And CP.bandera_encomienda = 0" + Environment.NewLine;
+                sSql += "And F.id_localidad = " + Application["idLocalidad"].ToString() + Environment.NewLine; 
                 sSql += "order by DP.Id_Det_Pedido";
 
                 dtConsulta = new DataTable();
@@ -382,10 +383,11 @@ namespace Solution_CTT
             {
                 sSql = "";
                 sSql += "select * from ctt_vw_facturas_paso_a_paso" + Environment.NewLine;
+                sSql += "where id_localidad = " + Application["idLocalidad"].ToString() + Environment.NewLine;
 
                 if (iOp == 1)
                 {
-                    sSql += "where numero_factura = " + Convert.ToInt32(txtFiltrarModalBuscarFacturas.Text.Trim());
+                    sSql += "and numero_factura = " + Convert.ToInt32(txtFiltrarModalBuscarFacturas.Text.Trim());
                 }
 
                 columnaGrid(true);
@@ -407,6 +409,7 @@ namespace Solution_CTT
         {
             dgvFiltrarModalBuscarFacturas.Columns[1].Visible = ok;
             dgvFiltrarModalBuscarFacturas.Columns[5].Visible = ok;
+            //dgvFiltrarModalBuscarFacturas.Columns[6].Visible = ok;
         }
         
         protected void lbtnSeleccion_Click(object sender, EventArgs e)
@@ -550,7 +553,7 @@ namespace Solution_CTT
                 {
                     if (buscarDirectorio() != true) return;
 
-                    long NumFactura = Convert.ToUInt16(txtNumeroFacturaBuscar.Text);
+                    long NumFactura = Convert.ToInt64(txtNumeroFacturaBuscar.Text);
                     int iNumeroDecimales = 2;
 
                     //generar.GSub_GenerarFacturaXML(NumFactura, 0, "1", "1", Session["sDirectorio"].ToString(), "FACTURA", iNumeroDecimales, "elvis.geovanni@hotmail.com", "elvis.geovanni@hotmail.com");

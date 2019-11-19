@@ -127,5 +127,29 @@ namespace ENTIDADES
             get { return iTASAUSUARIO; }
             set { iTASAUSUARIO = value; }
         }
+
+        private string iEJECUTACOBROADMINISTRACION;
+
+        public string IEJECUTACOBROADMINISTRACION
+        {
+            get { return iEJECUTACOBROADMINISTRACION; }
+            set { iEJECUTACOBROADMINISTRACION = value; }
+        }
+
+        private string iIDPROVEEDORTASAS;
+
+        public string IIDPROVEEDORTASAS
+        {
+            get { return iIDPROVEEDORTASAS; }
+            set { iIDPROVEEDORTASAS = value; }
+        }
+
+        private string iCODIGOPROVEEDOR;
+
+        public string ICODIGOPROVEEDOR
+        {
+            get { return iCODIGOPROVEEDOR; }
+            set { iCODIGOPROVEEDOR = value; }
+        }
     }
 }

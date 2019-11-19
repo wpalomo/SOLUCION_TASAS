@@ -75,6 +75,28 @@ namespace Solution_CTT
                 lblModulo.Text = Session["modulo"].ToString().ToUpper();
             }
 
+            if (Session["tasaDevesofft"] == null)
+            {
+                devesofft.Visible = false;
+            }
+
+            else
+            {
+                devesofft.Visible = true;
+            }
+
+            if (Session["ejecuta_cobro_administrativo"].ToString() == "1")
+            {
+                ingreso_pago_pendiente.Visible = true;
+                cobrar_pago_pendiente.Visible = true;
+            }
+
+            else
+            {
+                ingreso_pago_pendiente.Visible = false;
+                cobrar_pago_pendiente.Visible = false;
+            }
+
             sDatosMaximo[0] = Session["usuario"].ToString();
             sDatosMaximo[1] = Environment.MachineName.ToString();
             sDatosMaximo[2] = "A";

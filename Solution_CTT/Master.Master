@@ -349,14 +349,14 @@
                             <li><a href="frmCrearViaje.aspx"><i class="fa fa-circle-o"></i>Viajes Normales</a></li>
                             <li><a href="frmCrearViajeExtra.aspx"><i class="fa fa-circle-o"></i>Viajes Extras</a></li>
                             <%--<li><a href="frmViajesMasivos.aspx"><i class="fa fa-circle-o"></i>Viajes Masivos</a></li>--%>
-                            <li><a href="frmIngresoPagosPendientes.aspx"><i class="fa fa-circle-o"></i>Ingresar Pagos Pendientes</a></li>
-                            <li><a href="frmPagosPendientes.aspx"><i class="fa fa-circle-o"></i>Cobrar Pagos Pendientes</a></li>
+                            <li id="ingreso_pago_pendiente" runat="server"><a href="frmIngresoPagosPendientes.aspx"><i class="fa fa-circle-o"></i>Ingresar Pagos Pendientes</a></li>
+                            <li id="cobrar_pago_pendiente" runat="server"><a href="frmPagosPendientes.aspx"><i class="fa fa-circle-o"></i>Cobrar Pagos Pendientes</a></li>
                             <li><a href="frmReimpresionFacturas.aspx"><i class="fa fa-circle-o"></i>Reimpresión de Facturas</a></li>
                             <li><a href="frmAutorizarDocumentosPorLote.aspx"><i class="fa fa-circle-o"></i>Enviar Facturas SRI</a></li>
                         </ul>
                     </li>
 
-                    <li class="treeview">
+                    <li class="treeview" id="devesofft" runat="server">
                         <a href="#">
                             <i class="fa fa-diamond"></i>
                             <span>Tasas Usuario DEVESOFFT</span>
@@ -374,7 +374,6 @@
                             <%--<li><a href="frmGenerarToken.aspx"><i class="fa fa-circle-o"></i>Generar Token</a></li>--%>
                         </ul>
                     </li>
-
 
                     <li class="treeview">
                         <a href="#">
@@ -537,6 +536,7 @@
                             <li><a href="frmParametroCorreo.aspx"><i class="fa fa-circle-o"></i>Configuración del Correo</a></li>
                             <li><a href="frmParametrosLocalidad.aspx"><i class="fa fa-circle-o"></i>Parámetros Terminales</a></li>
                             <li><a href="frmImpresoras.aspx"><i class="fa fa-circle-o"></i>Configurar Impresoras</a></li>
+                            <li><a href="frmProveedoresTasas.aspx"><i class="fa fa-circle-o"></i>Proveedores Tasas Usuario</a></li>
                         </ul>
                     </li>
 

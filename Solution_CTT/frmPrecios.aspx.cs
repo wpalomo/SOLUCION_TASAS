@@ -1231,6 +1231,21 @@ namespace Solution_CTT
             validarCombos();
         }
 
+        protected void btnFiltrarGrid_Click(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(cmbFiltrarGrid.SelectedValue) == 0)
+            {
+                Session["buscar"] = "0";
+                llenarGrid(0);
+            }
+
+            else
+            {
+                Session["buscar"] = "1";
+                llenarGrid(1);
+            }
+        }
+
         protected void cmbFiltrarGrid_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (Convert.ToInt32(cmbFiltrarGrid.SelectedValue) == 0)

@@ -154,8 +154,9 @@ namespace Solution_CTT
 
                 sSql += "ltrim(str(sum(cantidad * (precio_unitario - valor_dscto + valor_iva)), 10, 2)) valor" + Environment.NewLine;
                 sSql += "from ctt_vw_viajes_activos" + Environment.NewLine;
-                sSql += "where (fecha_viaje between '" + sFechaInicial + "'" + Environment.NewLine;
-                sSql += "and '" + sFechaFinal + "')" + Environment.NewLine;
+                sSql += "where fecha_viaje between '" + sFechaInicial + "'" + Environment.NewLine;
+                sSql += "and '" + sFechaFinal + "'" + Environment.NewLine;
+                sSql += "and id_ctt_pueblo_origen = " + Session["id_pueblo"].ToString() + Environment.NewLine;
 
                 if (iOp == 1)
                 {

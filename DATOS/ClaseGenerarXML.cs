@@ -40,7 +40,8 @@ namespace DATOS
                             IFECHAFACTURA = Convert.ToDateTime(dtConsulta.Rows[i][1].ToString()).ToString("dd-MM-yyyy"),
                             ICLIENTE = dtConsulta.Rows[i][2].ToString(),
                             IFACTURAEMITIDA = dtConsulta.Rows[i][3].ToString().Trim() + "-" + dtConsulta.Rows[i][4].ToString() + "-" + dtConsulta.Rows[i][5].ToString().Trim().PadLeft(9, '0'),
-                            ICLAVEACCESO = dtConsulta.Rows[i][6].ToString()
+                            ICLAVEACCESO = dtConsulta.Rows[i][6].ToString(),
+                            IIDLOCALIDAD = dtConsulta.Rows[i][7].ToString()
                         };
                         coleccion.Add(todos);
                     }

@@ -10,12 +10,8 @@ using System.Data;
 
 namespace Solution_CTT
 {
-    public partial class frmOficinistas : System.Web.UI.Page
+    public partial class frmProveedoresTasas : System.Web.UI.Page
     {
-        ENTOficinista oficinistaE = new ENTOficinista();
-        ENTComboDatos comboE = new ENTComboDatos();
-        manejadorComboDatos comboM = new manejadorComboDatos();
-        manejadorOficinista oficinistaM = new manejadorOficinista();
         manejadorConexion conexionM = new manejadorConexion();
         ENTPasajeros personaE = new ENTPasajeros();
         manejadorPasajeros personaM = new manejadorPasajeros();
@@ -23,7 +19,8 @@ namespace Solution_CTT
         string sSql;
         string sAccion;
         string sAccionFiltro;
-        string []sDatosMaximo = new string[5];
+        string sEstado;
+        string[] sDatosMaximo = new string[5];
 
         DataTable dtConsulta;
         bool bRespuesta;
@@ -91,7 +88,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -104,51 +101,54 @@ namespace Solution_CTT
         private void columnasGrid(bool ok)
         {
             dgvDatos.Columns[2].ItemStyle.Width = 100;
-            dgvDatos.Columns[3].ItemStyle.Width = 250;
             dgvDatos.Columns[4].ItemStyle.Width = 250;
             dgvDatos.Columns[5].ItemStyle.Width = 100;
-            dgvDatos.Columns[6].ItemStyle.Width = 100;
-            dgvDatos.Columns[8].ItemStyle.Width = 100;
-            dgvDatos.Columns[9].ItemStyle.Width = 100;
 
             dgvDatos.Columns[0].Visible = ok;
             dgvDatos.Columns[1].Visible = ok;
-            dgvDatos.Columns[7].Visible = ok;
+            dgvDatos.Columns[3].Visible = ok;
+            dgvDatos.Columns[6].Visible = ok;
         }
-        
+
         //FUNCION PARA LLENAR EL GRIDVIEW
         private void llenarGrid(int iOp)
         {
             try
             {
                 sSql = "";
-                sSql += "select O.id_ctt_oficinista, O.id_persona, O.codigo," + Environment.NewLine;
-                sSql += "ltrim(isnull(TP.nombres, '') + ' ' + TP.apellidos) propietario, O.descripcion, O.usuario," + Environment.NewLine;
-                sSql += "case O.estado when 'A' then 'ACTIVO' else 'ELIMINADO' end estado, O.claveacceso" + Environment.NewLine;
-                sSql += "from tp_personas TP INNER JOIN" + Environment.NewLine;
-                sSql += "ctt_oficinista O ON O.id_persona = TP.id_persona" + Environment.NewLine;
-                sSql += "and O.estado = 'A'" + Environment.NewLine;
-                sSql += "and TP.estado = 'A'" + Environment.NewLine;
+                sSql += "select * from ctt_vw_proveedores_tasas" + Environment.NewLine;
 
                 if (iOp == 1)
                 {
-                    sSql += "where O.codigo like '%" + txtFiltrar.Text.Trim() + "%'" + Environment.NewLine;
-                    sSql += "or O.descripcion like '%" + txtFiltrar.Text.Trim() + "%'" + Environment.NewLine;
+                    sSql += "where codigo like '%" + txtFiltrar.Text.Trim() + "%'" + Environment.NewLine;
+                    sSql += "or descripcion like '%" + txtFiltrar.Text.Trim() + "%'" + Environment.NewLine;
                 }
 
-                sSql += "order by O.id_ctt_oficinista" + Environment.NewLine;
+                sSql += "order by codigo" + Environment.NewLine;
+
+                dtConsulta = new DataTable();
+                dtConsulta.Clear();
+
+                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
+
+                if (bRespuesta == false)
+                {
+                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    return;
+                }
 
                 columnasGrid(true);
-                oficinistaE.ISSQL = sSql;
-                dgvDatos.DataSource = oficinistaM.listarOficinista(oficinistaE);
-                dgvDatos.DataBind();
-                columnasGrid(false);
 
+                dgvDatos.DataSource = dtConsulta;
+                dgvDatos.DataBind();
+
+                columnasGrid(false);
             }
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -165,7 +165,7 @@ namespace Solution_CTT
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'Ya existe un registro con el codigo o usuario ingresado.', 'error');", true);
                     txtCodigo.Text = "";
                     txtCodigo.Focus();
-                    goto fin;
+                    return;
                 }
 
                 else if (iConsultarRegistro == -1)
@@ -173,23 +173,22 @@ namespace Solution_CTT
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'Ocurrió un problema al consultar el código para el registro.', 'danger');", true);
                     txtCodigo.Text = "";
                     txtCodigo.Focus();
-                    goto fin;
+                    return;
                 }
 
                 if (conexionM.iniciarTransaccion() == false)
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo iniciar la transacción para el proceso de información.', 'danger');", true);
-                    goto fin;
+                    return;
                 }
 
                 sSql = "";
-                sSql += "insert into ctt_oficinista (" + Environment.NewLine;
-                sSql += "id_persona, codigo, descripcion, usuario, claveacceso, cambiar_clave," + Environment.NewLine;
-                sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                sSql += "insert into ctt_proveedores_tasas (" + Environment.NewLine;
+                sSql += "id_persona, codigo, descripcion, estado, fecha_ingreso," + Environment.NewLine;
+                sSql += "usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
-                sSql += Convert.ToInt32(Session["id_Persona"].ToString()) + ", '" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;
-                sSql += "'" + txtDescripcion.Text.Trim().ToUpper() + "', '" + txtUsuario.Text.Trim().ToLower() + "', '" + txtUsuario.Text.Trim().ToLower() + "'," + Environment.NewLine;
-                sSql += "0, 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
+                sSql += Convert.ToInt32(Session["id_PersonaPTASA"].ToString()) + ", '" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;
+                sSql += "'" + txtDescripcion.Text.Trim().ToUpper() + "', 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
                 {
@@ -201,19 +200,18 @@ namespace Solution_CTT
                 conexionM.terminaTransaccion();
                 ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Registro ingresado correctamente', 'success');", true);
                 limpiar();
-                goto fin;
+                return;
             }
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 goto reversa;
             }
 
-            reversa: { conexionM.reversaTransaccion(); };
+        reversa: { conexionM.reversaTransaccion(); };
 
-            fin: { };
         }
 
         //FUNCION PARA ACTUALIZAR EN LA BASE DE DATOS
@@ -224,16 +222,15 @@ namespace Solution_CTT
                 if (conexionM.iniciarTransaccion() == false)
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo iniciar la transacción para el proceso de información.', 'danger');", true);
-                    goto fin;
+                    return;
                 }
 
                 sSql = "";
-                sSql += "update ctt_oficinista set" + Environment.NewLine;
-                sSql += "id_persona = " + Convert.ToInt32(Session["id_Persona"]) + "," + Environment.NewLine;
-                //sSql += "codigo = '" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;
-                sSql += "descripcion = '" + txtDescripcion.Text.Trim().ToUpper() + "'" + Environment.NewLine;
-                sSql += "where id_ctt_oficinista = " + Convert.ToInt32(Session["idRegistro"]) + Environment.NewLine;
-                sSql += "and estado = 'A'";
+                sSql += "update ctt_proveedores_tasas set" + Environment.NewLine;
+                sSql += "id_persona = " + Convert.ToInt32(Session["id_PersonaPTASA"]) + "," + Environment.NewLine;
+                sSql += "descripcion = '" + txtDescripcion.Text.Trim().ToUpper() + "'," + Environment.NewLine;
+                sSql += "estado = '" + sEstado + "'" + Environment.NewLine;
+                sSql += "where id_ctt_proveedor_tasa = " + Convert.ToInt32(Session["idRegistroPTASA"]);
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
                 {
@@ -245,19 +242,17 @@ namespace Solution_CTT
                 conexionM.terminaTransaccion();
                 ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Registro actualizado correctamente', 'success');", true);
                 limpiar();
-                goto fin;
+                return;
             }
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 goto reversa;
             }
 
-            reversa: { conexionM.reversaTransaccion(); };
-
-            fin: { };
+        reversa: { conexionM.reversaTransaccion(); };
         }
 
         //FUNCION PARA ELIMINAR EN LA BASE DE DATOS
@@ -268,16 +263,17 @@ namespace Solution_CTT
                 if (conexionM.iniciarTransaccion() == false)
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo iniciar la transacción para el proceso de información.', 'danger');", true);
-                    goto fin;
+                    return;
                 }
 
                 sSql = "";
-                sSql += "update ctt_oficinista set" + Environment.NewLine;
+                sSql += "update ctt_proveedores_tasas set" + Environment.NewLine;
+                sSql += "codigo = '" + Session["codigoPTASA"].ToString() + "." + Session["idRegistroPTASA"].ToString() + "'," + Environment.NewLine;
                 sSql += "estado = 'E'," + Environment.NewLine;
                 sSql += "fecha_anula = GETDATE()," + Environment.NewLine;
                 sSql += "usuario_anula = '" + sDatosMaximo[0] + "'," + Environment.NewLine;
                 sSql += "terminal_anula = '" + sDatosMaximo[1] + "'" + Environment.NewLine;
-                sSql += "where id_ctt_oficinista = " + Convert.ToInt32(Session["idRegistro"]);
+                sSql += "where id_ctt_proveedor_tasa = " + Convert.ToInt32(Session["idRegistroPTASA"].ToString());
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
                 {
@@ -289,19 +285,17 @@ namespace Solution_CTT
                 conexionM.terminaTransaccion();
                 ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Registro eliminado correctamente', 'success');", true);
                 limpiar();
-                goto fin;
+                return;
             }
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 goto reversa;
             }
 
-            reversa: { conexionM.reversaTransaccion(); };
-
-            fin: { };
+        reversa: { conexionM.reversaTransaccion(); };
         }
 
         //FUNCION PARA CONSULTAR SI EXISTE EL REGISTRO EN LA BASE DE DATOS
@@ -311,10 +305,9 @@ namespace Solution_CTT
             {
                 sSql = "";
                 sSql += "select count(*) cuenta" + Environment.NewLine;
-                sSql += "from ctt_oficinista" + Environment.NewLine;
+                sSql += "from ctt_proveedores_tasas" + Environment.NewLine;
                 sSql += "where codigo = '" + txtCodigo.Text.Trim() + "'" + Environment.NewLine;
-                sSql += "or usuario = '" + txtUsuario.Text.Trim().ToLower() + "'" + Environment.NewLine;
-                sSql += "and estado = 'A'";
+                sSql += "and estado in ('A', 'N')";
 
                 dtConsulta = new DataTable();
                 dtConsulta.Clear();
@@ -335,7 +328,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 return -1;
             }
@@ -346,13 +339,13 @@ namespace Solution_CTT
         {
             txtCodigo.Text = "";
             txtDescripcion.Text = "";
-            txtUsuario.Text = "";
             TxtPersona.Text = "";
-            Session["idRegistro"] = null;
-            Session["id_Persona"] = null;
-            txtUsuario.ReadOnly = false;
+            Session["idRegistroPTASA"] = null;
+            Session["id_PersonaPTASA"] = null;
+            Session["codigoPTASA"] = null;
             txtCodigo.ReadOnly = false;
             btnSave.Text = "Crear";
+            cmbEstado.SelectedValue = "A";
             llenarGrid(0);
         }
 
@@ -365,17 +358,21 @@ namespace Solution_CTT
             {
                 int a = dgvDatos.SelectedIndex;
                 columnasGrid(true);
-                Session["idRegistro"] = dgvDatos.Rows[a].Cells[0].Text.Trim();                
+                Session["idRegistroPTASA"] = dgvDatos.Rows[a].Cells[0].Text.Trim();
 
                 if (sAccion == "Editar")
                 {
-                    Session["id_Persona"] = dgvDatos.Rows[a].Cells[1].Text.Trim();
+                    Session["id_PersonaPTASA"] = dgvDatos.Rows[a].Cells[1].Text.Trim();
                     txtCodigo.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[2].Text.Trim());
                     TxtPersona.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[3].Text.Trim());
                     txtDescripcion.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[4].Text.Trim());
-                    txtUsuario.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[5].Text.Trim());
-                    txtUsuario.ReadOnly = true;
+                    cmbEstado.SelectedValue = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[6].Text.Trim());
                     txtCodigo.ReadOnly = true;
+                }
+
+                else if (sAccion == "Eliminar")
+                {
+                    Session["codigoPTASA"] = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[2].Text.Trim());
                 }
 
                 columnasGrid(false);
@@ -383,7 +380,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -398,18 +395,18 @@ namespace Solution_CTT
 
                 if (sAccionFiltro == "Seleccion")
                 {
-                    Session["id_Persona"] = dgvFiltrarPersonas.Rows[a].Cells[0].Text.Trim();
+                    Session["id_PersonaPTASA"] = dgvFiltrarPersonas.Rows[a].Cells[0].Text.Trim();
                     TxtPersona.Text = HttpUtility.HtmlDecode(dgvFiltrarPersonas.Rows[a].Cells[2].Text.Trim());
                     txtFiltrarPersonas.Text = "";
                     btnPopUp_ModalPopupExtender.Hide();
                 }
-                
+
                 columnasGridFiltro(false);
             }
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -442,13 +439,13 @@ namespace Solution_CTT
             catch (Exception ex)
             {
                 btnPopUp_ModalPopupExtender.Hide();
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
 
         protected void btnAbrirModalPersonas_Click(object sender, EventArgs e)
-        {            
+        {
             btnPopUp_ModalPopupExtender.Show();
             llenarGridPersonas(0);
         }
@@ -497,12 +494,6 @@ namespace Solution_CTT
                 txtDescripcion.Focus();
             }
 
-            else if (txtUsuario.Text.Trim() == "")
-            {
-                MsjValidarCampos.Visible = true;
-                txtUsuario.Focus();
-            }
-
             else if (TxtPersona.Text.Trim() == "")
             {
                 MsjValidarCampos.Visible = true;
@@ -511,7 +502,7 @@ namespace Solution_CTT
 
             else
             {
-                if (Session["idRegistro"] == null)
+                if (Session["idRegistroPTASA"] == null)
                 {
                     //ENVIO A FUNCION DE INSERCION
                     insertarRegistro();
@@ -519,6 +510,8 @@ namespace Solution_CTT
 
                 else
                 {
+                    sEstado = cmbEstado.SelectedValue;
+
                     actualizarRegistro();
                 }
             }
@@ -548,7 +541,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -572,7 +565,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }

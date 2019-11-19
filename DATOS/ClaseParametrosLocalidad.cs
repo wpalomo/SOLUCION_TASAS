@@ -47,7 +47,10 @@ namespace DATOS
                             INOMBRERETENCION = dtConsulta.Rows[i][9].ToString(),
                             INOMBREPAGO = dtConsulta.Rows[i][10].ToString(),
                             ITASAUSUARIO = dtConsulta.Rows[i][14].ToString(),
-                            ICANTIDADMANIFIESTO = dtConsulta.Rows[i][15].ToString()
+                            ICANTIDADMANIFIESTO = dtConsulta.Rows[i][15].ToString(),
+                            IEJECUTACOBROADMINISTRACION = dtConsulta.Rows[i][16].ToString(),
+                            IIDPROVEEDORTASAS = dtConsulta.Rows[i][17].ToString(),
+                            ICODIGOPROVEEDOR = dtConsulta.Rows[i][18].ToString()
                         };
                         coleccion.Add(todos);
                     }

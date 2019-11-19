@@ -16,10 +16,10 @@
 
                                 <div class="box-tools pull-right">
                                     <div class="input-group input-group-sm" style="width: 300px;">
-                                        <asp:DropDownList ID="cmbFiltrarGrid" runat="server" class="form-control pull-right"></asp:DropDownList>
+                                        <asp:DropDownList ID="cmbFiltrarGrid" runat="server" class="form-control pull-right" AutoPostBack="true" OnSelectedIndexChanged="cmbFiltrarGrid_SelectedIndexChanged"></asp:DropDownList>
 
                                         <div class="input-group-btn">
-                                            <asp:Button ID="Button1" runat="server" Text="FILTRAR" class="btn btn-default" />
+                                            <%--<asp:Button ID="btnFiltrarGrid" runat="server" Text="FILTRAR" class="btn btn-default" OnClick="btnFiltrarGrid_Click" />--%>
                                         </div>
                                         <div class="input-group input-group-sm" style="width: 150px;">
                                             <asp:TextBox ID="txtFiltrar" runat="server" class="form-control pull-right" autocomplete="off" placeholder="Buscar"></asp:TextBox>

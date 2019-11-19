@@ -195,7 +195,16 @@ namespace Solution_CTT
         {
             try
             {
-                sSql = "select id_ctt_pueblo, descripcion" + Environment.NewLine;
+                //sSql = "";
+                //sSql += "select P.id_ctt_pueblo, P.descripcion, isnull(PT.codigo, '0') codigo" + Environment.NewLine;
+                //sSql += "from ctt_pueblos P LEFT OUTER JOIN" + Environment.NewLine;
+                //sSql += "ctt_proveedores_tasas PT ON P.id_ctt_proveedor_tasa = PT.id_ctt_proveedor_tasa" + Environment.NewLine;
+                //sSql += "and P.estado = 'A'" + Environment.NewLine;
+                //sSql += "and PT.estado = 'A'" + Environment.NewLine;
+                //sSql += "where P.id_localidad_terminal = " + Convert.ToInt32(Application["idLocalidad"].ToString()) + Environment.NewLine;
+
+                sSql = "";
+                sSql += "select id_ctt_pueblo, descripcion" + Environment.NewLine;
                 sSql += "from ctt_pueblos" + Environment.NewLine;
                 sSql += "where id_localidad_terminal = " + Convert.ToInt32(Application["idLocalidad"].ToString()) + Environment.NewLine;
                 sSql += "and estado = 'A'";
@@ -212,6 +221,16 @@ namespace Solution_CTT
 
                     lblSucursal.Text = "OFICINA: " + dtConsulta.Rows[0]["descripcion"].ToString().ToUpper().Trim();
                     Session["oficina"] = dtConsulta.Rows[0]["descripcion"].ToString().ToUpper().Trim();
+
+                    //if (dtConsulta.Rows[0]["codigo"].ToString().Trim() == "01")
+                    //{
+                    //    Session["tasaDevesofft"] = dtConsulta.Rows[0]["codigo"].ToString().Trim();
+                    //}
+
+                    //else
+                    //{
+                    //    Session["tasaDevesofft"] = null;
+                    //}
                 }
 
                 else
@@ -318,8 +337,7 @@ namespace Solution_CTT
                 ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'Error al cargar los parámetros del sistema.', 'error')</script>");
             }
         }
-
-
+        
         //FUNCION PARA CARGAR LOS PARÁMETROS POR TERMINAL
         private void cargarParametrosTerminal()
         {
@@ -350,6 +368,14 @@ namespace Solution_CTT
                         Session["paga_iva_pagos"] = dtConsulta.Rows[0][13].ToString();
                         Session["genera_tasa_usuario"] = dtConsulta.Rows[0][14].ToString();
                         Session["cantidad_manifiesto"] = dtConsulta.Rows[0][15].ToString();
+                        Session["ejecuta_cobro_administrativo"] = dtConsulta.Rows[0][16].ToString();
+
+                        Session["tasaDevesofft"] = null;
+
+                        if (dtConsulta.Rows[0]["codigo_proveedor"].ToString().Trim() == "01")
+                        {
+                            Session["tasaDevesofft"] = dtConsulta.Rows[0]["codigo_proveedor"].ToString();
+                        }
                     }
 
                     else
@@ -564,8 +590,16 @@ namespace Solution_CTT
 
                 if (dtConsulta.Rows.Count == 0)
                 {
-
-                    return false;
+                    Session["idCierreCaja"] = "0";
+                    Session["fechaApertura"] = sFecha;
+                    Session["horaApertura"] = sHora;
+                    Session["usuarioApertura"] = Session["usuario"].ToString();
+                    Session["idJornadaApertura"] = "0";
+                    Session["JornadaApertura"] = "";
+                    Session["saldoInicialApertura"] = "0.00";
+                    Session["observacionesApertura"] = "";
+                    Session["nombreJornada"] = "";
+                    return true;
                 }
 
                 sEstadoCaja = dtConsulta.Rows[0]["estado_cierre_caja"].ToString().Trim().ToUpper();

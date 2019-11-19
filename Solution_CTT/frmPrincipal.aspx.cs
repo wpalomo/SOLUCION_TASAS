@@ -79,7 +79,8 @@ namespace Solution_CTT
                 sSql += "where fecha_pedido = '" + sFecha_P + "'" + Environment.NewLine;
                 sSql += "and cobro_retencion = 0" + Environment.NewLine;
                 sSql += "and cobro_administrativo = 0" + Environment.NewLine;
-                sSql += "and id_ctt_jornada = " + Convert.ToInt32(Session["idJornada"].ToString());
+                sSql += "and id_ctt_jornada = " + Convert.ToInt32(Session["idJornada"].ToString()) + Environment.NewLine;
+                sSql += "and id_localidad = " + Application["idLocalidad"].ToString();
 
                 dtConsulta = new DataTable();
                 dtConsulta.Clear();

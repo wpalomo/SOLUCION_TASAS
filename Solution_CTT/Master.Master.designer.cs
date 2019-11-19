@@ -58,6 +58,33 @@ namespace Solution_CTT {
         protected global::System.Web.UI.WebControls.Label lblNombreUsuario_3;
         
         /// <summary>
+        /// Control ingreso_pago_pendiente.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ingreso_pago_pendiente;
+        
+        /// <summary>
+        /// Control cobrar_pago_pendiente.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl cobrar_pago_pendiente;
+        
+        /// <summary>
+        /// Control devesofft.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl devesofft;
+        
+        /// <summary>
         /// Control lblModulo.
         /// </summary>
         /// <remarks>

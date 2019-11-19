@@ -162,22 +162,18 @@ namespace Solution_CTT
                 sSql += "select '1. RETENCION:' descripcion," + Environment.NewLine;
                 sSql += "ltrim(str(isnull(sum(isnull(valor, 0)), 0), 10, 2)) valor" + Environment.NewLine;
                 sSql += "from ctt_vw_cierre_boleteria" + Environment.NewLine;
-                //sSql += "where fecha_pedido = '" + sFecha_P + "'" + Environment.NewLine;
                 sSql += "where cobro_boletos = 0" + Environment.NewLine;
                 sSql += "and cobro_retencion = 1" + Environment.NewLine;
                 sSql += "and cobro_administrativo = 0" + Environment.NewLine;
-                //sSql += "and id_ctt_jornada = " + Convert.ToInt32(Session["idJornada"].ToString()) + Environment.NewLine;
                 sSql += "and id_ctt_cierre_caja = " + Session["idCierreCaja"].ToString() + Environment.NewLine;
                 sSql += "union" + Environment.NewLine;
                 sSql += "select '2. ADMINISTRACIÓN:' descripcion," + Environment.NewLine;
                 sSql += "ltrim(str(isnull(sum(isnull(valor, 0)), 0), 10, 2)) valor" + Environment.NewLine;
                 sSql += "from ctt_vw_cierre_boleteria" + Environment.NewLine;
-                //sSql += "where fecha_pedido = '" + sFecha_P + "'" + Environment.NewLine;
                 sSql += "where cobro_boletos = 0" + Environment.NewLine;
                 sSql += "and cobro_retencion = 0" + Environment.NewLine;
                 sSql += "and cobro_administrativo = 1" + Environment.NewLine;
                 sSql += "and pago_cumplido = 1" + Environment.NewLine;
-                //sSql += "and id_ctt_jornada = " + Convert.ToInt32(Session["idJornada"].ToString());
                 sSql += "and id_ctt_cierre_caja = " + Session["idCierreCaja"].ToString();
 
                 dtConsulta = new DataTable();
@@ -215,8 +211,6 @@ namespace Solution_CTT
                 sSql = "";
                 sSql += "select fecha_viaje, hora_salida, disco + ' - ' + placa vehiculo, valor" + Environment.NewLine;
                 sSql += "from ctt_vw_pagos_pendientes_atrasados" + Environment.NewLine;
-                //sSql += "where fecha_pago = '" + sFecha_P + "'" + Environment.NewLine;
-                //sSql += "and id_ctt_jornada = " + Convert.ToInt32(Session["idJornada"].ToString());
                 sSql += "where id_ctt_cierre_caja = " + Session["idCierreCaja"].ToString();
 
                 atrasadosE.ISQL = sSql;
@@ -259,8 +253,6 @@ namespace Solution_CTT
                 sSql = "";
                 sSql += "select fecha_viaje, hora_salida, disco + ' - ' + placa vehiculo, valor" + Environment.NewLine;
                 sSql += "from ctt_vw_pagos_pendientes_cumplidos" + Environment.NewLine;
-                //sSql += "where fecha_pago = '" + sFecha_P + "'" + Environment.NewLine;
-                //sSql += "and id_ctt_jornada = " + Convert.ToInt32(Session["idJornada"].ToString());
                 sSql += "where id_ctt_cierre_caja = " + Session["idCierreCaja"].ToString();
 
                 atrasadosE.ISQL = sSql;
@@ -299,8 +291,6 @@ namespace Solution_CTT
                 sSql += "select fecha_viaje, hora_salida, ruta, sum(cantidad) cantidad," + Environment.NewLine;
                 sSql += "ltrim(str(sum(cantidad * (precio_unitario - valor_dscto + valor_iva)), 10, 2)) valor" + Environment.NewLine;
                 sSql += "from ctt_vw_viajes_activos" + Environment.NewLine;
-                //sSql += "where fecha_pedido = '" + sFecha + "'" + Environment.NewLine;
-                //sSql += "and id_ctt_jornada = " + Convert.ToInt32(Session["idJornada"].ToString()) + Environment.NewLine;
                 sSql += "where id_ctt_cierre_caja = " + Session["idCierreCaja"].ToString() + Environment.NewLine;
                 sSql += "group by fecha_viaje, hora_salida, ruta" + Environment.NewLine;
                 sSql += "order by fecha_viaje, hora_salida";
@@ -342,6 +332,7 @@ namespace Solution_CTT
                 sSql += "from ctt_vw_cierre_caja_2" + Environment.NewLine;
                 sSql += "where fecha_viaje >= '" + sFecha_P + "'" + Environment.NewLine;
                 sSql += "and estado_salida = 'Abierta'" + Environment.NewLine;
+                sSql += "and id_ctt_pueblo_origen = " + Session["id_pueblo"].ToString() + Environment.NewLine;
                 sSql += "order by hora_salida";
 
                 dtConsulta = new DataTable();
@@ -380,7 +371,6 @@ namespace Solution_CTT
                             return;
                         }
                     }
-
                 }
 
                 dgvDatosVigentes.DataSource = dtConsulta;
@@ -425,9 +415,6 @@ namespace Solution_CTT
             {
                 if (Convert.ToInt32(Session["idCierreCaja"].ToString()) == 0)
                 {
-                    //txtFechaApertura.Text = "";
-                    //txtHoraApertura.Text = "";
-                    //ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'Debe registrar la apertura de caja.', 'info');", true);
                     Response.Redirect("frmMensajeCaja.aspx");
                 }
 
@@ -455,10 +442,9 @@ namespace Solution_CTT
                 sSql = "";
                 sSql += "select id_ctt_programacion, hora_salida, fecha_grid, vehiculo, ruta, asientos_ocupados, tipo_viaje, valor" + Environment.NewLine;
                 sSql += "from ctt_vw_cierre_caja_2" + Environment.NewLine;
-                //sSql += "where fecha_viaje = '" + sFecha_P + "'" + Environment.NewLine;
                 sSql += "where estado_salida = 'Cerrada'" + Environment.NewLine;
-                //sSql += "and id_ctt_jornada = " + Convert.ToInt32(Session["idJornada"].ToString()) + Environment.NewLine;
-                sSql += "and id_ctt_cierre_caja = " + Session["idCierreCaja"].ToString();
+                sSql += "and id_ctt_cierre_caja = " + Session["idCierreCaja"].ToString() + Environment.NewLine;
+                sSql += "and id_ctt_pueblo_origen = " + Session["id_pueblo"].ToString() + Environment.NewLine;
                 sSql += "order by hora_salida";
 
                 dtConsulta = new DataTable();

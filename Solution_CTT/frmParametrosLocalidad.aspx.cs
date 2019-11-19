@@ -31,6 +31,8 @@ namespace Solution_CTT
 
         int iConsultarRegistro;
         int iTasaUsuario;
+        int iEjecutaCobroAdministrativo;
+        int iIdProveedorTasa;
         
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -51,6 +53,7 @@ namespace Solution_CTT
                 llenarComboTerminales();
                 llenarComboCiudad();
                 llenarComboVendedores();
+                llenarComboProveedoresTasas();
                 llenarGrid(0);
             }
         }
@@ -97,7 +100,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -128,7 +131,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -151,7 +154,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -176,7 +179,34 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
+
+        //FUNCION PARA LLENAR EL COMOBOX DE PROVEEDORES DE TASAS
+        private void llenarComboProveedoresTasas()
+        {
+            try
+            {
+                sSql = "";
+                sSql += "select id_ctt_proveedor_tasa, descripcion" + Environment.NewLine;
+                sSql += "from ctt_proveedores_tasas" + Environment.NewLine;
+                sSql += "where estado = 'A'" + Environment.NewLine;
+                sSql += "order by descripcion";
+
+                comboE.ISSQL = sSql;
+                cmbProveedoresTasas.DataSource = comboM.listarCombo(comboE);
+                cmbProveedoresTasas.DataValueField = "IID";
+                cmbProveedoresTasas.DataTextField = "IDATO";
+                cmbProveedoresTasas.DataBind();
+                cmbProveedoresTasas.Items.Insert(0, new ListItem("Seleccione Proveedor", "0"));
+
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -194,6 +224,9 @@ namespace Solution_CTT
             dgvDatos.Columns[11].Visible = ok;
             dgvDatos.Columns[12].Visible = ok;
             dgvDatos.Columns[13].Visible = ok;
+            dgvDatos.Columns[14].Visible = ok;
+            dgvDatos.Columns[15].Visible = ok;
+            dgvDatos.Columns[16].Visible = ok;
 
             dgvDatos.Columns[0].ItemStyle.Width = 75;
             dgvDatos.Columns[5].ItemStyle.Width = 200;
@@ -229,7 +262,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -273,6 +306,13 @@ namespace Solution_CTT
                         Session["paga_iva_pagos"] = dtConsulta.Rows[0][13].ToString();
                         Session["genera_tasa_usuario"] = dtConsulta.Rows[0][14].ToString();
                         Session["cantidad_manifiesto"] = dtConsulta.Rows[0][15].ToString();
+                        Session["ejecuta_cobro_administrativo"] = dtConsulta.Rows[0][18].ToString();
+                        Session["tasaDevesofft"] = null;
+
+                        if (dtConsulta.Rows[0]["codigo_proveedor"].ToString().Trim() == "01")
+                        {
+                            Session["tasaDevesofft"] = dtConsulta.Rows[0]["codigo_proveedor"].ToString();
+                        }
                     }
 
                     else
@@ -298,6 +338,8 @@ namespace Solution_CTT
                         Session["paga_iva_pagos"] = null;
                         Session["genera_tasa_usuario"] = null;
                         Session["cantidad_manifiesto"] = null;
+                        Session["ejecuta_cobro_administrativo"] = null;
+                        Session["tasaDevesofft"] = null;
 
                         ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'No se encuentra una configuración de parámetros del terminal.', 'error')</script>");
                     }
@@ -312,7 +354,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -345,13 +387,13 @@ namespace Solution_CTT
                 sSql = "";
                 sSql += "insert into ctt_parametro_localidad (" + Environment.NewLine;
                 sSql += "id_ctt_pueblo, id_producto_retencion, id_producto_pagos, cg_ciudad," + Environment.NewLine;
-                sSql += "id_vendedor, genera_tasa_usuario, cantidad_manifiesto, estado," + Environment.NewLine;
-                sSql += "fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                sSql += "id_vendedor, genera_tasa_usuario, cantidad_manifiesto, ejecuta_cobro_administrativo," + Environment.NewLine;
+                sSql += "id_ctt_proveedor_tasa, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(cmbTerminales.SelectedValue) + ", " + Convert.ToInt32(Session["idProductoRetencion"].ToString()) + ", ";
                 sSql += Convert.ToInt32(Session["idProductoPago"].ToString()) + ", " + Convert.ToInt32(cmbCiudad.SelectedValue) + ", " + Environment.NewLine;
                 sSql += Convert.ToInt32(cmbVendedor.SelectedValue) + ", " + iTasaUsuario + ", " + Convert.ToInt32(txtCantidadManifiesto.Text.Trim()) + "," + Environment.NewLine;
-                sSql += "'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
+                sSql += + iEjecutaCobroAdministrativo + ", " + iIdProveedorTasa + ", 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                 //EJECUCIÓN DE INSTRUCCION SQL
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
@@ -364,10 +406,10 @@ namespace Solution_CTT
                 conexionM.terminaTransaccion();
                 ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Registro ingresado correctamente', 'success');", true);
 
-                if (Convert.ToInt32(cmbTerminales.SelectedValue) == Convert.ToInt32(Application["id_pueblo"].ToString()))
-                {
-                    cargarParametrosTerminal();
-                }
+                //if (Convert.ToInt32(cmbTerminales.SelectedValue) == Convert.ToInt32(Application["id_pueblo"].ToString()))
+                //{
+                //    cargarParametrosTerminal();
+                //}
 
                 limpiar();
                 goto fin;
@@ -375,7 +417,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 goto reversa;
             }
@@ -405,8 +447,10 @@ namespace Solution_CTT
                 sSql += "id_producto_retencion = " + Convert.ToInt32(Session["idProductoRetencion"].ToString()) + "," + Environment.NewLine;
                 sSql += "genera_tasa_usuario = " + iTasaUsuario + "," + Environment.NewLine;
                 sSql += "id_producto_pagos = " + Convert.ToInt32(Session["idProductoPago"].ToString()) + "," + Environment.NewLine;
-                sSql += "cantidad_manifiesto = " + Convert.ToInt32(txtCantidadManifiesto.Text.Trim()) + Environment.NewLine;
-                sSql += "where id_ctt_parametro_localidad = " + Convert.ToInt32(Session["idRegistro"].ToString()) + Environment.NewLine;
+                sSql += "cantidad_manifiesto = " + Convert.ToInt32(txtCantidadManifiesto.Text.Trim()) + "," + Environment.NewLine;
+                sSql += "ejecuta_cobro_administrativo = " + iEjecutaCobroAdministrativo + "," + Environment.NewLine;
+                sSql += "id_ctt_proveedor_tasa = " + iIdProveedorTasa + Environment.NewLine;
+                sSql += "where id_ctt_parametro_localidad = " + Convert.ToInt32(Session["idRegistroPLOCALIDAD"].ToString()) + Environment.NewLine;
                 sSql += "and estado = 'A'";
 
                 //EJECUCIÓN DE INSTRUCCION SQL
@@ -436,7 +480,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 goto reversa;
             }
@@ -464,7 +508,7 @@ namespace Solution_CTT
                 sSql += "fecha_anula = GETDATE()," + Environment.NewLine;
                 sSql += "usuario_anula = '" + sDatosMaximo[0] + "'," + Environment.NewLine;
                 sSql += "terminal_anula = '" + sDatosMaximo[1] + "'" + Environment.NewLine;
-                sSql += "where id_ctt_parametro_localidad = " + Convert.ToInt32(Session["idRegistro"].ToString());
+                sSql += "where id_ctt_parametro_localidad = " + Convert.ToInt32(Session["idRegistroPLOCALIDAD"].ToString());
 
                 //EJECUCIÓN DE INSTRUCCION SQL
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
@@ -488,7 +532,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 goto reversa;
             }
@@ -528,7 +572,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 return -1;
             }
@@ -541,9 +585,10 @@ namespace Solution_CTT
             llenarComboTerminales();
             llenarComboCiudad();
             llenarComboVendedores();
+            llenarComboProveedoresTasas();
             llenarGrid(0);
 
-            Session["idRegistro"] = null;
+            Session["idRegistroPLOCALIDAD"] = null;
             Session["id_Persona"] = null;
             Session["idProductoRetencion"] = null;
             Session["idProductoPago"] = null;
@@ -554,6 +599,8 @@ namespace Solution_CTT
             txtModalPago.Text = "";
             txtModalRetencion.Text = "";
             chkManejaTasaUsuario.Checked = false;
+            chkEjecutaCobrosAdministrativos.Checked = false;
+            cmbProveedoresTasas.Enabled = false;
         }
 
         #endregion
@@ -565,7 +612,7 @@ namespace Solution_CTT
             {
                 int a = dgvDatos.SelectedIndex;
                 columnasGrid(true);
-                Session["idRegistro"] = dgvDatos.Rows[a].Cells[1].Text.Trim();
+                Session["idRegistroPLOCALIDAD"] = dgvDatos.Rows[a].Cells[1].Text.Trim();
 
                 if (sAccion == "Editar")
                 {
@@ -583,11 +630,25 @@ namespace Solution_CTT
                     if (dgvDatos.Rows[a].Cells[12].Text.Trim() == "1")
                     {
                         chkManejaTasaUsuario.Checked = true;
+                        cmbProveedoresTasas.SelectedValue = dgvDatos.Rows[a].Cells[15].Text.Trim();
+                        cmbProveedoresTasas.Enabled = true;
                     }
 
                     else
                     {
                         chkManejaTasaUsuario.Checked = false;
+                        cmbProveedoresTasas.SelectedValue = "0";
+                        cmbProveedoresTasas.Enabled = false;
+                    }
+
+                    if (dgvDatos.Rows[a].Cells[14].Text.Trim() == "1")
+                    {
+                        chkEjecutaCobrosAdministrativos.Checked = true;
+                    }
+
+                    else
+                    {
+                        chkEjecutaCobrosAdministrativos.Checked = false;
                     }
                 }
 
@@ -596,7 +657,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }        
@@ -692,7 +753,19 @@ namespace Solution_CTT
                     iTasaUsuario = 0;
                 }
 
-                if (Session["idRegistro"] == null)
+                if (chkEjecutaCobrosAdministrativos.Checked == true)
+                {
+                    iEjecutaCobroAdministrativo = 1;
+                }
+
+                else
+                {
+                    iEjecutaCobroAdministrativo = 0;
+                }
+
+                iIdProveedorTasa = Convert.ToInt32(cmbProveedoresTasas.SelectedValue);
+
+                if (Session["idRegistroPLOCALIDAD"] == null)
                 {
                     //ENVIO A FUNCION DE INSERCION
                     insertarRegistro();
@@ -729,7 +802,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -768,7 +841,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -793,7 +866,7 @@ namespace Solution_CTT
             catch (Exception ex)
             {
                 modalExtenderItems.Hide();
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -829,7 +902,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -843,6 +916,20 @@ namespace Solution_CTT
         {
             Session["opcion"] = null;
             modalExtenderItems.Hide();
+        }
+
+        protected void chkManejaTasaUsuario_OnCheckedChanged(object sender, EventArgs e)
+        {
+            if (chkManejaTasaUsuario.Checked == true)
+            {
+                cmbProveedoresTasas.Enabled = true;
+            }
+
+            else
+            {
+                cmbProveedoresTasas.Enabled = false;
+                cmbProveedoresTasas.SelectedValue = "0";
+            }
         }
     }
 }

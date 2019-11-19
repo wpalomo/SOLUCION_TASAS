@@ -670,6 +670,7 @@
     <Content Include="frmPreciosPasajes.aspx" />
     <Content Include="frmPrecioTickets.aspx" />
     <Content Include="frmPropietario.aspx" />
+    <Content Include="frmProveedoresTasas.aspx" />
     <Content Include="frmPruebas.aspx" />
     <Content Include="frmPueblos.aspx" />
     <Content Include="frmPueblosHorarios.aspx" />
@@ -7744,6 +7745,13 @@
     </Compile>
     <Compile Include="frmPropietario.aspx.designer.cs">
       <DependentUpon>frmPropietario.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmProveedoresTasas.aspx.cs">
+      <DependentUpon>frmProveedoresTasas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmProveedoresTasas.aspx.designer.cs">
+      <DependentUpon>frmProveedoresTasas.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmPruebas.aspx.cs">
       <DependentUpon>frmPruebas.aspx</DependentUpon>

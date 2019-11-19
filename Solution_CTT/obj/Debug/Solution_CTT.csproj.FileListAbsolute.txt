@@ -82,13 +82,13 @@ D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\Solution_CTT\obj\Debug\RdlCompile.cache
 D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\Solution_CTT\obj\Debug\RdlCompile.compiled
 D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\Solution_CTT\obj\Debug\Solution_CTT.dll
 D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\Solution_CTT\obj\Debug\Solution_CTT.pdb
+C:\Users\Usuario\Desktop\SOLUCION_TASAS\Solution_CTT\bin\Solution_CTT.pdb
 C:\Users\Usuario\Desktop\SOLUCION_TASAS\Solution_CTT\bin\SqlServerTypes\x64\msvcr100.dll
 C:\Users\Usuario\Desktop\SOLUCION_TASAS\Solution_CTT\bin\SqlServerTypes\x64\SqlServerSpatial110.dll
 C:\Users\Usuario\Desktop\SOLUCION_TASAS\Solution_CTT\bin\SqlServerTypes\x86\msvcr100.dll
 C:\Users\Usuario\Desktop\SOLUCION_TASAS\Solution_CTT\bin\SqlServerTypes\x86\SqlServerSpatial110.dll
 C:\Users\Usuario\Desktop\SOLUCION_TASAS\Solution_CTT\bin\Solution_CTT.dll.config
 C:\Users\Usuario\Desktop\SOLUCION_TASAS\Solution_CTT\bin\Solution_CTT.dll
-C:\Users\Usuario\Desktop\SOLUCION_TASAS\Solution_CTT\bin\Solution_CTT.pdb
 C:\Users\Usuario\Desktop\SOLUCION_TASAS\Solution_CTT\bin\BarcodeLib.dll
 C:\Users\Usuario\Desktop\SOLUCION_TASAS\Solution_CTT\bin\ENTIDADES.dll
 C:\Users\Usuario\Desktop\SOLUCION_TASAS\Solution_CTT\bin\Microsoft.AspNet.FriendlyUrls.dll

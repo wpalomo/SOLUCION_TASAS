@@ -59,6 +59,7 @@ namespace Solution_CTT
             Session["paga_iva_pagos"] = null;
             Session["genera_tasa_usuario"] = null;
             Session["cantidad_manifiesto"] = null;
+            Session["ejecuta_cobro_administrativo"] = null;
 
             //VARIABLES DE SESION PARA EL CIERRE DE CAJA
             Session["idCierreCaja"] = null;
@@ -67,6 +68,9 @@ namespace Solution_CTT
             Session["fechaCierre"] = null;
             Session["horaCierre"] = null;
             Session["estadoCierre"] = null;
+
+            //VARIABLES DE SESION DE LAS TASAS DE USUARIO
+            Session["tasaDevesofft"] = null;
         }
 
         protected void Application_BeginRequest(object sender, EventArgs e)

@@ -155,6 +155,7 @@ namespace Solution_CTT
                 sSql += "select * from ctt_vw_itinerarios" + Environment.NewLine;
                 sSql += "where (fecha_viaje between '" + sFechaInicial + "'" + Environment.NewLine;
                 sSql += "and '" + sFechaFinal + "')" + Environment.NewLine;
+                sSql += "and id_ctt_pueblo_origen_grid = " + Session["id_pueblo"].ToString() + Environment.NewLine;
 
                 if (iOp == 1)
                 {

@@ -28,6 +28,8 @@ namespace Solution_CTT
         int iIdLocalidadEncomienda;
         int iCobrosAdministracion;
         int iCobrosOtros;
+        int iAplicaTasaUsuario;
+        int iIdProveedorTasa;
 
         DataTable dtConsulta;
         bool bRespuesta;
@@ -110,6 +112,33 @@ namespace Solution_CTT
             }
         }
 
+        //FUNCION PARA LLENAR EL COMOBOX DE PROVEEDORES DE TASAS
+        //private void llenarComboProveedoresTasas()
+        //{
+        //    try
+        //    {
+        //        sSql = "";
+        //        sSql += "select id_ctt_proveedor_tasa, descripcion" + Environment.NewLine;
+        //        sSql += "from ctt_proveedores_tasas" + Environment.NewLine;
+        //        sSql += "where estado = 'A'" + Environment.NewLine;
+        //        sSql += "order by descripcion";
+
+        //        comboE.ISSQL = sSql;
+        //        cmbProveedoresTasas.DataSource = comboM.listarCombo(comboE);
+        //        cmbProveedoresTasas.DataValueField = "IID";
+        //        cmbProveedoresTasas.DataTextField = "IDATO";
+        //        cmbProveedoresTasas.DataBind();
+        //        cmbProveedoresTasas.Items.Insert(0, new ListItem("Seleccione Proveedor", "0"));
+
+        //    }
+
+        //    catch (Exception ex)
+        //    {
+        //        lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+        //    }
+        //}
+
 
         //FUNCION PARA LAS COLUMNAS
         private void columnasGrid(bool ok)
@@ -179,7 +208,7 @@ namespace Solution_CTT
                 sSql += "insert into ctt_pueblos (" + Environment.NewLine;
                 sSql += "id_localidad_terminal, id_localidad_encomienda, idsisprovincia," + Environment.NewLine;
                 sSql += "descripcion, terminal, encomienda, cobros_administracion, cobros_otros," + Environment.NewLine;
-                sSql += " estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += iIdLocalidadTerminal + ", " + iIdLocalidadEncomienda + ", " + Convert.ToInt32(cmbProvincia.SelectedValue) + ", ";
                 sSql += "'" + txtDescripcion.Text.Trim().ToUpper() + "', " + iEsTerminal + ", " + iEsEncomienda + "," + Environment.NewLine;
@@ -231,7 +260,7 @@ namespace Solution_CTT
                 sSql += "encomienda = " + iEsEncomienda + "," + Environment.NewLine;
                 sSql += "cobros_administracion = " + iCobrosAdministracion + "," + Environment.NewLine;
                 sSql += "cobros_otros = " + iCobrosOtros + Environment.NewLine;
-                sSql += "where id_ctt_pueblo = " + Convert.ToInt32(Session["idRegistro"]) + Environment.NewLine;
+                sSql += "where id_ctt_pueblo = " + Convert.ToInt32(Session["idRegistroPUEBLO"].ToString()) + Environment.NewLine;
                 sSql += "and estado = 'A'";
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
@@ -276,7 +305,7 @@ namespace Solution_CTT
                 sSql += "fecha_anula = GETDATE()," + Environment.NewLine;
                 sSql += "usuario_anula = '" + sDatosMaximo[0] + "'," + Environment.NewLine;
                 sSql += "terminal_anula = '" + sDatosMaximo[1] + "'" + Environment.NewLine;
-                sSql += "where id_ctt_pueblo = " + Convert.ToInt32(Session["idRegistro"]);
+                sSql += "where id_ctt_pueblo = " + Convert.ToInt32(Session["idRegistroPUEBLO"]);
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
                 {
@@ -307,7 +336,7 @@ namespace Solution_CTT
         private void limpiar()
         {
             txtDescripcion.Text = "";
-            Session["idRegistro"] = null;
+            Session["idRegistroPUEBLO"] = null;
             llenarComboLocalidades();
             llenarComboProvincias();
             btnSave.Text = "Crear";
@@ -331,7 +360,7 @@ namespace Solution_CTT
             {
                 int a = dgvDatos.SelectedIndex;
                 columnasGrid(true);
-                Session["idRegistro"] = dgvDatos.Rows[a].Cells[1].Text;
+                Session["idRegistroPUEBLO"] = dgvDatos.Rows[a].Cells[1].Text;
 
                 if (sAccion == "Editar")
                 {
@@ -388,8 +417,7 @@ namespace Solution_CTT
                     else
                     {
                         chkCobrosOtros.Checked = false;
-                    }
-
+                    }                    
                 }
 
                 columnasGrid(false);
@@ -437,104 +465,100 @@ namespace Solution_CTT
             {
                 MsjValidarCampos.Visible = true;
                 cmbProvincia.Focus();
-                goto fin;
+                return;
             }
 
-            else if (txtDescripcion.Text.Trim() == "")
+            if (txtDescripcion.Text.Trim() == "")
             {
                 MsjValidarCampos.Visible = true;
                 txtDescripcion.Focus();
-                goto fin;
+                return;
+            }
+
+            iIdLocalidadTerminal = 0;
+            iIdLocalidadEncomienda = 0;
+            iIdProveedorTasa = 0;
+
+            if (chkAplicaTerminal.Checked == true)
+            {
+                if (Convert.ToInt32(cmbLocalidadTerminal.SelectedValue) == 0)
+                {
+                    MsjValidarCampos.Visible = true;
+                    cmbLocalidadTerminal.Focus();
+                    return;
+                }
+
+                else
+                {
+                    iIdLocalidadTerminal = Convert.ToInt32(cmbLocalidadTerminal.SelectedValue);
+                }
+            }
+
+            if (chkAplicaEncomienda.Checked == true)
+            {
+                if (Convert.ToInt32(cmbLocalidadEncomienda.SelectedValue) == 0)
+                {
+                    MsjValidarCampos.Visible = true;
+                    cmbLocalidadEncomienda.Focus();
+                    return;
+                }
+
+                else
+                {
+                    iIdLocalidadEncomienda = Convert.ToInt32(cmbLocalidadEncomienda.SelectedValue);
+                }
+            }
+
+            if (chkAplicaTerminal.Checked == true)
+            {
+                iEsTerminal = 1;
             }
 
             else
             {
-                iIdLocalidadTerminal = 0;
-                iIdLocalidadEncomienda = 0;
-
-                if (chkAplicaTerminal.Checked == true)
-                {
-                    if (Convert.ToInt32(cmbLocalidadTerminal.SelectedValue) == 0)
-                    {
-                        MsjValidarCampos.Visible = true;
-                        cmbLocalidadTerminal.Focus();
-                        goto fin;
-                    }
-
-                    else
-                    {
-                        iIdLocalidadTerminal = Convert.ToInt32(cmbLocalidadTerminal.SelectedValue);
-                    }
-                }
-
-                if (chkAplicaEncomienda.Checked == true)
-                {
-                    if (Convert.ToInt32(cmbLocalidadEncomienda.SelectedValue) == 0)
-                    {
-                        MsjValidarCampos.Visible = true;
-                        cmbLocalidadEncomienda.Focus();
-                        goto fin;
-                    }
-
-                    else
-                    {
-                        iIdLocalidadEncomienda = Convert.ToInt32(cmbLocalidadEncomienda.SelectedValue);
-                    }
-                }
-
-                if (chkAplicaTerminal.Checked == true)
-                {
-                    iEsTerminal = 1;
-                }
-
-                else
-                {
-                    iEsTerminal = 0;
-                }
-
-                if (chkAplicaEncomienda.Checked == true)
-                {
-                    iEsEncomienda = 1;
-                }
-
-                else
-                {
-                    iEsEncomienda = 0;
-                }
-
-                if (chkCobrosAdministracion.Checked == true)
-                {
-                    iCobrosAdministracion = 1;
-                }
-
-                else
-                {
-                    iCobrosAdministracion = 0;
-                }
-
-                if (chkCobrosOtros.Checked == true)
-                {
-                    iCobrosOtros = 1;
-                }
-
-                else
-                {
-                    iCobrosOtros = 0;
-                }
-
-                if (Session["idRegistro"] == null)
-                {
-                    //ENVIO A FUNCION DE INSERCION
-                    insertarRegistro();
-                }
-
-                else
-                {
-                    actualizarRegistro();
-                }
+                iEsTerminal = 0;
             }
 
-            fin:{}
+            if (chkAplicaEncomienda.Checked == true)
+            {
+                iEsEncomienda = 1;
+            }
+
+            else
+            {
+                iEsEncomienda = 0;
+            }
+
+            if (chkCobrosAdministracion.Checked == true)
+            {
+                iCobrosAdministracion = 1;
+            }
+
+            else
+            {
+                iCobrosAdministracion = 0;
+            }
+
+            if (chkCobrosOtros.Checked == true)
+            {
+                iCobrosOtros = 1;
+            }
+
+            else
+            {
+                iCobrosOtros = 0;
+            }
+
+            if (Session["idRegistroPUEBLO"] == null)
+            {
+                //ENVIO A FUNCION DE INSERCION
+                insertarRegistro();
+            }
+
+            else
+            {
+                actualizarRegistro();
+            }
         }
 
         protected void btnAccept_Click(object sender, EventArgs e)

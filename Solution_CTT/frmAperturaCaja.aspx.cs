@@ -97,7 +97,25 @@ namespace Solution_CTT
 
                 if (dtConsulta.Rows.Count == 0)
                 {
+                    int iConsultaJornada;
 
+                    iConsultaJornada = recuperarJornada(1);
+
+                    txtJornada.Text = Session["descripcionJornada"].ToString().Trim().ToUpper();
+                    txtFechaApertura.Text = Session["fechaApertura"].ToString();
+                    txtHoraApertura.Text = Session["horaApertura"].ToString();
+                    txtUsuario.Text = Session["usuarioApertura"].ToString();
+                    txtLocalidad.Text = Session["oficina"].ToString();
+                    txtSaldoInicial.Text = Convert.ToDecimal(Session["saldoInicialApertura"].ToString()).ToString("N2");
+                    txtObservaciones.Text = Session["observacionesApertura"].ToString();
+
+                    Session["idCierreCaja"] = "0";
+                    Session["idJornadaApertura"] = iConsultaJornada.ToString();
+                    Session["idJornada"] = iConsultaJornada.ToString();
+
+                    btnGuardar.Visible = true;
+                    txtSaldoInicial.ReadOnly = false;
+                    txtObservaciones.ReadOnly = false;
                     return;
                 }
 

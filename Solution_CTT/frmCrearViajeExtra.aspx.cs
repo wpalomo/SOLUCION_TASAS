@@ -534,6 +534,7 @@ namespace Solution_CTT
                 sSql += "and H.estado = 'A' INNER JOIN" + Environment.NewLine;
                 sSql += "ctt_pueblos P ON P.id_ctt_pueblo = R.id_ctt_pueblo_destino" + Environment.NewLine;
                 sSql += "and P.estado = 'A'" + Environment.NewLine;
+                sSql += "and R.id_ctt_pueblo_origen = " + Session["id_pueblo"].ToString() + Environment.NewLine;
 
                 if (iOp == 1)
                 {
@@ -653,14 +654,15 @@ namespace Solution_CTT
                 sSql += "insert into ctt_programacion (" + Environment.NewLine;
                 sSql += "id_ctt_chofer, id_ctt_asistente, id_ctt_vehiculo, id_ctt_anden, id_ctt_tipo_servicio," + Environment.NewLine;
                 sSql += "id_ctt_itinerario, codigo, numero_viaje, fecha_viaje, estado_salida, asientos_ocupados," + Environment.NewLine;
-                sSql += "hora_reemplazo_extra, cobrar_administracion, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                sSql += "hora_reemplazo_extra, cobrar_administracion, id_ctt_pueblo_origen, estado," + Environment.NewLine;
+                sSql += "fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(Session["id_Chofer"].ToString()) + ", " + Convert.ToInt32(Session["id_Asistente"].ToString()) + ", ";
                 sSql += Convert.ToInt32(Session["id_Vehiculo"].ToString()) + ", " + Convert.ToInt32(cmbAnden.SelectedValue) + ", ";
                 sSql += Convert.ToInt32(Session["id_tipo_viaje"].ToString()) + ", " + Convert.ToInt32(Session["id_Itinerario"].ToString()) + "," + Environment.NewLine;
                 sSql += "'" + txtCodigo.Text.Trim().ToUpper() + "', " + Convert.ToInt32(txtNumeroViaje.Text.Trim().ToUpper()) + ", '" + sFecha + "'," + Environment.NewLine;
-                sSql += "'Abierta', 0, '" + txtHoraSalida.Text.Trim() + "', 0, 'A', GETDATE(), '" + sDatosMaximo[0] + "'," + Environment.NewLine;
-                sSql += "'" + sDatosMaximo[1] + "')";
+                sSql += "'Abierta', 0, '" + txtHoraSalida.Text.Trim() + "', 0, " + Session["id_pueblo"].ToString() + "," + Environment.NewLine;
+                sSql += "'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                 //EJECUCIÓN DE INSTRUCCION SQL
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
