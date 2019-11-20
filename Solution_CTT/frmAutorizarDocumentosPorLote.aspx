@@ -79,7 +79,7 @@
                                 </div>
                                 <div class="box-body">
                                     <div class="scrolling-table-container" runat="server" id="Scroll" visible="false">
-                                        <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!">
+                                        <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnRowDataBound="dgvDatos_RowDataBound">
                                             <Columns>
                                                 <asp:TemplateField>
                                                     <HeaderTemplate>

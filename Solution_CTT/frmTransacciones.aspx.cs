@@ -7545,5 +7545,133 @@ namespace Solution_CTT
                 txtDescuento.Text = "0.00";
             }
         }
+
+        protected void dgvDatos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvDatos.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvDatos.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvDatos.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
+
+        protected void dgvDatosExtras_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvDatosExtras.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvDatosExtras.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvDatosExtras.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
+
+        protected void dgvDetalle_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvDetalle.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvDetalle.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvDetalle.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
+
+        protected void dgvFiltrarClientes_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvFiltrarClientes.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvFiltrarClientes.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvFiltrarClientes.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
+
+        protected void dgvGridFacturar_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvGridFacturar.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvGridFacturar.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvGridFacturar.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
+
+        protected void dgvListaPasajeros_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvListaPasajeros.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvListaPasajeros.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvListaPasajeros.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
+
+        protected void dgvVendidos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvVendidos.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvVendidos.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvVendidos.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
+
+        protected void dgvReporteTokenInfo_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvReporteTokenInfo.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvReporteTokenInfo.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvReporteTokenInfo.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
     }
 }

@@ -10,6 +10,7 @@ using System.Net;
 using System.Text;
 using System.IO;
 using Newtonsoft.Json;
+using System.Drawing;
 
 namespace Solution_CTT
 {
@@ -430,7 +431,37 @@ namespace Solution_CTT
             }
         }
 
+        protected void dgvDatos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvDatos.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvDatos.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
 
+                else
+                {
+                    dgvDatos.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
+
+        protected void dgvDatosSistema_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvDatos.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvDatos.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvDatos.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
 
     }
 }

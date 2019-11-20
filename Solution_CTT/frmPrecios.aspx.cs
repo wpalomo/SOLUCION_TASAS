@@ -8,6 +8,7 @@ using System.Data;
 using NEGOCIO;
 using ENTIDADES;
 using System.Globalization;
+using System.Drawing;
 
 namespace Solution_CTT
 {
@@ -1258,6 +1259,22 @@ namespace Solution_CTT
             {
                 Session["buscar"] = "1";
                 llenarGrid(1);
+            }
+        }
+
+        protected void dgvDatos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvDatos.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvDatos.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvDatos.Rows[i].BackColor = Color.White;
+                }
             }
         }
     }

@@ -8,6 +8,7 @@ using System.Data;
 using NEGOCIO;
 using ENTIDADES;
 using Microsoft.Reporting.WebForms;
+using System.Drawing;
 
 namespace Solution_CTT
 {
@@ -439,6 +440,22 @@ namespace Solution_CTT
         protected void btnCerrarModalReporte_Click(object sender, EventArgs e)
         {
             ModalPopupExtender_Reporte.Hide();
+        }
+
+        protected void dgvDatos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvDatos.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvDatos.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvDatos.Rows[i].BackColor = Color.White;
+                }
+            }
         }
     }
 }

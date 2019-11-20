@@ -17,6 +17,7 @@ using System.Net.Mail;
 using System.Net;
 using NEGOCIO;
 using System.IO;
+using System.Drawing;
 
 namespace Solution_CTT
 {
@@ -1095,64 +1096,26 @@ namespace Solution_CTT
                     }
                 }
             }
-
-            //if(a > 0)
-            //{
-            //    string[] array = new string[300];
-            //    string[] resultado;
-            //    foreach (GridViewRow row in dgvDatos.Rows)
-            //    {
-            //        CheckBox check = row.FindControl("chkSeleccionar") as CheckBox;
-            //        if (check.Checked == true)
-            //        {
-            //            if (!CrearXML(Convert.ToInt32(row.Cells[1].Text))) return;//ENVIO NUMERO FACTURA
-            //            if (!FirmarXML()) return;
-            //            Thread.Sleep(7000);//DUERMO PARA QUE SE CREE EL XML FIRMADO Y PUEDE SER UTILIZADO PARA EL ENVIO
-
-            //            resultado = EnviarXML();
-
-            //            if (resultado[0] == "RECIBIDA")
-            //            {
-            //                array[row.RowIndex] = resultado[0];
-            //                Thread.Sleep(2000);
-
-            //                resultado[0] = ConsultarXML(Convert.ToInt32(row.Cells[1].Text), row.Cells[3].Text.ToString());//ENVIO CLAVE DE ACCESO
-            //                array[row.RowIndex] = resultado[0];
-            //                Thread.Sleep(2000);
-
-            //                if (!RenderReport(Convert.ToInt32(row.Cells[1].Text))) return;//ENVIO NUMERO FACTURA
-            //                Thread.Sleep(2000);
-
-            //                if (!EnviarCorreoCliente(Convert.ToInt32(row.Cells[1].Text))) return;//ENVIO IDFACTURA
-            //            }
-
-            //            else
-            //            {
-            //                if (resultado[1] == "43")
-            //                {
-            //                    array[row.RowIndex] = resultado[0];
-            //                    Thread.Sleep(2000);
-
-            //                    resultado[0] = ConsultarXML(Convert.ToInt32(row.Cells[1].Text), row.Cells[3].Text.ToString());//ENVIO CLAVE DE ACCESO
-            //                    array[row.RowIndex] = resultado[0];
-            //                    Thread.Sleep(2000);
-
-            //                    if (!RenderReport(Convert.ToInt32(row.Cells[1].Text))) return;//ENVIO NUMERO FACTURA
-            //                    Thread.Sleep(2000);
-
-            //                    if (!EnviarCorreoCliente(Convert.ToInt32(row.Cells[1].Text))) return;//ENVIO IDFACTURA
-            //                }
-            //            }
-            //        }
-            //    }
-            //    //Session["MiMatriz"] = array;
-            //    llenarGrid(1, array);
-            //    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Documentos Autorizados correctamente', 'success');", true);                
-            //}
         }
 
         protected void lbtnCancelar_Click(object sender, EventArgs e)
         {
+        }
+
+        protected void dgvDatos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvDatos.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvDatos.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvDatos.Rows[i].BackColor = Color.White;
+                }
+            }
         }
     }
 }

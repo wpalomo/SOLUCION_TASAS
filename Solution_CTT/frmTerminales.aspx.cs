@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using ENTIDADES;
 using NEGOCIO;
 using System.Data;
+using System.Drawing;
 
 namespace Solution_CTT
 {
@@ -462,6 +463,22 @@ namespace Solution_CTT
             catch (Exception ex)
             {
                 ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', '" + ex.ToString() + "', 'danger');", true);
+            }
+        }
+
+        protected void dgvDatos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvDatos.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvDatos.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvDatos.Rows[i].BackColor = Color.White;
+                }
             }
         }
     }

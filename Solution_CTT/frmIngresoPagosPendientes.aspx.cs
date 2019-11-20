@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using ENTIDADES;
 using NEGOCIO;
 using System.Data;
+using System.Drawing;
 
 namespace Solution_CTT
 {
@@ -788,10 +789,52 @@ namespace Solution_CTT
             sAccionFiltroItinerario = "Seleccion";
         }
 
+        protected void dgvDetalle_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvDetalle.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvDetalle.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
 
+                else
+                {
+                    dgvDetalle.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
 
+        protected void dgvItinerarios_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvItinerarios.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvItinerarios.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
 
+                else
+                {
+                    dgvItinerarios.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
 
+        protected void dgvAsistentesChofer_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvAsistentesChofer.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvAsistentesChofer.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
 
+                else
+                {
+                    dgvAsistentesChofer.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
     }
 }

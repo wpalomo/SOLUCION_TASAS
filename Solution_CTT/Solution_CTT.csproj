@@ -113,7 +113,11 @@
     <Content Include="assets\bootstrap\css\bootstrap-reboot.min.css.map" />
     <Content Include="assets\bootstrap\css\bootstrap.css.map" />
     <Content Include="assets\bootstrap\css\bootstrap.min.css.map" />
+    <Content Include="assets\img\AtenasBack1.jpg" />
+    <Content Include="assets\img\AtenasBack2.jpg" />
+    <Content Include="assets\img\AtenasBack3.jpg" />
     <Content Include="assets\img\Thumbs.db" />
+    <Content Include="assets\js\jquery.backstretch.js" />
     <Content Include="bower_components\bootstrap-colorpicker\bower.json" />
     <Content Include="bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.css.map" />
     <Content Include="bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.min.css.map" />

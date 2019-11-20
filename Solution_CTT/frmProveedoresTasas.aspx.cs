@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using ENTIDADES;
 using NEGOCIO;
 using System.Data;
+using System.Drawing;
 
 namespace Solution_CTT
 {
@@ -567,6 +568,38 @@ namespace Solution_CTT
             {
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
+
+        protected void dgvDatos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvDatos.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvDatos.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvDatos.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
+
+        protected void dgvFiltrarPersonas_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvFiltrarPersonas.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvFiltrarPersonas.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvFiltrarPersonas.Rows[i].BackColor = Color.White;
+                }
             }
         }
     }

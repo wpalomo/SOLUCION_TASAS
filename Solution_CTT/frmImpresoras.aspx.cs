@@ -9,6 +9,7 @@ using ENTIDADES;
 using System.Data;
 using System.Drawing.Printing;
 using System.Net;
+using System.Drawing;
 
 namespace Solution_CTT
 {
@@ -570,6 +571,22 @@ namespace Solution_CTT
             string host = Dns.GetHostName();
             IPAddress[] ip = Dns.GetHostAddresses(host);
             txtIpLocal.Text = ip[ip.Length - 1].ToString();
+        }
+
+        protected void dgvDatos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvDatos.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvDatos.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvDatos.Rows[i].BackColor = Color.White;
+                }
+            }
         }
     }
 }
