@@ -655,6 +655,7 @@
     <Content Include="frmLocalidadesImpresoras.aspx" />
     <Content Include="frmMarcaVehiculos.aspx" />
     <Content Include="frmMensajeCaja.aspx" />
+    <Content Include="frmMensajePermisos.aspx" />
     <Content Include="frmModeloVehiculos.aspx" />
     <Content Include="frmNumeroDisco.aspx" />
     <Content Include="frmObtenerTokens.aspx" />
@@ -680,6 +681,7 @@
     <Content Include="frmReporteCodigo.aspx" />
     <Content Include="frmReporteFactura.aspx" />
     <Content Include="frmReporteListaPasajeros.aspx" />
+    <Content Include="frmReportePagosAdministrativos.aspx" />
     <Content Include="frmReportePasajerosBus.aspx" />
     <Content Include="frmReportePrueba.aspx" />
     <Content Include="frmReporteRetenciones.aspx" />
@@ -7627,6 +7629,13 @@
     <Compile Include="frmMensajeCaja.aspx.designer.cs">
       <DependentUpon>frmMensajeCaja.aspx</DependentUpon>
     </Compile>
+    <Compile Include="frmMensajePermisos.aspx.cs">
+      <DependentUpon>frmMensajePermisos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmMensajePermisos.aspx.designer.cs">
+      <DependentUpon>frmMensajePermisos.aspx</DependentUpon>
+    </Compile>
     <Compile Include="frmModeloVehiculos.aspx.cs">
       <DependentUpon>frmModeloVehiculos.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -7815,6 +7824,13 @@
     </Compile>
     <Compile Include="frmReporteListaPasajeros.aspx.designer.cs">
       <DependentUpon>frmReporteListaPasajeros.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmReportePagosAdministrativos.aspx.cs">
+      <DependentUpon>frmReportePagosAdministrativos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmReportePagosAdministrativos.aspx.designer.cs">
+      <DependentUpon>frmReportePagosAdministrativos.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmReportePasajerosBus.aspx.cs">
       <DependentUpon>frmReportePasajerosBus.aspx</DependentUpon>

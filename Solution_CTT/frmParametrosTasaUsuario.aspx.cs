@@ -45,12 +45,33 @@ namespace Solution_CTT
 
             if (!IsPostBack)
             {
+                verificarPermiso();
                 llenarComboTerminales();
                 cargarParametros();
             }
         }
 
         #region FUNCIONES DEL USUARIO
+
+        //CONSULTAR PERMISOS
+        private void verificarPermiso()
+        {
+            try
+            {
+                if ((Session["tasaDevesofft"] == null) || (Session["tasaDevesofft"].ToString() == "0"))
+                {
+                    Response.Redirect("frmMensajePermisos.aspx");
+                }
+
+                return;
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
 
         //FUNCION PARA LLENAR EL COMBOBOX DE TERMINALES
         private void llenarComboTerminales()

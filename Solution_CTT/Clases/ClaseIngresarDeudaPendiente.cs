@@ -569,7 +569,7 @@ namespace Solution_CTT.Clases
                 sSql += "idtipocomprobante,id_pedido, numero_pedido," + Environment.NewLine;
                 sSql += "fecha_ingreso, usuario_ingreso, terminal_ingreso, estado)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
-                sSql += "2, " + iIdPedido + ", " + iNumeroPedido + ", GETDATE()," + Environment.NewLine;
+                sSql +=  Convert.ToInt32(HttpContext.Current.Application["id_comprobante"].ToString()) + ", " + iIdPedido + ", " + iNumeroPedido + ", GETDATE()," + Environment.NewLine;
                 sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', 'A')";
 
                 if (!conexionM.ejecutarInstruccionSQL(sSql))

@@ -86,12 +86,33 @@ namespace Solution_CTT
 
             if (!IsPostBack)
             {
+                verificarPermiso();
                 consultarParametros();
                 llenarGrid();
             }
         }
 
         #region FUNCIONES DEL USUARIO
+
+        //CONSULTAR PERMISOS
+        private void verificarPermiso()
+        {
+            try
+            {
+                if ((Session["tasaDevesofft"] == null) || (Session["tasaDevesofft"].ToString() == "0"))
+                {
+                    Response.Redirect("frmMensajePermisos.aspx");
+                }
+
+                return;
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
 
         //FUNCION PARA VERIFICAR LA CONEXION A INTERNET
         private bool conexionInternet()
@@ -159,7 +180,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -208,7 +229,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -267,7 +288,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -323,7 +344,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 return false;
             }
@@ -362,7 +383,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 return false;
             }
@@ -462,7 +483,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 return false;
             }

@@ -74,6 +74,7 @@
     <Compile Include="ENTProgramacion.cs" />
     <Compile Include="ENTPueblos.cs" />
     <Compile Include="ENTPueblosHorarios.cs" />
+    <Compile Include="ENTReporteCobroAdministracion.cs" />
     <Compile Include="ENTReporteCobroRetenciones.cs" />
     <Compile Include="ENTReporteVentaClientes.cs" />
     <Compile Include="ENTReporteViajesActivos.cs" />

@@ -48,11 +48,7 @@
                                                 <div class="form-group">
                                                     <asp:Label ID="Label13" runat="server" Text="Tipo de Comprobante"></asp:Label>
                                                     <div class="input-group col-sm-12">
-                                                        <asp:DropDownList ID="cmbTipoComprobante" runat="server" class="form-control input-sm">
-                                                            <asp:ListItem Value="0">Seleccione...!!!</asp:ListItem>
-                                                            <asp:ListItem Value="1">Factura</asp:ListItem>
-                                                            <asp:ListItem Value="2">Nota de Venta</asp:ListItem>
-                                                        </asp:DropDownList>                                                    
+                                                        <asp:DropDownList ID="cmbTipoComprobante" runat="server" class="form-control input-sm"></asp:DropDownList>                                                    
                                                         <span class="input-group-addon input-sm"><i class="fa fa-paper-plane"></i></span>
                                                     </div>
                                                 </div>

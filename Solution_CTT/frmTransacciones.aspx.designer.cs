@@ -517,6 +517,15 @@ namespace Solution_CTT {
         protected global::System.Web.UI.WebControls.Label lblEtiquetaCierre;
         
         /// <summary>
+        /// Control pnlMostrarPagosPendientes.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlMostrarPagosPendientes;
+        
+        /// <summary>
         /// Control dgvDetalle.
         /// </summary>
         /// <remarks>

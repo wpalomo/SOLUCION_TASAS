@@ -78,6 +78,7 @@
     <Compile Include="ClaseProgramacion.cs" />
     <Compile Include="ClasePueblos.cs" />
     <Compile Include="ClasePueblosHorarios.cs" />
+    <Compile Include="ClaseReporteCobroAdministracion.cs" />
     <Compile Include="ClaseReporteCobroRetenciones.cs" />
     <Compile Include="ClaseReporteVentaClientes.cs" />
     <Compile Include="ClaseReporteViajesActivos.cs" />

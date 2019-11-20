@@ -481,6 +481,7 @@
                             <li><a href="frmReporteViajesActivos.aspx"><i class="fa fa-circle-o"></i>Reporte de Viajes Activos</a></li>
                             <li><a href="frmReporteViajesAgrupados.aspx"><i class="fa fa-circle-o"></i>Reporte de Viajes Agrupados</a></li>
                             <li><a href="frmReporteRetenciones.aspx"><i class="fa fa-circle-o"></i>Reporte de Retenciones</a></li>
+                            <li><a href="frmReportePagosAdministrativos.aspx"><i class="fa fa-circle-o"></i>Reporte de Pagos Administrativos</a></li>
                         </ul>
                     </li>
 

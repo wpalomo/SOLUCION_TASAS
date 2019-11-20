@@ -65,6 +65,7 @@
                         </div>
                         <!-- /.box -->
                     </div>
+
                     <%--REGISTER--%>
                     <div class="col-md-7">
                         <div class="box box-success">

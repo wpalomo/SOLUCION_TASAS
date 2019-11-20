@@ -50,6 +50,7 @@ namespace Solution_CTT
 
             if (!IsPostBack)
             {
+                llenarComboComprobantes();
                 llenarComboMoneda();
                 cargarParametros();
             }
@@ -97,7 +98,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -145,7 +146,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -153,6 +154,35 @@ namespace Solution_CTT
         #endregion
 
         #region FUNCIONES DEL USUARIO
+
+        //FUNCION PARA LLENAR EL COMBO DE TIPO DE COMPROBANTES
+        private void llenarComboComprobantes()
+        {
+            try
+            {
+                dtConsulta = new DataTable();
+                dtConsulta.Clear();
+
+                sSql = "";
+                sSql += "select idtipocomprobante, descripcion" + Environment.NewLine;
+                sSql += "from vta_tipocomprobante" + Environment.NewLine;
+                sSql += "where estado = 'A'" + Environment.NewLine;
+                sSql += "and codigo in ('Fac', 'Not', 'NotV', 'Nen')";
+
+                comboE.ISSQL = sSql;
+                cmbTipoComprobante.DataSource = comboM.listarCombo(comboE);
+                cmbTipoComprobante.DataValueField = "IID";
+                cmbTipoComprobante.DataTextField = "IDATO";
+                cmbTipoComprobante.DataBind();
+                cmbTipoComprobante.Items.Insert(0, new ListItem("Seleccione Comprobante", "0"));
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
 
         //FUNCION PARA LLENAR EL COMBOBX DE MONEDAS
         private void llenarComboMoneda()
@@ -172,7 +202,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -314,7 +344,7 @@ namespace Solution_CTT
 
             catch(Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -404,7 +434,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -456,7 +486,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 goto reversa;
             }
@@ -516,7 +546,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 goto reversa;
             }
@@ -561,7 +591,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 goto reversa;
             }
@@ -766,7 +796,7 @@ namespace Solution_CTT
 
             catch(Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -823,7 +853,7 @@ namespace Solution_CTT
             catch (Exception ex)
             {
                 btnPopUp_ModalPopupExtender.Hide();
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -852,7 +882,7 @@ namespace Solution_CTT
             catch (Exception ex)
             {
                 btnPopUp_ModalPopupExtender.Hide();
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -900,7 +930,7 @@ namespace Solution_CTT
             catch (Exception ex)
             {
                 btnPopUp_ModalPopupExtender.Hide();
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -925,7 +955,7 @@ namespace Solution_CTT
             catch (Exception ex)
             {
                 btnPopUp_ModalPopupExtender.Hide();
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -959,7 +989,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -984,7 +1014,7 @@ namespace Solution_CTT
             catch (Exception ex)
             {
                 modalExtenderItems.Hide();
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -1008,7 +1038,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }

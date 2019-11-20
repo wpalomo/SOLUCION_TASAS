@@ -34,11 +34,32 @@ namespace Solution_CTT
 
             if (!IsPostBack)
             {
+                verificarPermiso();
                 cargarParametros();
             }
         }
 
         #region FUNCIONES DEL USUARIO
+
+        //CONSULTAR PERMISOS
+        private void verificarPermiso()
+        {
+            try
+            {
+                if ((Session["tasaDevesofft"] == null) || (Session["tasaDevesofft"].ToString() == "0"))
+                {
+                    Response.Redirect("frmMensajePermisos.aspx");
+                }
+
+                return;
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
 
         //Funcion para aceptar los certificados de la URL
         public bool AcceptAllCertifications(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certification, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)

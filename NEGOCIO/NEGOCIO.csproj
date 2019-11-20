@@ -81,6 +81,7 @@
     <Compile Include="manejadorProgramacion.cs" />
     <Compile Include="manejadorPueblos.cs" />
     <Compile Include="manejadorPueblosHorarios.cs" />
+    <Compile Include="manejadorReporteCobroAdministracion.cs" />
     <Compile Include="manejadorReporteCobroRetenciones.cs" />
     <Compile Include="manejadorReporteVentaClientes.cs" />
     <Compile Include="manejadorReporteViajesActivos.cs" />

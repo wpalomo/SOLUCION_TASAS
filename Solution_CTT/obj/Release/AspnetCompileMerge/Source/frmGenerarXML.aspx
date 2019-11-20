@@ -438,6 +438,7 @@
                                             <asp:BoundField DataField="ICLIENTE" HeaderText="CLIENTE" />
                                             <asp:BoundField DataField="IFACTURAEMITIDA" HeaderText="FACTURA" />
                                             <asp:BoundField DataField="ICLAVEACCESO" HeaderText="CLAVE DE ACCESO" />
+                                            <%--<asp:BoundField DataField="IIDLOCALIDAD" HeaderText="ID LOCALIDAD" />--%>
                                             <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="lbtnSeleccion" runat="server" CommandName="Select" class="btn btn-xs btn-success" OnClick="lbtnSeleccion_Click"><i class="fa fa-check-square-o"></i></asp:LinkButton>

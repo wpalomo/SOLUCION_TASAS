@@ -420,80 +420,67 @@
                                 <i class="fa fa-table"></i>
                                 <h3 class="box-title">CIERRE DE VIAJE  -  <asp:Label ID="lblEtiquetaCierre" runat="server" Text=""></asp:Label></h3>
                             </div>
-                            <div class="box-body">
-                                <div class="form-group">
 
-                                    <%--FILA DEL GRID--%>
+                            <asp:Panel ID="pnlMostrarPagosPendientes" runat="server">
+
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <%--FILA DEL GRID--%>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+
+                                                        <asp:GridView ID="dgvDetalle" runat="server" class="mGrid" AllowPaging="True" AutoGenerateColumns="False" 
+                                                            PageSize="7" EmptyDataText="No hay Registros o Coindicencias..!!" OnPageIndexChanging="dgvDetalle_PageIndexChanging" >
+                                                            <AlternatingRowStyle BackColor="White" />
+                                                            <Columns>
+                                                                <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="Seleccionar">
+                                                                    <ItemTemplate>
+                                                                        <asp:CheckBox ID="chkSeleccionar" runat="server" CommandName="Select" />
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:BoundField HeaderText="IDPedido" DataField="id_pedido" />
+                                                                <asp:BoundField HeaderText="No. Viaje" DataField="numero_viaje" />
+                                                                <asp:BoundField HeaderText="Fecha Viaje" DataField="fecha_viaje" />
+                                                                <asp:BoundField DataField="hora_salida" HeaderText="Hora Viaje" />
+                                                                <asp:BoundField DataField="abono" HeaderText="Valor Abonado" />
+                                                                <asp:BoundField DataField="precio" HeaderText="Valor Debido" />
+                                                                <asp:BoundField DataField="cg_estado_dcto" HeaderText="Estado Dcto" />
+                                                                <asp:BoundField DataField="estado_pago" HeaderText="Tipo de Pago    " />
+                                                            </Columns>
+                                                        </asp:GridView>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <%--FIN FILA DEL GRID--%>
+
+                                    </div>
+                                </div>
+
+                                <div class="box-footer">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <div class="col-sm-12">
-                                                    <%--<asp:GridView ID="dgvDetalle" runat="server" class="mGrid" AllowPaging="True" AutoGenerateColumns="False" 
-                                                        PageSize="7" EmptyDataText="No hay Registros o Coindicencias..!!" OnPageIndexChanging="dgvDetalle_PageIndexChanging" >
-                                                        <AlternatingRowStyle BackColor="White" />
-                                                        <Columns>
-                                                            <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="Seleccionar">
-                                                                <ItemTemplate>
-                                                                    <asp:CheckBox ID="chkSeleccionar" runat="server" CommandName="Select" />
-                                                                </ItemTemplate>
-                                                            </asp:TemplateField>
-                                                            <asp:BoundField HeaderText="IDPedido" DataField="IIDPEDIDO" />
-                                                            <asp:BoundField HeaderText="No. Viaje" DataField="INUMEROVIAJE" />
-                                                            <asp:BoundField HeaderText="Fecha Viaje" DataField="IFECHAVIAJE" />
-                                                            <asp:BoundField DataField="IHORAVIAJE" HeaderText="Hora Viaje" />
-                                                            <asp:BoundField DataField="IVALOR" HeaderText="Valor Abonado" />
-                                                            <asp:BoundField DataField="IPRECIO" HeaderText="Valor Debido" />
-                                                            <asp:BoundField DataField="IESTADODCTO" HeaderText="Estado Dcto" />
-                                                        </Columns>
-                                                    </asp:GridView>--%>
-
-                                                    <asp:GridView ID="dgvDetalle" runat="server" class="mGrid" AllowPaging="True" AutoGenerateColumns="False" 
-                                                        PageSize="7" EmptyDataText="No hay Registros o Coindicencias..!!" OnPageIndexChanging="dgvDetalle_PageIndexChanging" >
-                                                        <AlternatingRowStyle BackColor="White" />
-                                                        <Columns>
-                                                            <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="Seleccionar">
-                                                                <ItemTemplate>
-                                                                    <asp:CheckBox ID="chkSeleccionar" runat="server" CommandName="Select" />
-                                                                </ItemTemplate>
-                                                            </asp:TemplateField>
-                                                            <asp:BoundField HeaderText="IDPedido" DataField="id_pedido" />
-                                                            <asp:BoundField HeaderText="No. Viaje" DataField="numero_viaje" />
-                                                            <asp:BoundField HeaderText="Fecha Viaje" DataField="fecha_viaje" />
-                                                            <asp:BoundField DataField="hora_salida" HeaderText="Hora Viaje" />
-                                                            <asp:BoundField DataField="abono" HeaderText="Valor Abonado" />
-                                                            <asp:BoundField DataField="precio" HeaderText="Valor Debido" />
-                                                            <asp:BoundField DataField="cg_estado_dcto" HeaderText="Estado Dcto" />
-                                                            <asp:BoundField DataField="estado_pago" HeaderText="Tipo de Pago    " />
-                                                        </Columns>
-                                                    </asp:GridView>
+                                                <div class="col-sm-6">
+                                                    <span class="pull-left">
+                                                        <asp:Label ID="lblSumaCobrar" runat="server" Text="Total a Cobrar: 0.00 $" class="badge bg-light-blue"></asp:Label>
+                                                    </span>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <span class="pull-right">
+                                                        <asp:Label ID="lblSumaRecuperado" runat="server" Text="Total Recuperado: 0.00 $" class="badge bg-light-blue"></asp:Label>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <%--FIN FILA DEL GRID--%>
-
                                 </div>
-                            </div>
 
-                            <div class="box-footer">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <div class="col-sm-6">
-                                                <span class="pull-left">
-                                                    <asp:Label ID="lblSumaCobrar" runat="server" Text="Total a Cobrar: 0.00 $" class="badge bg-light-blue"></asp:Label>
-                                                </span>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <span class="pull-right">
-                                                    <asp:Label ID="lblSumaRecuperado" runat="server" Text="Total Recuperado: 0.00 $" class="badge bg-light-blue"></asp:Label>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            </asp:Panel>
+
                         </div>
 
                         <div class="box box-primary">

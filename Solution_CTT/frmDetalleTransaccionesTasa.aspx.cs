@@ -60,6 +60,7 @@ namespace Solution_CTT
 
             if (!IsPostBack)
             {
+                verificarPermiso();
                 consultarParametros();
                 txtFechaFinal.Text = DateTime.Now.ToString("dd/MM/yyyy");
                 txtFechaInicial.Text = DateTime.Now.ToString("dd/MM/yyyy");
@@ -68,6 +69,26 @@ namespace Solution_CTT
         }
 
         #region FUNCIONES DEL USUARIO
+
+        //CONSULTAR PERMISOS
+        private void verificarPermiso()
+        {
+            try
+            {
+                if ((Session["tasaDevesofft"] == null) || (Session["tasaDevesofft"].ToString() == "0"))
+                {
+                    Response.Redirect("frmMensajePermisos.aspx");
+                }
+
+                return;
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
 
         //FUNCION PARA CONSULTAR LOS PARAMETROS DEL SERVIDOR
         private void consultarParametros()

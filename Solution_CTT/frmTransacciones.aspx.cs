@@ -6123,53 +6123,28 @@ namespace Solution_CTT
         {
             try
             {
-                if (consultarRealizarCobros() == true)
+                pnlBus.Visible = false;
+                pnlAsientos.Visible = false;
+                pnlCierreViaje.Visible = true;
+                lblEtiquetaCierre.Text = Session["etiqueta_viaje"].ToString();
+
+                if ((Session["ejecuta_cobro_administrativo"] == null) || (Session["ejecuta_cobro_administrativo"].ToString() == "0"))
                 {
-                    pnlBus.Visible = false;
-                    pnlAsientos.Visible = false;
-                    pnlCierreViaje.Visible = true;
-
-                    //if (Convert.ToInt32(Session["extra"].ToString()) == 0)
-                    //{
-                    //    txtPagoModal.Text = Convert.ToDouble(Session["pago_administracion"].ToString()).ToString("N2");
-                    //}
-
-                    //else
-                    //{
-                    //    txtPagoModal.Text = Convert.ToDouble(Application["precio_producto_extra"].ToString()).ToString("N2");
-                    //}
-
-                    //INSTRUCCIONES DEL VEHICULO DE REEMPLAZO
-                    //------------------------------------------------------------------------------------------------
-                    //if (Convert.ToInt32(Session["idVehiculoReemplazo"].ToString()) == 0)
-                    //{
-                    //    //dgvDetalle.Visible = true;
-                    //    llenarGridPendientes();
-                    //}
-                    //else
-                    //{
-                    //    //dgvDetalle.Visible = false;
-                    //}
-                    //------------------------------------------------------------------------------------------------
-
-                    llenarGridPendientes();
+                    btnRecalcular.Visible = false;
+                    pnlMostrarPagosPendientes.Visible = false;
                     recalcularValoresNormales();
+                }
 
+                else
+                {
+                    if (consultarRealizarCobros() == true)
+                    {
+                        llenarGridPendientes();
+                        recalcularValoresNormales();
+                    }
 
-                    //if (Convert.ToInt32(Session["extra"].ToString()) == 0)
-                    //{
-                    //    recalcularValoresNormales();
-                    //    //btnAbonarAdministracion.Enabled = true;
-                    //}
-
-                    //else
-                    //{
-                    //    recalcularValoresExtras();
-                    //    //btnAbonarAdministracion.Enabled = false;
-                    //}
-
-                    //rdbPendiente.Checked = true;
-                    lblEtiquetaCierre.Text = Session["etiqueta_viaje"].ToString();
+                    pnlMostrarPagosPendientes.Visible = true;
+                    btnRecalcular.Visible = true;
                 }
             }
 

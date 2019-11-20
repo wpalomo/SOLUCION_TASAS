@@ -55,6 +55,7 @@ namespace Solution_CTT
 
             if (!IsPostBack)
             {
+                verificarPermiso();
                 llenarComboVehiculo();
                 llenarGridPendientes();
                 consultarAsistenteDefault();
@@ -65,6 +66,26 @@ namespace Solution_CTT
         }
 
         #region FUNCIONES DEL USUARIO
+
+        //CONSULTAR PERMISOS
+        private void verificarPermiso()
+        {
+            try
+            {
+                if ((Session["ejecuta_cobro_administrativo"] == null) || (Session["ejecuta_cobro_administrativo"].ToString() == "0"))
+                {
+                    Response.Redirect("frmMensajePermisos.aspx");
+                }
+
+                return;
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
 
         private void columnasGridAsistente(bool ok)
         {

@@ -217,7 +217,7 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-5 control-label">&nbsp</label>
                                                     <div class="input-group col-sm-12">
-                                                        <asp:CheckBox ID="chkEjecutarCobro" runat="server" Checked="true" class="form-control input-sm" Text="&nbsp&nbspCobrar Pago Administrativo" />
+                                                        <asp:CheckBox ID="chkEjecutarCobro" runat="server" class="form-control input-sm" Text="&nbsp&nbspCobrar Pago Administrativo" />
                                                     </div>
                                                 </div>
                                             </div>

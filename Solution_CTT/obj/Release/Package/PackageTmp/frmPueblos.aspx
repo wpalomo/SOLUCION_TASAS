@@ -101,7 +101,7 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <asp:DropDownList ID="cmbLocalidadTerminal" runat="server" class="form-control"></asp:DropDownList>                                                        
+                                                            <asp:DropDownList ID="cmbLocalidadTerminal" runat="server" class="form-control"></asp:DropDownList>
                                                         </div>
                                                     </div>
                                                 </div>

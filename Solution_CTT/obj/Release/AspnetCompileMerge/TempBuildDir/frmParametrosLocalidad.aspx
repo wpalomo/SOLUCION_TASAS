@@ -9,7 +9,7 @@
             <!-- Main content -->
             <section class="content">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-6">
                         <div class="box box-primary">
                             <div class="box-header with-border">
                                 <i class="fa fa-table"></i>
@@ -40,6 +40,9 @@
                                         <asp:BoundField DataField="INOMBREPAGO" HeaderText="NOMBRE PAGO" />
                                         <asp:BoundField DataField="ITASAUSUARIO" HeaderText="TASA USUARIO" />
                                         <asp:BoundField DataField="ICANTIDADMANIFIESTO" HeaderText="MANIFIESTO" />
+                                        <asp:BoundField DataField="IEJECUTACOBROADMINISTRACION" HeaderText="COBRO ADMINISTRADOR" />
+                                        <asp:BoundField DataField="IIDPROVEEDORTASAS" HeaderText="ID PROVEEDOR" />
+                                        <asp:BoundField DataField="ICODIGOPROVEEDOR" HeaderText="CODIGO PROVEEDOR" />
                                         <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="EDITAR">
                                             <ItemTemplate>
                                                 <asp:LinkButton ID="lbtnEdit" runat="server" CommandName="Select" class="btn btn-xs btn-warning" OnClick="lbtnEdit_Click"><i class="fa fa-pencil"></i></asp:LinkButton>
@@ -59,8 +62,9 @@
                         </div>
                         <!-- /.box -->
                     </div>
+
                     <%--REGISTER--%>
-                  <div class="col-md-4">
+                  <div class="col-md-6">
                         <div class="box box-success">
                             <div class="box-header with-border">
                                 <h3 class="box-title"><%= Resources.MESSAGES.TXT_PARAMETROS_LOCALIDAD %></h3>
@@ -71,80 +75,176 @@
                                     <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                                 </div>
                             </div>
+
                             <%--FORM--%>
                             <div class="box-body">
-                                <div class="register-box-body">
+                                <div class="form-group">
+                                    <%--PRIMERA FILA--%>
                                     <div class="row">
-                                        <div class="col-md-offset-1 col-md-10">
-                                            <div class="row">
-                                                    <div class="form-group has-feedback">
-                                                        <asp:DropDownList ID="cmbTerminales" runat="server" class="form-control input-sm"></asp:DropDownList>
-                                                    </div>
-                                            </div>
-                                            <div class="row">
-                                                    <div class="form-group has-feedback">
-                                                        <asp:DropDownList ID="cmbCiudad" runat="server" class="form-control input-sm"></asp:DropDownList>                                                        
-                                                    </div>
-                                            </div>
-                                            <div class="row">
-                                                    <div class="form-group has-feedback">
-                                                        <asp:DropDownList ID="cmbVendedor" runat="server" class="form-control input-sm"></asp:DropDownList>                                                        
-                                                    </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="form-group has-feedback">
-                                                    <asp:TextBox ID="txtModalPago" ReadOnly="true" runat="server" CssClass="form-control input-sm" placeholder="DESCRIPCION *" ToolTip="Debe seleccionar un ítem, haciendo click en el boton verde Buscar Ítem" BackColor="White"></asp:TextBox>
-                                                </div>
-                                                <div class="form-group has-feedback">
-                                                    <asp:TextBox ID="txtPago" runat="server" CssClass="form-control input-sm" placeholder="Pago administración *" ReadOnly="true" BackColor="White"></asp:TextBox>
-                                                </div>
-                                                <div class="form-group has-feedback">
-                                                    <asp:LinkButton ID="btnAbrirModalPago" runat="server" Text="" class="btn btn-block btn-success" OnClick="btnAbrirModalPago_Click"><i class="fa fa-search"> BUSCAR ÍTEM DE PAGO</i></asp:LinkButton>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <asp:Label ID="Label18" runat="server" Text="Seleccione Terminal *"></asp:Label>
+                                                <div class="input-group col-sm-12">
+                                                    <asp:DropDownList ID="cmbTerminales" runat="server" class="form-control input-sm"></asp:DropDownList>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="form-group has-feedback">
-                                                    <asp:TextBox ID="txtModalRetencion" ReadOnly="true" runat="server" CssClass="form-control input-sm" placeholder="DESCRIPCION *" ToolTip="Debe seleccionar un ítem, haciendo click en el boton verde Buscar Ítem" BackColor="White"></asp:TextBox>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <asp:Label ID="Label3" runat="server" Text="Seleccione Ciudad *"></asp:Label>
+                                                <div class="input-group col-sm-12">
+                                                    <asp:DropDownList ID="cmbCiudad" runat="server" class="form-control input-sm"></asp:DropDownList>
                                                 </div>
-                                                <div class="form-group has-feedback">
-                                                    <asp:TextBox ID="txtPorcentaje" runat="server" CssClass="form-control input-sm" placeholder="% Retención *" ReadOnly="true" BackColor="White"></asp:TextBox>
-                                                </div>
-                                                <div class="form-group has-feedback">
-                                                    <asp:LinkButton ID="btnAbrirModalRetencion" runat="server" Text="" class="btn btn-block btn-success" OnClick="btnAbrirModalRetencion_Click"><i class="fa fa-search"> BUSCAR ÍTEM DE RETENCIÓN</i></asp:LinkButton>
-                                                </div>
-                                                <div class="form-group has-feedback">
-                                                    <asp:TextBox ID="txtCantidadManifiesto" runat="server" CssClass="form-control input-sm" placeholder="Cantidad Manifiesto Imprimir" BackColor="White" Onkeypress="return ValidaDecimal(this.value);"></asp:TextBox>
-                                                </div>
-                                                <div class="form-group has-feedback">
-                                                    <asp:CheckBox ID="chkManejaTasaUsuario" runat="server" Text="&nbsp;&nbsp;Aplica Tasa Usuario" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <asp:Label ID="Label100" runat="server" Text="Seleccione Vendedor *"></asp:Label>
+                                                <div class="input-group col-sm-12">
+                                                    <asp:DropDownList ID="cmbVendedor" runat="server" class="form-control input-sm"></asp:DropDownList>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
+                                    <%--SEGUNDA FILA--%>
                                     <div class="row">
-                                        <div class="col-md-offset-1 col-md-5">
+                                        <div class="col-md-8">
                                             <div class="form-group">
-                                                <asp:Button ID="btnCancel" runat="server" Text="Cancelar" class="btn btn-sm btn-default btn-block pull-right" OnClick="btnCancel_Click" />
+                                                <asp:Label ID="Label4" runat="server" Text="Pago Administración *"></asp:Label>
+                                                <div class="input-group col-sm-12">
+                                                    <asp:TextBox ID="txtModalPago" ReadOnly="true" runat="server" CssClass="form-control input-sm" placeholder="DESCRIPCION *" ToolTip="Debe seleccionar un ítem, haciendo click en el boton verde Buscar Ítem" BackColor="White"></asp:TextBox>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class=" col-md-5">
+
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <asp:Label ID="Label6" runat="server" Text="Ver"></asp:Label>
+                                                <div class="input-group col-sm-12">
+                                                    <asp:Button ID="btnAbrirModalPago" runat="server" Text="?" class="btn btn-sm btn-warning btn-block pull-right" OnClick="btnAbrirModalPago_Click" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <asp:Label ID="Label5" runat="server" Text="Valor *"></asp:Label>
+                                                <div class="input-group col-sm-12">
+                                                    <asp:TextBox ID="txtPago" runat="server" CssClass="form-control input-sm" placeholder="Pago administración *" ReadOnly="true" BackColor="White"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <%--TERCERA FILA--%>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <asp:Label ID="Label7" runat="server" Text="Registro de Retención *"></asp:Label>
+                                                <div class="input-group col-sm-12">
+                                                    <asp:TextBox ID="txtModalRetencion" ReadOnly="true" runat="server" CssClass="form-control input-sm" placeholder="DESCRIPCION *" ToolTip="Debe seleccionar un ítem, haciendo click en el boton verde Buscar Ítem" BackColor="White"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <asp:Label ID="Label8" runat="server" Text="Ver"></asp:Label>
+                                                <div class="input-group col-sm-12">
+                                                    <asp:Button ID="btnAbrirModalRetencion" runat="server" Text="?" class="btn btn-sm btn-info btn-block pull-right" OnClick="btnAbrirModalRetencion_Click" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <asp:Label ID="Label9" runat="server" Text="Porcentaje *"></asp:Label>
+                                                <div class="input-group col-sm-12">
+                                                    <asp:TextBox ID="txtPorcentaje" runat="server" CssClass="form-control input-sm" placeholder="% Retención *" ReadOnly="true" BackColor="White"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <%--CUARTA FILA--%>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <asp:Label ID="Label10" runat="server" Text="Tasa de Usuario"></asp:Label>
+                                                <div class="input-group col-sm-12">
+                                                    <asp:CheckBox ID="chkManejaTasaUsuario" CssClass="form-control input-sm" runat="server" Text="&nbsp;&nbsp;Aplica Tasa Usuario" AutoPostBack="true" OnCheckedChanged="chkManejaTasaUsuario_OnCheckedChanged" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <asp:Label ID="Label112" runat="server" Text="Proveedores de Tasa de Usuario"></asp:Label>
+                                                <div class="input-group col-sm-12">
+                                                    <asp:DropDownList ID="cmbProveedoresTasas" runat="server" class="form-control" Enabled="false"></asp:DropDownList>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>  
+                                    
+                                    <%--QUINTA FILA--%>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <asp:Label ID="Label11" runat="server" Text="Pago Admin."></asp:Label>
+                                                <div class="input-group col-sm-12">
+                                                    <asp:CheckBox ID="chkEjecutaCobrosAdministrativos" CssClass="form-control input-sm" runat="server" Text="&nbsp;&nbsp;Ejecuta Cobros" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <asp:Label ID="Label15" runat="server" Text="Manifiesto *"></asp:Label>
+                                                <div class="input-group col-sm-12">
+                                                    <asp:TextBox ID="txtCantidadManifiesto" runat="server" CssClass="form-control input-sm" placeholder="Cantidad Manifiesto Imprimir" autocomplete="off" BackColor="White" Onkeypress="return ValidaDecimal(this.value);"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <div class="form-group">
+                                    <%--PRIMERA FILA--%>
+                                    <div class="row">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <asp:Button ID="btnSave" runat="server" Text="Crear" class="btn btn-sm btn-primary btn-block pull-right" OnClick="btnSave_Click" />
                                             </div>
                                         </div>
-                                    </div>                                    
-                                    <br />
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <asp:Button ID="btnCancel" runat="server" Text="Cancelar" class="btn btn-sm btn-default btn-block pull-right" OnClick="btnCancel_Click" />
+                                            </div>
+                                        </div>
+                                    </div> 
+
+                                    <%--SEGUNDA FILA--%>
                                     <div class="row">
-                                        <div class="col-md-offset-1 col-md-10">
-                                            <div class="alert  alert-warning" id="MsjValidarCampos" runat="server" visible="false">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="alert  alert-warning" id="MsjValidarCampos" runat="server" visible="false">
                                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                                                 <h4><i class="icon fa fa-warning"></i>Alerta.!</h4>
                                                 Complete los campos, por favor.!
-                                            </div>                                            
+                                            </div>  
+                                            </div>
                                         </div>
-                                    </div>
+                                    </div> 
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -217,7 +317,7 @@
     <asp:UpdatePanel ID="UpdatePanel2" runat="server">
         <ContentTemplate>
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header bg-teal-active color-palette">
                         <asp:Button ID="btnCerrarModal" runat="server" Text="x" class="close" data-dismiss="modal" aria-label="Close" OnClick="btnCerrarModal_Click" />
                         <h4 class="modal-title" id="myModalLabel5">Registros Existentes</h4>
                     </div>
@@ -240,7 +340,7 @@
                                            
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-md-15">
+                                <div class="col-md-12">
                                     <asp:GridView ID="dgvFiltrarItems" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnSelectedIndexChanged="dgvFiltrarItems_SelectedIndexChanged" AllowPaging="true" PageSize="5" OnPageIndexChanging="dgvFiltrarItems_PageIndexChanging" >
                                         <Columns>
                                             <asp:BoundField DataField="id_producto" HeaderText="ID"  />
