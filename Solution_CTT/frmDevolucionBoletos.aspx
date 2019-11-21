@@ -293,7 +293,7 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <asp:GridView ID="dgvDetalle" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" BackColor="LightGoldenrodYellow" BorderColor="Tan" BorderWidth="1px" CellPadding="2" ForeColor="Black" GridLines="None" >
+                                    <asp:GridView ID="dgvDetalle" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" BackColor="LightGoldenrodYellow" BorderColor="Tan" BorderWidth="1px" CellPadding="2" ForeColor="Black" GridLines="None" OnRowDataBound="dgvDetalle_RowDataBound" >
                                         <AlternatingRowStyle BackColor="PaleGoldenrod" />
                                         <Columns>
                                             <asp:TemplateField HeaderText="" ItemStyle-HorizontalAlign="Center">

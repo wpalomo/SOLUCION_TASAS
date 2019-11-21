@@ -11,6 +11,7 @@ using NEGOCIO;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
+using System.Drawing;
 
 namespace Solution_CTT
 {
@@ -837,6 +838,22 @@ namespace Solution_CTT
         protected void lbtnCerrarModalBuscarXML_Click(object sender, EventArgs e)
         {
             ModalBuscarXML.Hide();
+        }
+
+        protected void dgvFiltrarModalBuscarXML_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvFiltrarModalBuscarXML.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvFiltrarModalBuscarXML.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvFiltrarModalBuscarXML.Rows[i].BackColor = Color.White;
+                }
+            }
         }
     }
 }

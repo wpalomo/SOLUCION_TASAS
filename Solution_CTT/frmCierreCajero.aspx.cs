@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using ENTIDADES;
 using NEGOCIO;
+using System.Drawing;
 
 namespace Solution_CTT
 {
@@ -768,6 +769,102 @@ namespace Solution_CTT
             {
                 //reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), dtConsulta, Convert.ToInt32(Session["idUsuario"].ToString()), 1);
                 reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), dtConsulta, Convert.ToInt32(Session["idUsuario"].ToString()), 1, Convert.ToInt32(Session["idCierreCaja"].ToString()));
+            }
+        }
+
+        protected void dgvDatos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvDatos.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvDatos.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvDatos.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
+
+        protected void dgvDatosVigentes_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvDatosVigentes.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvDatosVigentes.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvDatosVigentes.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
+
+        protected void dgvPagosAdministrativos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvPagosAdministrativos.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvPagosAdministrativos.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvPagosAdministrativos.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
+
+        protected void dgvPagosCumplidos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvPagosCumplidos.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvPagosCumplidos.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvPagosCumplidos.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
+
+        protected void dgvPagosAtrasados_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvPagosAtrasados.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvPagosAtrasados.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvPagosAtrasados.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
+
+        protected void dgvViajesActivos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvViajesActivos.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvViajesActivos.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvViajesActivos.Rows[i].BackColor = Color.White;
+                }
             }
         }
     }

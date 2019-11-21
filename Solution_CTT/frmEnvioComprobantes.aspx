@@ -247,7 +247,7 @@
                                     <asp:GridView ID="dgvFiltrarModalBuscarXML" runat="server" class="mGrid" 
                                         AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" 
                                         AllowPaging="true" PageSize="10" OnSelectedIndexChanged="dgvFiltrarModalBuscarXML_SelectedIndexChanged" 
-                                        OnPageIndexChanging="dgvFiltrarModalBuscarXML_PageIndexChanging">
+                                        OnPageIndexChanging="dgvFiltrarModalBuscarXML_PageIndexChanging" OnRowDataBound="dgvFiltrarModalBuscarXML_RowDataBound">
                                         <Columns>
                                             <%--<asp:BoundField DataField="Numero_factura" HeaderText="Numero_FACTURA"  />
                                             <asp:BoundField DataField="id_factura" HeaderText="N° FACTURA"  />                                            

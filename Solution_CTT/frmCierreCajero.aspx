@@ -16,7 +16,7 @@
                                 </div>
                             </div>
                             <div class="box-body">
-                                <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!">
+                                <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnRowDataBound="dgvDatos_RowDataBound">
                                     <Columns>
                                         <asp:BoundField DataField="id_ctt_programacion" HeaderText="No." />
                                         <asp:BoundField DataField="hora_salida" HeaderText="HORA VIAJE" />
@@ -43,7 +43,7 @@
                                 </div>
                             </div>
                             <div class="box-body">
-                                <asp:GridView ID="dgvDatosVigentes" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!">
+                                <asp:GridView ID="dgvDatosVigentes" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnRowDataBound="dgvDatosVigentes_RowDataBound">
                                     <Columns>
                                         <asp:BoundField DataField="id_ctt_programacion" HeaderText="No." />
                                         <asp:BoundField DataField="hora_salida" HeaderText="HORA VIAJE" />
@@ -73,7 +73,7 @@
                                 </div>
                             </div>
                             <div class="box-body">
-                                <asp:GridView ID="dgvPagosAdministrativos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!">
+                                <asp:GridView ID="dgvPagosAdministrativos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnRowDataBound="dgvPagosAdministrativos_RowDataBound">
                                     <Columns>
                                         <asp:BoundField DataField="descripcion" HeaderText="DESCRIPCIÓN DEL PAGO" />
                                         <asp:BoundField DataField="valor" HeaderText="VALOR RECAUDADO" />
@@ -97,7 +97,7 @@
                                 </div>
                             </div>
                             <div class="box-body">
-                                <asp:GridView ID="dgvPagosCumplidos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!">
+                                <asp:GridView ID="dgvPagosCumplidos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnRowDataBound="dgvPagosCumplidos_RowDataBound">
                                     <Columns>
                                         <asp:BoundField DataField="INUMERO" HeaderText="No." />
                                         <asp:BoundField DataField="IFECHA" HeaderText="FECHA DE VIAJE" />
@@ -124,7 +124,7 @@
                                 </div>
                             </div>
                             <div class="box-body">
-                                <asp:GridView ID="dgvPagosAtrasados" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!">
+                                <asp:GridView ID="dgvPagosAtrasados" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnRowDataBound="dgvPagosAtrasados_RowDataBound">
                                     <Columns>
                                         <asp:BoundField DataField="INUMERO" HeaderText="No." />
                                         <asp:BoundField DataField="IFECHA" HeaderText="FECHA DE VIAJE" />
@@ -151,7 +151,7 @@
                                 </div>
                             </div>
                             <div class="box-body">
-                                <asp:GridView ID="dgvViajesActivos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!">
+                                <asp:GridView ID="dgvViajesActivos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnRowDataBound="dgvViajesActivos_RowDataBound">
                                     <Columns>
                                         <asp:BoundField DataField="INUMERO" HeaderText="No." />
                                         <asp:BoundField DataField="IFECHAVIAJE" HeaderText="FECHA DE VIAJE" />

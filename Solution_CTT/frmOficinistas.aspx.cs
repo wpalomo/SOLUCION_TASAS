@@ -593,5 +593,21 @@ namespace Solution_CTT
                 }
             }
         }
+
+        protected void dgvFiltrarPersonas_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvFiltrarPersonas.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvFiltrarPersonas.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvFiltrarPersonas.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
     }
 }

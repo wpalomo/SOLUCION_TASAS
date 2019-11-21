@@ -1815,5 +1815,69 @@ namespace Solution_CTT
                 }
             }
         }
+
+        protected void dgvExtras_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvExtras.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvExtras.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvExtras.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
+
+        protected void dgvAsistentesChofer_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvAsistentesChofer.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvAsistentesChofer.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvAsistentesChofer.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
+
+        protected void dgvVehiculos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvVehiculos.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvVehiculos.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvVehiculos.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
+
+        protected void dgvItinerarios_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvItinerarios.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvItinerarios.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvItinerarios.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
     }
 }

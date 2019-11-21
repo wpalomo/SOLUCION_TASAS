@@ -231,7 +231,7 @@
                             </div>
                             <p></p>
                             <div class="box-body">
-                                <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" AllowPaging="true" PageSize="10">
+                                <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" AllowPaging="true" PageSize="10" OnRowDataBound="dgvDatos_RowDataBound">
                                     <Columns>
                                         <asp:BoundField DataField="codigo" HeaderText="Cóodigo" />
                                         <asp:BoundField DataField="nombre" HeaderText="Producto" />
@@ -430,7 +430,9 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <asp:GridView ID="dgvFiltrarModalBuscarFacturas" runat="server" class="mGrid" 
-                                        AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" AllowPaging="true" PageSize="10" OnSelectedIndexChanged="dgvFiltrarModalBuscarFacturas_SelectedIndexChanged" OnPageIndexChanging="dgvFiltrarModalBuscarFacturas_PageIndexChanging">
+                                        AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" 
+                                        AllowPaging="true" PageSize="10" OnSelectedIndexChanged="dgvFiltrarModalBuscarFacturas_SelectedIndexChanged" 
+                                        OnPageIndexChanging="dgvFiltrarModalBuscarFacturas_PageIndexChanging" OnRowDataBound="dgvFiltrarModalBuscarFacturas_RowDataBound">
                                         <Columns>
                                             <asp:BoundField DataField="INUMERO" HeaderText="N°" />
                                             <asp:BoundField DataField="IIDFACTURA" HeaderText="ID FACTURA" />
