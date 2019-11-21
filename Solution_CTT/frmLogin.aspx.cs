@@ -461,7 +461,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', '" + ex.ToString() + "', 'error')</script>");
+                ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', '" + ex.Message + "', 'error')</script>");
             }
 
         fin: { }

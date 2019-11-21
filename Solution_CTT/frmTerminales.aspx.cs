@@ -78,7 +78,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', '" + ex.ToString() + "', 'danger');", true);
+                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', '" + ex.Message + "', 'danger');", true);
             }
         }
 
@@ -102,7 +102,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', '" + ex.ToString() + "', 'danger');", true);
+                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', '" + ex.Message + "', 'danger');", true);
             }
         }
 
@@ -138,7 +138,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', '" + ex.ToString() + "', 'danger');", true);
+                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', '" + ex.Message + "', 'danger');", true);
             }
         }
 
@@ -188,7 +188,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', '" + ex.ToString() + "', 'danger');", true);
+                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', '" + ex.Message + "', 'danger');", true);
                 goto reversa;
             }
 
@@ -232,7 +232,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', '" + ex.ToString() + "', 'danger');", true);
+                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', '" + ex.Message + "', 'danger');", true);
                 goto reversa;
             }
 
@@ -274,7 +274,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', '" + ex.ToString() + "', 'danger');", true);
+                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', '" + ex.Message + "', 'danger');", true);
                 goto reversa;
             }
 
@@ -312,7 +312,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', '" + ex.ToString() + "', 'danger');", true);
+                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', '" + ex.Message + "', 'danger');", true);
                 return -1;
             }
         }
@@ -357,7 +357,7 @@ namespace Solution_CTT
 
             catch(Exception ex)
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', '" + ex.ToString() + "', 'danger');", true);
+                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', '" + ex.Message + "', 'danger');", true);
             }
         }
 
@@ -462,7 +462,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', '" + ex.ToString() + "', 'danger');", true);
+                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', '" + ex.Message + "', 'danger');", true);
             }
         }
 

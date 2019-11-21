@@ -142,7 +142,7 @@ namespace Solution_CTT
             }
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 return false;
             }
@@ -226,7 +226,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -268,7 +268,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -311,7 +311,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -396,7 +396,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                //catchMensaje.LblMensaje.Text = ex.ToString();
+                //catchMensaje.LblMensaje.Text = ex.Message;
                 //catchMensaje.ShowDialog();
             }
         }
@@ -463,7 +463,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 return false;
             }
@@ -523,10 +523,10 @@ namespace Solution_CTT
                 }
                 catch (Exception ex)
                 {
-                    lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                    lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
-                    //catchMensaje.LblMensaje.Text = ex.ToString();
+                    //catchMensaje.LblMensaje.Text = ex.Message;
                     //catchMensaje.ShowInTaskbar = false;
                     //catchMensaje.ShowDialog();
                     //ClientScript.RegisterClientScriptBlock(GetType(), "mensaje", "alert('Error al usar los web services del SRI 2');", true);
@@ -568,7 +568,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                //catchMensaje.LblMensaje.Text = ex.ToString();
+                //catchMensaje.LblMensaje.Text = ex.Message;
                 //catchMensaje.ShowInTaskbar = false;
                 //catchMensaje.ShowDialog();
             }
@@ -678,7 +678,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                //catchMensaje.LblMensaje.Text = ex.ToString();
+                //catchMensaje.LblMensaje.Text = ex.Message;
                 //catchMensaje.ShowInTaskbar = false;
                 //catchMensaje.ShowDialog();
             }
@@ -715,7 +715,7 @@ namespace Solution_CTT
                 }
                 catch (Exception ex)
                 {
-                    lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                    lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 }
             }
@@ -792,7 +792,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
@@ -816,7 +816,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.ToString();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }

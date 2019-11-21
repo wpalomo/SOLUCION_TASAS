@@ -139,6 +139,34 @@
                         </div>
                     </div>
                 </div>
+
+                <%--MODAL DE ERRORES--%>
+                <div class="modal fade" id="modalError" data-backdrop="static" data-keyboard="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">
+                                    <asp:Label ID="Label10" runat="server" Text="Información"></asp:Label>
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <asp:Label ID="lblMensajeError" runat="server"></asp:Label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <asp:Button ID="btnCancelarError" runat="server" Text="Aceptar" class="btn btn-danger" data-dismiss="modal" UseSubmitBehavior="false"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <%--FIN MODAL DE ERRORES--%>
+
             </section>
             <!-- /.content -->
         </ContentTemplate>
