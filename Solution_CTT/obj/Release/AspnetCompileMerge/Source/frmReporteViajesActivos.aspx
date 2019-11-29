@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <div class="box-footer">
-                         <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="Ingrese parámetros de búsqueda...!!" AllowPaging="True" OnPageIndexChanging="dgvDatos_PageIndexChanging" PageSize="7">
+                         <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="Ingrese parámetros de búsqueda...!!" AllowPaging="True" OnPageIndexChanging="dgvDatos_PageIndexChanging" PageSize="7" OnRowDataBound="dgvDatos_RowDataBound">
                              <Columns>
                                 <asp:BoundField DataField="INUMERO" HeaderText="No." ItemStyle-HorizontalAlign="Center" />
                                 <asp:BoundField DataField="INUMEROVIAJE" HeaderText="NO. VIAJE" ItemStyle-HorizontalAlign="Center" />

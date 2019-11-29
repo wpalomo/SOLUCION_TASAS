@@ -14,7 +14,7 @@
                                 <h3 class="box-title"><%= Resources.MESSAGES.TXT_DATA %></h3>
                             </div>
                             <div class="box-body">
-                                <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnSelectedIndexChanged="dgvDatos_SelectedIndexChanged">
+                                <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnSelectedIndexChanged="dgvDatos_SelectedIndexChanged" OnRowDataBound="dgvDatos_RowDataBound">
                                     <Columns>
                                         <asp:BoundField DataField="INUMERO" HeaderText="Item" ItemStyle-HorizontalAlign="Center" />
                                         <asp:BoundField DataField="ICODIGO" HeaderText="CÓDIGO" ItemStyle-HorizontalAlign="Center" />

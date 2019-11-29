@@ -55,7 +55,7 @@
                         </div>
                     </div>
                     <div class="box-footer">
-                         <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="Ingrese parámetros de búsqueda...!!" AllowPaging="True" OnPageIndexChanging="dgvDatos_PageIndexChanging" PageSize="7">
+                         <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="Ingrese parámetros de búsqueda...!!" AllowPaging="True" OnPageIndexChanging="dgvDatos_PageIndexChanging" PageSize="7" OnRowDataBound="dgvDatos_RowDataBound">
                              <Columns>
                                 <asp:BoundField DataField="INUMERO" HeaderText="No." />
                                 <asp:BoundField DataField="IIDENTIFICACION" HeaderText="IDENTIFICACIÓN" />
@@ -176,7 +176,7 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-15">
-                                    <asp:GridView ID="dgvFiltrarPersonas" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnSelectedIndexChanged="dgvFiltrarPersonas_SelectedIndexChanged" AllowPaging="true" PageSize="5" OnPageIndexChanging="dgvFiltrarPersonas_PageIndexChanging">
+                                    <asp:GridView ID="dgvFiltrarPersonas" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnSelectedIndexChanged="dgvFiltrarPersonas_SelectedIndexChanged" AllowPaging="true" PageSize="5" OnPageIndexChanging="dgvFiltrarPersonas_PageIndexChanging" OnRowDataBound="dgvFiltrarPersonas_RowDataBound">
                                         <Columns>
                                             <asp:BoundField DataField="IIDCLIENTEFILTRO" HeaderText="ID"  />
                                             <asp:BoundField DataField="IIDENTIFICACIONFILTRO" HeaderText="IDENTIFICACIÓN" />

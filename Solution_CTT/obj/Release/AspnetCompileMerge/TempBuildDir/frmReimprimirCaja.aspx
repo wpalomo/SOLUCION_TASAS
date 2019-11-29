@@ -16,7 +16,7 @@
                                 </div>
                             </div>
                             <div class="box-body">
-                                <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!">
+                                <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnRowDataBound="dgvDatos_RowDataBound">
                                     <Columns>
                                         <asp:BoundField DataField="id_ctt_programacion" HeaderText="No." />
                                         <asp:BoundField DataField="hora_salida" HeaderText="HORA VIAJE" />

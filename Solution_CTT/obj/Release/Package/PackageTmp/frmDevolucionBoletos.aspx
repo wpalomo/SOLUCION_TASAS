@@ -30,7 +30,7 @@
                                     <asp:GridView ID="dgvDatos" runat="server" class="mGrid"
                                         AutoGenerateColumns="False"
                                         EmptyDataText="No hay Registros o Coindicencias..!!"
-                                        OnSelectedIndexChanged="dgvDatos_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="dgvDatos_PageIndexChanging" PageSize="10">
+                                        OnSelectedIndexChanged="dgvDatos_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="dgvDatos_PageIndexChanging" PageSize="10" OnRowDataBound="dgvDatos_RowDataBound">
                                         <Columns>
                                             <asp:BoundField DataField="INUMERO" HeaderText="No." />
                                             <asp:BoundField DataField="IIDPROGRAMACION" HeaderText="ID" />
@@ -74,7 +74,7 @@
                                     <asp:GridView ID="dgvDatosExtras" runat="server" class="mGrid"
                                         AutoGenerateColumns="False"
                                         EmptyDataText="No hay Registros o Coindicencias..!!"
-                                        OnSelectedIndexChanged="dgvDatosExtras_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="dgvDatosExtras_PageIndexChanging" PageSize="15">
+                                        OnSelectedIndexChanged="dgvDatosExtras_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="dgvDatosExtras_PageIndexChanging" PageSize="15" OnRowDataBound="dgvDatosExtras_RowDataBound">
                                         <Columns>
                                             <asp:BoundField DataField="INUMERO" HeaderText="No." />
                                             <asp:BoundField DataField="IIDPROGRAMACION" HeaderText="ID" />
@@ -293,7 +293,7 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <asp:GridView ID="dgvDetalle" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" BackColor="LightGoldenrodYellow" BorderColor="Tan" BorderWidth="1px" CellPadding="2" ForeColor="Black" GridLines="None" >
+                                    <asp:GridView ID="dgvDetalle" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" BackColor="LightGoldenrodYellow" BorderColor="Tan" BorderWidth="1px" CellPadding="2" ForeColor="Black" GridLines="None" OnRowDataBound="dgvDetalle_RowDataBound" >
                                         <AlternatingRowStyle BackColor="PaleGoldenrod" />
                                         <Columns>
                                             <asp:TemplateField HeaderText="" ItemStyle-HorizontalAlign="Center">

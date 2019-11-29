@@ -23,7 +23,7 @@
                                 </div>
                             </div>
                             <div class="box-body">
-                                <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" AllowPaging="true" PageSize="8" OnPageIndexChanging="dgvDatos_PageIndexChanging1" OnSelectedIndexChanged="dgvDatos_SelectedIndexChanged">
+                                <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" AllowPaging="true" PageSize="8" OnPageIndexChanging="dgvDatos_PageIndexChanging1" OnSelectedIndexChanged="dgvDatos_SelectedIndexChanged" OnRowDataBound="dgvDatos_RowDataBound">
                                     <Columns>
                                         <asp:BoundField DataField="INUMERO" HeaderText="Item" ItemStyle-HorizontalAlign="Center" />
                                         <asp:BoundField DataField="IID_TIPO_COMPROBANTE" HeaderText="ID" />

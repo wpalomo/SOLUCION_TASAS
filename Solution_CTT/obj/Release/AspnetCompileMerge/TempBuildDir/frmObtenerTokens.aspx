@@ -29,7 +29,7 @@
                             </div>
 
                             <div class="box-body">
-                                <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!">
+                                <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnRowDataBound="dgvDatos_RowDataBound">
                                     <Columns>
                                         <asp:BoundField DataField="Id" HeaderText="ID" />
                                         <asp:BoundField DataField="Token" HeaderText="TOKEN" />
@@ -56,7 +56,7 @@
                             </div>
 
                             <div class="box-body">
-                                <asp:GridView ID="dgvDatosSistema" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!">
+                                <asp:GridView ID="dgvDatosSistema" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnRowDataBound="dgvDatosSistema_RowDataBound">
                                     <Columns>
                                         <asp:BoundField DataField="id_ctt_tasa_token" HeaderText="ID" />
                                         <asp:BoundField DataField="id_ctt_oficinista" HeaderText="ID OFICINISTA" />

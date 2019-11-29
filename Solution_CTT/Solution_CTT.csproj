@@ -660,6 +660,7 @@
     <Content Include="frmMarcaVehiculos.aspx" />
     <Content Include="frmMensajeCaja.aspx" />
     <Content Include="frmMensajePermisos.aspx" />
+    <Content Include="frmMensajeReabrir.aspx" />
     <Content Include="frmModeloVehiculos.aspx" />
     <Content Include="frmNumeroDisco.aspx" />
     <Content Include="frmObtenerTokens.aspx" />
@@ -679,9 +680,11 @@
     <Content Include="frmPruebas.aspx" />
     <Content Include="frmPueblos.aspx" />
     <Content Include="frmPueblosHorarios.aspx" />
+    <Content Include="frmReabrirCaja.aspx" />
     <Content Include="frmReabrirViaje.aspx" />
     <Content Include="frmReimpresionFacturas.aspx" />
     <Content Include="frmReimprimirCaja.aspx" />
+    <Content Include="frmReimprimirCajas.aspx" />
     <Content Include="frmReporteCodigo.aspx" />
     <Content Include="frmReporteFactura.aspx" />
     <Content Include="frmReporteListaPasajeros.aspx" />
@@ -7640,6 +7643,13 @@
     <Compile Include="frmMensajePermisos.aspx.designer.cs">
       <DependentUpon>frmMensajePermisos.aspx</DependentUpon>
     </Compile>
+    <Compile Include="frmMensajeReabrir.aspx.cs">
+      <DependentUpon>frmMensajeReabrir.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmMensajeReabrir.aspx.designer.cs">
+      <DependentUpon>frmMensajeReabrir.aspx</DependentUpon>
+    </Compile>
     <Compile Include="frmModeloVehiculos.aspx.cs">
       <DependentUpon>frmModeloVehiculos.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -7787,6 +7797,13 @@
     <Compile Include="frmPueblosHorarios.aspx.designer.cs">
       <DependentUpon>frmPueblosHorarios.aspx</DependentUpon>
     </Compile>
+    <Compile Include="frmReabrirCaja.aspx.cs">
+      <DependentUpon>frmReabrirCaja.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmReabrirCaja.aspx.designer.cs">
+      <DependentUpon>frmReabrirCaja.aspx</DependentUpon>
+    </Compile>
     <Compile Include="frmReabrirViaje.aspx.cs">
       <DependentUpon>frmReabrirViaje.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -7807,6 +7824,13 @@
     </Compile>
     <Compile Include="frmReimprimirCaja.aspx.designer.cs">
       <DependentUpon>frmReimprimirCaja.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmReimprimirCajas.aspx.cs">
+      <DependentUpon>frmReimprimirCajas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmReimprimirCajas.aspx.designer.cs">
+      <DependentUpon>frmReimprimirCajas.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmReporteCodigo.aspx.cs">
       <DependentUpon>frmReporteCodigo.aspx</DependentUpon>

@@ -49,7 +49,7 @@
                                 <div class="form-group">                                    
                                     <asp:GridView ID="dgvDetalle" runat="server" class="mGrid" AllowPaging="True" 
                                         AutoGenerateColumns="False" PageSize="10" EmptyDataText="No hay Registros o Coindicencias..!!" 
-                                        OnPageIndexChanging="dgvDetalle_PageIndexChanging" OnSelectedIndexChanged="dgvDetalle_SelectedIndexChanged" >
+                                        OnPageIndexChanging="dgvDetalle_PageIndexChanging" OnSelectedIndexChanged="dgvDetalle_SelectedIndexChanged" OnRowDataBound="dgvDetalle_RowDataBound">
                                         <Columns>
                                             <asp:BoundField HeaderText="IDPedido" DataField="IIDPEDIDO" />
                                             <asp:BoundField HeaderText="No. Viaje" DataField="INUMEROVIAJE" ItemStyle-HorizontalAlign="Center" />

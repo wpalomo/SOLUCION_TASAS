@@ -32,7 +32,7 @@
                                 <asp:GridView ID="dgvDatos" runat="server" class="mGrid"
                                     AutoGenerateColumns="False"
                                     EmptyDataText="No hay Registros o Coindicencias..!!"
-                                    OnSelectedIndexChanged="dgvDatos_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="dgvDatos_PageIndexChanging" PageSize="10">
+                                    OnSelectedIndexChanged="dgvDatos_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="dgvDatos_PageIndexChanging" PageSize="10" OnRowDataBound="dgvDatos_RowDataBound">
                                     <Columns>
                                         <asp:BoundField DataField="INUMERO" HeaderText="No." />
                                         <asp:BoundField DataField="IIDPROGRAMACION" HeaderText="ID" />

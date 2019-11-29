@@ -321,8 +321,7 @@ namespace Solution_CTT
                 return "ERROR";
             }
         }
-
-
+        
         private DataTable Transformar(IEnumerable<IGrouping<string, DataRow>> datos)
         {
             try

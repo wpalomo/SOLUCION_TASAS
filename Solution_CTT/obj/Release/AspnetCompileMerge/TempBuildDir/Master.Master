@@ -386,8 +386,8 @@
                         <ul class="treeview-menu">
                             <li><a href="frmAperturaCaja.aspx"><i class="fa fa-circle-o"></i>Apertura de Caja</a></li>
                             <li><a href="frmCierreCajero.aspx"><i class="fa fa-circle-o"></i>Cierre de Caja</a></li>
-                            <%--<li><a href="frmCorteCaja.aspx"><i class="fa fa-circle-o"></i>Cierre de Caja</a></li>--%>
-                            <%--<li><a href="frmReimprimirCaja.aspx"><i class="fa fa-circle-o"></i>Reimpresión de Caja</a></li>--%>
+                            <li><a href="frmReimprimirCajas.aspx"><i class="fa fa-circle-o"></i>Reimpresión de Cajas</a></li>
+                            <%--<li><a href="frmReabrirCaja.aspx"><i class="fa fa-circle-o"></i>Reapertura de Caja</a></li>--%>
                         </ul>
                     </li>
 
@@ -642,7 +642,7 @@
 
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
-                <b>Version</b> BETA 1.0
+                <b>Version</b> 2.1
             </div>             
             <strong>Copyright &copy;
                 <script>

@@ -60,7 +60,7 @@
                                 <h3 class="box-title"><%= Resources.MESSAGES.TXT_DATA %></h3>
                             </div>
                             <div class="box-body">
-                                <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" AllowPaging="true" OnPageIndexChanging="dgvDatos_PageIndexChanging" PageSize="20">
+                                <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" AllowPaging="true" OnPageIndexChanging="dgvDatos_PageIndexChanging" PageSize="20" OnRowDataBound="dgvDatos_RowDataBound">
                                     <Columns>
                                         <asp:BoundField DataField="INUMERO" HeaderText="No." ItemStyle-HorizontalAlign="Center" />
                                         <asp:BoundField DataField="ITRANSPORTE" HeaderText="TRANSPORTE" ItemStyle-HorizontalAlign="Center" />

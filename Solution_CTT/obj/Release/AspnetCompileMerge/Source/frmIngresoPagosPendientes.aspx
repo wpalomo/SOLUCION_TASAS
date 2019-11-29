@@ -77,7 +77,7 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <asp:GridView ID="dgvDetalle" runat="server" class="mGrid" AllowPaging="True" AutoGenerateColumns="False" PageSize="10" EmptyDataText="No hay Registros o Coindicencias..!!" OnPageIndexChanging="dgvDetalle_PageIndexChanging" >
+                                    <asp:GridView ID="dgvDetalle" runat="server" class="mGrid" AllowPaging="True" AutoGenerateColumns="False" PageSize="10" EmptyDataText="No hay Registros o Coindicencias..!!" OnPageIndexChanging="dgvDetalle_PageIndexChanging" OnRowDataBound="dgvDetalle_RowDataBound">
                                         <Columns>
                                             <asp:BoundField HeaderText="IDPedido" DataField="IIDPEDIDO" />
                                             <asp:BoundField HeaderText="No. Viaje" DataField="INUMEROVIAJE" ItemStyle-HorizontalAlign="Center" />
@@ -194,7 +194,7 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <asp:GridView ID="dgvItinerarios" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" AllowPaging="True" PageSize="12" OnSelectedIndexChanged="dgvItinerarios_SelectedIndexChanged" OnPageIndexChanging="dgvItinerarios_PageIndexChanging">
+                                    <asp:GridView ID="dgvItinerarios" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" AllowPaging="True" PageSize="12" OnSelectedIndexChanged="dgvItinerarios_SelectedIndexChanged" OnPageIndexChanging="dgvItinerarios_PageIndexChanging" OnRowDataBound="dgvItinerarios_RowDataBound" >
                                         <Columns>
                                             <asp:BoundField DataField="IIDITINERARIO" HeaderText="ID" />
                                             <asp:BoundField DataField="IIDRUTA" HeaderText="ID RUTA" />
@@ -264,7 +264,7 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <asp:GridView ID="dgvAsistentesChofer" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" AllowPaging="True" PageSize="10" OnSelectedIndexChanged="dgvAsistentesChofer_SelectedIndexChanged" OnPageIndexChanging="dgvAsistentesChofer_PageIndexChanging">
+                                    <asp:GridView ID="dgvAsistentesChofer" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" AllowPaging="True" PageSize="10" OnSelectedIndexChanged="dgvAsistentesChofer_SelectedIndexChanged" OnPageIndexChanging="dgvAsistentesChofer_PageIndexChanging" OnRowDataBound="dgvAsistentesChofer_RowDataBound">
                                         <Columns>
                                             <asp:BoundField DataField="INUMERO" HeaderText="No."  />
                                             <asp:BoundField DataField="IIDREGISTRO" HeaderText="ID ASISTENTE" />

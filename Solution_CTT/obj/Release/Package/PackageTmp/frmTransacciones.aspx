@@ -53,7 +53,7 @@
                                     <asp:GridView ID="dgvDatos" runat="server" class="mGrid"
                                         AutoGenerateColumns="False"
                                         EmptyDataText="No hay Registros o Coindicencias..!!"
-                                        OnSelectedIndexChanged="dgvDatos_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="dgvDatos_PageIndexChanging" PageSize="10">
+                                        OnSelectedIndexChanged="dgvDatos_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="dgvDatos_PageIndexChanging" PageSize="10" OnRowDataBound="dgvDatos_RowDataBound">
                                         <Columns>
                                             <asp:BoundField DataField="INUMERO" HeaderText="No." />
                                             <asp:BoundField DataField="IIDPROGRAMACION" HeaderText="ID" />
@@ -96,7 +96,7 @@
                                     <asp:GridView ID="dgvDatosExtras" runat="server" class="mGrid"
                                         AutoGenerateColumns="False"
                                         EmptyDataText="No hay Registros o Coindicencias..!!"
-                                        OnSelectedIndexChanged="dgvDatosExtras_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="dgvDatosExtras_PageIndexChanging" PageSize="10">
+                                        OnSelectedIndexChanged="dgvDatosExtras_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="dgvDatosExtras_PageIndexChanging" PageSize="10" OnRowDataBound="dgvDatosExtras_RowDataBound">
                                         <Columns>
                                             <asp:BoundField DataField="INUMERO" HeaderText="No." />
                                             <asp:BoundField DataField="IIDPROGRAMACION" HeaderText="ID" />
@@ -432,7 +432,7 @@
                                                     <div class="col-sm-12">
 
                                                         <asp:GridView ID="dgvDetalle" runat="server" class="mGrid" AllowPaging="True" AutoGenerateColumns="False" 
-                                                            PageSize="7" EmptyDataText="No hay Registros o Coindicencias..!!" OnPageIndexChanging="dgvDetalle_PageIndexChanging" >
+                                                            PageSize="7" EmptyDataText="No hay Registros o Coindicencias..!!" OnPageIndexChanging="dgvDetalle_PageIndexChanging" OnRowDataBound="dgvDetalle_RowDataBound">
                                                             <AlternatingRowStyle BackColor="White" />
                                                             <Columns>
                                                                 <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="Seleccionar">
@@ -740,7 +740,7 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-15">
-                                    <asp:GridView ID="dgvFiltrarClientes" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnSelectedIndexChanged="dgvFiltrarClientes_SelectedIndexChanged" AllowPaging="true" PageSize="5" OnPageIndexChanging="dgvFiltrarClientes_PageIndexChanging">
+                                    <asp:GridView ID="dgvFiltrarClientes" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnSelectedIndexChanged="dgvFiltrarClientes_SelectedIndexChanged" AllowPaging="true" PageSize="5" OnPageIndexChanging="dgvFiltrarClientes_PageIndexChanging" OnRowDataBound="dgvFiltrarClientes_RowDataBound">
                                         <Columns>
                                             <asp:BoundField DataField="IIDCLIENTEFILTRO" HeaderText="ID" />
                                             <asp:BoundField DataField="IIDENTIFICACIONFILTRO" HeaderText="IDENTIFICACIÓN" />
@@ -914,7 +914,7 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-15">
-                                    <asp:GridView ID="dgvGridFacturar" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnSelectedIndexChanged="dgvGridFacturar_SelectedIndexChanged" AllowPaging="true" PageSize="5" OnPageIndexChanging="dgvGridFacturar_PageIndexChanging">
+                                    <asp:GridView ID="dgvGridFacturar" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnSelectedIndexChanged="dgvGridFacturar_SelectedIndexChanged" AllowPaging="true" PageSize="5" OnPageIndexChanging="dgvGridFacturar_PageIndexChanging" OnRowDataBound="dgvGridFacturar_RowDataBound">
                                         <Columns>
                                             <asp:BoundField DataField="IIDCLIENTEFILTRO" HeaderText="ID" />
                                             <asp:BoundField DataField="IIDENTIFICACIONFILTRO" HeaderText="IDENTIFICACIÓN" />
@@ -963,7 +963,7 @@
                     <div class="modal-body">
                         <asp:GridView ID="dgvListaPasajeros" runat="server" class="mGrid"
                             AutoGenerateColumns="False"
-                            EmptyDataText="No hay Registros o Coindicencias..!!" AllowPaging="True" OnPageIndexChanging="dgvListaPasajeros_PageIndexChanging" PageSize="10">
+                            EmptyDataText="No hay Registros o Coindicencias..!!" AllowPaging="True" OnPageIndexChanging="dgvListaPasajeros_PageIndexChanging" PageSize="10" OnRowDataBound="dgvListaPasajeros_RowDataBound">
                             <Columns>
                                 <asp:BoundField DataField="numero_asiento" HeaderText="N° Asiento" ItemStyle-HorizontalAlign="Center">
                                 <ItemStyle HorizontalAlign="Center" />
@@ -1070,7 +1070,7 @@
                                     <asp:GridView ID="dgvVendidos" runat="server" class="mGrid"
                                         AutoGenerateColumns="False"
                                         EmptyDataText="No hay Registros o Coindicencias..!!"
-                                        OnSelectedIndexChanged="dgvVendidos_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="dgvVendidos_PageIndexChanging" PageSize="7">
+                                        OnSelectedIndexChanged="dgvVendidos_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="dgvVendidos_PageIndexChanging" PageSize="7" OnRowDataBound="dgvVendidos_RowDataBound">
                                         <Columns>
                                             <asp:BoundField DataField="IIDPEDIDO" HeaderText="ID FACTURA" />
                                             <asp:BoundField DataField="IIDPROGRAMACION" HeaderText="ID PROGRAMACION" />
@@ -1298,7 +1298,7 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-12">
-                                         <asp:GridView ID="dgvReporteTokenInfo" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" AllowPaging="True" PageSize="10" OnPageIndexChanging="dgvReporteTokenInfo_PageIndexChanging">
+                                         <asp:GridView ID="dgvReporteTokenInfo" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" AllowPaging="True" PageSize="10" OnPageIndexChanging="dgvReporteTokenInfo_PageIndexChanging" OnRowDataBound="dgvReporteTokenInfo_RowDataBound">
                                         <Columns>
                                             <asp:BoundField DataField="token" HeaderText="TOKEN" ItemStyle-HorizontalAlign="Center" />
                                             <asp:BoundField DataField="fecha_compra" HeaderText="FECHA DE COMPRA" ItemStyle-HorizontalAlign="Center" />
