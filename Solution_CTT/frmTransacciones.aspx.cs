@@ -67,6 +67,7 @@ namespace Solution_CTT
         string sSql;
         string sAccion;
         string sAccionPersonas;
+        string sAccionPagos;
         string sFecha;
         string sTabla;
         string sCampo;
@@ -4587,23 +4588,59 @@ namespace Solution_CTT
 
                         columnasGridPendiente(true);
                         string sEstadoPendiente;
+                        Decimal dbValorSaldo_P;
+                        Decimal dbValorAbono_P;
+                        int iCgEstadoDcto;
                         string[,] sIdPedido = new string[dgvDetalle.Rows.Count, 3];
                         int i = 0;
 
                         foreach(GridViewRow row in dgvDetalle.Rows)
                         {
-                            sEstadoPendiente = row.Cells[8].Text.Trim().ToUpper();
+                            sEstadoPendiente = row.Cells[2].Text.Trim().ToUpper();
                             CheckBox check = row.FindControl("chkSeleccionar") as CheckBox;
 
                             if (check.Checked == true)
                             {
                                 if (sEstadoPendiente == "PAGO PENDIENTE")
                                 {
+                                    Label lblAbono_G = row.FindControl("lblAbonoGrid") as Label;
+                                    Label lblSaldo_G = row.FindControl("lblSaldoGrid") as Label;
+
+                                    dbValorSaldo_P = Convert.ToDecimal(lblSaldo_G.Text.Trim());
+                                    dbValorAbono_P = Convert.ToDecimal(lblAbono_G.Text.Trim());
+
+                                    if (dbValorSaldo_P == 0)
+                                    {
+                                        iCgEstadoDcto = 7461;
+                                    }
+
+                                    else
+                                    {
+                                        iCgEstadoDcto = 7462;
+                                    }
+
                                     sIdPedido[i, 0] = row.Cells[1].Text;
-                                    sIdPedido[i, 1] = row.Cells[6].Text;
-                                    sIdPedido[i, 2] = row.Cells[7].Text;
+                                    sIdPedido[i, 1] = dbValorAbono_P.ToString("N2");
+                                    sIdPedido[i, 2] = iCgEstadoDcto.ToString();
                                     i++;
                                 }
+
+                                //sIdPedido[i, 0] = row.Cells[1].Text;
+                                //sIdPedido[i, 1] = row.Cells[6].Text;
+                                //sIdPedido[i, 2] = row.Cells[7].Text;
+
+                                //if (sEstadoPendiente == "PAGO PENDIENTE")
+                                //{                                    
+                                //    sIdPedido[i, 3] = "P";
+                                    
+                                //}
+
+                                //else
+                                //{
+                                //    sIdPedido[i, 3] = "A";
+                                //}
+
+                                //i++;
                             }
                         }
 
@@ -4621,6 +4658,7 @@ namespace Solution_CTT
                         
                         bRespuesta = cierreViajeInstrucciones.iniciarCierre(dtConsulta, Convert.ToDouble(txtTotalCobradoModal.Text.Trim()), Convert.ToDouble(txtPagoRetencionModal.Text.Trim()),
                                      Convert.ToDouble(txtPagoModal.Text.Trim()), Convert.ToInt32(Session["idProgramacion"].ToString()),
+                                     //Convert.ToDouble(Session["pago_administracion"].ToString()), Convert.ToInt32(Session["idProgramacion"].ToString()),
                                      DateTime.Now.ToString("yyyy/MM/dd"), sDatosMaximo, sIdPedido, i, Convert.ToInt32(Session["extra"].ToString()),
                                      Convert.ToDecimal(txtPagosPendientesModal.Text.Trim()), Convert.ToDecimal(txtEfectivoModal.Text.Trim()), txtObservacionProgramacion.Text.Trim(),
                                      Convert.ToInt32(Session["cobrar_administracion_boletos"].ToString()));
@@ -5159,37 +5197,22 @@ namespace Solution_CTT
             }
         }
 
-        ////FUNCION DE RECALCULO DE VALORES VIAJE EXTRA
-        //private void recalcularValoresExtras()
-        //{
-        //    try
-        //    {
-        //        extraerTotalCobrado();
+        //PINTAR EL GRID DE VENDIDOS
+        private void pintarGridPendiente()
+        {
+            for (int i = 0; i < dgvVendidos.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvVendidos.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
 
-        //        double dbTotalCobrado_P;
-        //        double dbPorcentajeRetencion_P;
-        //        double dbValorRetencion_P;
-        //        double dbPrimerSubtotal_P;
-
-        //        dbTotalCobrado_P = Convert.ToDouble(txtTotalCobradoModal.Text.Trim());
-        //        dbPorcentajeRetencion_P = Convert.ToDouble(Session["porcentaje_retencion"].ToString()) / 100;
-        //        dbValorRetencion_P = dbTotalCobrado_P * dbPorcentajeRetencion_P;
-        //        txtPagoRetencionModal.Text = dbValorRetencion_P.ToString("N2");
-        //        dbValorRetencion_P = Convert.ToDouble(txtPagoRetencionModal.Text.Trim());
-        //        dbPrimerSubtotal_P = dbTotalCobrado_P - dbValorRetencion_P;
-        //        txtPrimerTotalModal.Text = dbPrimerSubtotal_P.ToString("N2");
-        //        txtPagoModal.Text = "0.00";
-        //        txtSegundoTotalModal.Text = dbPrimerSubtotal_P.ToString("N2");
-        //        txtTotalNetoModal.Text = dbPrimerSubtotal_P.ToString("N2");
-        //    }
-
-        //    catch (Exception ex)
-        //    {
-        //        cerrarModal();
-        //        lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
-        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-        //    }
-        //}
+                else
+                {
+                    dgvVendidos.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
 
         //FUNCION PARA CONSULTAR SI EL TERIMNAL PUEDE REALIZAR COBROS
         private bool consultarRealizarCobros()
@@ -5250,21 +5273,8 @@ namespace Solution_CTT
         private void columnasGridPendiente(bool ok)
         {
             dgvDetalle.Columns[1].Visible = ok;
-            //dgvDetalle.Columns[0].ItemStyle.Width = 70;
-            //dgvDetalle.Columns[2].ItemStyle.Width = 75;
-            //dgvDetalle.Columns[3].ItemStyle.Width = 120;
-            //dgvDetalle.Columns[4].ItemStyle.Width = 90;
-            //dgvDetalle.Columns[5].ItemStyle.Width = 100;
-            //dgvDetalle.Columns[6].ItemStyle.Width = 100;
-
-            dgvDetalle.Columns[2].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
-            dgvDetalle.Columns[3].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
-            dgvDetalle.Columns[4].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
-            dgvDetalle.Columns[5].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
-            dgvDetalle.Columns[6].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
-
-            dgvDetalle.Columns[7].Visible = ok;
-            //dgvDetalle.Columns[8].Visible = ok;
+            dgvDetalle.Columns[8].Visible = ok;
+            dgvDetalle.Columns[9].ItemStyle.Width = 100;
         }
 
         //FUNCION PARA LLENAR EL GRID DE PAGOS PENDIENTES
@@ -5314,7 +5324,7 @@ namespace Solution_CTT
 
                     for (int i = 0; i < dgvDetalle.Rows.Count; i++)
                     {
-                        dbSumaValores += Convert.ToDecimal(dgvDetalle.Rows[i].Cells[6].Text);
+                        dbSumaValores += Convert.ToDecimal(dgvDetalle.Rows[i].Cells[7].Text);
                     }
 
                     lblSumaRecuperado.Text = "Total Recuperado: " + dbSumaValores.ToString("N2") + " $";
@@ -6130,7 +6140,7 @@ namespace Solution_CTT
 
                 if ((Session["ejecuta_cobro_administrativo"] == null) || (Session["ejecuta_cobro_administrativo"].ToString() == "0"))
                 {
-                    btnRecalcular.Visible = false;
+                    //btnRecalcular.Visible = false;
                     pnlMostrarPagosPendientes.Visible = false;
                     recalcularValoresNormales();
                 }
@@ -6141,10 +6151,12 @@ namespace Solution_CTT
                     {
                         llenarGridPendientes();
                         recalcularValoresNormales();
+                        //recalcularValores_V2();
+                        pintarGridPendiente();
                     }
 
                     pnlMostrarPagosPendientes.Visible = true;
-                    btnRecalcular.Visible = true;
+                    //btnRecalcular.Visible = true;
                 }
             }
 
@@ -6425,7 +6437,7 @@ namespace Solution_CTT
                 }
             }
 
-            lblSumaCobrar.Text = "Total a Cobrar: " + (dbSumaPendientes_P + dbPagoAdministracionRecuperado_P).ToString("N2") + " $";
+            //lblSumaCobrar.Text = "Total a Cobrar: " + (dbSumaPendientes_P + dbPagoAdministracionRecuperado_P).ToString("N2") + " $";
 
             txtPagosPendientesModal.Text = dbSumaPendientes_P.ToString("N2");
 
@@ -7546,6 +7558,181 @@ namespace Solution_CTT
             }
         }
 
+        protected void lbtnAbonarPago_Click(object sender, EventArgs e)
+        {
+            sAccionPagos = "Abonar";
+        }
+
+        protected void lbtnRemoverPago_Click(object sender, EventArgs e)
+        {
+            sAccionPagos = "Remover";
+        }
+
+        protected void dgvDetalle_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                string sTextoEncabezado;
+                int a = dgvDetalle.SelectedIndex;
+                columnasGridPendiente(true);
+
+                if (sAccionPagos == "Abonar")
+                {
+                    CheckBox chkSeleccionarFila = dgvDetalle.Rows[a].Cells[9].FindControl("chkSeleccionar") as CheckBox;
+
+                    if (chkSeleccionarFila.Checked == false)
+                    {
+                        recalcularValores_V2();
+
+                        Decimal dbPagoDisponible = Convert.ToDecimal(txtTotalNetoModal.Text.Trim());
+                        Decimal dbIngresoEfectivo = Convert.ToDecimal(txtEfectivoModal.Text.Trim());
+                        Decimal dbValorPagosPendientes = Convert.ToDecimal(txtPagosPendientesModal.Text.Trim());                        
+
+                        if (dbPagoDisponible == 0)
+                        {
+                            ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'El saldo ya se encuentra en cero. No puede realizar más cobros.', 'info');", true);
+                        }
+
+                        else
+                        {
+                            sTextoEncabezado = dgvDetalle.Rows[a].Cells[2].Text.Trim().ToUpper();
+
+                            Decimal dbValorAbono_P = Convert.ToDecimal(dgvDetalle.Rows[a].Cells[6].Text);
+                            Decimal dbValorDebido_P = Convert.ToDecimal(dgvDetalle.Rows[a].Cells[7].Text);
+                            Decimal dbIngresoValor_R;
+
+                            TextBox txtValorAbono_R = dgvDetalle.Rows[a].Cells[9].FindControl("txtValorAbonoGrid") as TextBox;
+                            Label lblAbonoGrid = dgvDetalle.Rows[a].Cells[9].FindControl("lblAbonoGrid") as Label;
+                            Label lblSaldoGrid = dgvDetalle.Rows[a].Cells[9].FindControl("lblSaldoGrid") as Label;
+
+                            if ((txtValorAbono_R.Text.Trim() == "") || (Convert.ToDecimal(txtValorAbono_R.Text.Trim()) == 0))
+                            {
+                                //txtValorAbono_R.Text = dbValorDebido_P.ToString("N2");
+
+                                if (dbValorDebido_P < dbPagoDisponible)
+                                {
+                                    txtValorAbono_R.Text = dbValorDebido_P.ToString("N2");
+                                }
+
+                                else
+                                {
+                                    txtValorAbono_R.Text = dbPagoDisponible.ToString("N2");
+                                }
+                            }
+
+                            dbIngresoValor_R = Convert.ToDecimal(txtValorAbono_R.Text.Trim());
+
+                            if (dbIngresoValor_R > dbPagoDisponible)
+                            {
+                                dbIngresoValor_R = dbPagoDisponible;
+                            }
+
+                            if (dbIngresoValor_R > dbValorDebido_P)
+                            {
+                                txtValorAbono_R.Text = dbValorDebido_P.ToString("N2");
+                                dbIngresoValor_R = dbValorDebido_P;
+                            }
+
+                            dbPagoDisponible -= dbIngresoValor_R;
+
+                            if (dbIngresoValor_R < 0)
+                            {
+                                txtValorAbono_R.Text = "";
+                                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'El efectivo ingresado dará valores negativos. El sistema cancelará la operación.', 'warning');", true);
+                                return;
+                            }
+
+                            lblAbonoGrid.Text = dbIngresoValor_R.ToString("N2");
+                            lblSaldoGrid.Text = (dbValorDebido_P - dbIngresoValor_R).ToString("N2");
+                            txtValorAbono_R.Text = "";
+
+                            if (sTextoEncabezado == "PAGO ACTUAL")
+                            {
+                                txtPagoModal.Text = dbIngresoValor_R.ToString("N2");
+                                txtSegundoTotalModal.Text = dbPagoDisponible.ToString("N2");
+                            }
+
+                            else
+                            {
+                                dbValorPagosPendientes += dbIngresoValor_R;
+                                txtPagosPendientesModal.Text = dbValorPagosPendientes.ToString("N2");
+                            }
+
+                            chkSeleccionarFila.Checked = true;
+                            recalcularValores_V2();
+                        }
+                    }
+                }
+
+                else if (sAccionPagos == "Remover")
+                {
+                    CheckBox chkSeleccionarFila = dgvDetalle.Rows[a].Cells[9].FindControl("chkSeleccionar") as CheckBox;
+
+                    if (chkSeleccionarFila.Checked == true)
+                    {
+                        sTextoEncabezado = dgvDetalle.Rows[a].Cells[2].Text.Trim().ToUpper();                        
+
+                        TextBox txtValorAbono_R = dgvDetalle.Rows[a].Cells[9].FindControl("txtValorAbonoGrid") as TextBox;
+                        Label lblAbonoGrid = dgvDetalle.Rows[a].Cells[9].FindControl("lblAbonoGrid") as Label;
+                        Label lblSaldoGrid = dgvDetalle.Rows[a].Cells[9].FindControl("lblSaldoGrid") as Label;
+
+                        Decimal dbAbonoAnular_G = Convert.ToDecimal(lblAbonoGrid.Text.Trim());
+                        Decimal dbValorPagosAnular_G = Convert.ToDecimal(txtPagosPendientesModal.Text.Trim());
+                        
+                        txtValorAbono_R.Text = "";
+                        lblAbonoGrid.Text = "0.00";
+                        lblSaldoGrid.Text = "0.00";
+
+                        if (sTextoEncabezado == "PAGO ACTUAL")
+                        {
+                            txtPagoModal.Text = "0.00";
+                        }
+
+                        else
+                        {
+                            dbValorPagosAnular_G -= dbAbonoAnular_G;
+                            txtPagosPendientesModal.Text = dbValorPagosAnular_G.ToString("N2");
+                        }
+
+                        chkSeleccionarFila.Checked = false;
+                        recalcularValores_V2();
+                    }
+                }
+
+                columnasGridPendiente(false);
+
+                pintarGridPendiente();
+            }
+
+            catch (Exception ex)
+            {
+                cerrarModal();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
+
+        //RECALCULAR LOS VALORES
+        private void recalcularValores_V2()
+        {
+            if (txtEfectivoModal.Text.Trim() == "")
+            {
+                txtEfectivoModal.Text = "0.00";
+            }
+
+            //AQUI SE VA A RECALCULAR LAS CAJAS DE TEXTO
+            Decimal dbPrimerTotal_G = Convert.ToDecimal(txtPrimerTotalModal.Text.Trim());
+            Decimal dbPagoAdministracion_G = Convert.ToDecimal(txtPagoModal.Text.Trim());
+            Decimal dbIngresoEfectivo_G = Convert.ToDecimal(txtEfectivoModal.Text.Trim());
+            Decimal dbSegundoTotal_G = dbPrimerTotal_G + dbIngresoEfectivo_G - dbPagoAdministracion_G;
+            Decimal dbPagosAtrasados_G = Convert.ToDecimal(txtPagosPendientesModal.Text.Trim());
+            Decimal dbTotalNeto_G = dbPrimerTotal_G + dbIngresoEfectivo_G - dbPagoAdministracion_G - dbPagosAtrasados_G;
+
+            //Session["valorIngreso_V"] = dbIngresoEfectivo_G.ToString();
+            txtSegundoTotalModal.Text = dbSegundoTotal_G.ToString("N2");
+            txtTotalNetoModal.Text = dbTotalNeto_G.ToString("N2");
+        }
+
         protected void dgvDatos_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             for (int i = 0; i < dgvDatos.Rows.Count; i++)
@@ -7644,18 +7831,7 @@ namespace Solution_CTT
 
         protected void dgvVendidos_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            for (int i = 0; i < dgvVendidos.Rows.Count; i++)
-            {
-                if (i % 2 == 0)
-                {
-                    dgvVendidos.Rows[i].BackColor = Color.FromName("#ccf0cb");
-                }
-
-                else
-                {
-                    dgvVendidos.Rows[i].BackColor = Color.White;
-                }
-            }
+            pintarGridPendiente();
         }
 
         protected void dgvReporteTokenInfo_RowDataBound(object sender, GridViewRowEventArgs e)

@@ -160,22 +160,27 @@ namespace Solution_CTT.Clases
 
                         iEstadoXCobrar = Convert.ToInt32(sIdPedido_P[i, 2]);
 
-                        if (iEstadoXCobrar == 7460)
+                        if (cobrarPagoPendiente_V2(Convert.ToInt32(sIdPedido_P[i, 0]), Convert.ToDouble(sIdPedido_P[i, 1]), iEstadoXCobrar) == false)
                         {
-                            //cobrarPagoPendiente(int iIdPedido_P, double dbPago_P)
-                            if (cobrarPagoPendiente(Convert.ToInt32(sIdPedido_P[i, 0]), Convert.ToDouble(sIdPedido_P[i, 1])) == false)
-                            {
-                                return false;
-                            }
+                            return false;
                         }
 
-                        else if (iEstadoXCobrar == 7462)
-                        {
-                            if (cobrarPagoParcial(Convert.ToInt32(sIdPedido_P[i, 0]), Convert.ToDouble(sIdPedido_P[i, 1])) == false)
-                            {
-                                return false;
-                            }
-                        }                       
+                        //if (iEstadoXCobrar == 7460)
+                        //{
+                        //    //cobrarPagoPendiente(int iIdPedido_P, double dbPago_P)
+                        //    if (cobrarPagoPendiente(Convert.ToInt32(sIdPedido_P[i, 0]), Convert.ToDouble(sIdPedido_P[i, 1])) == false)
+                        //    {
+                        //        return false;
+                        //    }
+                        //}
+
+                        //else if (iEstadoXCobrar == 7462)
+                        //{
+                        //    if (cobrarPagoParcial(Convert.ToInt32(sIdPedido_P[i, 0]), Convert.ToDouble(sIdPedido_P[i, 1])) == false)
+                        //    {
+                        //        return false;
+                        //    }
+                        //}                       
                     }
                 }
 
@@ -212,13 +217,13 @@ namespace Solution_CTT.Clases
                     dbIva = (dbTotal * Convert.ToDouble(HttpContext.Current.Application["iva"].ToString())) / 100;
                 }
 
-                if (insertarPedido() == false)
+                if (insertarPedido(dbTotal) == false)
                 {
                     conexionM.reversaTransaccion();
                     return false;
                 }
 
-                if (insertarPagos() == false)
+                if (insertarPagos(dbTotal) == false)
                 {
                     conexionM.reversaTransaccion();
                     return false;
@@ -301,7 +306,7 @@ namespace Solution_CTT.Clases
                     dbIva = (dbTotal * Convert.ToDouble(HttpContext.Current.Application["iva"].ToString())) / 100;
                 }
 
-                if (insertarPedido() == false)
+                if (insertarPedido(dbTotal) == false)
                 {
                     conexionM.reversaTransaccion();
                     return false;
@@ -309,7 +314,7 @@ namespace Solution_CTT.Clases
 
                 if (dbPagoRecibido > 0)
                 {
-                    if (insertarPagos() == false)
+                    if (insertarPagos(dbPagoRecibido) == false)
                     {
                         conexionM.reversaTransaccion();
                         return false;
@@ -492,7 +497,7 @@ namespace Solution_CTT.Clases
 
 
         //INSERTAR FASE 1 -  CREAR PEDIDO
-        private bool insertarPedido()
+        private bool insertarPedido(double dbValorXC)
         {
             try
             {                  
@@ -716,8 +721,8 @@ namespace Solution_CTT.Clases
                 sSql += "valor, cg_estado_dcto, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += iIdEventoCobro + ", " + iIdPedido + ", " + parametros.CgTipoDocumento + "," + Environment.NewLine;
-                sSql += "'" + sFecha + "', " + Convert.ToInt32(HttpContext.Current.Application["cgMoneda"].ToString()) + ", " + dbPagoAdministracion + "," + Environment.NewLine;
-                sSql += iCgEstadoDctoPorCobrar + ", 'A', GETDATE(), '" + sDatosMaximo[0] + "'," + Environment.NewLine;
+                sSql += "'" + sFecha + "', " + Convert.ToInt32(HttpContext.Current.Application["cgMoneda"].ToString()) + ", " + Environment.NewLine;
+                sSql += dbValorXC + ", " + iCgEstadoDctoPorCobrar + ", 'A', GETDATE(), '" + sDatosMaximo[0] + "'," + Environment.NewLine;
                 sSql += "'" + sDatosMaximo[1] + "')";
 
                 //EJECUCION DE INSTRUCCION SQL
@@ -754,7 +759,7 @@ namespace Solution_CTT.Clases
         }
 
         //INSERTAR FASE 2 - CREAR PAGOS
-        private bool insertarPagos()
+        private bool insertarPagos(double dbPago_P)
         {
             try
             {
@@ -789,7 +794,8 @@ namespace Solution_CTT.Clases
                 sSql += "values(" + Environment.NewLine;
                 sSql += Convert.ToInt32(HttpContext.Current.Application["idEmpresa"].ToString()) + ", " + Environment.NewLine;
                 sSql += iIdPersona + ", '" + sFecha + "', " + Convert.ToInt32(HttpContext.Current.Application["cgMoneda"].ToString()) + "," + Environment.NewLine;
-                sSql += dbPagoAdministracion + ", 0, " + Convert.ToInt32(HttpContext.Current.Application["cgEmpresa"].ToString()) + "," + Environment.NewLine;
+                //sSql += dbPagoAdministracion + ", 0, " + Convert.ToInt32(HttpContext.Current.Application["cgEmpresa"].ToString()) + "," + Environment.NewLine;
+                sSql += dbPago_P + ", 0, " + Convert.ToInt32(HttpContext.Current.Application["cgEmpresa"].ToString()) + "," + Environment.NewLine;
                 sSql += Convert.ToInt32(HttpContext.Current.Application["idLocalidad"].ToString()) + ", 7799, GETDATE(), '" + sDatosMaximo[0] + "'," + Environment.NewLine;
                 sSql += "'" + sDatosMaximo[1] + "', 'A', 0)";
 
@@ -862,7 +868,8 @@ namespace Solution_CTT.Clases
                 sSql += "fecha_ingreso, usuario_ingreso, terminal_ingreso, valor_recibido)" + Environment.NewLine;
                 sSql += "values(" + Environment.NewLine;
                 sSql += iIdPago + ", " + iCgTipoDocumento + ", 9999, '" + sFecha + "', " + Environment.NewLine;
-                sSql += Convert.ToInt32(HttpContext.Current.Application["cgMoneda"].ToString()) + ", 1, " + dbPagoAdministracion + ", 'A', GETDATE()," + Environment.NewLine;
+                //sSql += Convert.ToInt32(HttpContext.Current.Application["cgMoneda"].ToString()) + ", 1, " + dbPagoAdministracion + ", 'A', GETDATE()," + Environment.NewLine;
+                sSql += Convert.ToInt32(HttpContext.Current.Application["cgMoneda"].ToString()) + ", 1, " + dbPago_P + ", 'A', GETDATE()," + Environment.NewLine;
                 sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', " + dbPagoAdministracion + ")";
 
                 //EJECUCION DE INSTRUCCION SQL
@@ -897,7 +904,8 @@ namespace Solution_CTT.Clases
                 sSql += "fecha_ingreso, usuario_ingreso, terminal_ingreso, fecha_pago," + Environment.NewLine;
                 sSql += "id_ctt_jornada, id_ctt_cierre_caja)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
-                sSql += iIdDocumentoCobrar + ", " + iIdPago + ", " + dbPagoAdministracion + ", 'A'," + Environment.NewLine;
+                //sSql += iIdDocumentoCobrar + ", " + iIdPago + ", " + dbPagoAdministracion + ", 'A'," + Environment.NewLine;
+                sSql += iIdDocumentoCobrar + ", " + iIdPago + ", " + dbPago_P + ", 'A'," + Environment.NewLine;
                 sSql += "GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', '" + DateTime.Now.ToString("yyyy/MM/dd") + "'," + Environment.NewLine;
                 sSql += Convert.ToInt32(HttpContext.Current.Session["idJornada"].ToString()) + ", " + HttpContext.Current.Session["idCierreCaja"].ToString() + ")";
 
@@ -1492,89 +1500,193 @@ namespace Solution_CTT.Clases
                     return false;
                 }
 
-                //HASTA AQUI ES EL NUEVO CAMBIO
-                //====================================================================================================================
-
-
-                ////EXTRAER EL ID_PAGO DE LA TABLA CV403_DCTOS_POR_COBRAR
-                //sSql = "";
-                //sSql += "select id_pago" + Environment.NewLine;
-                //sSql += "from cv403_documentos_pagados" + Environment.NewLine;
-                //sSql += "where id_documento_cobrar = " + iIdDocumentoCobrar + Environment.NewLine;
-                //sSql += "and estado = 'A'";
-
-                //dtConsulta = new DataTable();
-                //dtConsulta.Clear();
-
-                //bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
-
-                //if (bRespuesta == true)
-                //{
-                //    iIdPago = Convert.ToInt32(dtConsulta.Rows[0][0].ToString());
-                //}
-
-                //else
-                //{
-                //    return false;
-                //}
-
-                ////INSERTAMOS EN LA TABLA CV403_DOCUMENTOS_PAGOS 
-                //sSql = "";
-                //sSql += "insert into cv403_documentos_pagos (" + Environment.NewLine;
-                //sSql += "id_pago, cg_tipo_documento, numero_documento, fecha_vcto, " + Environment.NewLine;
-                //sSql += "cg_moneda, cotizacion, valor, estado," + Environment.NewLine;
-                //sSql += "fecha_ingreso, usuario_ingreso, terminal_ingreso, valor_recibido)" + Environment.NewLine;
-                //sSql += "values(" + Environment.NewLine;
-                //sSql += iIdPago + ", " + iCgTipoDocumento + ", 9999, '" + sFecha + "', " + Environment.NewLine;
-                //sSql += Convert.ToInt32(HttpContext.Current.Application["cgMoneda"].ToString()) + ", 1, " + dbPago_P + ", 'A', GETDATE()," + Environment.NewLine;
-                //sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', " + dbPago_P + ")";
-
-                ////EJECUCION DE INSTRUCCION SQL
-                //if (!conexionM.ejecutarInstruccionSQL(sSql))
-                //{
-                //    return false;
-                //}
-
-                ////OBTENEMOS EL MAX ID DE LA TABLA CV403_DOCUMENTOS_PAGOS
-                //dtConsulta = new DataTable();
-                //dtConsulta.Clear();
-
-                //sTabla = "cv403_documentos_pagos";
-                //sCampo = "id_documento_pago";
-
-                //iMaximo = conexionM.sacarMaximo(sTabla, sCampo, "", sDatosMaximo);
-
-                //if (iMaximo == -1)
-                //{
-                //    return false;
-                //}
-
-                //else
-                //{
-                //    iIdDocumentoPago = Convert.ToInt32(iMaximo);
-                //}
-
-                ////INSERTAMOS EL ÚNICO DOCUMENTO PAGADO
-                //sSql = "";
-                //sSql += "insert into cv403_documentos_pagados (" + Environment.NewLine;
-                //sSql += "id_documento_cobrar, id_pago, valor," + Environment.NewLine;
-                //sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso, fecha_pago, id_ctt_jornada)" + Environment.NewLine;
-                //sSql += "values (" + Environment.NewLine;
-                //sSql += iIdDocumentoCobrar + ", " + iIdPago + ", " + dbPago_P + ", 'A'," + Environment.NewLine;
-                //sSql += "GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', '" + DateTime.Now.ToString("yyyy/MM/dd") + "'," + Environment.NewLine;
-                //sSql += Convert.ToInt32(HttpContext.Current.Session["idJornada"].ToString()) + ")";
-
-                ////EJECUCION DE INSTRUCCION SQL
-                //if (!conexionM.ejecutarInstruccionSQL(sSql))
-                //{
-                //    return false;
-                //}
-
                 //INSTRUCCION PARA ACTUALIZAR EL ESTADO DEL DOCUMENTO POR COBRAR
                 sSql = "";
                 sSql += "update cv403_dctos_por_cobrar set" + Environment.NewLine;
                 sSql += "cg_estado_dcto = 7461," + Environment.NewLine;
-                sSql += "valor = " + dbPagoAdministracion + Environment.NewLine;
+                //sSql += "valor = " + dbPagoAdministracion + Environment.NewLine;
+                sSql += "where id_pedido = " + iIdPedido_P + Environment.NewLine;
+                sSql += "and estado = 'A'";
+
+                //EJECUCION DE INSTRUCCION SQL
+                if (!conexionM.ejecutarInstruccionSQL(sSql))
+                {
+                    conexionM.reversaTransaccion();
+                    return false;
+                }
+
+                //INSTRUCCION PARA ACTUALIZAR LA FECHA DE PAGO PENDIENTE 
+                sSql = "";
+                sSql += "update cv403_cab_pedidos set" + Environment.NewLine;
+                sSql += "ctt_fecha_pago_pendiente = '" + sFecha + "'," + Environment.NewLine;
+                sSql += "id_ctt_cierre_caja = " + HttpContext.Current.Session["idCierreCaja"].ToString() + Environment.NewLine;
+                sSql += "where id_pedido = " + iIdPedido_P + Environment.NewLine;
+                sSql += "and estado = 'A'";
+
+                //EJECUCION DE INSTRUCCION SQL
+                if (!conexionM.ejecutarInstruccionSQL(sSql))
+                {
+                    conexionM.reversaTransaccion();
+                    return false;
+                }
+
+                return true;
+            }
+
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        //INSERTAR PAGO PENDIENTE
+        private bool cobrarPagoPendiente_V2(int iIdPedido_P, double dbPago_P, int iCgEstadoDcto_P)
+        {
+            try
+            {
+                //EXTRAER EL ID DE LA TABLA CV403_DCTOS_POR_COBRAR
+                sSql = "";
+                sSql += "select id_documento_cobrar" + Environment.NewLine;
+                sSql += "from cv403_dctos_por_cobrar" + Environment.NewLine;
+                sSql += "where id_pedido = " + iIdPedido_P + Environment.NewLine;
+                sSql += "and estado = 'A'";
+
+                dtConsulta = new DataTable();
+                dtConsulta.Clear();
+
+                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
+
+                if (bRespuesta == true)
+                {
+                    iIdDocumentoCobrar = Convert.ToInt32(dtConsulta.Rows[0][0].ToString());
+                }
+
+                else
+                {
+                    return false;
+                }
+
+                //INSTRUCCION SQL PARA INSERTAR EN LA TABLA CV403_PAGOS
+                sSql = "";
+                sSql += "insert into cv403_pagos (" + Environment.NewLine;
+                sSql += "idempresa, id_persona, fecha_pago, cg_moneda, valor," + Environment.NewLine;
+                sSql += "propina, cg_empresa, id_localidad, cg_cajero, fecha_ingreso," + Environment.NewLine;
+                sSql += "usuario_ingreso, terminal_ingreso, estado, cambio)" + Environment.NewLine;
+                sSql += "values(" + Environment.NewLine;
+                sSql += Convert.ToInt32(HttpContext.Current.Application["idEmpresa"].ToString()) + ", " + Environment.NewLine;
+                sSql += iIdPersona + ", '" + sFecha + "', " + Convert.ToInt32(HttpContext.Current.Application["cgMoneda"].ToString()) + "," + Environment.NewLine;
+                sSql += dbPago_P + ", 0, " + Convert.ToInt32(HttpContext.Current.Application["cgEmpresa"].ToString()) + "," + Environment.NewLine;
+                sSql += Convert.ToInt32(HttpContext.Current.Application["idLocalidad"].ToString()) + ", 7799, GETDATE(), '" + sDatosMaximo[0] + "'," + Environment.NewLine;
+                sSql += "'" + sDatosMaximo[1] + "', 'A', 0)";
+
+                //EJECUCION DE INSTRUCCION SQL
+                if (!conexionM.ejecutarInstruccionSQL(sSql))
+                {
+                    return false;
+                }
+
+                //EXTRAER ID DEL REGISTRO CV403_PAGOS
+                //=========================================================================================================
+                sTabla = "cv403_pagos";
+                sCampo = "id_pago";
+
+                iMaximo = conexionM.sacarMaximo(sTabla, sCampo, "", sDatosMaximo);
+
+                if (iMaximo == -1)
+                {
+                    return false;
+                }
+
+                else
+                {
+                    iIdPago = Convert.ToInt32(iMaximo);
+                }
+
+                //EXTRAEMOS EL NUMERO_PAGO DE LA TABLA_TP_LOCALIDADES_IMPRESORAS
+                sSql = "";
+                sSql += "select numero_pago" + Environment.NewLine;
+                sSql += "from tp_localidades_impresoras" + Environment.NewLine;
+                sSql += "where id_localidad = " + Convert.ToInt32(HttpContext.Current.Application["idLocalidad"].ToString());
+
+                dtConsulta = new DataTable();
+                dtConsulta.Clear();
+
+                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
+
+                if (bRespuesta == true)
+                {
+                    iNumeroPago = Convert.ToInt32(dtConsulta.Rows[0][0].ToString());
+                }
+                else
+                {
+                    return false;
+                }
+
+                //INSERTAMOS EN LA TABLA CV403_NUMEROS_PAGOS
+                sSql = "";
+                sSql += "insert into cv403_numeros_pagos (" + Environment.NewLine;
+                sSql += "id_pago, serie, numero_pago, fecha_ingreso, usuario_ingreso," + Environment.NewLine;
+                sSql += "terminal_ingreso, estado)" + Environment.NewLine;
+                sSql += "values(" + Environment.NewLine;
+                sSql += iIdPago + ", 'A', " + iNumeroPago + ", GETDATE(), '" + sDatosMaximo[0] + "'," + Environment.NewLine;
+                sSql += "'" + sDatosMaximo[1] + "', 'A')";
+
+                //EJECUCION DE INSTRUCCION SQL
+                if (!conexionM.ejecutarInstruccionSQL(sSql))
+                {
+                    return false;
+                }
+
+                //INSERTAMOS EN LA TABLA CV403_DOCUMENTOS_PAGOS 
+                sSql = "";
+                sSql += "insert into cv403_documentos_pagos (" + Environment.NewLine;
+                sSql += "id_pago, cg_tipo_documento, numero_documento, fecha_vcto, " + Environment.NewLine;
+                sSql += "cg_moneda, cotizacion, valor, estado," + Environment.NewLine;
+                sSql += "fecha_ingreso, usuario_ingreso, terminal_ingreso, valor_recibido)" + Environment.NewLine;
+                sSql += "values(" + Environment.NewLine;
+                sSql += iIdPago + ", " + iCgTipoDocumento + ", 9999, '" + sFecha + "', " + Environment.NewLine;
+                sSql += Convert.ToInt32(HttpContext.Current.Application["cgMoneda"].ToString()) + ", 1, " + dbPago_P + ", 'A', GETDATE()," + Environment.NewLine;
+                sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', " + dbPago_P + ")";
+
+                //EJECUCION DE INSTRUCCION SQL
+                if (!conexionM.ejecutarInstruccionSQL(sSql))
+                {
+                    return false;
+                }
+
+                //INSERTAMOS EL ÚNICO DOCUMENTO PAGADO
+                sSql = "";
+                sSql += "insert into cv403_documentos_pagados (" + Environment.NewLine;
+                sSql += "id_documento_cobrar, id_pago, valor," + Environment.NewLine;
+                sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso," + Environment.NewLine;
+                sSql += "fecha_pago, id_ctt_jornada, id_ctt_cierre_caja)" + Environment.NewLine;
+                sSql += "values (" + Environment.NewLine;
+                sSql += iIdDocumentoCobrar + ", " + iIdPago + ", " + dbPago_P + ", 'A'," + Environment.NewLine;
+                sSql += "GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', '" + DateTime.Now.ToString("yyyy/MM/dd") + "'," + Environment.NewLine;
+                sSql += Convert.ToInt32(HttpContext.Current.Session["idJornada"].ToString()) + ", " + HttpContext.Current.Session["idCierreCaja"].ToString() + ")";
+
+                //EJECUCION DE INSTRUCCION SQL
+                if (!conexionM.ejecutarInstruccionSQL(sSql))
+                {
+                    return false;
+                }
+
+                //ACTUALIZAR EL NUMERO DE PAGOS EN LA TABLA TP_LOCALIDADES_IMPRESORAS
+                sSql = "";
+                sSql += "update tp_localidades_impresoras set" + Environment.NewLine;
+                sSql += "numero_pago = numero_pago + 1" + Environment.NewLine;
+                sSql += "where id_localidad = " + Convert.ToInt32(HttpContext.Current.Application["idLocalidad"].ToString());
+
+                //EJECUCION DE INSTRUCCION SQL
+                if (!conexionM.ejecutarInstruccionSQL(sSql))
+                {
+                    return false;
+                }
+
+                //INSTRUCCION PARA ACTUALIZAR EL ESTADO DEL DOCUMENTO POR COBRAR
+                sSql = "";
+                sSql += "update cv403_dctos_por_cobrar set" + Environment.NewLine;
+                sSql += "cg_estado_dcto = " + iCgEstadoDcto_P + Environment.NewLine;
                 sSql += "where id_pedido = " + iIdPedido_P + Environment.NewLine;
                 sSql += "and estado = 'A'";
 

@@ -127,16 +127,16 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:51:43</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>11/29/2019 11:38:57</publishTime>
+      <publishTime>12/03/2019 18:42:11</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>11/29/2019 11:38:57</publishTime>
+      <publishTime>12/03/2019 18:42:11</publishTime>
     </File>
     <File Include="bin/App_GlobalResources.compiled">
-      <publishTime>11/29/2019 11:38:56</publishTime>
+      <publishTime>12/03/2019 18:42:09</publishTime>
     </File>
     <File Include="bin/App_GlobalResources.dll">
-      <publishTime>11/29/2019 11:38:56</publishTime>
+      <publishTime>12/03/2019 18:42:09</publishTime>
     </File>
     <File Include="bin/BarcodeLib.dll">
       <publishTime>11/13/2019 20:52:14</publishTime>
@@ -145,10 +145,10 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:51:43</publishTime>
     </File>
     <File Include="bin/DATOS.dll">
-      <publishTime>11/20/2019 11:51:02</publishTime>
+      <publishTime>12/03/2019 18:41:31</publishTime>
     </File>
     <File Include="bin/ENTIDADES.dll">
-      <publishTime>11/20/2019 11:51:02</publishTime>
+      <publishTime>12/03/2019 18:41:30</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.FriendlyUrls.dll">
       <publishTime>11/13/2019 20:52:14</publishTime>
@@ -178,13 +178,13 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:52:14</publishTime>
     </File>
     <File Include="bin/NEGOCIO.dll">
-      <publishTime>11/20/2019 11:51:03</publishTime>
+      <publishTime>12/03/2019 18:41:34</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>10/02/2013 12:10:10</publishTime>
     </File>
     <File Include="bin/Solution_CTT.dll">
-      <publishTime>11/29/2019 11:37:10</publishTime>
+      <publishTime>12/03/2019 18:41:41</publishTime>
     </File>
     <File Include="bin/SqlServerTypes/x64/msvcr100.dll">
       <publishTime>11/13/2019 20:52:14</publishTime>
@@ -21067,7 +21067,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/20/2019 17:28:32</publishTime>
     </File>
     <File Include="frmTransacciones.aspx">
-      <publishTime>11/20/2019 17:39:12</publishTime>
+      <publishTime>12/03/2019 18:27:48</publishTime>
     </File>
     <File Include="frmVehiculos.aspx">
       <publishTime>11/20/2019 17:39:41</publishTime>
@@ -21517,7 +21517,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:52:14</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>11/29/2019 11:38:51</publishTime>
+      <publishTime>12/03/2019 18:42:04</publishTime>
     </File>
     <File Include="Site.Mobile.Master">
       <publishTime>11/13/2019 20:51:43</publishTime>

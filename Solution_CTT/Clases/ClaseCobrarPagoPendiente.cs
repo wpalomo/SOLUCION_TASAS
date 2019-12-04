@@ -171,7 +171,7 @@ namespace Solution_CTT.Clases
 
                 sSql = "";
                 sSql += "update cv403_dctos_por_cobrar set" + Environment.NewLine;
-                sSql += "valor = " + dbValorReal_P + "," + Environment.NewLine;
+                //sSql += "valor = " + dbValorReal_P + "," + Environment.NewLine;
                 sSql += "cg_estado_dcto = " + iCgEstadoDctoPorCobrar + Environment.NewLine;
                 sSql += "where id_documento_cobrar = " + iIdDocumentoCobrar + Environment.NewLine;
 

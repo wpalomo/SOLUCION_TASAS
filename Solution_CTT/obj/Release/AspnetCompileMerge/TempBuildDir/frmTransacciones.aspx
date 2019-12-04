@@ -1,4 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="frmTransacciones.aspx.cs" Inherits="Solution_CTT.frmTransacciones" %>
+﻿
+<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="frmTransacciones.aspx.cs" Inherits="Solution_CTT.frmTransacciones" %>
 <%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
@@ -432,22 +433,48 @@
                                                     <div class="col-sm-12">
 
                                                         <asp:GridView ID="dgvDetalle" runat="server" class="mGrid" AllowPaging="True" AutoGenerateColumns="False" 
-                                                            PageSize="7" EmptyDataText="No hay Registros o Coindicencias..!!" OnPageIndexChanging="dgvDetalle_PageIndexChanging" OnRowDataBound="dgvDetalle_RowDataBound">
+                                                            EmptyDataText="No hay Registros o Coindicencias..!!" OnPageIndexChanging="dgvDetalle_PageIndexChanging"
+                                                            OnSelectedIndexChanged="dgvDetalle_SelectedIndexChanged">
                                                             <AlternatingRowStyle BackColor="White" />
                                                             <Columns>
-                                                                <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="Seleccionar">
+                                                                <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="">
                                                                     <ItemTemplate>
-                                                                        <asp:CheckBox ID="chkSeleccionar" runat="server" CommandName="Select" />
+                                                                        <asp:CheckBox ID="chkSeleccionar" runat="server" CommandName="Select" Enabled="false" />
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
                                                                 <asp:BoundField HeaderText="IDPedido" DataField="id_pedido" />
-                                                                <asp:BoundField HeaderText="No. Viaje" DataField="numero_viaje" />
-                                                                <asp:BoundField HeaderText="Fecha Viaje" DataField="fecha_viaje" />
-                                                                <asp:BoundField DataField="hora_salida" HeaderText="Hora Viaje" />
-                                                                <asp:BoundField DataField="abono" HeaderText="Valor Abonado" />
-                                                                <asp:BoundField DataField="precio" HeaderText="Valor Debido" />
+                                                                <asp:BoundField DataField="estado_pago" HeaderText="Tipo de Pago" />
+                                                                <asp:BoundField HeaderText="No. Viaje" DataField="numero_viaje" ItemStyle-HorizontalAlign="Center" />
+                                                                <asp:BoundField HeaderText="Fecha Viaje" DataField="fecha_viaje" ItemStyle-HorizontalAlign="Center" />
+                                                                <asp:BoundField DataField="hora_salida" HeaderText="Hora Viaje" ItemStyle-HorizontalAlign="Center" />
+                                                                <asp:BoundField DataField="abono" HeaderText="Valor Abonado" ItemStyle-HorizontalAlign="Right" />
+                                                                <asp:BoundField DataField="precio" HeaderText="Valor Debido" ItemStyle-HorizontalAlign="Right" />
                                                                 <asp:BoundField DataField="cg_estado_dcto" HeaderText="Estado Dcto" />
-                                                                <asp:BoundField DataField="estado_pago" HeaderText="Tipo de Pago    " />
+                                                                <asp:TemplateField HeaderText="Valor Abono" >
+                                                                    <ItemTemplate>
+                                                                        <asp:TextBox ID="txtValorAbonoGrid" runat="server" class="form-control input-sm" placeholder="Valor Abono" Onkeypress="return ValidaDecimal(this.value);" Text="" ></asp:TextBox>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="ABONAR">
+                                                                    <ItemTemplate>
+                                                                        <asp:LinkButton ID="lbtnAbonarPago" runat="server" CommandName="Select" class="btn btn-xs btn-info" OnClick="lbtnAbonarPago_Click"><i class="fa fa-plus"></i></asp:LinkButton>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="REMOVER   ">
+                                                                    <ItemTemplate>
+                                                                        <asp:LinkButton ID="lbtnRemoverPago" runat="server" CommandName="Select" class="btn btn-xs btn-warning" OnClick="lbtnRemoverPago_Click"><i class="fa fa-minus"></i></asp:LinkButton>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:TemplateField HeaderText="Abono" ItemStyle-HorizontalAlign="Right" >
+                                                                    <ItemTemplate>
+                                                                        <asp:Label ID="lblAbonoGrid" runat="server" Text="0.00"></asp:Label>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:TemplateField HeaderText="Saldo" ItemStyle-HorizontalAlign="Right" >
+                                                                    <ItemTemplate>
+                                                                        <asp:Label ID="lblSaldoGrid" runat="server" Text="0.00"></asp:Label>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
                                                             </Columns>
                                                         </asp:GridView>
                                                     </div>
@@ -464,13 +491,13 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <div class="col-sm-6">
+                                                <%--<div class="col-sm-6">
                                                     <span class="pull-left">
                                                         <asp:Label ID="lblSumaCobrar" runat="server" Text="Total a Cobrar: 0.00 $" class="badge bg-light-blue"></asp:Label>
                                                     </span>
-                                                </div>
+                                                </div>--%>
                                                 <div class="col-sm-6">
-                                                    <span class="pull-right">
+                                                    <span class="pull-left">
                                                         <asp:Label ID="lblSumaRecuperado" runat="server" Text="Total Recuperado: 0.00 $" class="badge bg-light-blue"></asp:Label>
                                                     </span>
                                                 </div>
@@ -527,8 +554,8 @@
                                             <div class="form-group">
                                                 <b><asp:Label ID="Label3" runat="server" Text="ADMINISTRACIÓN"></asp:Label></b>
                                                 <div class="input-group col-sm-12">
-                                                    <asp:TextBox ID="txtPagoModal" runat="server" class="form-control" Text="0.00" Onkeypress="return ValidaDecimal(this.value);" BackColor="White"></asp:TextBox>
-                                                    <span class="input-group-addon input-sm"><asp:LinkButton ID="btnAbonarAdministracion" runat="server" Text="" OnClick="btnAbonarAdministracion_Click" tooltip="Clic aquí para abonar el pago de administración."><i class="fa fa-dollar"></i></asp:LinkButton></span>
+                                                    <asp:TextBox ID="txtPagoModal" runat="server" class="form-control" ReadOnly="true" Text="0.00" Onkeypress="return ValidaDecimal(this.value);" BackColor="White"></asp:TextBox>
+                                                    <%--<span class="input-group-addon input-sm"><asp:LinkButton ID="btnAbonarAdministracion" runat="server" Text="" OnClick="btnAbonarAdministracion_Click" tooltip="Clic aquí para abonar el pago de administración."><i class="fa fa-dollar"></i></asp:LinkButton></span>--%>
                                                 </div>
                                             </div>
                                         </div>
@@ -538,7 +565,7 @@
                                                 <b><asp:Label ID="Label9" runat="server" Text="INGRESO"></asp:Label></b>
                                                 <div class="input-group col-sm-12">
                                                     <asp:TextBox ID="txtEfectivoModal" runat="server" class="form-control" Text="0.00" Onkeypress="return ValidaDecimal(this.value);"></asp:TextBox>
-                                                    <span class="input-group-addon input-sm"><asp:LinkButton ID="btnIngresarFaltante" runat="server" Text="" OnClick="btnIngresarFaltante_Click" tooltip="Clic aquí para ingresar el efectivo faltante y cobrar los pagos"><i class="fa fa-dollar"></i></asp:LinkButton></span>
+                                                    <%--<span class="input-group-addon input-sm"><asp:LinkButton ID="btnIngresarFaltante" runat="server" Text="" OnClick="btnIngresarFaltante_Click" tooltip="Clic aquí para ingresar el efectivo faltante y cobrar los pagos"><i class="fa fa-dollar"></i></asp:LinkButton></span>--%>
                                                 </div>
                                             </div>
                                         </div>
@@ -608,7 +635,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <div class="col-sm-8">
-                                                <asp:Button ID="btnRecalcular" runat="server" Text="Recalcular" class="btn btn-warning" OnClick="btnRecalcular_Click" />
+                                                <asp:Button ID="btnRecalcular" runat="server" Text="Recalcular" class="btn btn-warning" OnClick="btnRecalcular_Click" Visible="false" />
                                                 <asp:Button ID="btnCierreViajeModal" runat="server" Text="Procesar Cierre" class="btn btn-success" OnClick="btnCierreViajeModal_Click" />
                                                 <%--<asp:Button ID="btnCierreViajeModal" onclick="Aceptar(); return false;" runat="server" Text="Procesar Cierre" class="btn btn-success" />--%>
                                                 <asp:Button ID="btnCancelarModal" runat="server" Text="Cancelar" class="btn btn-danger" UseSubmitBehavior="false" OnClick="btnCancelarModal_Click" />

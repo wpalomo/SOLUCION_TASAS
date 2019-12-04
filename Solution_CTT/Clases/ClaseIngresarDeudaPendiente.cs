@@ -655,7 +655,8 @@ namespace Solution_CTT.Clases
                 sSql += "valor, cg_estado_dcto, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += iIdEventoCobro + ", " + iIdPedido + ", " + parametros.CgTipoDocumento + "," + Environment.NewLine;
-                sSql += "'" + sFecha + "', " + Convert.ToInt32(HttpContext.Current.Application["cgMoneda"].ToString()) + ", " + dbIngreso + "," + Environment.NewLine;
+                sSql += "'" + sFecha + "', " + Convert.ToInt32(HttpContext.Current.Application["cgMoneda"].ToString()) + ", " + Environment.NewLine;
+                sSql += Convert.ToDecimal(HttpContext.Current.Session["pago_administracion"].ToString()) + "," + Environment.NewLine;
                 sSql += iCgEstadoDctoPorCobrar + ", 'A', GETDATE(), '" + sDatosMaximo[0] + "'," + Environment.NewLine;
                 sSql += "'" + sDatosMaximo[1] + "')";
 

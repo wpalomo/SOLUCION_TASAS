@@ -45,28 +45,6 @@ namespace Solution_CTT.Clases
             {
                 this.iIdProgramacion = iIdProgramacion_P;
 
-                //sSql = "";
-                //sSql += "select ltrim(isnull(TP.nombres, '') + ' ' + TP.apellidos) conductor," + Environment.NewLine;
-                //sSql += "P.fecha_viaje, P.numero_viaje, H.hora_salida," + Environment.NewLine;
-                //sSql += "D.descripcion + ' - ' + V.placa disco_placa, TS.descripcion tipo_viaje" + Environment.NewLine;
-                //sSql += "from ctt_programacion P INNER JOIN" + Environment.NewLine;
-                //sSql += "ctt_vehiculo V ON V.id_ctt_vehiculo = P.id_ctt_vehiculo" + Environment.NewLine;
-                //sSql += "and V.estado = 'A'" + Environment.NewLine;
-                //sSql += "and P.estado = 'A' INNER JOIN" + Environment.NewLine;
-                //sSql += "ctt_vehiculo_propietario VP ON V.id_ctt_vehiculo = VP.id_ctt_vehiculo" + Environment.NewLine;
-                //sSql += "and VP.estado = 'A' LEFT OUTER JOIN" + Environment.NewLine;
-                //sSql += "tp_personas TP ON TP.id_persona = VP.id_persona" + Environment.NewLine;
-                //sSql += "and TP.estado = 'A' INNER JOIN" + Environment.NewLine;
-                //sSql += "ctt_itinerario I ON I.id_ctt_itinerario = P.id_ctt_itinerario" + Environment.NewLine;
-                //sSql += "and I.estado = 'A' INNER JOIN" + Environment.NewLine;
-                //sSql += "ctt_horarios H ON H.id_ctt_horario = I.id_ctt_horario" + Environment.NewLine;
-                //sSql += "and H.estado = 'A' INNER JOIN" + Environment.NewLine;
-                //sSql += "ctt_disco D ON D.id_ctt_disco = V.id_ctt_disco" + Environment.NewLine;
-                //sSql += "and D.estado = 'A' INNER JOIN" + Environment.NewLine;
-                //sSql += "ctt_tipo_servicio TS ON TS.id_ctt_tipo_servicio = P.id_ctt_tipo_servicio" + Environment.NewLine;
-                //sSql += "and TS.estado = 'A'" + Environment.NewLine;
-                //sSql += "where P.id_ctt_programacion = " + iIdProgramacion_P;
-
                 sSql = "";
                 sSql += "select CH.descripcion conductor, P.fecha_viaje, P.numero_viaje," + Environment.NewLine;
                 sSql += "case when P.hora_reemplazo_extra is null then H.hora_salida else P.hora_reemplazo_extra end hora_salida," + Environment.NewLine;
