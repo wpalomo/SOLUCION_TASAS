@@ -5274,6 +5274,7 @@ namespace Solution_CTT
         {
             dgvDetalle.Columns[1].Visible = ok;
             dgvDetalle.Columns[8].Visible = ok;
+            //dgvDetalle.Columns[14].Visible = ok;
             dgvDetalle.Columns[9].ItemStyle.Width = 100;
         }
 
@@ -6133,10 +6134,13 @@ namespace Solution_CTT
         {
             try
             {
+                Session["filaGrid_V"] = "-1";
                 pnlBus.Visible = false;
                 pnlAsientos.Visible = false;
                 pnlCierreViaje.Visible = true;
                 lblEtiquetaCierre.Text = Session["etiqueta_viaje"].ToString();
+                txtEfectivoModal.Text = "0.00";
+                txtPagosPendientesModal.Text = "0.00";
 
                 if ((Session["ejecuta_cobro_administrativo"] == null) || (Session["ejecuta_cobro_administrativo"].ToString() == "0"))
                 {
@@ -6736,63 +6740,51 @@ namespace Solution_CTT
 
         protected void btnIngresarFaltante_Click(object sender, EventArgs e)
         {
-            //double dbTotal_1_P;
-            //double dbAdmin_P;
-            //double dbPendientes_P;
-            //double dbAgregar_P;
-
-            //if (Convert.ToInt32(Session["extra"].ToString()) == 0)
-            //{
-            //    if (Convert.ToDouble(txtFaltanteModal.Text.Trim()) == 0)
-            //    {
-            //        txtEfectivoModal.Text = "0.00";
-            //    }
-
-            //    else
-            //    {
-            //        dbTotal_1_P = Convert.ToDouble(txtPrimerTotalModal.Text.Trim());
-            //        dbAdmin_P = Convert.ToDouble(Session["pago_administracion"].ToString());
-            //        dbPendientes_P = Convert.ToDouble(txtPagosPendientesModal.Text.Trim());
-            //        dbAgregar_P = dbAdmin_P - dbTotal_1_P + dbPendientes_P;
-
-            //        txtEfectivoModal.Text = dbAgregar_P.ToString("N2");
-            //    }
-
-            //    recalcularValoresNormales();
-            //}
-
-            //else
-            //{
-            //    txtEfectivoModal.Text = "0.00";
-            //    recalcularValoresExtras();
-            //}
-
-            if (Convert.ToDecimal(txtFaltanteModal.Text.Trim()) == 0)
+            try
             {
-                return;
+                int a = Convert.ToInt32(Session["filaGrid_V"].ToString());
+
+                if (a < 0)
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'No ha ingresado valores a un registro de pagos. Favor abone un registro.', 'warning');", true);
+                    return;
+                }
+
+                txtEfectivoModal.Text = txtFaltanteModal.Text.Trim();
+                Label lblSaldo_G = dgvDetalle.Rows[a].Cells[13].FindControl("lblSaldoGrid") as Label;
+                Label lblAbono_G = dgvDetalle.Rows[a].Cells[12].FindControl("lblAbonoGrid") as Label;
+                Label lblIngresoEfectivo_G = dgvDetalle.Rows[a].Cells[12].FindControl("lblIngresoEfectivoFaltante") as Label;
+
+                Decimal dbValorAbonado = Convert.ToDecimal(lblAbono_G.Text.Trim());
+                Decimal dbValorFaltante = Convert.ToDecimal(lblSaldo_G.Text.Trim());
+                Decimal dbValorDebido = Convert.ToDecimal(dgvDetalle.Rows[a].Cells[7].Text);
+
+                if (dbValorFaltante == 0)
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'El saldo del último registro abonado ya se encuentra en cero.', 'warning');", true);
+                    return;
+                }
+
+                Decimal dbValoresPendientes = Convert.ToDecimal(txtPagosPendientesModal.Text.Trim());
+                Decimal dbValorIngresado = Convert.ToDecimal(txtEfectivoModal.Text.Trim());
+                lblIngresoEfectivo_G.Text = dbValorIngresado.ToString("N2");
+                Decimal dbSumaValor_R = dbValorIngresado + dbValorAbonado;
+                Decimal dbSaldo_R = dbValorDebido - dbSumaValor_R;
+                dbValoresPendientes += dbValorIngresado;
+
+                lblAbono_G.Text = dbSumaValor_R.ToString("N2");
+                lblSaldo_G.Text = dbSaldo_R.ToString("N2");
+                txtPagosPendientesModal.Text = dbValoresPendientes.ToString("N2");
+
+                recalcularValores_V2();
             }
 
-            Decimal dbPrimerTotal_P;
-            Decimal dbPagoAdministracion_P;
-            Decimal dbIngresoEfectivo_P;
-            Decimal dbSegundoTotal_P;
-            Decimal dbFaltante_P;
-            Decimal dbPagosPendientes_P;
-            Decimal dbTotalNeto_P;            
-
-            txtEfectivoModal.Text = txtFaltanteModal.Text.Trim();
-            txtFaltanteModal.Text = "0.00";
-
-            dbPrimerTotal_P = Convert.ToDecimal(txtPrimerTotalModal.Text.Trim());
-            dbPagoAdministracion_P = Convert.ToDecimal(txtPagoModal.Text.Trim());
-            dbIngresoEfectivo_P = Convert.ToDecimal(txtEfectivoModal.Text.Trim());
-            dbSegundoTotal_P = dbPrimerTotal_P - dbPagoAdministracion_P + dbIngresoEfectivo_P;
-            txtSegundoTotalModal.Text = dbSegundoTotal_P.ToString("N2");
-            dbSegundoTotal_P = Convert.ToDecimal(txtSegundoTotalModal.Text.Trim());
-            dbFaltante_P = Convert.ToDecimal(txtFaltanteModal.Text.Trim());
-            dbPagosPendientes_P = Convert.ToDecimal(txtPagosPendientesModal.Text.Trim());
-            dbTotalNeto_P = dbSegundoTotal_P - dbPagosPendientes_P;
-            txtTotalNetoModal.Text = dbTotalNeto_P.ToString("N2");
+            catch (Exception ex)
+            {
+                cerrarModal();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
         }
 
         protected void dgvDatosExtras_PageIndexChanging(object sender, GridViewPageEventArgs e)
@@ -7574,6 +7566,7 @@ namespace Solution_CTT
             {
                 string sTextoEncabezado;
                 int a = dgvDetalle.SelectedIndex;
+                Session["filaGrid_V"] = a;
                 columnasGridPendiente(true);
 
                 if (sAccionPagos == "Abonar")
@@ -7660,6 +7653,17 @@ namespace Solution_CTT
 
                             chkSeleccionarFila.Checked = true;
                             recalcularValores_V2();
+
+                            Decimal dbSumarFaltantes = 0;
+
+                            foreach (GridViewRow row in dgvDetalle.Rows)
+                            {
+                                Label lblSaldo_A = row.FindControl("lblSaldoGrid") as Label;
+
+                                dbSumarFaltantes += Convert.ToDecimal(lblSaldo_A.Text.Trim());
+                            }
+
+                            txtFaltanteModal.Text = dbSumarFaltantes.ToString("N2");
                         }
                     }
                 }
