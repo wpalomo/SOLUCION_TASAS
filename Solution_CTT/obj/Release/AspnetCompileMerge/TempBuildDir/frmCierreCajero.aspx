@@ -81,65 +81,63 @@
                                     <PagerStyle HorizontalAlign="Center" CssClass="pagination-ys" />
                                 </asp:GridView>
                             </div>
-                            <%--<div class="box-footer">
-                                <span class="pull-right">
-                                    <asp:Label ID="lblSumaAdministrativo" runat="server" Text="Total Cobrado Administrativo: 0.00 $" class="badge bg-light-blue"></asp:Label>
-                                </span>
-                            </div>--%>
 
-                            <%--PAGOS CUMPLIDOS--%>
-                            <div class="box-header with-border">
-                                <i class="fa fa-table"></i>
+                            <asp:Panel ID="pnlVerCobros" runat="server">
 
-                                <h3 class="box-title">Pagos Actuales</h3>
+                                <%--PAGOS CUMPLIDOS--%>
+                                <div class="box-header with-border">
+                                    <i class="fa fa-table"></i>
 
-                                <div class="box-tools pull-right">                                    
+                                    <h3 class="box-title">Pagos Actuales</h3>
+
+                                    <div class="box-tools pull-right">                                    
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="box-body">
-                                <asp:GridView ID="dgvPagosCumplidos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnRowDataBound="dgvPagosCumplidos_RowDataBound">
-                                    <Columns>
-                                        <asp:BoundField DataField="INUMERO" HeaderText="No." />
-                                        <asp:BoundField DataField="IFECHA" HeaderText="FECHA DE VIAJE" />
-                                        <asp:BoundField DataField="IHORA" HeaderText="HORA DE VIAJE" />
-                                        <asp:BoundField DataField="IVEHICULO" HeaderText="VEHÍCULO" />
-                                        <asp:BoundField DataField="IVALOR" HeaderText="VALOR RECAUDADO" />
-                                    </Columns>
-                                    <PagerStyle HorizontalAlign="Center" CssClass="pagination-ys" />
-                                </asp:GridView>
-                            </div>
-                            <div class="box-footer">
-                                <span class="pull-right">
-                                    <asp:Label ID="lblPagosAdministrativosCumplidos" runat="server" Text="Total Pagos Administrativos Cumplidos: 0.00 $" class="badge bg-light-blue"></asp:Label>
-                                </span>
-                            </div>
-
-                            <%--PAGOS ATRASADOS PAGADOS--%>
-                            <div class="box-header with-border">
-                                <i class="fa fa-table"></i>
-
-                                <h3 class="box-title">Abonos Parciales - Pagos Pendientes</h3>
-
-                                <div class="box-tools pull-right">                                    
+                                <div class="box-body">
+                                    <asp:GridView ID="dgvPagosCumplidos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnRowDataBound="dgvPagosCumplidos_RowDataBound">
+                                        <Columns>
+                                            <asp:BoundField DataField="INUMERO" HeaderText="No." />
+                                            <asp:BoundField DataField="IFECHA" HeaderText="FECHA DE VIAJE" />
+                                            <asp:BoundField DataField="IHORA" HeaderText="HORA DE VIAJE" />
+                                            <asp:BoundField DataField="IVEHICULO" HeaderText="VEHÍCULO" />
+                                            <asp:BoundField DataField="IVALOR" HeaderText="VALOR RECAUDADO" />
+                                        </Columns>
+                                        <PagerStyle HorizontalAlign="Center" CssClass="pagination-ys" />
+                                    </asp:GridView>
                                 </div>
-                            </div>
-                            <div class="box-body">
-                                <asp:GridView ID="dgvPagosAtrasados" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnRowDataBound="dgvPagosAtrasados_RowDataBound">
-                                    <Columns>
-                                        <asp:BoundField DataField="INUMERO" HeaderText="No." />
-                                        <asp:BoundField DataField="IFECHA" HeaderText="FECHA DE VIAJE" />
-                                        <asp:BoundField DataField="IHORA" HeaderText="HORA DE VIAJE" />
-                                        <asp:BoundField DataField="IVEHICULO" HeaderText="VEHÍCULO" />
-                                        <asp:BoundField DataField="IVALOR" HeaderText="VALOR RECAUDADO" />
-                                    </Columns>
-                                    <PagerStyle HorizontalAlign="Center" CssClass="pagination-ys" />
-                                </asp:GridView>
-                            </div>
-                            <div class="box-footer">
-                                <span class="pull-right">
-                                    <asp:Label ID="lblPagosAdministrativos" runat="server" Text="Total Pagos Administrativos: 0.00 $" class="badge bg-light-blue"></asp:Label>
-                                </span>
-                            </div>
+                                <div class="box-footer">
+                                    <span class="pull-right">
+                                        <asp:Label ID="lblPagosAdministrativosCumplidos" runat="server" Text="Total Pagos Administrativos Cumplidos: 0.00 $" class="badge bg-light-blue"></asp:Label>
+                                    </span>
+                                </div>
+
+                                <%--PAGOS ATRASADOS PAGADOS--%>
+                                <div class="box-header with-border">
+                                    <i class="fa fa-table"></i>
+
+                                    <h3 class="box-title">Abonos Parciales - Pagos Pendientes</h3>
+
+                                    <div class="box-tools pull-right">                                    
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <asp:GridView ID="dgvPagosAtrasados" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnRowDataBound="dgvPagosAtrasados_RowDataBound">
+                                        <Columns>
+                                            <asp:BoundField DataField="INUMERO" HeaderText="No." />
+                                            <asp:BoundField DataField="IFECHA" HeaderText="FECHA DE VIAJE" />
+                                            <asp:BoundField DataField="IHORA" HeaderText="HORA DE VIAJE" />
+                                            <asp:BoundField DataField="IVEHICULO" HeaderText="VEHÍCULO" />
+                                            <asp:BoundField DataField="IVALOR" HeaderText="VALOR RECAUDADO" />
+                                        </Columns>
+                                        <PagerStyle HorizontalAlign="Center" CssClass="pagination-ys" />
+                                    </asp:GridView>
+                                </div>
+                                <div class="box-footer">
+                                    <span class="pull-right">
+                                        <asp:Label ID="lblPagosAdministrativos" runat="server" Text="Total Pagos Administrativos: 0.00 $" class="badge bg-light-blue"></asp:Label>
+                                    </span>
+                                </div>
+                            </asp:Panel>
 
                             <%--VIAJES ACTIVOS CREADOS--%>
                             <div class="box-header with-border">

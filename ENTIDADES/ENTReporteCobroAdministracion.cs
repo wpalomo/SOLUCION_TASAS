@@ -71,5 +71,13 @@ namespace ENTIDADES
             get { return iSQL; }
             set { iSQL = value; }
         }
+
+        private string iUSUARIO;
+
+        public string IUSUARIO
+        {
+            get { return iUSUARIO; }
+            set { iUSUARIO = value; }
+        }
     }
 }

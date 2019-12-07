@@ -78,6 +78,16 @@ namespace Solution_CTT
                 llenarGridPagosCumplidos();
                 llenarGridPagosAtrasadosPagados();
                 llenarViajesActivos();
+
+                if (Session["ejecuta_cobro_administrativo"].ToString() == "1")
+                {
+                    pnlVerCobros.Visible = true;
+                }
+
+                else
+                {
+                    pnlVerCobros.Visible = false;
+                }
             }
         }
 

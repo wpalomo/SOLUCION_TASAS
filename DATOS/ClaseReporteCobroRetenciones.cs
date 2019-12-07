@@ -41,7 +41,8 @@ namespace DATOS
                             IFECHA = Convert.ToDateTime(dtConsulta.Rows[i][5].ToString()).ToString("dd/MM/yyyy"),
                             IHORA = Convert.ToDateTime(dtConsulta.Rows[i][6].ToString()).ToString("HH:mm"),
                             IJORNADA = dtConsulta.Rows[i][7].ToString(),
-                            IVALOR = (Convert.ToDouble(dtConsulta.Rows[i][9].ToString()) * (Convert.ToDouble(dtConsulta.Rows[i][10].ToString()) - Convert.ToDouble(dtConsulta.Rows[i][11].ToString()) + Convert.ToDouble(dtConsulta.Rows[i][12].ToString()))).ToString("N2")
+                            IVALOR = (Convert.ToDouble(dtConsulta.Rows[i][9].ToString()) * (Convert.ToDouble(dtConsulta.Rows[i][10].ToString()) - Convert.ToDouble(dtConsulta.Rows[i][11].ToString()) + Convert.ToDouble(dtConsulta.Rows[i][12].ToString()))).ToString("N2"),
+                            IUSUARIO = dtConsulta.Rows[i]["oficinista"].ToString().ToUpper()
                         };
                         coleccion.Add(todos);
                     }

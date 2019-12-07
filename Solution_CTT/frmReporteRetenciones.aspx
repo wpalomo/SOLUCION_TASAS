@@ -33,9 +33,13 @@
                                             <asp:Label ID="Label3" runat="server" Text="Transporte"></asp:Label>
                                             <asp:DropDownList ID="cmbVehiculos" runat="server" class="form-control"></asp:DropDownList>
                                         </div>                                     
-                                        <div class="col-md-3">
+                                        <%--<div class="col-md-3">
                                             <asp:Label ID="Label4" runat="server" Text="Jornada"></asp:Label>
                                             <asp:DropDownList ID="cmbJornada" runat="server" class="form-control"></asp:DropDownList>
+                                        </div>   --%>
+                                        <div class="col-md-3">
+                                            <asp:Label ID="Label4" runat="server" Text="Oficinista"></asp:Label>
+                                            <asp:DropDownList ID="cmbOficinista" runat="server" class="form-control"></asp:DropDownList>
                                         </div>                                     
                                     </div>
                                 </div>
@@ -52,12 +56,13 @@
                          <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" AllowPaging="True" OnPageIndexChanging="dgvDatos_PageIndexChanging" PageSize="10" OnRowDataBound="dgvDatos_RowDataBound">
                             <Columns>
                                 <asp:BoundField DataField="INUMERO" HeaderText="No." ItemStyle-HorizontalAlign="Center" />
-                                <asp:BoundField DataField="IDESCRIPCION" HeaderText="DESCRIPCIÓN" />
+                                <asp:BoundField DataField="IDESCRIPCION" HeaderText="DESCRIPCIÓN DEL COBRO" />
                                 <asp:BoundField DataField="IVEHICULO" HeaderText="VEHÍCULO" ItemStyle-HorizontalAlign="Center" />
                                 <asp:BoundField DataField="IFECHA" HeaderText="FECHA DE VIAJE" ItemStyle-HorizontalAlign="Center" />
                                 <asp:BoundField DataField="IHORA" HeaderText="HORA DE VIAJE" ItemStyle-HorizontalAlign="Center" />
-                                <asp:BoundField DataField="IJORNADA" HeaderText="JORNADA" ItemStyle-HorizontalAlign="Center" />
+                                <asp:BoundField DataField="IUSUARIO" HeaderText="USUARIO RESPONSABLE" ItemStyle-HorizontalAlign="Center" />
                                 <asp:BoundField DataField="IVALOR" HeaderText="VALOR COBRADO" ItemStyle-HorizontalAlign="Right" />
+                                <asp:BoundField DataField="IJORNADA" HeaderText="JORNADA" ItemStyle-HorizontalAlign="Center" />
                             </Columns>
                             <PagerStyle HorizontalAlign="Center" CssClass="pagination-ys" />
                         </asp:GridView>

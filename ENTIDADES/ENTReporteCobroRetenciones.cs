@@ -71,5 +71,13 @@ namespace ENTIDADES
             get { return iVEHICULO; }
             set { iVEHICULO = value; }
         }
+
+        private string iUSUARIO;
+
+        public string IUSUARIO
+        {
+            get { return iUSUARIO; }
+            set { iUSUARIO = value; }
+        }
     }
 }

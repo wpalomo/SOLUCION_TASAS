@@ -140,23 +140,49 @@ namespace Solution_CTT
             }
         }
 
+        ////FUNCION PARA LLENAR EL COMBOBOX DE JORNADAS
+        //private void llenarComboJornadas()
+        //{
+        //    try
+        //    {
+        //        sSql = "";
+        //        sSql += "select id_ctt_jornada, descripcion" + Environment.NewLine;
+        //        sSql += "from ctt_jornada" + Environment.NewLine;
+        //        sSql += "where estado = 'A'" + Environment.NewLine;
+        //        sSql += "order by id_ctt_jornada";
+               
+        //        comboE.ISSQL = sSql;
+        //        cmbJornada.DataSource = comboM.listarCombo(comboE);
+        //        cmbJornada.DataValueField = "IID";
+        //        cmbJornada.DataTextField = "IDATO";
+        //        cmbJornada.DataBind();
+        //        cmbJornada.Items.Insert(0, new ListItem("Todos", "0"));
+        //    }
+
+        //    catch (Exception ex)
+        //    {
+        //        lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+        //    }
+        //}
+
         //FUNCION PARA LLENAR EL COMBOBOX DE JORNADAS
-        private void llenarComboJornadas()
+        private void llenarComboOficinistas()
         {
             try
             {
                 sSql = "";
-                sSql += "select id_ctt_jornada, descripcion" + Environment.NewLine;
-                sSql += "from ctt_jornada" + Environment.NewLine;
+                sSql += "select id_ctt_oficinista, descripcion" + Environment.NewLine;
+                sSql += "from ctt_oficinista" + Environment.NewLine;
                 sSql += "where estado = 'A'" + Environment.NewLine;
-                sSql += "order by id_ctt_jornada";
-               
+                sSql += "order by descripcion";
+
                 comboE.ISSQL = sSql;
-                cmbJornada.DataSource = comboM.listarCombo(comboE);
-                cmbJornada.DataValueField = "IID";
-                cmbJornada.DataTextField = "IDATO";
-                cmbJornada.DataBind();
-                cmbJornada.Items.Insert(0, new ListItem("Todos", "0"));
+                cmbOficinista.DataSource = comboM.listarCombo(comboE);
+                cmbOficinista.DataValueField = "IID";
+                cmbOficinista.DataTextField = "IDATO";
+                cmbOficinista.DataBind();
+                cmbOficinista.Items.Insert(0, new ListItem("Todos", "0"));
             }
 
             catch (Exception ex)
@@ -167,7 +193,7 @@ namespace Solution_CTT
         }
 
         //FUNCION PARA LLENAR EL GRIDVIEW
-        private void llenarGrid(int iOp)
+        private void llenarGrid()
         {
             try
             {
@@ -183,25 +209,32 @@ namespace Solution_CTT
                 sSql += "and '" + sFechaFinal + "'" + Environment.NewLine;
                 sSql += "and id_ctt_pueblo_origen = " + Session["id_pueblo"].ToString() + Environment.NewLine;
 
-                if (iOp == 1)
+                if (Convert.ToInt32(cmbVehiculos.SelectedValue) != 0)
                 {
                     sSql += "and id_ctt_vehiculo = " + Convert.ToInt32(cmbVehiculos.SelectedValue) + Environment.NewLine;
                 }
 
-                else if (iOp == 2)
+                if (Convert.ToInt32(cmbOficinista.SelectedValue) != 0)
                 {
-                    sSql += "and id_ctt_jornada = " + Convert.ToInt32(cmbJornada.SelectedValue) + Environment.NewLine;
+                    sSql += "and id_ctt_oficinista = " + Convert.ToInt32(cmbOficinista.SelectedValue) + Environment.NewLine;
                 }
 
-                else if (iOp == 3)
-                {
-                    sSql += "and id_ctt_vehiculo = " + Convert.ToInt32(cmbVehiculos.SelectedValue) + Environment.NewLine;
-                    sSql += "and id_ctt_jornada = " + Convert.ToInt32(cmbJornada.SelectedValue) + Environment.NewLine;
-                }
+                //else if (iOp == 2)
+                //{
+                //    sSql += "and id_ctt_jornada = " + Convert.ToInt32(cmbJornada.SelectedValue) + Environment.NewLine;
+                //}
+
+                //else if (iOp == 3)
+                //{
+                //    sSql += "and id_ctt_vehiculo = " + Convert.ToInt32(cmbVehiculos.SelectedValue) + Environment.NewLine;
+                //    sSql += "and id_ctt_jornada = " + Convert.ToInt32(cmbJornada.SelectedValue) + Environment.NewLine;
+                //}
 
                 sSql += "order by fecha_viaje, hora_salida";
 
                 Session["instruccion"] = sSql;
+
+                dgvDatos.Columns[7].Visible = true;
 
                 retencionesE.ISQL = sSql;
                 dgvDatos.DataSource = retencionesM.listarRetenciones(retencionesE);
@@ -227,6 +260,7 @@ namespace Solution_CTT
 
                     btnImprimir.Visible = true;
                 }
+                dgvDatos.Columns[7].Visible = false;
             }
 
             catch (Exception ex)
@@ -290,7 +324,7 @@ namespace Solution_CTT
             txtFechaHasta.Text = DateTime.Now.ToString("dd/MM/yyyy");
             lblSuma.Text = "Total Cobrado: 0.00 $";
             llenarComboVehiculos();
-            llenarComboJornadas();
+            llenarComboOficinistas();
 
             dtConsulta = new DataTable();
             dtConsulta.Clear();
@@ -336,25 +370,27 @@ namespace Solution_CTT
 
             else
             {
-                if ((Convert.ToInt32(cmbVehiculos.SelectedValue) == 0) && (Convert.ToInt32(cmbJornada.SelectedValue) == 0))
-                {
-                    llenarGrid(0);
-                }
+                llenarGrid();
 
-                else if ((Convert.ToInt32(cmbVehiculos.SelectedValue) != 0) && (Convert.ToInt32(cmbJornada.SelectedValue) == 0))
-                {
-                    llenarGrid(1);
-                }
+            //    if ((Convert.ToInt32(cmbVehiculos.SelectedValue) == 0) && (Convert.ToInt32(cmbJornada.SelectedValue) == 0))
+            //    {
+            //        llenarGrid(0);
+            //    }
 
-                else if ((Convert.ToInt32(cmbVehiculos.SelectedValue) == 0) && (Convert.ToInt32(cmbJornada.SelectedValue) != 0))
-                {
-                    llenarGrid(2);
-                }
+            //    else if ((Convert.ToInt32(cmbVehiculos.SelectedValue) != 0) && (Convert.ToInt32(cmbJornada.SelectedValue) == 0))
+            //    {
+            //        llenarGrid(1);
+            //    }
 
-                else if ((Convert.ToInt32(cmbVehiculos.SelectedValue) != 0) && (Convert.ToInt32(cmbJornada.SelectedValue) != 0))
-                {
-                    llenarGrid(3);
-                }
+            //    else if ((Convert.ToInt32(cmbVehiculos.SelectedValue) == 0) && (Convert.ToInt32(cmbJornada.SelectedValue) != 0))
+            //    {
+            //        llenarGrid(2);
+            //    }
+
+            //    else if ((Convert.ToInt32(cmbVehiculos.SelectedValue) != 0) && (Convert.ToInt32(cmbJornada.SelectedValue) != 0))
+            //    {
+            //        llenarGrid(3);
+            //    }
             }
         }
 
@@ -363,26 +399,26 @@ namespace Solution_CTT
             try
             {
                 dgvDatos.PageIndex = e.NewPageIndex;
+                llenarGrid();
+                //if ((Convert.ToInt32(cmbVehiculos.SelectedValue) == 0) && (Convert.ToInt32(cmbJornada.SelectedValue) == 0))
+                //{
+                //    llenarGrid(0);
+                //}
 
-                if ((Convert.ToInt32(cmbVehiculos.SelectedValue) == 0) && (Convert.ToInt32(cmbJornada.SelectedValue) == 0))
-                {
-                    llenarGrid(0);
-                }
+                //else if ((Convert.ToInt32(cmbVehiculos.SelectedValue) != 0) && (Convert.ToInt32(cmbJornada.SelectedValue) == 0))
+                //{
+                //    llenarGrid(1);
+                //}
 
-                else if ((Convert.ToInt32(cmbVehiculos.SelectedValue) != 0) && (Convert.ToInt32(cmbJornada.SelectedValue) == 0))
-                {
-                    llenarGrid(1);
-                }
+                //else if ((Convert.ToInt32(cmbVehiculos.SelectedValue) == 0) && (Convert.ToInt32(cmbJornada.SelectedValue) != 0))
+                //{
+                //    llenarGrid(2);
+                //}
 
-                else if ((Convert.ToInt32(cmbVehiculos.SelectedValue) == 0) && (Convert.ToInt32(cmbJornada.SelectedValue) != 0))
-                {
-                    llenarGrid(2);
-                }
-
-                else if ((Convert.ToInt32(cmbVehiculos.SelectedValue) != 0) && (Convert.ToInt32(cmbJornada.SelectedValue) != 0))
-                {
-                    llenarGrid(3);
-                }
+                //else if ((Convert.ToInt32(cmbVehiculos.SelectedValue) != 0) && (Convert.ToInt32(cmbJornada.SelectedValue) != 0))
+                //{
+                //    llenarGrid(3);
+                //}
             }
 
             catch (Exception ex)

@@ -411,8 +411,10 @@ namespace Solution_CTT
             try
             {
                 sSql = "";
-                sSql += "select isnull(max(codigo), 0) codigo" + Environment.NewLine;
-                sSql += "from ctt_programacion";
+                //sSql += "select isnull(max(codigo), 0) codigo" + Environment.NewLine;
+                sSql += "select top 1 isnull(codigo, 0) codigo" + Environment.NewLine;
+                sSql += "from ctt_programacion" + Environment.NewLine;
+                sSql += "order by id_ctt_programacion desc";
 
                 dtConsulta = new DataTable();
                 dtConsulta.Clear();

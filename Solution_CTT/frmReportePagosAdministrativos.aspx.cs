@@ -140,8 +140,34 @@ namespace Solution_CTT
             }
         }
 
+        //FUNCION PARA LLENAR EL COMBOBOX DE JORNADAS
+        private void llenarComboOficinistas()
+        {
+            try
+            {
+                sSql = "";
+                sSql += "select id_ctt_oficinista, descripcion" + Environment.NewLine;
+                sSql += "from ctt_oficinista" + Environment.NewLine;
+                sSql += "where estado = 'A'" + Environment.NewLine;
+                sSql += "order by descripcion";
+
+                comboE.ISSQL = sSql;
+                cmbOficinista.DataSource = comboM.listarCombo(comboE);
+                cmbOficinista.DataValueField = "IID";
+                cmbOficinista.DataTextField = "IDATO";
+                cmbOficinista.DataBind();
+                cmbOficinista.Items.Insert(0, new ListItem("Todos", "0"));
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
+
         //FUNCION PARA LLENAR EL GRIDVIEW
-        private void llenarGrid(int iOp)
+        private void llenarGrid()
         {
             try
             {
@@ -156,9 +182,14 @@ namespace Solution_CTT
                 sSql += "where fecha_viaje between '" + sFechaInicial + "'" + Environment.NewLine;
                 sSql += "and '" + sFechaFinal + "'" + Environment.NewLine;
 
-                if (iOp == 1)
+                if (Convert.ToInt32(cmbVehiculos.SelectedValue) != 0)
                 {
                     sSql += "and id_ctt_vehiculo = " + Convert.ToInt32(cmbVehiculos.SelectedValue) + Environment.NewLine;
+                }
+
+                if (Convert.ToInt32(cmbOficinista.SelectedValue) != 0)
+                {
+                    sSql += "and id_ctt_oficinista = " + Convert.ToInt32(cmbOficinista.SelectedValue) + Environment.NewLine;
                 }
                 
                 sSql += "order by fecha_viaje, hora_salida";
@@ -182,7 +213,7 @@ namespace Solution_CTT
 
                     for (int i = 0; i < dgvDatos.Rows.Count; i++)
                     {
-                        dbSuma = dbSuma + Convert.ToDouble(dgvDatos.Rows[i].Cells[6].Text);
+                        dbSuma = dbSuma + Convert.ToDouble(dgvDatos.Rows[i].Cells[7].Text);
                     }
 
                     lblSuma.Text = "Total Cobrado: " + dbSuma.ToString("N2") + " $";
@@ -252,6 +283,7 @@ namespace Solution_CTT
             txtFechaHasta.Text = DateTime.Now.ToString("dd/MM/yyyy");
             lblSuma.Text = "Total Cobrado: 0.00 $";
             llenarComboVehiculos();
+            llenarComboOficinistas();
 
             dtConsulta = new DataTable();
             dtConsulta.Clear();
@@ -297,15 +329,7 @@ namespace Solution_CTT
 
             else
             {
-                if (Convert.ToInt32(cmbVehiculos.SelectedValue) == 0)
-                {
-                    llenarGrid(0);
-                }
-
-                else
-                {
-                    llenarGrid(1);
-                }
+                llenarGrid();
             }
         }
 
@@ -315,15 +339,7 @@ namespace Solution_CTT
             {
                 dgvDatos.PageIndex = e.NewPageIndex;
 
-                if (Convert.ToInt32(cmbVehiculos.SelectedValue) == 0)
-                {
-                    llenarGrid(0);
-                }
-
-                else
-                {
-                    llenarGrid(1);
-                }
+                llenarGrid();
             }
 
             catch (Exception ex)

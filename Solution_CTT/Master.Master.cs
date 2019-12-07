@@ -89,12 +89,14 @@ namespace Solution_CTT
             {
                 ingreso_pago_pendiente.Visible = true;
                 cobrar_pago_pendiente.Visible = true;
+                reporte_pagos_administrativos.Visible = true;
             }
 
             else
             {
                 ingreso_pago_pendiente.Visible = false;
                 cobrar_pago_pendiente.Visible = false;
+                reporte_pagos_administrativos.Visible = false;
             }
 
             sDatosMaximo[0] = Session["usuario"].ToString();

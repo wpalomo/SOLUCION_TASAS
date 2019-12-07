@@ -435,8 +435,10 @@ namespace Solution_CTT
             try
             {
                 sSql = "";
-                sSql += "select isnull(max(codigo), 0) codigo" + Environment.NewLine;
-                sSql += "from ctt_programacion";
+                //sSql += "select isnull(max(codigo), 0) codigo" + Environment.NewLine;
+                sSql += "select top 1 isnull(codigo, 0) codigo" + Environment.NewLine;
+                sSql += "from ctt_programacion" + Environment.NewLine;
+                sSql += "order by id_ctt_programacion desc";
 
                 dtConsulta = new DataTable();
                 dtConsulta.Clear();
@@ -651,16 +653,18 @@ namespace Solution_CTT
         {
             try
             {
-                if (consultarRegistro() > 0)
+                int iConsultarReg = consultarRegistro();
+
+                if (iConsultarReg > 0)
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'Ya existe un registro con el código ingresado.', 'warning');", true);
-                    goto fin;
+                    return;
                 }
 
-                else if (consultarRegistro() == -1)
+                else if (iConsultarReg == -1)
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'Ocurrió un problema al consultar el código para el registro.', 'danger');", true);
-                    goto fin;
+                    return;
                 }
 
                 if (conexionM.iniciarTransaccion() == false)
@@ -679,13 +683,14 @@ namespace Solution_CTT
                 sSql += "insert into ctt_programacion (" + Environment.NewLine;
                 sSql += "id_ctt_chofer, id_ctt_asistente, id_ctt_vehiculo, id_ctt_anden, id_ctt_tipo_servicio," + Environment.NewLine;
                 sSql += "id_ctt_itinerario, codigo, numero_viaje, fecha_viaje, estado_salida, asientos_ocupados," + Environment.NewLine;
-                sSql += "cobrar_administracion, id_ctt_pueblo_origen, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                sSql += "cobrar_administracion, id_ctt_pueblo_origen, estado_envio_encomienda," + Environment.NewLine;
+                sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(Session["id_Chofer"].ToString()) + ", " + Convert.ToInt32(Session["id_Asistente"].ToString()) + ", ";
                 sSql += Convert.ToInt32(Session["id_Vehiculo"].ToString()) + ", " + Convert.ToInt32(cmbAnden.SelectedValue) + ", ";
                 sSql += Convert.ToInt32(Session["id_tipo_viaje"].ToString()) + ", " + Convert.ToInt32(Session["id_Itinerario"].ToString()) + "," + Environment.NewLine;
                 sSql += "'" + txtCodigo.Text.Trim().ToUpper() + "', " + Convert.ToInt32(txtNumeroViaje.Text.Trim().ToUpper()) + ", '" + sFecha + "'," + Environment.NewLine;
-                sSql += "'Abierta', 0, " + iCobrarAdministracion + ", " + Session["id_pueblo"].ToString() + ", 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
+                sSql += "'Abierta', 0, " + iCobrarAdministracion + ", " + Session["id_pueblo"].ToString() + ", 'Abierta', 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                 //EJECUCIÓN DE INSTRUCCION SQL
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)

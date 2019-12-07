@@ -475,6 +475,11 @@
                                                                         <asp:Label ID="lblSaldoGrid" runat="server" Text="0.00"></asp:Label>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
+                                                                <asp:TemplateField HeaderText="Ingreso" ItemStyle-HorizontalAlign="Right" >
+                                                                    <ItemTemplate>
+                                                                        <asp:Label ID="lblIngresoEfectivoFaltante" runat="server" Text="0.00"></asp:Label>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
                                                             </Columns>
                                                         </asp:GridView>
                                                     </div>
@@ -565,7 +570,7 @@
                                                 <b><asp:Label ID="Label9" runat="server" Text="INGRESO"></asp:Label></b>
                                                 <div class="input-group col-sm-12">
                                                     <asp:TextBox ID="txtEfectivoModal" runat="server" class="form-control" Text="0.00" Onkeypress="return ValidaDecimal(this.value);"></asp:TextBox>
-                                                    <%--<span class="input-group-addon input-sm"><asp:LinkButton ID="btnIngresarFaltante" runat="server" Text="" OnClick="btnIngresarFaltante_Click" tooltip="Clic aquí para ingresar el efectivo faltante y cobrar los pagos"><i class="fa fa-dollar"></i></asp:LinkButton></span>--%>
+                                                    <span class="input-group-addon input-sm"><asp:LinkButton ID="btnIngresarFaltante" runat="server" Text="" OnClick="btnIngresarFaltante_Click" tooltip="Clic aquí para ingresar el efectivo faltante y cobrar los pagos"><i class="fa fa-dollar"></i></asp:LinkButton></span>
                                                 </div>
                                             </div>
                                         </div>

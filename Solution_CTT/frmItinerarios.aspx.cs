@@ -196,15 +196,25 @@ namespace Solution_CTT
         {
             try
             {
-                if (consultarRegistro() > 0)
+                int iConsultarReg = consultarRegistro();
+
+                if (iConsultarReg > 0)
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Advertencia.!', 'Ya existe un registro con el codigo ingresado.', 'warning');", true);
                     return;
                 }
 
-                else if (consultarRegistro() == -1)
+                else if (iConsultarReg == -1)
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'Ocurrió un problema al consultar el código para el registro.', 'danger');", true);
+                    return;
+                }
+
+                int iIdTipoServicio = identificadorServicio();
+
+                if (iIdTipoServicio == -1)
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'Ocurrió un problema al consultar el identificador del tipo de viaje.', 'danger');", true);
                     return;
                 }
 
@@ -216,11 +226,11 @@ namespace Solution_CTT
 
                 sSql = "";
                 sSql += "insert into ctt_itinerario (" + Environment.NewLine;
-                sSql += "id_ctt_ruta, id_ctt_horario, codigo," + Environment.NewLine;
+                sSql += "id_ctt_ruta, id_ctt_horario, codigo, id_ctt_tipo_servicio," + Environment.NewLine;
                 sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(cmbRutas.SelectedValue) + ", " + Convert.ToInt32(cmbHoraSalida.SelectedValue) + ", ";
-                sSql += "'" + txtCodigo.Text.Trim().ToUpper() + "', ";
+                sSql += "'" + txtCodigo.Text.Trim().ToUpper() + "', " + iIdTipoServicio + ", ";
                 sSql += "'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
@@ -300,6 +310,7 @@ namespace Solution_CTT
 
                 sSql = "";
                 sSql += "update ctt_itinerario set" + Environment.NewLine;
+                sSql += "codigo = 'codigo." + Convert.ToInt32(Session["idRegistro"]).ToString() + "," + Environment.NewLine;
                 sSql += "estado = 'E'," + Environment.NewLine;
                 sSql += "fecha_anula = GETDATE()," + Environment.NewLine;
                 sSql += "usuario_anula = '" + sDatosMaximo[0] + "'," + Environment.NewLine;
@@ -380,6 +391,42 @@ namespace Solution_CTT
             txtCodigo.ReadOnly = false;
             txtCodigo.Focus();
             llenarGrid(0);
+        }
+
+        //FUNCION PARA OBTENER EL ID DEL TIPO DE VIAJE NORMAL
+        private int identificadorServicio()
+        {
+            try
+            {
+                sSql = "";
+                sSql += "select id_ctt_tipo_servicio" + Environment.NewLine;
+                sSql += "from ctt_tipo_servicio" + Environment.NewLine;
+                sSql += "where codigo = '01'" + Environment.NewLine;
+                sSql += "and estado = 'A'";
+
+                dtConsulta = new DataTable();
+                dtConsulta.Clear();
+                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
+
+                if (bRespuesta == true)
+                {
+                    return Convert.ToInt32(dtConsulta.Rows[0][0].ToString());
+                }
+
+                else
+                {
+                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    return -1;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                return -1;
+            }
         }
 
         #endregion

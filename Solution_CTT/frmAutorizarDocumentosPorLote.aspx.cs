@@ -179,7 +179,8 @@ namespace Solution_CTT
             sDatosMaximo[0] = Session["usuario"].ToString();
             sDatosMaximo[1] = Environment.MachineName.ToString();
             sDatosMaximo[2] = "A";
-            Session["ModuloSistema"] = "Inicio / Facturación Electrónica / Sincronización Completa / Autorizar Documentos por Lote";
+
+            Session["modulo"] = "MÓDULO DE ENVÍO DE COMPROBANTES ELECTRÓNICOS";
 
             if (!IsPostBack)
             {

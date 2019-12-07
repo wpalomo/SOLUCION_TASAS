@@ -41,7 +41,8 @@ namespace DATOS
                             IFECHA = Convert.ToDateTime(dtConsulta.Rows[i]["fecha_viaje"].ToString()).ToString("dd/MM/yyyy"),
                             IHORA = Convert.ToDateTime(dtConsulta.Rows[i]["hora_salida"].ToString()).ToString("HH:mm"),
                             IPROPIETARIO = dtConsulta.Rows[i]["propietario"].ToString(),
-                            IVALOR = dtConsulta.Rows[i]["valor_pago"].ToString()
+                            IVALOR = dtConsulta.Rows[i]["valor_pago"].ToString(),
+                            IUSUARIO = dtConsulta.Rows[i]["oficinista"].ToString()
                         };
                         coleccion.Add(todos);
                     }
