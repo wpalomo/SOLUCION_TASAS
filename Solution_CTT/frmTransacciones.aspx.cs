@@ -6146,6 +6146,7 @@ namespace Solution_CTT
                 {
                     //btnRecalcular.Visible = false;
                     pnlMostrarPagosPendientes.Visible = false;
+                    pnlAgregarPagos.Visible = false;
                     recalcularValoresNormales();
                 }
 
@@ -6160,6 +6161,7 @@ namespace Solution_CTT
                     }
 
                     pnlMostrarPagosPendientes.Visible = true;
+                    pnlAgregarPagos.Visible = true;
                     //btnRecalcular.Visible = true;
                 }
             }

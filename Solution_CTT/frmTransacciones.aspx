@@ -570,7 +570,9 @@
                                                 <b><asp:Label ID="Label9" runat="server" Text="INGRESO"></asp:Label></b>
                                                 <div class="input-group col-sm-12">
                                                     <asp:TextBox ID="txtEfectivoModal" runat="server" class="form-control" Text="0.00" Onkeypress="return ValidaDecimal(this.value);"></asp:TextBox>
-                                                    <span class="input-group-addon input-sm"><asp:LinkButton ID="btnIngresarFaltante" runat="server" Text="" OnClick="btnIngresarFaltante_Click" tooltip="Clic aquí para ingresar el efectivo faltante y cobrar los pagos"><i class="fa fa-dollar"></i></asp:LinkButton></span>
+                                                    <asp:Panel ID="pnlAgregarPagos" runat="server">
+                                                        <span class="input-group-addon input-sm"><asp:LinkButton ID="btnIngresarFaltante" runat="server" Text="" OnClick="btnIngresarFaltante_Click" tooltip="Clic aquí para ingresar el efectivo faltante y cobrar los pagos"><i class="fa fa-dollar"></i></asp:LinkButton></span>
+                                                    </asp:Panel>
                                                 </div>
                                             </div>
                                         </div>
