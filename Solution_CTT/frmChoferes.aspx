@@ -76,6 +76,9 @@
                                                 <asp:TextBox ID="txtDescripcion" runat="server" CssClass="form-control" autocomplete="off" placeholder="DESCRIPCIÓN *" style='text-transform:uppercase'></asp:TextBox>
                                             </div>
                                             <div class="form-group has-feedback">
+                                                <asp:TextBox ID="txtCedula" ReadOnly="true" runat="server" CssClass="form-control" placeholder="IDENTIFICACIÓN *" ToolTip="Debe buscar un chofer, haciendo click en el boton verde buscar chofer"></asp:TextBox>
+                                            </div>
+                                            <div class="form-group has-feedback">
                                                 <asp:TextBox ID="TxtPersona" ReadOnly="true" runat="server" CssClass="form-control" placeholder="CHOFER *" ToolTip="Debe buscar un chofer, haciendo click en el boton verde buscar chofer"></asp:TextBox>
                                             </div>
                                             <div class="form-group has-feedback">

@@ -391,6 +391,7 @@ namespace Solution_CTT
                 if (sAccionFiltro == "Seleccion")
                 {
                     Session["id_Persona"] = dgvFiltrarPersonas.Rows[a].Cells[0].Text.Trim();
+                    txtCedula.Text = HttpUtility.HtmlDecode(dgvFiltrarPersonas.Rows[a].Cells[1].Text.Trim());
                     TxtPersona.Text = HttpUtility.HtmlDecode(dgvFiltrarPersonas.Rows[a].Cells[2].Text.Trim());
                     txtFiltrarPersonas.Text = "";
                     btnPopUp_ModalPopupExtender.Hide();

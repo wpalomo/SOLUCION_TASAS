@@ -3008,7 +3008,8 @@ namespace Solution_CTT
                 sSql += "cg_moneda, valor, cg_estado_factura, editable, fecha_ingreso, usuario_ingreso, " + Environment.NewLine;
                 sSql += "terminal_ingreso, estado, numero_replica_trigger, numero_control_replica, " + Environment.NewLine;
                 sSql += "Direccion_Factura,Telefono_Factura,Ciudad_Factura, correo_electronico, tasa_usuario," + Environment.NewLine;
-                sSql += "facturaelectronica, clave_acceso, emite_tasa_usuario, ambiente_tasa_usuario, cantidad_tasa_emitida)" + Environment.NewLine;
+                sSql += "facturaelectronica, clave_acceso, emite_tasa_usuario, ambiente_tasa_usuario," + Environment.NewLine;
+                sSql += "cantidad_tasa_emitida, id_tipo_ambiente, id_tipo_emision)" + Environment.NewLine;
                 sSql += "values(" + Environment.NewLine;
                 sSql += Convert.ToInt32(Application["idEmpresa"].ToString()) + ", " + iIdPersona + ", " + Convert.ToInt32(Application["cgEmpresa"].ToString()) + ", 1," + Environment.NewLine;
                 sSql += Convert.ToInt32(Application["idLocalidad"].ToString()) + ", 19, " + Convert.ToInt32(Session["idVendedor"].ToString()) + ", " + iIdFormaPagoFactura + ", '" + sFecha + "'," + Environment.NewLine;
@@ -3017,7 +3018,8 @@ namespace Solution_CTT
                 sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', 'A', 1, 0," + Environment.NewLine;
                 sSql += "'" + sDireccion + "', '" + sTelefono + "', '" + sCiudad + "'," + Environment.NewLine;
                 sSql += "'" + sCorreoElectronico + "', '" + sTasaUsuario + "', " + iManejaFacturacionElectronica + ", '" + ClaveAcceso + "', " + iEmiteTasaUsuario + ", " + iAmbienteTasa + ", ";
-                sSql += Convert.ToInt32(txtTasaUsuario.Text.Trim()) + ")";
+                sSql += Convert.ToInt32(txtTasaUsuario.Text.Trim()) + ", " + Convert.ToInt32(Application["IDTipoAmbienteFE"].ToString()) + ", " + Environment.NewLine;
+                sSql += Convert.ToInt32(Application["IDTipoEmisionFE"].ToString()) + ")";
 
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))

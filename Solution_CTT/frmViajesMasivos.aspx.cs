@@ -33,6 +33,7 @@ namespace Solution_CTT
         int iIdHorarioGrid;
         int iIdHorarioConsulta;
         int iCuentaFrecuenciasCreadas;
+        int iBanderaCobraAdministracion;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -201,7 +202,7 @@ namespace Solution_CTT
                 //cmbListarAndenes.Items.Insert(0, new ListItem("Seleccione..!!", "0"));
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
@@ -271,7 +272,7 @@ namespace Solution_CTT
                 sSql += "where V.id_ctt_disco = D.id_ctt_disco" + Environment.NewLine;
                 sSql += "and V.estado = 'A'" + Environment.NewLine;
                 sSql += "and D.estado = 'A'" + Environment.NewLine;
-                sSql += "order by D.id_ctt_disco";
+                sSql += "order by D.descripcion";
 
                 comboE.ISSQL = sSql;
                 cmbVehiculo.DataSource = comboM.listarCombo(comboE);
@@ -288,14 +289,49 @@ namespace Solution_CTT
             }
         }
 
+        //FUNCION PARA EXTRAER EL NUMERO DE ANDEN POR DEFAULT
+        //private void consultarAnden()
+        //{
+        //    try
+        //    {
+        //        sSql = "";
+        //        sSql += "select id_ctt_anden, descripcion" + Environment.NewLine;
+        //        sSql += "from ctt_anden" + Environment.NewLine;
+        //        sSql += "where id_ctt_pueblo = " + Convert.ToInt32(Session["id_pueblo"].ToString()) + Environment.NewLine;
+        //        sSql += "and anden_principal = 1" + Environment.NewLine;
+        //        sSql += "and estado = 'A'";
+
+        //        dtConsulta = new DataTable();
+        //        dtConsulta.Clear();
+        //        bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
+
+        //        if (bRespuesta == true)
+        //        {
+        //            Session["idAndenMasivo"] = dtConsulta.Rows[0]["id_ctt_anden"].ToString();
+        //        }
+
+        //        else
+        //        {
+        //            lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+        //            ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+        //        }
+        //    }
+
+        //    catch (Exception ex)
+        //    {
+        //        lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+        //    }
+        //}
+
         //FUNCION PARA CARGAR NÚMERO DE VIAJE
         private bool numeroViaje()
         {
             try
             {
                 sSql = "";
-                sSql += "select isnull(max(numero_viaje), 0) maximo_viaje," + Environment.NewLine;
-                sSql += "isnull(max(codigo), 0) maximo_codigo" + Environment.NewLine;
+                sSql += "select isnull(max(numero_viaje), 0) numero_viaje" + Environment.NewLine;
+                //sSql += "isnull(max(codigo), 0) maximo_codigo" + Environment.NewLine;
                 sSql += "from ctt_programacion" + Environment.NewLine;
                 sSql += "where estado = 'A'";
 
@@ -303,17 +339,30 @@ namespace Solution_CTT
                 dtConsulta.Clear();
                 bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
 
-                if (bRespuesta == true)
-                {
-                    iNumeroViaje = Convert.ToInt32(dtConsulta.Rows[0][0].ToString());
-                    iCodigo = Convert.ToInt32(dtConsulta.Rows[0][1].ToString());
-                    return true;
-                }
-
-                else
+                if (bRespuesta == false)
                 {
                     return false;
                 }
+
+                iNumeroViaje = Convert.ToInt32(dtConsulta.Rows[0]["numero_viaje"].ToString());
+
+                sSql = "";
+                sSql += "select top 1 isnull(codigo, 0) codigo" + Environment.NewLine;
+                sSql += "from ctt_programacion" + Environment.NewLine;
+                sSql += "order by id_ctt_programacion desc";
+
+                dtConsulta = new DataTable();
+                dtConsulta.Clear();
+                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
+
+                if (bRespuesta == false)
+                {
+                    return false;
+                }
+
+                iCodigo = Convert.ToInt32(dtConsulta.Rows[0]["codigo"].ToString());
+
+                return true;
             }
 
             catch (Exception ex)
@@ -333,14 +382,14 @@ namespace Solution_CTT
                 {
                     //MENSAJE DE ERROR
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo iniciar recuperar el número de viaje para continuar el secuencial.', 'danger');", true);
-                    goto fin;
+                    return;
                 }
 
                 if (conexionM.iniciarTransaccion() == false)
                 {
                     //MENSAJE DE ERROR
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo iniciar iniciar la transacción.', 'danger');", true);
-                    goto fin;
+                    return;
                 }
 
                 sFecha = Convert.ToDateTime(Session["fecha"].ToString()).ToString("yyyy/MM/dd");
@@ -364,17 +413,29 @@ namespace Solution_CTT
                         goto continuar;
                     }
 
+                    if (Convert.ToInt32(Session["ejecuta_cobro_administrativo"].ToString()) == 1)
+                    {
+                        iBanderaCobraAdministracion = 1;
+                    }
+
+                    else
+                    {
+                        iBanderaCobraAdministracion = 0;
+                    }
+
                     sSql = "";
                     sSql += "insert into ctt_programacion (" + Environment.NewLine;
                     sSql += "id_ctt_chofer, id_ctt_asistente, id_ctt_vehiculo, id_ctt_anden, id_ctt_tipo_servicio," + Environment.NewLine;
                     sSql += "id_ctt_itinerario, codigo, numero_viaje, fecha_viaje, estado_salida, asientos_ocupados," + Environment.NewLine;
-                    sSql += "cobrar_administracion, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                    sSql += "cobrar_administracion, id_ctt_pueblo_origen, estado_envio_encomienda, visualizar," + Environment.NewLine;
+                    sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                     sSql += "values (" + Environment.NewLine;
                     sSql += Convert.ToInt32(cmbListarChoferes.SelectedValue) + ", " + Convert.ToInt32(cmbListarAsistentes.SelectedValue) + ", ";
                     sSql += Convert.ToInt32(cmbListarVehiculo.SelectedValue) + ", " + Convert.ToInt32(cmbListarAndenes.SelectedValue) + ", ";
                     sSql += Convert.ToInt32(row.Cells[3].Text) + ", " + Convert.ToInt32(row.Cells[1].Text) + "," + Environment.NewLine;
                     sSql += "'" + iCodigo.ToString() + "', " + iNumeroViaje + ", '" + sFecha + "'," + Environment.NewLine;
-                    sSql += "'Abierta', 0, 1, 'A', GETDATE(), '" + sDatosMaximo[0] + "'," + Environment.NewLine;
+                    sSql += "'Abierta', 0, " + iBanderaCobraAdministracion + ", " + Session["id_pueblo"].ToString() + ", 'Abierta'," + Environment.NewLine;
+                    sSql += "1, 'A', GETDATE(), '" + sDatosMaximo[0] + "'," + Environment.NewLine;
                     sSql += "'" + sDatosMaximo[1] + "')";
 
                     //EJECUCIÓN DE INSTRUCCION SQL
@@ -399,7 +460,7 @@ namespace Solution_CTT
                 conexionM.terminaTransaccion();
                 ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Registros insertados éxitosamente.', 'success');", true);
                 limpiar();
-                goto fin;
+                return;
             }
 
             catch (Exception ex)
@@ -409,8 +470,7 @@ namespace Solution_CTT
                 goto reversa;
             }
 
-        reversa: { conexionM.reversaTransaccion(); }
-        fin: { };
+        reversa: { conexionM.reversaTransaccion(); return; }
         }
 
         #endregion
@@ -444,12 +504,13 @@ namespace Solution_CTT
 
         protected void btnGenerar_Click(object sender, EventArgs e)
         {
-            insertarRegistro();
+            //insertarRegistro();
+            ScriptManager.RegisterStartupScript(this, GetType(), "ModalView", "<script>$('#QuestionModalConfirmar').modal('show');</script>", false);
         }
 
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            limpiar();
+            Response.Redirect("frmPrincipal.aspx");
         }
         protected void btnFiltrar_Click(object sender, EventArgs e)
         {
@@ -473,6 +534,11 @@ namespace Solution_CTT
                 Session["fecha"] = txtFecha.Text.Trim();
                 consultarFrecuenciasCreadas(Session["fecha"].ToString());
             }
+        }
+
+        protected void btnAceptarCrear_Click(object sender, EventArgs e)
+        {
+            insertarRegistro();
         }
     }
 }

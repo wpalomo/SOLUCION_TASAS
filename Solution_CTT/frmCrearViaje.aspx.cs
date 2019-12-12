@@ -683,14 +683,15 @@ namespace Solution_CTT
                 sSql += "insert into ctt_programacion (" + Environment.NewLine;
                 sSql += "id_ctt_chofer, id_ctt_asistente, id_ctt_vehiculo, id_ctt_anden, id_ctt_tipo_servicio," + Environment.NewLine;
                 sSql += "id_ctt_itinerario, codigo, numero_viaje, fecha_viaje, estado_salida, asientos_ocupados," + Environment.NewLine;
-                sSql += "cobrar_administracion, id_ctt_pueblo_origen, estado_envio_encomienda," + Environment.NewLine;
+                sSql += "cobrar_administracion, id_ctt_pueblo_origen, estado_envio_encomienda, visualizar," + Environment.NewLine;
                 sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(Session["id_Chofer"].ToString()) + ", " + Convert.ToInt32(Session["id_Asistente"].ToString()) + ", ";
                 sSql += Convert.ToInt32(Session["id_Vehiculo"].ToString()) + ", " + Convert.ToInt32(cmbAnden.SelectedValue) + ", ";
                 sSql += Convert.ToInt32(Session["id_tipo_viaje"].ToString()) + ", " + Convert.ToInt32(Session["id_Itinerario"].ToString()) + "," + Environment.NewLine;
                 sSql += "'" + txtCodigo.Text.Trim().ToUpper() + "', " + Convert.ToInt32(txtNumeroViaje.Text.Trim().ToUpper()) + ", '" + sFecha + "'," + Environment.NewLine;
-                sSql += "'Abierta', 0, " + iCobrarAdministracion + ", " + Session["id_pueblo"].ToString() + ", 'Abierta', 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
+                sSql += "'Abierta', 0, " + iCobrarAdministracion + ", " + Session["id_pueblo"].ToString() + ", 'Abierta'," + Environment.NewLine;
+                sSql += "1,  'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                 //EJECUCIÓN DE INSTRUCCION SQL
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
@@ -1687,7 +1688,7 @@ namespace Solution_CTT
 
                         pnlGrid.Visible = false;
                         pnlRegistro.Visible = true;
-                        verificarCobros();
+                        //verificarCobros();
                         TxtFechaViaje.ReadOnly = true;
                     }
 
