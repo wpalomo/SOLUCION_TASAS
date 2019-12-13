@@ -48,6 +48,14 @@ namespace ENTIDADES
             set { iIDPERSONA = value; }
         }
 
+        private string iIDENTIFICACION;
+
+        public string IIDENTIFICACION
+        {
+            get { return iIDENTIFICACION; }
+            set { iIDENTIFICACION = value; }
+        }
+
         private string iNOMBRE;
 
         public string INOMBRE

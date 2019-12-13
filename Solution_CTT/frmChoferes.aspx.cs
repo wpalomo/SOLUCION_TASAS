@@ -116,7 +116,7 @@ namespace Solution_CTT
                 sSql = "";
                 sSql += "select C.id_ctt_chofer, C.id_persona, C.codigo," + Environment.NewLine;
                 sSql += "ltrim(isnull(TP.nombres, '') + ' ' + TP.apellidos) propietario, C.descripcion," + Environment.NewLine;
-                sSql += "case C.estado when 'a' then 'ACTIVO' else 'ELIMINADO' end estado" + Environment.NewLine;
+                sSql += "TP.identificacion, case C.estado when 'a' then 'ACTIVO' else 'ELIMINADO' end estado" + Environment.NewLine;
                 sSql += "from tp_personas TP INNER JOIN" + Environment.NewLine;
                 sSql += "ctt_chofer C ON C.id_persona = TP.id_persona" + Environment.NewLine;
                 sSql += "and C.estado = 'A'" + Environment.NewLine;
@@ -224,7 +224,7 @@ namespace Solution_CTT
                 sSql += "id_persona = " + Convert.ToInt32(Session["id_Persona"].ToString()) + "," + Environment.NewLine;
                 sSql += "codigo = '" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;
                 sSql += "descripcion = '" + txtDescripcion.Text.Trim().ToUpper() + "'" + Environment.NewLine;
-                sSql += "where id_ctt_chofer = " + Convert.ToInt32(Session["idRegistro"]) + Environment.NewLine;
+                sSql += "where id_ctt_chofer = " + Convert.ToInt32(Session["idRegistroChofer"]) + Environment.NewLine;
                 sSql += "and estado = 'A'";
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
@@ -269,7 +269,7 @@ namespace Solution_CTT
                 sSql += "fecha_anula = GETDATE()," + Environment.NewLine;
                 sSql += "usuario_anula = '" + sDatosMaximo[0]+ "'," + Environment.NewLine;
                 sSql += "terminal_anula = '" + sDatosMaximo[1] + "'" + Environment.NewLine;
-                sSql += "where id_ctt_chofer = " + Convert.ToInt32(Session["idRegistro"]);
+                sSql += "where id_ctt_chofer = " + Convert.ToInt32(Session["idRegistroChofer"]);
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
                 {
@@ -339,7 +339,8 @@ namespace Solution_CTT
             txtCodigo.Text = "";
             txtDescripcion.Text = "";
             TxtPersona.Text = "";
-            Session["idRegistro"] = null;
+            txtCedula.Text = "";
+            Session["idRegistroChofer"] = null;
             btnSave.Text = "Crear";
             MsjValidarCampos.Visible = false;
             txtCodigo.ReadOnly = false;            
@@ -356,7 +357,7 @@ namespace Solution_CTT
             {
                 int a = dgvDatos.SelectedIndex;
                 columnasGrid(true);
-                Session["idRegistro"] = dgvDatos.Rows[a].Cells[0].Text.Trim();
+                Session["idRegistroChofer"] = dgvDatos.Rows[a].Cells[0].Text.Trim();
                 Session["id_Persona"] = dgvDatos.Rows[a].Cells[1].Text.Trim();//ESTE FUERA PORQUE ES NECESARIO PARA CONSULTAR
 
                 if (sAccion == "E")
@@ -364,7 +365,8 @@ namespace Solution_CTT
 
                     txtCodigo.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[2].Text.Trim());
                     TxtPersona.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[3].Text.Trim());
-                    txtDescripcion.Text =  HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[4].Text.Trim());
+                    txtCedula.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[4].Text.Trim());
+                    txtDescripcion.Text =  HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[5].Text.Trim());
                     //txtUsuario.Text = dgvDatos.Rows[a].Cells[5].Text.Trim();
                     //txtUsuario.ReadOnly = true;
                     txtCodigo.ReadOnly = true;
@@ -495,12 +497,6 @@ namespace Solution_CTT
                 txtDescripcion.Focus();
             }
 
-            //else if (txtUsuario.Text.Trim() == "")
-            //{
-            //    MsjValidarCampos.Visible = true;
-            //    txtUsuario.Focus();
-            //}
-
             else if (TxtPersona.Text.Trim() == "")
             {
                 MsjValidarCampos.Visible = true;
@@ -509,7 +505,7 @@ namespace Solution_CTT
 
             else
             {
-                if (Session["idRegistro"] == null)
+                if (Session["idRegistroChofer"] == null)
                 {
                     //ENVIO A FUNCION DE INSERCION
                     insertarRegistro();

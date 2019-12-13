@@ -37,12 +37,13 @@ namespace DATOS
                     {
                         todos = new ENTChofer()
                         {
-                            IIDCHOFER = dtConsulta.Rows[i][0].ToString(),
-                            IIDPERSONA = dtConsulta.Rows[i][1].ToString(),
-                            ICODIGO = dtConsulta.Rows[i][2].ToString(),
-                            INOMBRE = dtConsulta.Rows[i][3].ToString(),
-                            IDESCRIPCION = dtConsulta.Rows[i][4].ToString(),
-                            IESTADO = dtConsulta.Rows[i][5].ToString()
+                            IIDCHOFER = dtConsulta.Rows[i]["id_ctt_chofer"].ToString(),
+                            IIDPERSONA = dtConsulta.Rows[i]["id_persona"].ToString(),
+                            ICODIGO = dtConsulta.Rows[i]["codigo"].ToString(),
+                            IIDENTIFICACION = dtConsulta.Rows[i]["identificacion"].ToString(),
+                            INOMBRE = dtConsulta.Rows[i]["propietario"].ToString(),
+                            IDESCRIPCION = dtConsulta.Rows[i]["descripcion"].ToString(),
+                            IESTADO = dtConsulta.Rows[i]["estado"].ToString()
                         };
                         coleccion.Add(todos);
                     }

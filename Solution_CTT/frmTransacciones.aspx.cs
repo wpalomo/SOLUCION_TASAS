@@ -1194,6 +1194,7 @@ namespace Solution_CTT
             ModalPopupExtender_ReporteTokenInfo.Hide();
             ModalPopupExtender_ValidaToken.Hide();
             ModalPopupExtender_InfoToken.Hide();
+            ModalPopUpSeleccionViajes.Hide();
         }
 
         //FUNCION PARA OBTENER LOS DATOS DE LA LISTA BASE Y MINORISTA
@@ -1638,7 +1639,6 @@ namespace Solution_CTT
                 sSql += "and fecha_viaje = '" + Convert.ToDateTime(sFecha_P).ToString("yyyy/MM/dd") + "'" + Environment.NewLine;
                 sSql += "and normal = 1" + Environment.NewLine;
                 sSql += "order by hora_salida";
-
 
                 columnasGrid(true);
                 asignarE.ISSQL = sSql;
@@ -5452,6 +5452,86 @@ namespace Solution_CTT
         
         #endregion
 
+        #region FUNCIONES PARA EL MODAL DE VIAJES ACTIVOS
+
+        //FUNCION PARA LLENAR EL GRID CON LOS VIAJES ACTIVOS
+        private void llenarGridViajesActivos()
+        {
+            try
+            {
+                sSql = "";
+                sSql += "select * from ctt_vw_itinerarios" + Environment.NewLine;
+                sSql += "where id_ctt_pueblo = " + Convert.ToInt32(cmbFiltrarGrid.SelectedValue) + Environment.NewLine;
+                sSql += "and fecha_viaje = '" + Convert.ToDateTime(txtFechaViajesActivos.Text.Trim()).ToString("yyyy/MM/dd") + "'" + Environment.NewLine;
+                sSql += "and estado = 'A'" + Environment.NewLine;
+
+                //if (Convert.ToInt32(Session["banderaFiltroViajesActivos"].ToString()) == 1)
+                //{
+                //    sSql += "and normal = 1" + Environment.NewLine;
+                //}
+
+                //else
+                //{
+                //    sSql += "and extra = 1" + Environment.NewLine;
+                //}
+                
+                sSql += "order by hora_salida";
+
+                columnasGridViajesActivos(true);
+                asignarE.ISSQL = sSql;
+                dgvViajesActivos.DataSource = asignarM.listarViajes(asignarE);
+                dgvViajesActivos.DataBind();
+                columnasGridViajesActivos(false);
+
+                ModalPopUpSeleccionViajes.Show();
+            }
+
+            catch (Exception ex)
+            {
+                cerrarModal();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
+
+        //FUNCION PARA LAS COLUMNAS
+        //FUNCION PARA MANIPULACION DE COLUMNAS
+        private void columnasGridViajesActivos(bool ok)
+        {
+            dgvViajesActivos.Columns[0].ItemStyle.Width = 75;
+            dgvViajesActivos.Columns[2].ItemStyle.Width = 75;
+            dgvViajesActivos.Columns[3].ItemStyle.Width = 130;
+            dgvViajesActivos.Columns[4].ItemStyle.Width = 150;
+            dgvViajesActivos.Columns[5].ItemStyle.Width = 250;
+            dgvViajesActivos.Columns[6].ItemStyle.Width = 100;
+            dgvViajesActivos.Columns[7].ItemStyle.Width = 100;
+            dgvViajesActivos.Columns[8].ItemStyle.Width = 100;
+            dgvViajesActivos.Columns[9].ItemStyle.Width = 75;
+            dgvViajesActivos.Columns[18].ItemStyle.Width = 100;
+
+            dgvViajesActivos.Columns[0].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
+            dgvViajesActivos.Columns[2].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
+            dgvViajesActivos.Columns[3].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
+            dgvViajesActivos.Columns[4].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
+            dgvViajesActivos.Columns[6].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
+            dgvViajesActivos.Columns[7].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
+            dgvViajesActivos.Columns[8].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
+            dgvViajesActivos.Columns[9].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
+
+            dgvViajesActivos.Columns[1].Visible = ok;
+            dgvViajesActivos.Columns[10].Visible = ok;
+            dgvViajesActivos.Columns[11].Visible = ok;
+            dgvViajesActivos.Columns[12].Visible = ok;
+            dgvViajesActivos.Columns[13].Visible = ok;
+            dgvViajesActivos.Columns[14].Visible = ok;
+            dgvViajesActivos.Columns[15].Visible = ok;
+            dgvViajesActivos.Columns[16].Visible = ok;
+            dgvViajesActivos.Columns[17].Visible = ok;
+            dgvViajesActivos.Columns[18].Visible = ok;
+        }
+
+        #endregion
+
         protected void dgvDatos_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -5479,6 +5559,8 @@ namespace Solution_CTT
 
                 else
                 {
+                    Session["banderaFiltroViajesActivos"] = "1";
+
                     string[] sSeparar_Bus = dgvDatos.Rows[a].Cells[4].Text.Split('-');
                     Session["disco_vehiculo_tasa"] = sSeparar_Bus[0].ToString().Trim();
 
@@ -6148,7 +6230,8 @@ namespace Solution_CTT
                 {
                     //btnRecalcular.Visible = false;
                     pnlMostrarPagosPendientes.Visible = false;
-                    pnlAgregarPagos.Visible = false;
+                    //pnlAgregarPagos.Visible = false;
+                    agregarFaltante.Visible = false;
                     recalcularValoresNormales();
                 }
 
@@ -6163,7 +6246,8 @@ namespace Solution_CTT
                     }
 
                     pnlMostrarPagosPendientes.Visible = true;
-                    pnlAgregarPagos.Visible = true;
+                    //pnlAgregarPagos.Visible = true;
+                    agregarFaltante.Visible = true;
                     //btnRecalcular.Visible = true;
                 }
             }
@@ -6630,6 +6714,8 @@ namespace Solution_CTT
 
                 else
                 {
+                    Session["banderaFiltroViajesActivos"] = "0";
+
                     string[] sSeparar_Bus = dgvDatosExtras.Rows[a].Cells[4].Text.Split('-');
                     Session["disco_vehiculo_tasa"] = sSeparar_Bus[0].ToString().Trim();
 
@@ -7855,6 +7941,185 @@ namespace Solution_CTT
                 {
                     dgvReporteTokenInfo.Rows[i].BackColor = Color.White;
                 }
+            }
+        }
+
+        //AQUI SE VERA EL MODAL CON LOS VIAJES ACTIVOS
+        protected void btnAbrirModalViajes_Click(object sender, EventArgs e)
+        {
+            txtFechaViajesActivos.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            llenarGridViajesActivos();
+        }
+
+        protected void btnBuscarViajesActivos_Click(object sender, EventArgs e)
+        {
+            string sFecha_1 = Convert.ToDateTime(txtFechaViajesActivos.Text.Trim()).ToString("yyyy-MM-dd");
+            string sFecha_2 = DateTime.Now.ToString("yyyy-MM-dd");
+
+            if (Convert.ToDateTime(sFecha_1) < Convert.ToDateTime(sFecha_2))
+            {
+                ModalPopUpSeleccionViajes.Hide();
+                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'No puede realizar búsquedas con fechas inferiores a la actual.', 'warning');", true);
+                return;
+            }
+
+            llenarGridViajesActivos();
+        }
+
+        protected void btnCerrarModalViajesActivos_Click(object sender, EventArgs e)
+        {
+            ModalPopUpSeleccionViajes.Hide();
+        }
+
+        protected void dgvViajesActivos_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            dgvViajesActivos.PageIndex = e.NewPageIndex;
+        }
+
+        protected void dgvViajesActivos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < dgvViajesActivos.Rows.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    dgvViajesActivos.Rows[i].BackColor = Color.FromName("#ccf0cb");
+                }
+
+                else
+                {
+                    dgvViajesActivos.Rows[i].BackColor = Color.White;
+                }
+            }
+        }
+
+        protected void dgvViajesActivos_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (Convert.ToInt32(Session["idCierreCaja"].ToString()) == 0)
+                {
+                    cerrarModal();
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'Debe registrar la apertura de caja para realizar la venta de boletos.', 'info');", true);
+                    return;
+                }
+
+                int a = dgvViajesActivos.SelectedIndex;
+                columnasGridViajesActivos(true);
+
+                string[] sSeparar_Bus = dgvViajesActivos.Rows[a].Cells[4].Text.Split('-');
+                Session["disco_vehiculo_tasa"] = sSeparar_Bus[0].ToString().Trim();
+
+                string[] sSeparar_Ruta = dgvViajesActivos.Rows[a].Cells[5].Text.Split('-');
+                Session["pueblo_origen_tasa"] = sSeparar_Ruta[0].ToString().Trim();
+                Session["pueblo_destino_tasa"] = sSeparar_Ruta[1].ToString().Trim();
+
+                Session["idVehiculo"] = dgvViajesActivos.Rows[a].Cells[13].Text;
+                Session["idVehiculoReemplazo"] = dgvViajesActivos.Rows[a].Cells[15].Text;
+                Session["idProgramacion"] = dgvViajesActivos.Rows[a].Cells[1].Text;
+                Session["idCttPueblo"] = dgvViajesActivos.Rows[a].Cells[14].Text;
+                Session["factorDescuento"] = "0";
+                Session["idPuebloOrigen"] = cmbFiltrarGrid.SelectedValue;
+                Session["id_pueblo_origen_tasa"] = dgvViajesActivos.Rows[a].Cells[16].Text;
+                Session["id_pueblo_destino_tasa"] = dgvViajesActivos.Rows[a].Cells[17].Text;
+                Session["cobrar_administracion_boletos"] = dgvViajesActivos.Rows[a].Cells[18].Text;
+
+                Session["auxiliar"] = "1";
+                Session["dtClientes"] = null;
+                mostrarBotones();
+
+                if (consultarTipoServicio(Convert.ToInt32(Session["idProgramacion"].ToString())) == -1)
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo cargar los parámetros del tipo de viaje.', 'danger');", true);
+                    return;
+                }
+
+                else if (consultarTipoServicio(Convert.ToInt32(Session["idProgramacion"].ToString())) == 0)
+                {
+                    Session["extra"] = "0";
+                    indice = 0;
+
+                    if (consultarListaPrecioTipoCliente(Convert.ToInt32(cmbTipoCliente.SelectedValue)) == true)
+                    {
+                        cmbDestino.SelectedIndex = 0;
+                        txtPrecio.Text = "0.00";
+                        txtDescuento.Text = "0.00";
+                        txtPrecioFinal.Text = "0.00";
+                    }
+                }
+
+                if (consultarTipoServicio(Convert.ToInt32(Session["idProgramacion"].ToString())) == 1)
+                {
+                    Session["extra"] = "1";
+                    indice = 0;
+
+                    if (consultarListaPrecioTipoCliente(Convert.ToInt32(cmbTipoCliente.SelectedValue)) == true)
+                    {
+                        cmbDestino.SelectedIndex = 0;
+                        txtPrecio.Text = "0.00";
+                        txtDescuento.Text = "0.00";
+                        txtPrecioFinal.Text = "0.00";
+                    }
+                }
+
+                extraerTotalCobrado();
+
+                lblDetalleBus1.Text = dgvViajesActivos.Rows[a].Cells[5].Text + " - " + dgvViajesActivos.Rows[a].Cells[6].Text;
+                lblDetalleBus2.Text = "FECHA SALIDA: " + dgvViajesActivos.Rows[a].Cells[3].Text + " - VEHÍCULO: " + dgvViajesActivos.Rows[a].Cells[4].Text + " - TIPO DE VIAJE: " + dgvViajesActivos.Rows[a].Cells[8].Text;
+                txtNumeroViaje.Text = dgvViajesActivos.Rows[a].Cells[2].Text;
+                txtViajeDia.Text = dgvViajesActivos.Rows[a].Cells[0].Text;
+                txtFechaViaje.Text = dgvViajesActivos.Rows[a].Cells[3].Text;
+                txtHoraViaje.Text = dgvViajesActivos.Rows[a].Cells[6].Text;
+                txtTransporteViaje.Text = dgvViajesActivos.Rows[a].Cells[4].Text;
+                txtRutaViaje.Text = dgvViajesActivos.Rows[a].Cells[5].Text;
+
+                Session["etiqueta_viaje"] = "FECHA SALIDA: " + dgvViajesActivos.Rows[a].Cells[3].Text + " - VEHÍCULO: " + dgvViajesActivos.Rows[a].Cells[4].Text + " - RUTA: " + dgvViajesActivos.Rows[a].Cells[5].Text + " - HORA: " + dgvViajesActivos.Rows[a].Cells[6].Text;
+                Session["destino_viaje_etiqueta"] = dgvViajesActivos.Rows[a].Cells[5].Text;
+                Session["hora_viaje_etiqueta"] = dgvViajesActivos.Rows[a].Cells[6].Text;
+
+                Session["numero_viaje_cierre"] = dgvViajesActivos.Rows[a].Cells[2].Text;
+                Session["fecha_viaje_cierre"] = dgvViajesActivos.Rows[a].Cells[3].Text;
+                Session["hora_viaje_cierre"] = dgvViajesActivos.Rows[a].Cells[6].Text;
+
+                pnlGrid.Visible = false;
+                pnlBus.Visible = true;
+                pnlAsientos.Visible = true;
+
+                if (Convert.ToInt32(Session["idPuebloOrigen"].ToString()) == Convert.ToInt32(Session["id_pueblo"].ToString()))
+                {
+                    btnCerrarViaje.Visible = true;
+                }
+
+                else
+                {
+                    btnCerrarViaje.Visible = false;
+                }
+                cmbDestino.SelectedIndex = 0;
+                asientosOcupados();
+                extraerTotalCobrado();
+                consultarHoraCambioNormal(dgvViajesActivos.Rows[a].Cells[5].Text);
+
+                if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
+                {
+                    sumaTotalTasasDisponibles();
+                    contarTasasToken();
+                    pnlVerTasas.Visible = true;
+                }
+
+                else
+                {
+                    pnlVerTasas.Visible = false;
+                }
+
+                columnasGridViajesActivos(false);
+                ModalPopUpSeleccionViajes.Hide();
+                return;
+            }
+
+            catch (Exception ex)
+            {
+                cerrarModal();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
     }

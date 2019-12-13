@@ -31,6 +31,7 @@
                                         <asp:BoundField DataField="IIDPERSONA" HeaderText="ID" />
                                         <asp:BoundField DataField="ICODIGO" HeaderText="CÓDIGO" />
                                         <asp:BoundField DataField="INOMBRE" HeaderText="PROPIETARIO" />
+                                        <asp:BoundField DataField="IIDENTIFICACION" HeaderText="No. IDENTIFICACIÓN" />
                                         <asp:BoundField DataField="IDESCRIPCION" HeaderText="DESCRIPCIÓN" />
                                         <asp:BoundField DataField="IESTADO" HeaderText="ESTADO" />
                                         <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="EDITAR">
