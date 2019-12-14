@@ -140,9 +140,10 @@
                             <div class="box box-success">
                                 <div class="box-header with-border text-center">
                                     <h3 class="box-title">
-                                        <asp:LinkButton ID="LinkButton1" runat="server"><i class="fa fa-arrow-circle-left"></i></asp:LinkButton>
+                                        <%--<asp:LinkButton ID="LinkButton1" runat="server"><i class="fa fa-arrow-circle-left"></i></asp:LinkButton>--%>
                                         <asp:Label ID="lblDetalleBus2" runat="server" Text=""></asp:Label></h3>
-                                        <asp:LinkButton ID="LinkButton2" runat="server"><i class="fa fa-arrow-circle-right"></i></asp:LinkButton>
+                                        <%--<asp:LinkButton ID="LinkButton2" runat="server"><i class="fa fa-arrow-circle-right"></i></asp:LinkButton>--%>
+                                    <%--<asp:LinkButton ID="btnAbrirModalViajes" runat="server"><i class="fa fa-plane"></i></asp:LinkButton>--%>
                                 </div>
                                 <div class="box-body">
                                     <div class="row">
@@ -224,7 +225,7 @@
                                                 <div class="input-group col-sm-8">
                                                     <asp:TextBox ID="txtDescuento" runat="server" BackColor="White" ReadOnly="true" class="form-control input-sm" Text="0.00" placeholder="Descuento" ></asp:TextBox>
                                                     <span class="input-group-addon input-sm">
-                                                        <asp:CheckBox ID="chkCortesia" runat="server" Text="&nbsp&nbspCortesía" AutoPostBack="true" />    
+                                                        <asp:CheckBox ID="chkCortesia" runat="server" Text="&nbsp&nbspCortesía" Visible="false" AutoPostBack="true" />    
                                                     </span>
                                                 </div>
                                             </div>
@@ -259,15 +260,18 @@
                                             <div class="col-md-3 col-sm-12 col-xs-12">
                                                 <asp:Label ID="lblTotalCobradoBus" runat="server" Text="COBRADO: $ 0.00" class="form-control input-sm" BackColor="Blue" Font-Bold="true" ForeColor="White" ToolTip="Total cobrado en el viaje" style="text-align:center;"></asp:Label>                                                
                                             </div>
-                                            <div class="col-md-3 col-sm-12 col-xs-12">
+                                            <div class="col-md-2 col-sm-12 col-xs-12">
                                                 <asp:Button ID="btnLimpiarAsignacion" runat="server" Text="Limpiar" data-backdrop="false" class="btn btn-block btn-danger" OnClick="btnLimpiarAsignacion_Click" ToolTip="Clic aquí para limpiar el formulario" />
+                                            </div>
+                                            <div class="col-md-2 col-sm-12 col-xs-12">
+                                                <asp:Button ID="btnAbrirModalViajes" runat="server" Text="Otro Viaje" data-backdrop="false" class="btn btn-block btn-info" OnClick="btnAbrirModalViajes_Click" ToolTip="Clic aquí para seleccionar o ver los viajes activos" />
                                             </div>
                                             <div class="col-md-3 col-sm-12 col-xs-12">
                                                 <asp:Button ID="btnFacturaDatos" runat="server" Text="Factura con Datos" data-backdrop="false" class="btn btn-block btn-warning" ToolTip="Clic aquí para facturar con datos" OnClick="btnFacturaDatos_Click" />                                                
                                             </div>
 
-                                            <div class="col-md-3 col-sm-12 col-xs-12">
-                                                <asp:Button ID="btnFacturaRapida" runat="server" Text="Factura Rápida" data-backdrop="false" class="btn btn-block btn-success " OnClick="btnFacturaRapida_Click" />
+                                            <div class="col-md-2 col-sm-12 col-xs-12">
+                                                <asp:Button ID="btnFacturaRapida" runat="server" Text="Facturar" data-backdrop="false" class="btn btn-block btn-success " OnClick="btnFacturaRapida_Click" />
                                             </div>
                                         </div>
                                    </div>
@@ -569,8 +573,10 @@
                                             <div class="form-group">
                                                 <b><asp:Label ID="Label9" runat="server" Text="INGRESO"></asp:Label></b>
                                                 <div class="input-group col-sm-12">
-                                                    <asp:TextBox ID="txtEfectivoModal" runat="server" class="form-control" Text="0.00" Onkeypress="return ValidaDecimal(this.value);"></asp:TextBox>
-                                                    <span class="input-group-addon input-sm"><asp:LinkButton ID="btnIngresarFaltante" runat="server" Text="" OnClick="btnIngresarFaltante_Click" tooltip="Clic aquí para ingresar el efectivo faltante y cobrar los pagos"><i class="fa fa-dollar"></i></asp:LinkButton></span>
+                                                    <asp:TextBox ID="txtEfectivoModal" runat="server" class="form-control" Text="0.00" Onkeypress="return ValidaDecimal(this.value);" AutoPostBack="True" OnTextChanged="txtEfectivoModal_TextChanged"></asp:TextBox>
+                                                    <%--<asp:Panel ID="pnlAgregarPagos" runat="server">--%>
+                                                        <span id="agregarFaltante" runat="server" class="input-group-addon input-sm"><asp:LinkButton ID="btnIngresarFaltante" runat="server" Text="" OnClick="btnIngresarFaltante_Click" tooltip="Clic aquí para ingresar el efectivo faltante y cobrar los pagos"><i class="fa fa-dollar"></i></asp:LinkButton></span>
+                                                    <%--</asp:Panel>--%>
                                                 </div>
                                             </div>
                                         </div>
@@ -801,6 +807,91 @@
             </ContentTemplate>
         </asp:UpdatePanel>
     </asp:Panel>
+
+    <%--MODAL PARA MOVER LOS VIAJES--%>
+
+    <asp:Button ID="btnSeleccionViaje" runat="server" Text="Button" Style="display: none" />
+
+    <ajaxToolkit:ModalPopupExtender ID="ModalPopUpSeleccionViajes" runat="server"
+        DynamicServicePath="" Enabled="True" TargetControlID="btnSeleccionViaje"
+        PopupControlID="pnlGridFiltroViajes" BackgroundCssClass="modalBackground">
+    </ajaxToolkit:ModalPopupExtender>
+
+    <asp:Panel ID="pnlGridFiltroViajes" runat="server">
+        <asp:UpdatePanel ID="UpdatePanel13" runat="server">
+            <ContentTemplate>
+                <!-- Modal GRIDS-->
+                <%--<div id="modalGrid" class="modal">
+            <div class="modal-dialog modal-lg" role="document">--%>
+                <div class="modal-content">
+                    <div class="modal-header bg-teal-active color-palette">
+                        <asp:Button ID="btnCerrarModalViajesActivos" runat="server" Text="x" class="close" data-dismiss="modal" aria-label="Close" OnClick="btnCerrarModalViajesActivos_Click" />
+                        <h4 class="modal-title" id="myModalLabel8">Selección de Viajes Activos</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <asp:TextBox ID="txtFechaViajesActivos" runat="server" class="form-control pull-right" autocomplete="off" placeholder="Fecha"></asp:TextBox>
+                                    <ajaxToolkit:MaskedEditExtender ID="txtFechaViajesActivos_MaskedEditExtender" runat="server" BehaviorID="txtFechaViajesActivos_MaskedEditExtender" Century="2000" CultureAMPMPlaceholder="" CultureCurrencySymbolPlaceholder="" CultureDateFormat="" CultureDatePlaceholder="" CultureDecimalPlaceholder="" CultureThousandsPlaceholder="" CultureTimePlaceholder="" Mask="99/99/9999" MaskType="Date" TargetControlID="txtFechaViajesActivos" />
+                                    <ajaxToolkit:CalendarExtender ID="txtFechaViajesActivos_CalendarExtender" runat="server" BehaviorID="txtFechaViajesActivos_CalendarExtender" Format="dd/MM/yyyy" TargetControlID="txtFechaViajesActivos" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <asp:Button ID="btnBuscarViajesActivos" runat="server" Text="Buscar" class="btn btn btn-info" UseSubmitBehavior="false" OnClick="btnBuscarViajesActivos_Click" />
+                                    <%--<asp:TextBox ID="TextBox1" runat="server" class="form-control" placeholder="CÉDULA" Style="text-transform: uppercase"></asp:TextBox>--%>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group"></div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <asp:GridView ID="dgvViajesActivos" runat="server" class="mGrid"
+                                        AutoGenerateColumns="False"
+                                        EmptyDataText="No hay Registros o Coindicencias..!!"
+                                        OnSelectedIndexChanged="dgvViajesActivos_SelectedIndexChanged" AllowPaging="True" 
+                                        OnPageIndexChanging="dgvViajesActivos_PageIndexChanging" PageSize="10"
+                                        OnRowDataBound="dgvViajesActivos_RowDataBound">
+                                        <Columns>
+                                            <asp:BoundField DataField="INUMERO" HeaderText="No." />
+                                            <asp:BoundField DataField="IIDPROGRAMACION" HeaderText="ID" />
+                                            <asp:BoundField DataField="INUMEROVIAJE" HeaderText="No. VIAJE" />
+                                            <asp:BoundField DataField="IFECHAVIAJE" HeaderText="FECHA SALIDA" />
+                                            <asp:BoundField DataField="IVEHICULO" HeaderText="TRANSPORTE" />
+                                            <asp:BoundField DataField="IRUTA" HeaderText="RUTA" />
+                                            <asp:BoundField DataField="IHORASALIDA" HeaderText="SALIDA" />
+                                            <asp:BoundField DataField="IASIENTOSOCUPADOS" HeaderText="ASIENTOS OCUP." />
+                                            <asp:BoundField DataField="ITIPOVIAJE" HeaderText="TIPO DE VIAJE" />
+                                            <asp:BoundField DataField="IESTADOVIAJE" HeaderText="ESTADO" />
+                                            <asp:BoundField DataField="ICHOFER" HeaderText="CHOFER" />
+                                            <asp:BoundField DataField="IASISTENTE" HeaderText="ASISTENTE" />
+                                            <asp:BoundField DataField="IANDEN" HeaderText="ANDEN" />
+                                            <asp:BoundField DataField="IIDVEHICULO" HeaderText="ID" />
+                                            <asp:BoundField DataField="IIDPUEBLO" HeaderText="ID" />
+                                            <asp:BoundField DataField="IIDREEMPLAZO" HeaderText="ID" />
+                                            <asp:BoundField DataField="IIDPUEBLOORIGEN" HeaderText="ID" />
+                                            <asp:BoundField DataField="IIDPUEBLODESTINO" HeaderText="ID" />
+                                            <asp:BoundField DataField="ICOBROADMINISTRATIVO" HeaderText="COBRO ADMINISTATIVO" />
+                                            <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="VER">
+                                                <ItemTemplate>
+                                                    <asp:LinkButton ID="lbtnEditarExtra" runat="server" CommandName="Select" class="btn btn-xs btn-success"><i class="fa fa-bus"></i></asp:LinkButton>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                        </Columns>
+                                        <PagerStyle HorizontalAlign="Center" CssClass="pagination-ys" />
+                                    </asp:GridView>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+    </asp:Panel>
+
+    <%--FIN DEL MODAL PARA MOVER LOS VIAJES--%>
 
     <%--MODAL PARA REGISTRAR O EDITAR LOS DATOS DEL CLIENTE--%>
 

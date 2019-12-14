@@ -5276,7 +5276,7 @@ namespace Solution_CTT
         {
             dgvDetalle.Columns[1].Visible = ok;
             dgvDetalle.Columns[8].Visible = ok;
-            //dgvDetalle.Columns[14].Visible = ok;
+            dgvDetalle.Columns[14].Visible = ok;
             dgvDetalle.Columns[9].ItemStyle.Width = 100;
         }
 
@@ -6225,6 +6225,7 @@ namespace Solution_CTT
                 lblEtiquetaCierre.Text = Session["etiqueta_viaje"].ToString();
                 txtEfectivoModal.Text = "0.00";
                 txtPagosPendientesModal.Text = "0.00";
+                txtFaltanteModal.Text = "0.00";
 
                 if ((Session["ejecuta_cobro_administrativo"] == null) || (Session["ejecuta_cobro_administrativo"].ToString() == "0"))
                 {
@@ -6865,7 +6866,7 @@ namespace Solution_CTT
                 lblAbono_G.Text = dbSumaValor_R.ToString("N2");
                 lblSaldo_G.Text = dbSaldo_R.ToString("N2");
                 txtPagosPendientesModal.Text = dbValoresPendientes.ToString("N2");
-
+                txtFaltanteModal.Text = "0.00";
                 recalcularValores_V2();
             }
 
@@ -7769,6 +7770,7 @@ namespace Solution_CTT
                         TextBox txtValorAbono_R = dgvDetalle.Rows[a].Cells[9].FindControl("txtValorAbonoGrid") as TextBox;
                         Label lblAbonoGrid = dgvDetalle.Rows[a].Cells[9].FindControl("lblAbonoGrid") as Label;
                         Label lblSaldoGrid = dgvDetalle.Rows[a].Cells[9].FindControl("lblSaldoGrid") as Label;
+                        Label lblIngresoEfectivoFaltanteGrid = dgvDetalle.Rows[a].Cells[9].FindControl("lblIngresoEfectivoFaltante") as Label;
 
                         Decimal dbAbonoAnular_G = Convert.ToDecimal(lblAbonoGrid.Text.Trim());
                         Decimal dbValorPagosAnular_G = Convert.ToDecimal(txtPagosPendientesModal.Text.Trim());
@@ -7776,6 +7778,7 @@ namespace Solution_CTT
                         txtValorAbono_R.Text = "";
                         lblAbonoGrid.Text = "0.00";
                         lblSaldoGrid.Text = "0.00";
+                        lblIngresoEfectivoFaltanteGrid.Text = "0.00";
 
                         if (sTextoEncabezado == "PAGO ACTUAL")
                         {
@@ -8121,6 +8124,16 @@ namespace Solution_CTT
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
+        }
+
+        protected void txtEfectivoModal_TextChanged(object sender, EventArgs e)
+        {
+            if (txtEfectivoModal.Text.Trim() == "")
+            {
+                txtEfectivoModal.Text = "0.00";
+            }
+
+            recalcularValores_V2();
         }
     }
 }

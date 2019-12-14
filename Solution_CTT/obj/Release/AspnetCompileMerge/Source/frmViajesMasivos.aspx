@@ -35,10 +35,6 @@
                                         EmptyDataText="No hay Registros o Coindicencias..!!"
                                          PageSize="7" OnRowDataBound="dgvDatos_RowDataBound">
                                         <Columns>
-                                            <%--<asp:BoundField DataField="INUMERO" HeaderText="No." />
-                                            <asp:BoundField DataField="IIDHORARIO" HeaderText="ID" />
-                                            <asp:BoundField DataField="IHORARIO" HeaderText="HORA" />--%>
-
                                             <asp:BoundField DataField="numero" HeaderText="No." ItemStyle-HorizontalAlign="Center" />
                                             <asp:BoundField DataField="id_ctt_itinerario" HeaderText="ID" />
                                             <asp:BoundField DataField="hora_salida" HeaderText="HORA" ItemStyle-HorizontalAlign="Center" />
@@ -61,12 +57,12 @@
                                                     </asp:DropDownList>
                                                 </ItemTemplate>
                                             </asp:TemplateField>                                            
-                                            <asp:TemplateField HeaderText="ANDEN">
-                                                <ItemTemplate>
-                                                    <asp:DropDownList ID="cmbListarAndenes" runat="server" class="form-control input-sm">
-                                                    </asp:DropDownList>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
+                                            <asp:templatefield headertext="anden">
+                                                <itemtemplate>
+                                                    <asp:dropdownlist id="cmblistarandenes" runat="server" class="form-control input-sm">
+                                                    </asp:dropdownlist>
+                                                </itemtemplate>
+                                            </asp:templatefield>
                                         </Columns>
                                         <PagerStyle HorizontalAlign="Center" CssClass="pagination-ys" />
                                     </asp:GridView>
@@ -104,6 +100,35 @@
                     </div>
                 </div>
                 <%--FIN MODAL DE ERRORES--%>
+
+                <%--MODAL PARA CERRAR EL VIAJE--%>
+                <div class="modal fade" id="QuestionModalConfirmar" data-backdrop="static" data-keyboard="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">
+                                    <asp:Label ID="Label11" runat="server" Text="Información."></asp:Label>
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <asp:Label ID="Label12" runat="server" Text="¿Está seguro que desea crear los registros?"></asp:Label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <asp:Button ID="btnNoCerrar" runat="server" Text="No, cancelar" class="btn btn-default" data-dismiss="modal"/>                                
+                                <asp:Button ID="btnAceptarCerrar" runat="server" Text="Sí, confirmar" class="btn btn-info" data-dismiss="modal" UseSubmitBehavior="false" OnClick="btnAceptarCrear_Click"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <%--FIN MODAL PARA CERRAR EL VIAJE--%>
 
                 </asp:Panel>
             </section>

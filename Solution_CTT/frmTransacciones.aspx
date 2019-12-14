@@ -225,7 +225,7 @@
                                                 <div class="input-group col-sm-8">
                                                     <asp:TextBox ID="txtDescuento" runat="server" BackColor="White" ReadOnly="true" class="form-control input-sm" Text="0.00" placeholder="Descuento" ></asp:TextBox>
                                                     <span class="input-group-addon input-sm">
-                                                        <asp:CheckBox ID="chkCortesia" runat="server" Text="&nbsp&nbspCortesía" AutoPostBack="true" />    
+                                                        <asp:CheckBox ID="chkCortesia" runat="server" Text="&nbsp&nbspCortesía" Visible="false" AutoPostBack="true" />    
                                                     </span>
                                                 </div>
                                             </div>
@@ -573,7 +573,7 @@
                                             <div class="form-group">
                                                 <b><asp:Label ID="Label9" runat="server" Text="INGRESO"></asp:Label></b>
                                                 <div class="input-group col-sm-12">
-                                                    <asp:TextBox ID="txtEfectivoModal" runat="server" class="form-control" Text="0.00" Onkeypress="return ValidaDecimal(this.value);"></asp:TextBox>
+                                                    <asp:TextBox ID="txtEfectivoModal" runat="server" class="form-control" Text="0.00" Onkeypress="return ValidaDecimal(this.value);" AutoPostBack="True" OnTextChanged="txtEfectivoModal_TextChanged"></asp:TextBox>
                                                     <%--<asp:Panel ID="pnlAgregarPagos" runat="server">--%>
                                                         <span id="agregarFaltante" runat="server" class="input-group-addon input-sm"><asp:LinkButton ID="btnIngresarFaltante" runat="server" Text="" OnClick="btnIngresarFaltante_Click" tooltip="Clic aquí para ingresar el efectivo faltante y cobrar los pagos"><i class="fa fa-dollar"></i></asp:LinkButton></span>
                                                     <%--</asp:Panel>--%>

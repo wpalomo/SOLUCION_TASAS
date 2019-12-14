@@ -127,16 +127,16 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:51:43</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>12/06/2019 20:02:42</publishTime>
+      <publishTime>12/14/2019 09:52:44</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>12/06/2019 20:02:41</publishTime>
+      <publishTime>12/14/2019 09:52:44</publishTime>
     </File>
     <File Include="bin/App_GlobalResources.compiled">
-      <publishTime>12/06/2019 20:02:41</publishTime>
+      <publishTime>12/14/2019 09:52:43</publishTime>
     </File>
     <File Include="bin/App_GlobalResources.dll">
-      <publishTime>12/06/2019 20:02:41</publishTime>
+      <publishTime>12/14/2019 09:52:42</publishTime>
     </File>
     <File Include="bin/BarcodeLib.dll">
       <publishTime>11/13/2019 20:52:14</publishTime>
@@ -145,10 +145,10 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:51:43</publishTime>
     </File>
     <File Include="bin/DATOS.dll">
-      <publishTime>12/06/2019 20:02:11</publishTime>
+      <publishTime>12/14/2019 09:48:20</publishTime>
     </File>
     <File Include="bin/ENTIDADES.dll">
-      <publishTime>12/06/2019 20:02:11</publishTime>
+      <publishTime>12/14/2019 09:48:18</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.FriendlyUrls.dll">
       <publishTime>11/13/2019 20:52:14</publishTime>
@@ -178,13 +178,13 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:52:14</publishTime>
     </File>
     <File Include="bin/NEGOCIO.dll">
-      <publishTime>12/06/2019 20:02:11</publishTime>
+      <publishTime>12/14/2019 09:48:20</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>10/02/2013 12:10:10</publishTime>
     </File>
     <File Include="bin/Solution_CTT.dll">
-      <publishTime>12/06/2019 20:02:21</publishTime>
+      <publishTime>12/14/2019 09:48:26</publishTime>
     </File>
     <File Include="bin/SqlServerTypes/x64/msvcr100.dll">
       <publishTime>11/13/2019 20:52:14</publishTime>
@@ -20824,7 +20824,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:51:50</publishTime>
     </File>
     <File Include="frmChoferes.aspx">
-      <publishTime>11/20/2019 22:12:08</publishTime>
+      <publishTime>12/13/2019 13:55:17</publishTime>
     </File>
     <File Include="frmCierreCajero.aspx">
       <publishTime>12/06/2019 19:30:35</publishTime>
@@ -21067,7 +21067,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/20/2019 17:28:32</publishTime>
     </File>
     <File Include="frmTransacciones.aspx">
-      <publishTime>12/04/2019 13:01:36</publishTime>
+      <publishTime>12/14/2019 09:44:43</publishTime>
     </File>
     <File Include="frmVehiculos.aspx">
       <publishTime>11/20/2019 17:39:41</publishTime>
@@ -21076,10 +21076,10 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/20/2019 17:40:03</publishTime>
     </File>
     <File Include="frmViajesMasivos.aspx">
-      <publishTime>11/20/2019 17:40:48</publishTime>
+      <publishTime>12/12/2019 16:11:43</publishTime>
     </File>
     <File Include="Master.Master">
-      <publishTime>12/06/2019 19:50:29</publishTime>
+      <publishTime>12/12/2019 16:23:06</publishTime>
     </File>
     <File Include="packages.config">
       <publishTime>11/13/2019 20:52:14</publishTime>
@@ -21517,7 +21517,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:52:14</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>12/06/2019 20:02:38</publishTime>
+      <publishTime>12/14/2019 09:52:34</publishTime>
     </File>
     <File Include="Site.Mobile.Master">
       <publishTime>11/13/2019 20:51:43</publishTime>
