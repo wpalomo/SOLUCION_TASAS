@@ -174,11 +174,11 @@ namespace Solution_CTT
                         sNumeroFactura_REP = dtConsulta.Rows[0][0].ToString() + "-" + dtConsulta.Rows[0][1].ToString() + "-" + dtConsulta.Rows[0][2].ToString().PadLeft(9, '0');
                         iVendidos_REP = Convert.ToInt32(dtConsulta.Rows[0]["cantidad_tasa_emitida"].ToString());
 
-                        if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
-                        {
-                            sTasaUsuarioRecuperado_REP = dtConsulta.Rows[0][12].ToString();
-                            Logo = barcode(sTasaUsuarioRecuperado_REP);
-                        }
+                        //if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
+                        //{
+                        //    sTasaUsuarioRecuperado_REP = dtConsulta.Rows[0][12].ToString();
+                        //    Logo = barcode(sTasaUsuarioRecuperado_REP);
+                        //}
 
                         sAsientos_REP = "";
                         dbSumaTotal_REP = 0;

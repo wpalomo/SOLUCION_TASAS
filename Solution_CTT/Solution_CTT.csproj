@@ -653,6 +653,7 @@
     <Content Include="frmHorarios.aspx" />
     <Content Include="frmImpresoras.aspx" />
     <Content Include="frmImprimirFactura.aspx" />
+    <Content Include="frmIngresarTokenPendiente.aspx" />
     <Content Include="frmIngresoPagosPendientes.aspx" />
     <Content Include="frmItinerarios.aspx" />
     <Content Include="frmItinerariosExtras.aspx" />
@@ -7586,6 +7587,13 @@
     </Compile>
     <Compile Include="frmImprimirFactura.aspx.designer.cs">
       <DependentUpon>frmImprimirFactura.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmIngresarTokenPendiente.aspx.cs">
+      <DependentUpon>frmIngresarTokenPendiente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmIngresarTokenPendiente.aspx.designer.cs">
+      <DependentUpon>frmIngresarTokenPendiente.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmIngresoPagosPendientes.aspx.cs">
       <DependentUpon>frmIngresoPagosPendientes.aspx</DependentUpon>

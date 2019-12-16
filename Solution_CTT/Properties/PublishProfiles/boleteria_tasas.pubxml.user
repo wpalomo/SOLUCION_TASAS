@@ -127,16 +127,16 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:51:43</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>12/14/2019 09:52:44</publishTime>
+      <publishTime>12/16/2019 10:50:05</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>12/14/2019 09:52:44</publishTime>
+      <publishTime>12/16/2019 10:50:05</publishTime>
     </File>
     <File Include="bin/App_GlobalResources.compiled">
-      <publishTime>12/14/2019 09:52:43</publishTime>
+      <publishTime>12/16/2019 10:50:04</publishTime>
     </File>
     <File Include="bin/App_GlobalResources.dll">
-      <publishTime>12/14/2019 09:52:42</publishTime>
+      <publishTime>12/16/2019 10:50:03</publishTime>
     </File>
     <File Include="bin/BarcodeLib.dll">
       <publishTime>11/13/2019 20:52:14</publishTime>
@@ -184,7 +184,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>10/02/2013 12:10:10</publishTime>
     </File>
     <File Include="bin/Solution_CTT.dll">
-      <publishTime>12/14/2019 09:48:26</publishTime>
+      <publishTime>12/16/2019 10:48:29</publishTime>
     </File>
     <File Include="bin/SqlServerTypes/x64/msvcr100.dll">
       <publishTime>11/13/2019 20:52:14</publishTime>
@@ -20898,6 +20898,9 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
     <File Include="frmImprimirFactura.aspx">
       <publishTime>11/13/2019 20:51:50</publishTime>
     </File>
+    <File Include="frmIngresarTokenPendiente.aspx">
+      <publishTime>12/16/2019 10:07:51</publishTime>
+    </File>
     <File Include="frmIngresoPagosPendientes.aspx">
       <publishTime>11/20/2019 16:11:51</publishTime>
     </File>
@@ -21079,7 +21082,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>12/12/2019 16:11:43</publishTime>
     </File>
     <File Include="Master.Master">
-      <publishTime>12/12/2019 16:23:06</publishTime>
+      <publishTime>12/16/2019 10:29:49</publishTime>
     </File>
     <File Include="packages.config">
       <publishTime>11/13/2019 20:52:14</publishTime>
@@ -21517,7 +21520,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:52:14</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>12/14/2019 09:52:34</publishTime>
+      <publishTime>12/16/2019 10:49:59</publishTime>
     </File>
     <File Include="Site.Mobile.Master">
       <publishTime>11/13/2019 20:51:43</publishTime>

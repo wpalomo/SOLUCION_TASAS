@@ -14,7 +14,7 @@ namespace Solution_CTT.Clases_Tasa_Usuario
 
         string sSql;
         
-        public bool insertarToken(string sToken_P, Int32 iCantidad_P, int iAmbiente_P, string[] sDatosMaximo_P, int iUsuario_P)
+        public bool insertarToken(string sToken_P, Int32 iCantidad_P, int iAmbiente_P, string[] sDatosMaximo_P, int iUsuario_P, int iSincronizado_P)
         {
             try
             {
@@ -28,11 +28,11 @@ namespace Solution_CTT.Clases_Tasa_Usuario
                 sSql = "";
                 sSql += "insert into ctt_tasa_token (" + Environment.NewLine;
                 sSql += "token, maximo_secuencial, cuenta, emitidos, anulados, estado_token," + Environment.NewLine;
-                sSql += "fecha_generacion, ambiente_token, creado, validado, id_ctt_oficinista, estado," + Environment.NewLine;
-                sSql += "fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                sSql += "fecha_generacion, ambiente_token, creado, validado, id_ctt_oficinista, sincronizado," + Environment.NewLine;
+                sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += "'" + sToken_P + "', " + iCantidad_P + ", 1, 0, 0, 'Abierta', GETDATE()," + Environment.NewLine;
-                sSql += iAmbiente_P + ", 0, 1, " + iUsuario_P + ", 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
+                sSql += iAmbiente_P + ", 0, 1, " + iUsuario_P + ", " + iSincronizado_P + ", 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
@@ -48,6 +48,7 @@ namespace Solution_CTT.Clases_Tasa_Usuario
 
             catch (Exception)
             {
+                conexionM.reversaTransaccion();
                 return false;
             }
         }

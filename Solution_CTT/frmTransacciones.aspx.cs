@@ -7155,7 +7155,7 @@ namespace Solution_CTT
                         lblMensajeValidacionModal.Text = "se han acreditado " + verifica.Cantidad.ToString() + " tasas de usuario a su sistema</br>de venta de boletería.";
                         sumaTotalTasasDisponibles();
 
-                        if (validarToken.insertarToken(txtNumeroTokenModal.Text.Trim(), Convert.ToInt32(verifica.Cantidad), Convert.ToInt32(Session["emision"].ToString()), sDatosMaximo, Convert.ToInt32(Session["idUsuario"].ToString())) == false)
+                        if (validarToken.insertarToken(txtNumeroTokenModal.Text.Trim(), Convert.ToInt32(verifica.Cantidad), Convert.ToInt32(Session["emision"].ToString()), sDatosMaximo, Convert.ToInt32(Session["idUsuario"].ToString()), 1) == false)
                         {
                             ModalPopupExtender_ValidaToken.Hide();                            
                             ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo registrar el token en la base de datos local. Comuníquese con el administrador del sistema', 'error');", true);

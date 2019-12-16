@@ -371,7 +371,7 @@
                             <li><a href="frmDetalleTransaccionesTasa.aspx"><i class="fa fa-circle-o"></i>Transacciones Tasa Usuario</a></li>
                             <li><a href="frmObtenerTokens.aspx"><i class="fa fa-circle-o"></i>Detalle de Tokens</a></li>
                             <li><a href="frmParametrosTasaUsuario.aspx"><i class="fa fa-circle-o"></i>Parámetros de Tasas de Usuario</a></li>
-                            <%--<li><a href="frmGenerarToken.aspx"><i class="fa fa-circle-o"></i>Generar Token</a></li>--%>
+                            <%--<li><a href="frmIngresarTokenPendiente.aspx"><i class="fa fa-circle-o"></i>Ingresar Token Pendiente</a></li>--%>
                         </ul>
                     </li>
 
