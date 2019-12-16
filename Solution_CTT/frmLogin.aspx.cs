@@ -19,7 +19,9 @@ namespace Solution_CTT
         manejadorConexion conexionM = new manejadorConexion();
         manejadorComboDatos comboM = new manejadorComboDatos();
         ENTComboDatos comboE = new ENTComboDatos();
-        Clases.ClaseParametros parametros = new Clases.ClaseParametros();        
+
+        Clases.ClaseParametros parametros = new Clases.ClaseParametros();
+        Clases_Contifico.ClaseAutenticacion autenticacion;
 
         DataTable dtConsulta;
 
@@ -76,32 +78,6 @@ namespace Solution_CTT
         }
 
         #region FUNCIONES PARA MANEJO DE LA JORNADA
-
-        //COMPARAR LAS HORAS
-        //private void compararHoras()
-        //{
-        //    try
-        //    {
-        //        string sHoraLimite = "12:00";
-
-        //        if (DateTime.Now <= Convert.ToDateTime(sHoraLimite))
-        //        {
-        //            rdbMatutina.Checked = true;
-        //            rdbVespertina.Checked = false;
-        //        }
-        //        else
-        //        {
-        //            rdbMatutina.Checked = false;
-        //            rdbVespertina.Checked = true;
-        //        }
-
-        //    }
-
-        //    catch (Exception ex)
-        //    {
-        //        ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'Error al cargar los parámetros de las jornadas.', 'error')</script>");
-        //    }
-        //}
 
         //CONSULTAR LAS JORNADAS REGISTRADAS
         private void consultarJornadas()
@@ -195,14 +171,6 @@ namespace Solution_CTT
         {
             try
             {
-                //sSql = "";
-                //sSql += "select P.id_ctt_pueblo, P.descripcion, isnull(PT.codigo, '0') codigo" + Environment.NewLine;
-                //sSql += "from ctt_pueblos P LEFT OUTER JOIN" + Environment.NewLine;
-                //sSql += "ctt_proveedores_tasas PT ON P.id_ctt_proveedor_tasa = PT.id_ctt_proveedor_tasa" + Environment.NewLine;
-                //sSql += "and P.estado = 'A'" + Environment.NewLine;
-                //sSql += "and PT.estado = 'A'" + Environment.NewLine;
-                //sSql += "where P.id_localidad_terminal = " + Convert.ToInt32(Application["idLocalidad"].ToString()) + Environment.NewLine;
-
                 sSql = "";
                 sSql += "select id_ctt_pueblo, descripcion" + Environment.NewLine;
                 sSql += "from ctt_pueblos" + Environment.NewLine;
@@ -221,16 +189,6 @@ namespace Solution_CTT
 
                     lblSucursal.Text = "OFICINA: " + dtConsulta.Rows[0]["descripcion"].ToString().ToUpper().Trim();
                     Session["oficina"] = dtConsulta.Rows[0]["descripcion"].ToString().ToUpper().Trim();
-
-                    //if (dtConsulta.Rows[0]["codigo"].ToString().Trim() == "01")
-                    //{
-                    //    Session["tasaDevesofft"] = dtConsulta.Rows[0]["codigo"].ToString().Trim();
-                    //}
-
-                    //else
-                    //{
-                    //    Session["tasaDevesofft"] = null;
-                    //}
                 }
 
                 else
@@ -346,7 +304,6 @@ namespace Solution_CTT
                 sSql = "";
                 sSql += "select * from ctt_vw_parametros_localidad" + Environment.NewLine;
                 sSql += "where id_ctt_pueblo = " + Convert.ToInt32(Session["id_pueblo"].ToString());
-                //sSql += "where id_ctt_pueblo = " + Convert.ToInt32(cmbTerminal.SelectedValue);
 
                 dtConsulta = new DataTable();
                 dtConsulta.Clear();
@@ -376,6 +333,11 @@ namespace Solution_CTT
                         {
                             Session["tasaDevesofft"] = dtConsulta.Rows[0]["codigo_proveedor"].ToString();
                         }
+
+                        else if (dtConsulta.Rows[0]["codigo_proveedor"].ToString().Trim() == "02")
+                        {
+                            Session["tasaContifico"] = dtConsulta.Rows[0]["codigo_proveedor"].ToString();
+                        }
                     }
 
                     else
@@ -402,7 +364,8 @@ namespace Solution_CTT
             try
             {
                 sSql = "";
-                sSql += "select id_ctt_oficinista, descripcion, id_persona, claveacceso" + Environment.NewLine;
+                sSql += "select id_ctt_oficinista, descripcion, id_persona, claveacceso," + Environment.NewLine;
+                sSql += "isnull(pos_secret, '') pos_secret" + Environment.NewLine;
                 sSql += "from ctt_oficinista" + Environment.NewLine;
                 sSql += "where estado = 'A'" + Environment.NewLine;
                 sSql += "and usuario = '" + txtUsuario.Text.Trim().ToLower() + "'";
@@ -431,12 +394,32 @@ namespace Solution_CTT
                 {
                     Session["idUsuario"] = dtConsulta.Rows[0][0].ToString().ToUpper();
                     Session["usuario"] = dtConsulta.Rows[0][1].ToString().ToUpper();
+                    Session["pos_secret"] = dtConsulta.Rows[0]["pos_secret"].ToString();
 
                     sDatosMaximo[0] = Session["usuario"].ToString().ToUpper();
                     sDatosMaximo[1] = Environment.MachineName.ToString();
                     sDatosMaximo[2] = "A";
 
-                    //cargarParametrosTerminal();
+                    if (Session["tasaContifico"].ToString() == "02")
+                    {
+                        autenticacion = new Clases_Contifico.ClaseAutenticacion();
+
+                        string sRespuesta_A = autenticacion.recuperarToken(dtConsulta.Rows[0][1].ToString().Trim().ToLower(), dtConsulta.Rows[0][3].ToString().Trim(), dtConsulta.Rows[0]["pos_secret"].ToString().Trim());
+
+                        if (sRespuesta_A == "ERROR")
+                        {
+                            ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'No se pudo obtener registros para la tasa de usuario SMARTT', 'error')</script>");
+                            return;
+                        }
+
+                        if (sRespuesta_A == "ISNULL")
+                        {
+                            ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Información.!', 'No se proporcionaron credenciales de autenticación. Tasa de Usuario SMARTT', 'info')</script>");
+                            return;
+                        }
+
+                        Session["tokenSMARTT"] = sRespuesta_A;
+                    }
 
                     if (!GetVariablesFE()) return;//CARGO RESTO DE PARAMETROS PARA LA FE
 
@@ -466,92 +449,6 @@ namespace Solution_CTT
 
         fin: { }
         }
-
-        ////FUNCION PARA CONSULTAR EL ESTADO DE CIERRE DE CAJA
-        //private bool consultarEstadoCierreCaja()
-        //{
-        //    try
-        //    {
-        //        consultarJornadas();
-
-        //        sFecha = DateTime.Now.ToString("yyyy/MM/dd");
-        //        sHora = DateTime.Now.ToString("HH:mm");
-                                
-        //        if (rdbMatutina.Checked == true)
-        //        {
-        //            iJornada = 1;
-        //            Session["nombreJornada"] = "MAÑANA";
-        //        }
-
-        //        else if (rdbVespertina.Checked == true)
-        //        {
-        //            Session["nombreJornada"] = "TARDE";
-        //            iJornada = 2;
-        //        }
-
-        //        sSql = "";
-        //        sSql += "select id_ctt_cierre_caja, fecha_apertura, hora_apertura, O.descripcion usuario," + Environment.NewLine;
-        //        sSql += "CC.id_ctt_jornada, J.descripcion jornada, isnull(saldo_inicial, 0) saldo_inicial, " + Environment.NewLine;
-        //        sSql += "isnull(observaciones, '') observaciones" + Environment.NewLine;
-        //        sSql += "from ctt_cierre_caja CC INNER JOIN" + Environment.NewLine;
-        //        sSql += "ctt_oficinista O ON O.id_ctt_oficinista = CC.id_ctt_oficinista" + Environment.NewLine;
-        //        sSql += "and O.estado = 'A'" + Environment.NewLine;
-        //        sSql += "and CC.estado = 'A' INNER JOIN" + Environment.NewLine;
-        //        sSql += "ctt_jornada J ON J.id_ctt_jornada = CC.id_ctt_jornada" + Environment.NewLine;
-        //        sSql += "and J.estado = 'A'" + Environment.NewLine;
-        //        sSql += "where CC.id_ctt_pueblo = " + Convert.ToInt32(Session["id_pueblo"].ToString()) + Environment.NewLine;
-        //        sSql += "and CC.id_ctt_jornada = " + iJornada + Environment.NewLine;
-        //        sSql += "and CC.fecha_apertura = '" + sFecha + "'" + Environment.NewLine;
-        //        sSql += "and CC.estado_cierre_caja = 'Abierta'";
-
-        //        dtConsulta = new DataTable();
-        //        dtConsulta.Clear();
-
-        //        bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
-
-        //        if (bRespuesta == true)
-        //        {
-        //            if (dtConsulta.Rows.Count > 0)
-        //            {
-        //                Session["idCierreCaja"] = dtConsulta.Rows[0]["id_ctt_cierre_caja"].ToString();
-        //                Session["fechaApertura"] = Convert.ToDateTime(dtConsulta.Rows[0]["fecha_apertura"].ToString()).ToString("dd/MM/yyyy");
-        //                Session["horaApertura"] = Convert.ToDateTime(dtConsulta.Rows[0]["hora_apertura"].ToString()).ToString("HH:mm");
-        //                Session["usuarioApertura"] = dtConsulta.Rows[0]["usuario"].ToString();
-        //                Session["idJornadaApertura"] = dtConsulta.Rows[0]["id_ctt_jornada"].ToString();
-        //                Session["JornadaApertura"] = dtConsulta.Rows[0]["jornada"].ToString();
-        //                Session["saldoInicialApertura"] = dtConsulta.Rows[0]["saldo_inicial"].ToString();
-        //                Session["observacionesApertura"] = dtConsulta.Rows[0]["observaciones"].ToString();
-
-        //                Session["idJornada"] = dtConsulta.Rows[0]["id_ctt_jornada"].ToString();
-        //            }
-
-        //            else
-        //            {
-        //                Session["idCierreCaja"] = "0";
-        //                Session["fechaApertura"] = sFecha;
-        //                Session["horaApertura"] = sHora;
-        //                Session["usuarioApertura"] = Session["usuario"].ToString();
-        //                Session["idJornadaApertura"] = iJornada.ToString();
-        //                Session["JornadaApertura"] = Session["nombreJornada"].ToString();
-        //                Session["saldoInicialApertura"] = "0.00";
-        //                Session["observacionesApertura"] = "";
-        //            }
-        //        }
-
-        //        else
-        //        {
-        //            ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'Error al cargar los valores de apertura de caja.', 'error')</script>");
-        //            return false;
-        //        }
-
-        //        return true;
-        //    }
-
-        //    catch (Exception)
-        //    {
-        //        return false;
-        //    }
-        //}
 
         //FUNCION PARA CONSULTAR EL ESTADO DE CIERRE DE CAJA NUEVA VERSION
         private bool consultarEstadoCierreCaja()
@@ -654,107 +551,6 @@ namespace Solution_CTT
 
             catch (Exception)
             {
-                return false;
-            }
-        }
-
-
-        //FUNCION PARA INSERTAR EL CIERRE DE CAJA
-        private bool insertarRegistro()
-        {
-            try
-            {
-                if (conexionM.iniciarTransaccion() == false)
-                {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo iniciar iniciar la transacción.', 'danger');", true);
-                    return false;
-                }
-
-                sFecha = DateTime.Now.ToString("yyyy/MM/dd");
-                sHora = DateTime.Now.ToString("HH:mm");
-
-                Session["fechaApertura"] = sFecha;
-                Session["horaApertura"] = sHora;
-
-                sSql = "";
-                sSql += "insert into ctt_cierre_caja (" + Environment.NewLine;
-                sSql += "id_ctt_pueblo, id_ctt_oficinista, fecha_apertura, hora_apertura," + Environment.NewLine;
-                sSql += "estado_cierre_caja, porcentaje_iva, estado, fecha_ingreso," + Environment.NewLine;
-                sSql += "usuario_ingreso, terminal_ingreso, id_ctt_jornada)" + Environment.NewLine;
-                sSql += "values (" + Environment.NewLine;
-                sSql += Convert.ToInt32(Session["id_pueblo"].ToString()) + ", " + Convert.ToInt32(Session["idUsuario"].ToString()) + "," + Environment.NewLine;
-                sSql += "'" + sFecha + "', '" + sHora + "', 'Abierta', " + Convert.ToDouble(Application["iva"].ToString()) + ", 'A'," + Environment.NewLine;
-                sSql += "GETDATE(), '" + Session["usuario"].ToString() + "', '" + Environment.MachineName.ToString() + "', " + iJornada + ")";
-
-                //EJECUCIÓN DE INSTRUCCION SQL
-                if (conexionM.ejecutarInstruccionSQL(sSql) == false)
-                {
-                    //MENSAJE DE ERROR
-                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', '" + sSql + "', 'danger');", true);
-                    goto reversa;
-                }
-
-                //OBTENER EL MAXIMO INGRESADO
-                sTabla = "ctt_cierre_caja";
-                sCampo = "id_ctt_cierre_caja";
-
-                iMaximo = conexionM.sacarMaximo(sTabla, sCampo, "", sDatosMaximo);
-
-                if (iMaximo == -1)
-                {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo consultar los datos del cierre de caja.', 'danger');", true);
-                    return false;
-                }
-
-                else
-                {
-                    iIdCierreCaja = Convert.ToInt32(iMaximo);
-                    Session["idCierreCaja"] = iMaximo.ToString();
-                }
-
-                sSql = "";
-                sSql += "select CC.fecha_apertura, CC.hora_apertura," + Environment.NewLine;
-                sSql += "CC.fecha_cierre, CC.hora_cierre, CC.estado_cierre_caja, CC.id_ctt_jornada," + Environment.NewLine;
-                sSql += "JOR.descripcion jornada" + Environment.NewLine;
-                sSql += "from ctt_cierre_caja CC INNER JOIN" + Environment.NewLine;
-                sSql += "ctt_jornada JOR ON JOR.id_ctt_jornada = CC.id_ctt_jornada" + Environment.NewLine;
-                sSql += "and CC.estado = 'A'" + Environment.NewLine;
-                sSql += "and JOR.estado = 'A'" + Environment.NewLine;
-                sSql += "where CC.id_ctt_cierre_caja = " + iIdCierreCaja;
-
-                dtConsulta = new DataTable();
-                dtConsulta.Clear();
-
-                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
-
-                if (bRespuesta == false)
-                {
-                    return false;
-                }
-
-                else
-                {
-                    Session["fechaApertura"] = dtConsulta.Rows[0][0].ToString();
-                    Session["horaApertura"] = dtConsulta.Rows[0][1].ToString();
-                    Session["fechaCierre"] = dtConsulta.Rows[0][2].ToString();
-                    Session["horaCierre"] = dtConsulta.Rows[0][3].ToString();
-                    Session["estadoCierre"] = dtConsulta.Rows[0][4].ToString();
-                    Session["idJornada"] = dtConsulta.Rows[0][5].ToString();
-                    iRedireccion = 1;
-                }
-
-
-                conexionM.terminaTransaccion();
-                return true;
-            }
-
-            catch(Exception)
-            {
-                goto reversa;
-            }
-
-            reversa: { 
-                conexionM.reversaTransaccion();
                 return false;
             }
         }

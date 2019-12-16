@@ -71,6 +71,8 @@ namespace Solution_CTT
 
             //VARIABLES DE SESION DE LAS TASAS DE USUARIO
             Session["tasaDevesofft"] = null;
+            Session["tasaContifico"] = null;
+            Session["tokenSMARTT"] = null;
         }
 
         protected void Application_BeginRequest(object sender, EventArgs e)

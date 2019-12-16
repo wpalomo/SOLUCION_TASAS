@@ -633,6 +633,7 @@
     <Content Include="dist\css\adminlte.css.map" />
     <Content Include="dist\css\adminlte.min.css.map" />
     <Content Include="dist\img\Thumbs.db" />
+    <Content Include="frmAsignarDatosLocalidadesContifico.aspx" />
     <Content Include="frmCierreCajero.aspx" />
     <Content Include="frmDefinicionCortaLocalidades.aspx" />
     <Content Include="frmDefinicionLocalidades.aspx" />
@@ -670,6 +671,7 @@
     <Content Include="frmPagosTasaUsuario.aspx" />
     <Content Include="frmParametroCorreo.aspx" />
     <Content Include="frmParametros.aspx" />
+    <Content Include="frmParametrosContifico.aspx" />
     <Content Include="frmParametrosFacturacionElectronica.aspx" />
     <Content Include="frmParametrosLocalidad.aspx" />
     <Content Include="frmParametrosTasaUsuario.aspx" />
@@ -7328,6 +7330,8 @@
     <Compile Include="Clases\Impresor2.cs" />
     <Compile Include="Clases\ValidarCedula.cs" />
     <Compile Include="Clases\ValidarRUC.cs" />
+    <Compile Include="Clases_Contifico\ClaseAutenticacion.cs" />
+    <Compile Include="Clases_Contifico\ClaseLocalidades.cs" />
     <Compile Include="Clases_Factura_Electronica\ClaseConsultarXML.cs" />
     <Compile Include="Clases_Factura_Electronica\ClaseEnviarMail.cs" />
     <Compile Include="Clases_Factura_Electronica\ClaseEnviarXML.cs" />
@@ -7343,6 +7347,7 @@
     <Compile Include="Clases_Tasa_Usuario\ClaseTasaUsuarioLote.cs" />
     <Compile Include="Clases_Tasa_Usuario\ClaseValidarToken.cs" />
     <Compile Include="Clases_Tasa_Usuario\Get_Tokens.cs" />
+    <Compile Include="Clase_Variables_Contifico\ClaseVariables.cs" />
     <Compile Include="DetalleEnvioAutorizacion.cs" />
     <Compile Include="DetalleGenerarXML.cs" />
     <Compile Include="DSReportes.Designer.cs">
@@ -7377,6 +7382,13 @@
     </Compile>
     <Compile Include="frmAsientos.aspx.designer.cs">
       <DependentUpon>frmAsientos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmAsignarDatosLocalidadesContifico.aspx.cs">
+      <DependentUpon>frmAsignarDatosLocalidadesContifico.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmAsignarDatosLocalidadesContifico.aspx.designer.cs">
+      <DependentUpon>frmAsignarDatosLocalidadesContifico.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmAsistentes.aspx.cs">
       <DependentUpon>frmAsistentes.aspx</DependentUpon>
@@ -7713,6 +7725,13 @@
     </Compile>
     <Compile Include="frmParametros.aspx.designer.cs">
       <DependentUpon>frmParametros.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmParametrosContifico.aspx.cs">
+      <DependentUpon>frmParametrosContifico.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmParametrosContifico.aspx.designer.cs">
+      <DependentUpon>frmParametrosContifico.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmParametrosFacturacionElectronica.aspx.cs">
       <DependentUpon>frmParametrosFacturacionElectronica.aspx</DependentUpon>
@@ -8081,6 +8100,7 @@
     <EmbeddedResource Include="Reportes\rptViajesAgrupados.rdlc" />
     <EmbeddedResource Include="Reportes\RVPruebas.rdlc" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

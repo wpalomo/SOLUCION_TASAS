@@ -375,6 +375,20 @@
                         </ul>
                     </li>
 
+                    <li class="treeview" id="contifico" runat="server">
+                        <a href="#">
+                            <i class="fa fa-diamond"></i>
+                            <span>Tasas Usuario CONTÍFICO</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="frmParametrosContifico.aspx"><i class="fa fa-circle-o"></i>Parámetros de Tasas de Usuario</a></li>
+                            <li><a href="frmAsignarDatosLocalidadesContifico.aspx"><i class="fa fa-circle-o"></i>Datos por Localidades</a></li>
+                        </ul>
+                    </li>
+
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-diamond"></i>
