@@ -634,6 +634,7 @@
     <Content Include="dist\css\adminlte.min.css.map" />
     <Content Include="dist\img\Thumbs.db" />
     <Content Include="frmAsignarDatosLocalidadesContifico.aspx" />
+    <Content Include="frmBusesContifico.aspx" />
     <Content Include="frmCierreCajero.aspx" />
     <Content Include="frmDefinicionCortaLocalidades.aspx" />
     <Content Include="frmDefinicionLocalidades.aspx" />
@@ -648,6 +649,7 @@
     <Content Include="frmEstadoComprobantesElectronicos.aspx" />
     <Content Include="frmExtras.aspx" />
     <Content Include="frmFirmarXML.aspx" />
+    <Content Include="frmFrecuenciasContifico.aspx" />
     <Content Include="frmGenerarRIDE.aspx" />
     <Content Include="frmGenerarToken.aspx" />
     <Content Include="frmGenerarXML.aspx" />
@@ -699,6 +701,7 @@
     <Content Include="frmReporteViajesActivos.aspx" />
     <Content Include="frmReporteViajesAgrupados.aspx" />
     <Content Include="frmRutas.aspx" />
+    <Content Include="frmRutasContifico.aspx" />
     <Content Include="frmSincronizacioIndividual.aspx" />
     <Content Include="frmSincronizarTasasUsuario.aspx" />
     <Content Include="frmSincronizarTasasUsuario_V2.aspx" />
@@ -7331,7 +7334,10 @@
     <Compile Include="Clases\ValidarCedula.cs" />
     <Compile Include="Clases\ValidarRUC.cs" />
     <Compile Include="Clases_Contifico\ClaseAutenticacion.cs" />
+    <Compile Include="Clases_Contifico\ClaseBuses.cs" />
+    <Compile Include="Clases_Contifico\ClaseFrecuencias.cs" />
     <Compile Include="Clases_Contifico\ClaseLocalidades.cs" />
+    <Compile Include="Clases_Contifico\ClaseRutas.cs" />
     <Compile Include="Clases_Factura_Electronica\ClaseConsultarXML.cs" />
     <Compile Include="Clases_Factura_Electronica\ClaseEnviarMail.cs" />
     <Compile Include="Clases_Factura_Electronica\ClaseEnviarXML.cs" />
@@ -7403,6 +7409,13 @@
     </Compile>
     <Compile Include="frmAutorizarDocumentosPorLote.aspx.designer.cs">
       <DependentUpon>frmAutorizarDocumentosPorLote.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmBusesContifico.aspx.cs">
+      <DependentUpon>frmBusesContifico.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmBusesContifico.aspx.designer.cs">
+      <DependentUpon>frmBusesContifico.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmCambiarPassword.aspx.cs">
       <DependentUpon>frmCambiarPassword.aspx</DependentUpon>
@@ -7557,6 +7570,13 @@
     </Compile>
     <Compile Include="frmFirmarXML.aspx.designer.cs">
       <DependentUpon>frmFirmarXML.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmFrecuenciasContifico.aspx.cs">
+      <DependentUpon>frmFrecuenciasContifico.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmFrecuenciasContifico.aspx.designer.cs">
+      <DependentUpon>frmFrecuenciasContifico.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmGenerarRIDE.aspx.cs">
       <DependentUpon>frmGenerarRIDE.aspx</DependentUpon>
@@ -7935,6 +7955,13 @@
     </Compile>
     <Compile Include="frmRutas.aspx.designer.cs">
       <DependentUpon>frmRutas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmRutasContifico.aspx.cs">
+      <DependentUpon>frmRutasContifico.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmRutasContifico.aspx.designer.cs">
+      <DependentUpon>frmRutasContifico.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmSincronizacioIndividual.aspx.cs">
       <DependentUpon>frmSincronizacioIndividual.aspx</DependentUpon>

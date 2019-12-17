@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="frmAsignarDatosLocalidadesContifico.aspx.cs" Inherits="Solution_CTT.frmAsignarDatosLocalidadesContifico" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="frmFrecuenciasContifico.aspx.cs" Inherits="Solution_CTT.frmFrecuenciasContifico" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -9,45 +9,11 @@
             <!-- Main content -->
             <section class="content">
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="box box-primary">
-                            <div class="box-header with-border">
-                                <i class="fa fa-table"></i>
-                                <h3 class="box-title"><%= Resources.MESSAGES.TXT_DATA %></h3>
-                                <div class="box-tools pull-right">
-                                    <div class="input-group input-group-sm" style="width: 150px;">
-                                        <%--<asp:TextBox ID="txtFiltrar" runat="server" class="form-control pull-right" placeholder="Search"></asp:TextBox>
-                                        <div class="input-group-btn">
-                                            <asp:LinkButton ID="btnFiltrar" runat="server" class="btn btn-default" OnClick="btnFiltrar_Click" ><i class="fa fa-search"></i></asp:LinkButton>
-                                        </div>--%>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="box-body">
-                                <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnSelectedIndexChanged="dgvDatos_SelectedIndexChanged" AllowPaging="true" PageSize="10" OnPageIndexChanging="dgvDatos_PageIndexChanging" OnRowDataBound="dgvDatos_RowDataBound">
-                                    <Columns>
-                                        <asp:BoundField DataField="id_ctt_parametro_localidad" HeaderText="ID" />
-                                        <asp:BoundField DataField="descripcion" HeaderText="TERMINAL" />
-                                        <asp:BoundField DataField="nombre_proveedor" HeaderText="PROVEEDOR" />
-                                        <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="ASIGNAR DATOS">
-                                            <ItemTemplate>
-                                                <asp:LinkButton ID="lbtnEdit" runat="server" CommandName="Select" class="btn btn-xs btn-warning" OnClick="lbtnEdit_Click"><i class="fa fa-pencil"></i></asp:LinkButton>
-                                            </ItemTemplate>
-                                            <ItemStyle HorizontalAlign="Center" />
-                                        </asp:TemplateField>
-                                    </Columns>
-                                    <PagerStyle HorizontalAlign="Center" CssClass="pagination-ys" />
-                                </asp:GridView>
-                            </div>
-                        </div>
-                        <!-- /.box -->
-                    </div>
-
-                    <%--REGISTER--%>
-                  <div class="col-md-6">
+                      <%--REGISTER--%>
+                  <div class="col-md-12">
                         <div class="box box-success">
                             <div class="box-header with-border">
-                                <h3 class="box-title">Localidades del Sistema</h3>
+                                <h3 class="box-title">Frecuencias del Sistema SMARTT</h3>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse">
                                         <i class="fa fa-minus"></i>
@@ -61,11 +27,29 @@
                                 <div class="form-group">
                                     <%--PRIMERA FILA--%>
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-4">
                                             <div class="form-group">
-                                                <asp:Label ID="Label18" runat="server" Text="Seleccione Terminal *"></asp:Label>
+                                                <asp:Label ID="Label18" runat="server" Text="Seleccione la Frecuencia"></asp:Label>
                                                 <div class="input-group col-sm-12">
-                                                    <asp:DropDownList ID="cmbLocalidades" runat="server" AutoPostBack="true" class="form-control input-sm" OnSelectedIndexChanged="cmbLocalidades_SelectedIndexChanged"></asp:DropDownList>
+                                                    <asp:DropDownList ID="cmbFrecuencias" runat="server" AutoPostBack="true" OnSelectedIndexChanged="cmbFrecuencias_SelectedIndexChanged" class="form-control input-sm"></asp:DropDownList>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <asp:Label ID="Label9" runat="server" Text="Nombre del Destino"></asp:Label>
+                                                <div class="input-group col-sm-12">
+                                                    <asp:TextBox ID="txtNombreDestino" ReadOnly="true" runat="server" class="form-control input-sm" placeholder="NOMBRE DEL DESTINO" BackColor="White"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <asp:Label ID="Label10" runat="server" Text="Vía"></asp:Label>
+                                                <div class="input-group col-sm-12">
+                                                    <asp:TextBox ID="txtVia" ReadOnly="true" runat="server" class="form-control input-sm" placeholder="VIA" BackColor="White"></asp:TextBox>
                                                 </div>
                                             </div>
                                         </div>
@@ -73,20 +57,29 @@
 
                                     <%--SEGUNDA FILA--%>
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
-                                                <asp:Label ID="Label4" runat="server" Text="Nombre de la localidad"></asp:Label>
+                                                <asp:Label ID="Label11" runat="server" Text="Tipo"></asp:Label>
                                                 <div class="input-group col-sm-12">
-                                                    <asp:TextBox ID="txtNombreLocalidad" ReadOnly="true" runat="server" CssClass="form-control input-sm" placeholder="NOMBRE DE LA LOCALIDAD" BackColor="White"></asp:TextBox>
+                                                    <asp:TextBox ID="txtTipo" ReadOnly="true" runat="server" class="form-control input-sm" placeholder="TIPO" BackColor="White"></asp:TextBox>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
-                                                <asp:Label ID="Label6" runat="server" Text="RUC de la localidad"></asp:Label>
+                                                <asp:Label ID="Label4" runat="server" Text="Tipo Nombre"></asp:Label>
                                                 <div class="input-group col-sm-12">
-                                                    <asp:TextBox ID="txtRucLocalidad" ReadOnly="true" runat="server" CssClass="form-control input-sm" placeholder="RUC DE LA LOCALIDAD" BackColor="White"></asp:TextBox>
+                                                    <asp:TextBox ID="txtTipoNombre" ReadOnly="true" runat="server" class="form-control input-sm" placeholder="TIPO NOMBRE" BackColor="White"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <asp:Label ID="Label12" runat="server" Text="Fecha de Validez"></asp:Label>
+                                                <div class="input-group col-sm-12">
+                                                    <asp:TextBox ID="txtFechaValidez" ReadOnly="true" runat="server" class="form-control input-sm" placeholder="FECHA DE VALIDEZ" BackColor="White"></asp:TextBox>
                                                 </div>
                                             </div>
                                         </div>
@@ -94,45 +87,51 @@
 
                                     <%--TERCERA FILA--%>
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-2">
                                             <div class="form-group">
-                                                <asp:Label ID="Label3" runat="server" Text="Nombre Comercial de la Localidad"></asp:Label>
-                                                <div class="input-group col-sm-12">
-                                                    <asp:TextBox ID="txtNombreComercial" ReadOnly="true" runat="server" CssClass="form-control input-sm" placeholder="Nombre Comercial" BackColor="White"></asp:TextBox>
-                                                </div>
+                                                <asp:CheckBox ID="chkLunes" Enabled="false" runat="server" class="form-control input-sm" Text="&nbsp&nbspLunes" />
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-2">
                                             <div class="form-group">
-                                                <asp:Label ID="Label5" runat="server" Text="Dirección de la matriz"></asp:Label>
-                                                <div class="input-group col-sm-12">
-                                                    <asp:TextBox ID="txtDireccionMatriz" ReadOnly="true" runat="server" CssClass="form-control input-sm" placeholder="Dirección de la Matriz" BackColor="White"></asp:TextBox>
-                                                </div>
+                                                <asp:CheckBox ID="chkMartes" Enabled="false" runat="server" class="form-control input-sm" Text="&nbsp&nbspMartes" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <asp:CheckBox ID="chkMiercoles" Enabled="false" runat="server" class="form-control input-sm" Text="&nbsp&nbspMiércoles" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <asp:CheckBox ID="chkJueves" Enabled="false" runat="server" class="form-control input-sm" Text="&nbsp&nbspJueves" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <asp:CheckBox ID="chkViernes" Enabled="false" runat="server" class="form-control input-sm" Text="&nbsp&nbspViernes" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <asp:CheckBox ID="chkSabado" Enabled="false" runat="server" class="form-control input-sm" Text="&nbsp&nbspSábado" />
                                             </div>
                                         </div>
                                     </div>
 
                                     <%--CUARTA FILA--%>
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-2">
                                             <div class="form-group">
-                                                <asp:Label ID="Label7" runat="server" Text="Tarifa de la Tasa"></asp:Label>
-                                                <div class="input-group col-sm-12">
-                                                    <asp:TextBox ID="txtTarifa" ReadOnly="true" runat="server" CssClass="form-control input-sm" placeholder="Tarifa" BackColor="White"></asp:TextBox>
-                                                </div>
+                                                <asp:CheckBox ID="chkDomingo" Enabled="false" runat="server" class="form-control input-sm" Text="&nbsp&nbspDomingo" />
                                             </div>
                                         </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <asp:Label ID="Label8" runat="server" Text="Tiempo de Gracia"></asp:Label>
-                                                <div class="input-group col-sm-12">
-                                                    <asp:TextBox ID="txtTiempoGracia" ReadOnly="true" runat="server" CssClass="form-control input-sm" placeholder="Tiempo de Gracia" BackColor="White"></asp:TextBox>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>                                  
+                                    </div>                                                                 
                                 </div>
                             </div>
 
@@ -154,8 +153,9 @@
                             </div>
 
                         </div>
-                    </div>
+                    </div>              
                 </div>
+
                 <div class="modal fade" id="QuestionModal" data-backdrop="static" data-keyboard="true">
                     <div class="modal-dialog">
                         <div class="modal-content">

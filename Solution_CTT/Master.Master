@@ -386,6 +386,9 @@
                         <ul class="treeview-menu">
                             <li><a href="frmParametrosContifico.aspx"><i class="fa fa-circle-o"></i>Parámetros de Tasas de Usuario</a></li>
                             <li><a href="frmAsignarDatosLocalidadesContifico.aspx"><i class="fa fa-circle-o"></i>Datos por Localidades</a></li>
+                            <li><a href="frmRutasContifico.aspx"><i class="fa fa-circle-o"></i>Rutas</a></li>
+                            <li><a href="frmFrecuenciasContifico.aspx"><i class="fa fa-circle-o"></i>Frecuencias</a></li>
+                            <li><a href="frmBusesContifico.aspx"><i class="fa fa-circle-o"></i>Buses</a></li>
                         </ul>
                     </li>
 

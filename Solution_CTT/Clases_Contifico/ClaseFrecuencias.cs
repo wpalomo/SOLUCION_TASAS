@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 
 namespace Solution_CTT.Clases_Contifico
 {
-    public class ClaseLocalidades
+    public class ClaseFrecuencias
     {
         manejadorConexion conexionM = new manejadorConexion();
 
@@ -20,9 +20,8 @@ namespace Solution_CTT.Clases_Contifico
 
         string sSql;
         string sJson;
-        string sToken;
         string sRespuestaJson;
-        string sUrlLocalidades;
+        string sUrlFrecuencias;
         string sMetodo = "GET";
 
         bool bRespuesta;
@@ -30,12 +29,12 @@ namespace Solution_CTT.Clases_Contifico
         int iCantidad;
         int iTiempoRespuesta;
 
-        //FUNCION QUE DEVUELVE EL TOKEN
+        //FUNCION QUE DEVUELVE EL JSON
         public string recuperarJson(string sToken_P)
         {
             try
             {
-                iCantidad = consultarUrlLocalidades();
+                iCantidad = consultarUrlFrecuencias();
 
                 if (iCantidad == -1)
                 {
@@ -47,7 +46,7 @@ namespace Solution_CTT.Clases_Contifico
                     return "ISNULL";
                 }
 
-                sUrlLocalidades = dtConsulta.Rows[0]["api_localidades_contifico"].ToString().Trim();
+                sUrlFrecuencias = dtConsulta.Rows[0]["api_frecuencias_contifico"].ToString().Trim();
                 iTiempoRespuesta = Convert.ToInt32(dtConsulta.Rows[0]["timeout"].ToString());
 
                 if (enviarJson(sToken_P) == false)
@@ -64,13 +63,13 @@ namespace Solution_CTT.Clases_Contifico
             }
         }
 
-        //FUNCION PARA EXTRAER EL URL DE LOCALIDADES
-        private int consultarUrlLocalidades()
+        //FUNCION PARA EXTRAER EL URL DE FRECUENCIAS
+        private int consultarUrlFrecuencias()
         {
             try
             {
                 sSql = "";
-                sSql += "select api_localidades_contifico, timeout" + Environment.NewLine;
+                sSql += "select api_frecuencias_contifico, timeout" + Environment.NewLine;
                 sSql += "from ctt_vw_parametros_contifico" + Environment.NewLine;
                 sSql += "where codigo = '02'";
 
@@ -108,7 +107,7 @@ namespace Solution_CTT.Clases_Contifico
                 ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications);
 
                 //Declara el objeto con el que haremos la llamada al servicio
-                HttpWebRequest request = WebRequest.Create(sUrlLocalidades) as HttpWebRequest;
+                HttpWebRequest request = WebRequest.Create(sUrlFrecuencias) as HttpWebRequest;
                 //Configurar las propiedad del objeto de llamada
                 request.Method = sMetodo;
                 request.ContentType = "application/json";

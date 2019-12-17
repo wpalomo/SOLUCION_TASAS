@@ -8,6 +8,7 @@ using System.Data;
 using ENTIDADES;
 using NEGOCIO;
 using System.Drawing;
+using Newtonsoft.Json;
 
 namespace Solution_CTT
 {
@@ -15,7 +16,10 @@ namespace Solution_CTT
     {
         manejadorConexion conexionM = new manejadorConexion();
 
+        Clases_Contifico.ClaseLocalidades localidades;
+
         string sSql;
+        string sAccion;
         string[] sDatosMaximo = new string[5];
 
         bool bRespuesta;
@@ -38,6 +42,7 @@ namespace Solution_CTT
 
             if (!IsPostBack)
             {
+                consultarLocalidadesJson();
                 llenarGrid();
             }
         }
@@ -76,16 +81,145 @@ namespace Solution_CTT
             }
         }
 
-        #endregion
-
-        protected void lbtnEdit_Click(object sender, EventArgs e)
+        //FUNCION PARA EXTRAER EL JSON DE LOCALIDADES
+        private void consultarLocalidadesJson()
         {
+            try
+            {
+                localidades = new Clases_Contifico.ClaseLocalidades();
 
+                string sRespuesta_A = localidades.recuperarJson(Session["tokenSMARTT"].ToString().Trim());
+
+                if (sRespuesta_A == "ERROR")
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'No se pudo obtener registros para la tasa de usuario SMARTT', 'error')</script>");
+                    return;
+                }
+
+                if (sRespuesta_A == "ISNULL")
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Información.!', 'No se proporcionaron credenciales de autenticación. Tasa de Usuario SMARTT', 'info')</script>");
+                    return;
+                }
+
+                Session["JsonLocalidades"] = sRespuesta_A;
+
+                Clase_Variables_Contifico.Localidades localidad = JsonConvert.DeserializeObject<Clase_Variables_Contifico.Localidades>(sRespuesta_A);
+
+                dtConsulta = new DataTable();
+                dtConsulta.Clear();
+
+                dtConsulta.Columns.Add("id");
+                dtConsulta.Columns.Add("descripcion");
+
+                for (int i = 0; i < localidad.results.Length; i++)
+                {
+                    DataRow row = dtConsulta.NewRow();
+                    row["id"] = localidad.results[i].id;
+                    row["descripcion"] = localidad.results[i].nombre + " - " + localidad.results[i].nombre_comercial;
+                    dtConsulta.Rows.Add(row);
+                }
+
+                cmbLocalidades.DataSource = dtConsulta;
+                cmbLocalidades.DataValueField = "id";
+                cmbLocalidades.DataTextField = "descripcion";
+                cmbLocalidades.DataBind();
+
+                cmbLocalidades.SelectedIndexChanged -= new EventHandler(cmbLocalidades_SelectedIndexChanged);
+
+                for (int i = 0; i < localidad.results.Length; i++)
+                {
+                    int iId_P = Convert.ToInt32(cmbLocalidades.SelectedValue);
+
+                    if (Convert.ToInt32(localidad.results[i].id) == iId_P)
+                    {
+                        Session["idLocalidadJson"] = localidad.results[i].id.ToString();
+                        txtNombreLocalidad.Text = localidad.results[i].nombre.Trim().ToUpper();
+                        txtRucLocalidad.Text = localidad.results[i].ruc.Trim().ToUpper();
+                        txtNombreComercial.Text = localidad.results[i].nombre_comercial.Trim().ToUpper();
+                        txtDireccionMatriz.Text = localidad.results[i].direccion_matriz.Trim().ToUpper();
+                        txtTarifa.Text = localidad.results[i].tarifa_tasa.ToString().Trim();
+                        txtTiempoGracia.Text = localidad.results[i].tiempo_gracia.ToString().Trim();
+                        break;
+                    }
+                }
+
+                cmbLocalidades.SelectedIndexChanged += new EventHandler(cmbLocalidades_SelectedIndexChanged);
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
         }
+
+        //FUNCION PARA ACTUALIZAR LOS REGISTROS
+        private void actualizarRegistro()
+        {
+            try
+            {
+                if (conexionM.iniciarTransaccion() == false)
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo iniciar la transacción para el proceso de información.', 'danger');", true);
+                    return;
+                }
+
+                sSql = "";
+                sSql += "update ctt_parametro_localidad set" + Environment.NewLine;
+                sSql += "id_smartt = " + Session["idLocalidadJson"].ToString() + "," + Environment.NewLine;
+                sSql += "nombre_smartt = '" + txtNombreLocalidad.Text.Trim().ToUpper() + "'," + Environment.NewLine;
+                sSql += "ruc_smartt = '" + txtRucLocalidad.Text.Trim() + "'," + Environment.NewLine;
+                sSql += "nombre_comercial_smartt = '" + txtNombreComercial.Text.Trim().ToUpper() + "'," + Environment.NewLine;
+                sSql += "direccion_matriz_smartt = '" + txtDireccionMatriz.Text.Trim().ToUpper() + "'," + Environment.NewLine;
+                sSql += "tarifa_tasa_smartt = " + Convert.ToDecimal(txtTarifa.Text.Trim()) + "," + Environment.NewLine;
+                sSql += "tiempo_gracia_smartt = " + txtTiempoGracia.Text.Trim() + Environment.NewLine;
+                sSql += "where id_ctt_parametro_localidad = " + Session["idParametroLocalidadJson"].ToString();
+
+                if (conexionM.ejecutarInstruccionSQL(sSql) == false)
+                {
+                    conexionM.reversaTransaccion();
+                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    return;
+                }
+
+                conexionM.terminaTransaccion();
+                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Registro actualizado correctamente', 'success');", true);
+                return;
+            }
+
+            catch (Exception ex)
+            {
+                conexionM.reversaTransaccion();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
+
+        #endregion
 
         protected void dgvDatos_SelectedIndexChanged(object sender, EventArgs e)
         {
+            try
+            {
+                int a = dgvDatos.SelectedIndex;
+                dgvDatos.Columns[0].Visible = true;
+                Session["idParametroLocalidadJson"] = dgvDatos.Rows[a].Cells[0].Text;
 
+                if (sAccion == "Editar")
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#QuestionModal').modal('show');</script>", false);
+                }
+
+                dgvDatos.Columns[0].Visible = false;
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
         }
 
         protected void dgvDatos_PageIndexChanging(object sender, GridViewPageEventArgs e)
@@ -120,9 +254,36 @@ namespace Solution_CTT
             }
         }
 
+        protected void lbtnEdit_Click(object sender, EventArgs e)
+        {
+            sAccion = "Editar";
+        }
+
         protected void btnAccept_Click(object sender, EventArgs e)
         {
-            
+            actualizarRegistro();
+        }
+
+        protected void cmbLocalidades_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Clase_Variables_Contifico.Localidades localidad = JsonConvert.DeserializeObject<Clase_Variables_Contifico.Localidades>(Session["JsonLocalidades"].ToString());
+
+            for (int i = 0; i < localidad.results.Length; i++)
+            {
+                int iId_P = Convert.ToInt32(cmbLocalidades.SelectedValue);
+
+                if (Convert.ToInt32(localidad.results[i].id) == iId_P)
+                {
+                    Session["idLocalidadJson"] = localidad.results[i].id.ToString();
+                    txtNombreLocalidad.Text = localidad.results[i].nombre.Trim().ToUpper();
+                    txtRucLocalidad.Text = localidad.results[i].ruc.Trim().ToUpper();
+                    txtNombreComercial.Text = localidad.results[i].nombre_comercial.Trim().ToUpper();
+                    txtDireccionMatriz.Text = localidad.results[i].direccion_matriz.Trim().ToUpper();
+                    txtTarifa.Text = localidad.results[i].tarifa_tasa.ToString().Trim();
+                    txtTiempoGracia.Text = localidad.results[i].tiempo_gracia.ToString().Trim();
+                    break;
+                }
+            }
         }
     }
 }
