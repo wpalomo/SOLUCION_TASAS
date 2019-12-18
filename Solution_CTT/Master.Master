@@ -389,6 +389,8 @@
                             <li><a href="frmRutasContifico.aspx"><i class="fa fa-circle-o"></i>Rutas</a></li>
                             <li><a href="frmFrecuenciasContifico.aspx"><i class="fa fa-circle-o"></i>Frecuencias</a></li>
                             <li><a href="frmBusesContifico.aspx"><i class="fa fa-circle-o"></i>Buses</a></li>
+                            <li><a href="frmConductoresContifico.aspx"><i class="fa fa-circle-o"></i>Conductores</a></li>
+                            <li><a href="frmConsultaViajesContifico.aspx"><i class="fa fa-circle-o"></i>Consulta de Viajes</a></li>
                         </ul>
                     </li>
 

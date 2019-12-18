@@ -39,7 +39,8 @@ namespace DATOS
                             IIDREGISTRO = dtConsulta.Rows[i][0].ToString(),
                             IDESCRIPCION = dtConsulta.Rows[i][1].ToString(),
                             ICODIGO = dtConsulta.Rows[i][2].ToString(),
-                            INOMBRE = dtConsulta.Rows[i][3].ToString()
+                            INOMBRE = dtConsulta.Rows[i][3].ToString(),
+                            IIDENTIFICACION = dtConsulta.Rows[i]["identificacion"].ToString()
                         };
                         coleccion.Add(todos);
                     }

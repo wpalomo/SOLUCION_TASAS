@@ -110,4 +110,57 @@ namespace Solution_CTT.Clase_Variables_Contifico
         public object previous { get; set; }
         public ResultBuses[] results { get; set; }
     }
+
+    //VARIABLES PARA OBTENER LOS CONDUCTORES
+    public class ResultConductores
+    {
+        public int id { get; set; }
+        public int tipo { get; set; }
+        public string tipo_nombre { get; set; }
+        public string identificacion { get; set; }
+        public string nombre { get; set; }
+    }
+
+    public class Conductores
+    {
+        public int count { get; set; }
+        public object next { get; set; }
+        public object previous { get; set; }
+        public ResultConductores[] results { get; set; }
+    }
+
+    //VARIABLES PARA CONSULTA DE VIAJES
+    public class ResultConsultaViajes
+    {
+        public int id { get; set; }
+        public string conductor_identificacion { get; set; }
+        public string bus_disco { get; set; }
+        public string fecha { get; set; }
+        public string hora_salida { get; set; }
+        public string conductor_nombre { get; set; }
+        public string ruta_nombre { get; set; }
+        public int localidad_origen { get; set; }
+    }
+
+    public class ConsultaViajes
+    {
+        public int count { get; set; }
+        public object next { get; set; }
+        public object previous { get; set; }
+        public List<ResultConsultaViajes> results { get; set; }
+    }
+
+    //VARIABLES PARA OBTENER LA RESPUESTA DE LA CREACION DE VIAJE
+    public class CrearViaje
+    {
+        public int id { get; set; }
+        public string conductor_identificacion { get; set; }
+        public string bus_disco { get; set; }
+        public string fecha { get; set; }
+        public string hora_salida { get; set; }
+        public string conductor_nombre { get; set; }
+        public string ruta_nombre { get; set; }
+        public int localidad_origen { get; set; }
+    }
+
 }

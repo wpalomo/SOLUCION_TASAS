@@ -150,7 +150,7 @@ namespace Solution_CTT
                     txtUrlViajes.Text = dtConsulta.Rows[0]["api_viajes_contifico"].ToString();
                     txtUrlCambiarBus.Text = dtConsulta.Rows[0]["api_cambiar_bus_contifico"].ToString();
                     txtUrlAnularAsiento.Text = dtConsulta.Rows[0]["api_anular_asiento_contifico"].ToString();
-                    txtTiempoRespuesta.Text = dtConsulta.Rows[0]["timeout"].ToString();
+                    txtTiempoRespuesta.Text = (Convert.ToInt32(dtConsulta.Rows[0]["timeout"].ToString()) / 1000).ToString();
                     cmbProveedor.SelectedValue = dtConsulta.Rows[0]["id_ctt_proveedor_tasa"].ToString();
 
                     pnlRegistro.Enabled = false;

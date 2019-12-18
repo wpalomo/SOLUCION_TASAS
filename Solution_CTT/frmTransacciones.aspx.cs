@@ -5938,21 +5938,7 @@ namespace Solution_CTT
                         return;
                     }
                 }
-            }
-
-
-            //if (txtIdentificacion.Text.Trim() == "")
-            //{
-            //    Session["idPasajero"] = null;
-            //    llenarGridClientes(0, 0);
-            //    btnPopUp_ModalPopupExtender.Show();
-                
-            //}
-
-            //else
-            //{
-            //    buscarCliente(txtIdentificacion.Text.Trim());
-            //}            
+            }           
         }
 
         protected void btnEditarPasajero_Click(object sender, EventArgs e)

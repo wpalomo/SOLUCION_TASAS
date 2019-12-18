@@ -8,6 +8,7 @@ using System.Data;
 using ENTIDADES;
 using NEGOCIO;
 using System.Drawing;
+using Newtonsoft.Json;
 
 namespace Solution_CTT
 {
@@ -28,9 +29,13 @@ namespace Solution_CTT
         manejadorItinerario itinerarioM = new manejadorItinerario();
         manejadorConexion conexionM = new manejadorConexion();
 
+        Clases_Contifico.ClaseCrearViaje crearViajeAPI;
+        Clase_Variables_Contifico.CrearViaje crearViajeVariables;
+
         string sSql;
         string sFecha;
         string sAccion;
+        string sRespuesta_A;
         string sAccionFiltro;
         string sAccionFiltroItinerario;
         string[] sDatosMaximo = new string[5];
@@ -44,6 +49,7 @@ namespace Solution_CTT
 
         int iIdProducto;
         int iCobrarAdministracion;
+        int iIdVIajeAPI;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -157,7 +163,8 @@ namespace Solution_CTT
             {
                 sSql = "";
                 sSql += "select A.id_ctt_asistente, A.descripcion, A.codigo," + Environment.NewLine;
-                sSql += "ltrim(isnull(TP.nombres, '') + ' ' + TP.apellidos) asistente" + Environment.NewLine;
+                sSql += "ltrim(isnull(TP.nombres, '') + ' ' + TP.apellidos) asistente," + Environment.NewLine;
+                sSql += "TP.identificacion" + Environment.NewLine;
                 sSql += "from ctt_asistente A, tp_personas TP" + Environment.NewLine;
                 sSql += "where A.id_persona = TP.id_persona" + Environment.NewLine;
                 sSql += "and A.estado = 'A'" + Environment.NewLine;
@@ -193,7 +200,8 @@ namespace Solution_CTT
             {
                 sSql = "";
                 sSql += "select C.id_ctt_chofer, C.descripcion, C.codigo," + Environment.NewLine;
-                sSql += "ltrim(isnull(TP.nombres, '') + ' ' + TP.apellidos) chofer" + Environment.NewLine;
+                sSql += "ltrim(isnull(TP.nombres, '') + ' ' + TP.apellidos) chofer," + Environment.NewLine;
+                sSql += "TP.identificacion" + Environment.NewLine;
                 sSql += "from ctt_chofer C, tp_personas TP" + Environment.NewLine;
                 sSql += "where C.id_persona = TP.id_persona" + Environment.NewLine;
                 sSql += "and C.estado = 'A'" + Environment.NewLine;
@@ -493,6 +501,7 @@ namespace Solution_CTT
                 dgvDatos.Columns[22].Visible = ok;
                 dgvDatos.Columns[23].Visible = ok;
                 dgvDatos.Columns[24].Visible = ok;
+                dgvDatos.Columns[25].Visible = ok;
             }
 
             catch (Exception ex)
@@ -509,16 +518,17 @@ namespace Solution_CTT
             {
                 dgvItinerarios.Columns[4].ItemStyle.Width = 200;
                 dgvItinerarios.Columns[5].ItemStyle.Width = 150;
-                dgvItinerarios.Columns[6].ItemStyle.Width = 100;
-                dgvItinerarios.Columns[7].ItemStyle.Width = 100;                
+                dgvItinerarios.Columns[6].ItemStyle.Width = 200;
+                dgvItinerarios.Columns[7].ItemStyle.Width = 100;
+                dgvItinerarios.Columns[8].ItemStyle.Width = 100;                
 
                 dgvItinerarios.Columns[0].Visible = ok;
                 dgvItinerarios.Columns[1].Visible = ok;
                 dgvItinerarios.Columns[2].Visible = ok;
 
                 dgvItinerarios.Columns[3].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
-                dgvItinerarios.Columns[6].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
                 dgvItinerarios.Columns[7].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
+                dgvItinerarios.Columns[8].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
             }
 
             catch (Exception ex)
@@ -533,25 +543,9 @@ namespace Solution_CTT
         {
             try
             {
-                //sSql = "";
-                //sSql += "select I.id_ctt_itinerario, I.id_ctt_ruta, I.id_ctt_horario, " + Environment.NewLine;
-                //sSql += "I.id_ctt_tipo_servicio, I.codigo, R.descripcion, P.descripcion destino," + Environment.NewLine;
-                //sSql += "H.hora_salida, S.descripcion tipo_viaje," + Environment.NewLine;
-                //sSql += "case I.estado when 'A' then 'ACTIVO' else 'INACTIVO' end estado" + Environment.NewLine;
-                //sSql += "from ctt_ruta R INNER JOIN" + Environment.NewLine;
-                //sSql += "ctt_itinerario I ON I.id_ctt_ruta = R.id_ctt_ruta" + Environment.NewLine;
-                //sSql += "and R.estado = 'A'" + Environment.NewLine;
-                //sSql += "and I.estado = 'A' INNER JOIN" + Environment.NewLine;
-                //sSql += "ctt_horarios H ON H.id_ctt_horario = I.id_ctt_horario" + Environment.NewLine;
-                //sSql += "and H.estado = 'A' INNER JOIN" + Environment.NewLine;
-                //sSql += "ctt_tipo_servicio S ON S.id_ctt_tipo_servicio = I.id_ctt_tipo_servicio" + Environment.NewLine;
-                //sSql += "and S.estado = 'A' INNER JOIN" + Environment.NewLine;
-                //sSql += "ctt_pueblos P ON P.id_ctt_pueblo = R.id_ctt_pueblo_destino" + Environment.NewLine;
-                //sSql += "where S.normal = 1" + Environment.NewLine;
-
                 sSql = "";
                 sSql += "select I.id_ctt_itinerario, I.id_ctt_ruta, I.id_ctt_horario," + Environment.NewLine;
-                sSql += "I.codigo, R.descripcion, P.descripcion destino," + Environment.NewLine;
+                sSql += "I.codigo, R.descripcion, P.descripcion destino, R.via," + Environment.NewLine;
                 sSql += "H.hora_salida, case I.estado when 'A' then 'ACTIVO' else 'INACTIVO' end estado" + Environment.NewLine;
                 sSql += "from ctt_ruta R INNER JOIN" + Environment.NewLine;
                 sSql += "ctt_itinerario I ON I.id_ctt_ruta = R.id_ctt_ruta" + Environment.NewLine;
@@ -648,12 +642,97 @@ namespace Solution_CTT
             }
         }
 
+        //FUNCION PARA CONSUMIR EL API DE CREACION DE VIAJES
+        private bool consultarCrearViajeAPI(string sFecha_P)
+        {
+            try
+            {
+                crearViajeAPI = new Clases_Contifico.ClaseCrearViaje();
+
+                string sHoraFrecuencia_A = Convert.ToDateTime(Session["horaSMARTT"].ToString()).ToString("HH:mm");
+
+                sRespuesta_A = crearViajeAPI.recuperarJsonCrear(Session["tokenSMARTT"].ToString().Trim(), sFecha_P, sHoraFrecuencia_A,
+                                                                Session["destinoSMARTT"].ToString().Trim().ToUpper(),
+                                                                Session["viaSMARTT"].ToString().Trim().ToUpper(),
+                                                                Session["identificacionSMARTT"].ToString().Trim(), "",
+                                                                Session["discoSMARTT"].ToString().Trim(),
+                                                                Session["idLocalidadSMARTT"].ToString().Trim()
+                                                                );
+
+                if (sRespuesta_A == "ERROR")
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('SMARTT - Información.!', 'No se pudo crear el viaje', 'error')</script>");
+                    return false;
+                }
+
+                if (sRespuesta_A == "ISNULL")
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('SMARTT - Información.!', 'No se proporcionaron credenciales de autenticación. Creación de Viaje - SMARTT', 'info')</script>");
+                    return false;
+                }
+
+                crearViajeVariables = JsonConvert.DeserializeObject<Clase_Variables_Contifico.CrearViaje>(sRespuesta_A);
+
+                iIdVIajeAPI = crearViajeVariables.id;
+
+                return true;
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                return false;
+            }
+        }
+
+        //FUNCION PARA CONSUMIR EL API DE CAMBIO DE BUS
+        private bool consultarCambiarBusAPI()
+        {
+            try
+            {
+                crearViajeAPI = new Clases_Contifico.ClaseCrearViaje();
+
+                sRespuesta_A = crearViajeAPI.recuperarJsonCambiarBus(Session["tokenSMARTT"].ToString().Trim(),
+                                                                     Session["idViajeSMARTT"].ToString().Trim(),
+                                                                     Session["discoSMARTT"].ToString().Trim()
+                                                                    );
+
+                if (sRespuesta_A == "ERROR")
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('SMARTT - Información.!', 'No se pudo crear el viaje', 'error')</script>");
+                    return false;
+                }
+
+                if (sRespuesta_A == "ISNULL")
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('SMARTT - Información.!', 'No se proporcionaron credenciales de autenticación. Creación de Viaje - SMARTT', 'info')</script>");
+                    return false;
+                }
+
+                crearViajeVariables = JsonConvert.DeserializeObject<Clase_Variables_Contifico.CrearViaje>(sRespuesta_A);
+
+                iIdVIajeAPI = crearViajeVariables.id;
+
+                return true;
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                return false;
+            }
+        }
+
         //FUNCION PARA INSERTAR EN LA BASE DE DATOS
         private void insertarRegistro()
         {
             try
             {
-                int iConsultarReg = consultarRegistro();
+                sFecha = Convert.ToDateTime(TxtFechaViaje.Text.Trim()).ToString("yyyy-MM-dd");
+
+                int iConsultarReg = consultarRegistro();                
 
                 if (iConsultarReg > 0)
                 {
@@ -667,6 +746,14 @@ namespace Solution_CTT
                     return;
                 }
 
+                if (Session["tasaContifico"].ToString().Trim() == "02")
+                {
+                    if (consultarCrearViajeAPI(sFecha) == false)
+                    {
+                        return;
+                    }
+                }
+
                 if (conexionM.iniciarTransaccion() == false)
                 {
                     //MENSAJE DE ERROR
@@ -677,21 +764,19 @@ namespace Solution_CTT
                 consultarMaximoCodigo();
                 numeroViaje();
 
-                sFecha = Convert.ToDateTime(TxtFechaViaje.Text.Trim()).ToString("yyyy/MM/dd");
-
                 sSql = "";
                 sSql += "insert into ctt_programacion (" + Environment.NewLine;
                 sSql += "id_ctt_chofer, id_ctt_asistente, id_ctt_vehiculo, id_ctt_anden, id_ctt_tipo_servicio," + Environment.NewLine;
                 sSql += "id_ctt_itinerario, codigo, numero_viaje, fecha_viaje, estado_salida, asientos_ocupados," + Environment.NewLine;
                 sSql += "cobrar_administracion, id_ctt_pueblo_origen, estado_envio_encomienda, visualizar," + Environment.NewLine;
-                sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                sSql += "id_viaje_contifico, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(Session["id_Chofer"].ToString()) + ", " + Convert.ToInt32(Session["id_Asistente"].ToString()) + ", ";
                 sSql += Convert.ToInt32(Session["id_Vehiculo"].ToString()) + ", " + Convert.ToInt32(cmbAnden.SelectedValue) + ", ";
                 sSql += Convert.ToInt32(Session["id_tipo_viaje"].ToString()) + ", " + Convert.ToInt32(Session["id_Itinerario"].ToString()) + "," + Environment.NewLine;
                 sSql += "'" + txtCodigo.Text.Trim().ToUpper() + "', " + Convert.ToInt32(txtNumeroViaje.Text.Trim().ToUpper()) + ", '" + sFecha + "'," + Environment.NewLine;
                 sSql += "'Abierta', 0, " + iCobrarAdministracion + ", " + Session["id_pueblo"].ToString() + ", 'Abierta'," + Environment.NewLine;
-                sSql += "1,  'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
+                sSql += "1, " + iIdVIajeAPI + ", 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                 //EJECUCIÓN DE INSTRUCCION SQL
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
@@ -724,6 +809,23 @@ namespace Solution_CTT
         {
             try
             {
+                if (Session["tasaContifico"].ToString().Trim() == "02")
+                {
+                    if (Session["discoSMARTT"] != null)
+                    {
+                        string sDiscoActual = Session["discoSMARTT"].ToString().Trim();
+                        string sDiscoNuevo_R = Session["numeroDiscoSMARTT"].ToString().Trim();
+
+                        if (sDiscoActual != sDiscoNuevo_R)
+                        {
+                            if (consultarCambiarBusAPI() == false)
+                            {
+                                return;
+                            }
+                        }
+                    }
+                }
+
                 if (conexionM.iniciarTransaccion() == false)
                 {
                     //MENSAJE DE ERROR
@@ -911,6 +1013,13 @@ namespace Solution_CTT
             Session["id_Vehiculo"] = null;
             Session["id_Itinerario"] = null;
             Session["id_tipo_viaje"] = null;
+
+            Session["horaSMARTT"] = null;                
+            Session["destinoSMARTT"] = null;
+            Session["viaSMARTT"] = null;
+            Session["identificacionSMARTT"] = null;
+            Session["discoSMARTT"] = null;
+            Session["idLocalidadSMARTT"] = null;
 
             consultarAsistenteDefault();
             consultarIdNormal();
@@ -1278,28 +1387,37 @@ namespace Solution_CTT
 
         protected void lbtnNuevo_Click(object sender, EventArgs e)
         {
-            consultarMaximoCodigo();
-            numeroViaje();
-            verificarCobros();
-            cmbAnden.SelectedIndex = 0;
-            txtEstadoViaje.Text = "Abierta";
-
-            pnlGrid.Visible = false;
-            pnlRegistro.Visible = true;
-            pnlVehiculoReemplazo.Visible = false;
-
-            if (Session["id_Asistente"] == null)
+            try
             {
-                txtAsistente.Text = "";
+                consultarMaximoCodigo();
+                numeroViaje();
+                verificarCobros();
+                cmbAnden.SelectedIndex = 0;
+                txtEstadoViaje.Text = "Abierta";
+
+                pnlGrid.Visible = false;
+                pnlRegistro.Visible = true;
+                pnlVehiculoReemplazo.Visible = false;
+
+                if (Session["id_Asistente"] == null)
+                {
+                    txtAsistente.Text = "";
+                }
+
+                else
+                {
+                    txtAsistente.Text = Session["nombre_Asistente"].ToString().ToUpper();
+                }
+
+                //chkEjecutarCobro.Checked = true;
+                TxtFechaViaje.Text = DateTime.Now.ToString("dd/MM/yyyy");
             }
 
-            else
+            catch (Exception ex)
             {
-                txtAsistente.Text = Session["nombre_Asistente"].ToString().ToUpper();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
-
-            //chkEjecutarCobro.Checked = true;
-            TxtFechaViaje.Text = DateTime.Now.ToString("dd/MM/yyyy");
         }
 
         protected void dgvDatos_PageIndexChanging(object sender, GridViewPageEventArgs e)
@@ -1440,6 +1558,7 @@ namespace Solution_CTT
                     else if (Session["ChoferAsistente"].ToString() == "2")
                     {
                         Session["id_Chofer"] = dgvAsistentesChofer.Rows[a].Cells[1].Text.Trim();
+                        Session["identificacionSMARTT"] = dgvAsistentesChofer.Rows[a].Cells[5].Text.Trim();
                         txtChofer.Text = dgvAsistentesChofer.Rows[a].Cells[2].Text.Trim();
                     }
                     txtFiltrarChoferAsistente.Text = "";
@@ -1562,6 +1681,7 @@ namespace Solution_CTT
                     if (Session["banderaVehiculo"].ToString() == "1")
                     {
                         Session["id_Vehiculo"] = dgvVehiculos.Rows[a].Cells[1].Text.Trim();
+                        Session["discoSMARTT"] = dgvVehiculos.Rows[a].Cells[3].Text.Trim();
                         txtVehiculo.Text = dgvVehiculos.Rows[a].Cells[5].Text.Trim();
                         txtFiltrarVehiculos.Text = "";
                         ModalPopupExtender_Vehiculo.Hide();
@@ -1650,6 +1770,7 @@ namespace Solution_CTT
                 {
                     Session["idRegistro"] = dgvDatos.Rows[a].Cells[1].Text.Trim();
                     Session["ocupados"] = dgvDatos.Rows[a].Cells[23].Text.Trim();
+                    Session["idViajeSMARTT"] = dgvDatos.Rows[a].Cells[25].Text.Trim();
 
                     if (consultarBusReemplazo(Convert.ToInt32(Session["idRegistro"].ToString())) == false)
                     {
@@ -1660,6 +1781,10 @@ namespace Solution_CTT
 
                     if (sAccion == "Editar")
                     {
+                        string[] sObtenerDisco = dgvDatos.Rows[a].Cells[4].Text.Trim().Split('-');
+
+                        Session["numeroDiscoSMARTT"] = sObtenerDisco[0].Trim();
+
                         txtNumeroViaje.Text = dgvDatos.Rows[a].Cells[2].Text.Trim();
                         TxtFechaViaje.Text = dgvDatos.Rows[a].Cells[3].Text.Trim();
                         txtVehiculo.Text = dgvDatos.Rows[a].Cells[4].Text.Trim();
@@ -1754,8 +1879,10 @@ namespace Solution_CTT
                 {
                     txtItinerario.Text = "CÓDIGO: " + dgvItinerarios.Rows[a].Cells[3].Text.Trim() + " - RUTA: " + dgvItinerarios.Rows[a].Cells[4].Text.Trim() + " - HORA DE SALIDA: " + dgvItinerarios.Rows[a].Cells[6].Text.Trim();
                     txtFiltrarItinerarios.Text = "";
-                    //Session["id_tipo_viaje"] = dgvItinerarios.Rows[a].Cells[3].Text.Trim();
-                    Session["hora_seleccionada"] = dgvItinerarios.Rows[a].Cells[6].Text.Trim();
+                    Session["destinoSMARTT"] = dgvItinerarios.Rows[a].Cells[5].Text.Trim();
+                    Session["viaSMARTT"] = dgvItinerarios.Rows[a].Cells[6].Text.Trim();
+                    Session["horaSMARTT"] = dgvItinerarios.Rows[a].Cells[7].Text.Trim();
+                    Session["hora_seleccionada"] = dgvItinerarios.Rows[a].Cells[7].Text.Trim();
                     ModalPopupExtender_Itinerarios.Hide();
                 }
 

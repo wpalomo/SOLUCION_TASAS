@@ -58,17 +58,15 @@ namespace Solution_CTT
         //FUNCION PARA LAS COLUMNAS
         private void columnasGrid(bool ok)
         {
-            //dgvDatos.Columns[4].ItemStyle.Width = 100;
             dgvDatos.Columns[4].ItemStyle.Width = 200;
             dgvDatos.Columns[5].ItemStyle.Width = 150;
-            dgvDatos.Columns[6].ItemStyle.Width = 100;
+            dgvDatos.Columns[6].ItemStyle.Width = 200;
             dgvDatos.Columns[7].ItemStyle.Width = 100;
-            //dgvDatos.Columns[9].ItemStyle.Width = 100;
+            dgvDatos.Columns[8].ItemStyle.Width = 100;
 
             dgvDatos.Columns[0].Visible = ok;
             dgvDatos.Columns[1].Visible = ok;
             dgvDatos.Columns[2].Visible = ok;
-            //dgvDatos.Columns[3].Visible = ok;
         }
 
         //FUNCION PARA LLENAR EL COMOBOX DE LOCALIDADES
@@ -158,7 +156,7 @@ namespace Solution_CTT
             {
                 sSql = "";
                 sSql += "select I.id_ctt_itinerario, I.id_ctt_ruta, I.id_ctt_horario," + Environment.NewLine;
-                sSql += "I.codigo, R.descripcion, P.descripcion destino," + Environment.NewLine;
+                sSql += "I.codigo, R.descripcion, P.descripcion destino, R.via," + Environment.NewLine;
                 sSql += "H.hora_salida, case I.estado when 'A' then 'ACTIVO' else 'INACTIVO' end estado" + Environment.NewLine;
                 sSql += "from ctt_ruta R INNER JOIN" + Environment.NewLine;
                 sSql += "ctt_itinerario I ON I.id_ctt_ruta = R.id_ctt_ruta" + Environment.NewLine;

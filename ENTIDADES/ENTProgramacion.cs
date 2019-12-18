@@ -223,5 +223,13 @@ namespace ENTIDADES
             get { return iCOBROADMINISTATIVO; }
             set { iCOBROADMINISTATIVO = value; }
         }
+
+        private string iIDVIAJECONTIFICO;
+
+        public string IIDVIAJECONTIFICO
+        {
+            get { return iIDVIAJECONTIFICO; }
+            set { iIDVIAJECONTIFICO = value; }
+        }
     }
 }

@@ -27,12 +27,11 @@
                                 <asp:BoundField DataField="IIDITINERARIO" HeaderText="ID" />
                                 <asp:BoundField DataField="IIDRUTA" HeaderText="ID RUTA" />
                                 <asp:BoundField DataField="IIDHORARIO" HeaderText="ID HORARIO" />
-                                <%--<asp:BoundField DataField="IIDTIPOVIAJE" HeaderText="ID TIPO VIAJE" />--%>
                                 <asp:BoundField DataField="ICODIGO" HeaderText="CÓDIGO" ItemStyle-HorizontalAlign="Center" />
                                 <asp:BoundField DataField="IDESCRIPCION" HeaderText="DESCRIPCIÓN" />
                                 <asp:BoundField DataField="IDESTINO" HeaderText="DESTINO" />
+                                <asp:BoundField DataField="IVIA" HeaderText="VÍA" />
                                 <asp:BoundField DataField="IHORASALIDA" HeaderText="HORA SALIDA" ItemStyle-HorizontalAlign="Center" />
-                                <%--<asp:BoundField DataField="ITIPOVIAJE" HeaderText="TIPO DE VIAJE" />--%>
                                 <asp:BoundField DataField="IESTADO" HeaderText="ESTADO" ItemStyle-HorizontalAlign="Center" />
                                 <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="EDITAR">
                                     <ItemTemplate>

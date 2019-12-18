@@ -95,5 +95,13 @@ namespace ENTIDADES
             get { return iTIPOVIAJE; }
             set { iTIPOVIAJE = value; }
         }
+
+        private string iVIA;
+
+        public string IVIA
+        {
+            get { return iVIA; }
+            set { iVIA = value; }
+        }
     }
 }

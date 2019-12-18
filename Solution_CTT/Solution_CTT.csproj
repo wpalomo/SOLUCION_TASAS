@@ -636,6 +636,9 @@
     <Content Include="frmAsignarDatosLocalidadesContifico.aspx" />
     <Content Include="frmBusesContifico.aspx" />
     <Content Include="frmCierreCajero.aspx" />
+    <Content Include="frmConductoresContifico.aspx" />
+    <Content Include="frmConsultaViajesContifico.aspx" />
+    <Content Include="frmCrearViajeContifico.aspx" />
     <Content Include="frmDefinicionCortaLocalidades.aspx" />
     <Content Include="frmDefinicionLocalidades.aspx" />
     <Content Include="frmDetalleRuta.aspx" />
@@ -7335,6 +7338,9 @@
     <Compile Include="Clases\ValidarRUC.cs" />
     <Compile Include="Clases_Contifico\ClaseAutenticacion.cs" />
     <Compile Include="Clases_Contifico\ClaseBuses.cs" />
+    <Compile Include="Clases_Contifico\ClaseConductores.cs" />
+    <Compile Include="Clases_Contifico\ClaseConsultaViajes.cs" />
+    <Compile Include="Clases_Contifico\ClaseCrearViaje.cs" />
     <Compile Include="Clases_Contifico\ClaseFrecuencias.cs" />
     <Compile Include="Clases_Contifico\ClaseLocalidades.cs" />
     <Compile Include="Clases_Contifico\ClaseRutas.cs" />
@@ -7452,12 +7458,26 @@
     <Compile Include="frmCierreCajero.aspx.designer.cs">
       <DependentUpon>frmCierreCajero.aspx</DependentUpon>
     </Compile>
+    <Compile Include="frmConductoresContifico.aspx.cs">
+      <DependentUpon>frmConductoresContifico.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmConductoresContifico.aspx.designer.cs">
+      <DependentUpon>frmConductoresContifico.aspx</DependentUpon>
+    </Compile>
     <Compile Include="frmConsultaAutorizacion.aspx.cs">
       <DependentUpon>frmConsultaAutorizacion.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="frmConsultaAutorizacion.aspx.designer.cs">
       <DependentUpon>frmConsultaAutorizacion.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmConsultaViajesContifico.aspx.cs">
+      <DependentUpon>frmConsultaViajesContifico.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmConsultaViajesContifico.aspx.designer.cs">
+      <DependentUpon>frmConsultaViajesContifico.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmCorteCaja.aspx.cs">
       <DependentUpon>frmCorteCaja.aspx</DependentUpon>
@@ -7472,6 +7492,13 @@
     </Compile>
     <Compile Include="frmCrearViaje.aspx.designer.cs">
       <DependentUpon>frmCrearViaje.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmCrearViajeContifico.aspx.cs">
+      <DependentUpon>frmCrearViajeContifico.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmCrearViajeContifico.aspx.designer.cs">
+      <DependentUpon>frmCrearViajeContifico.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmCrearViajeExtra.aspx.cs">
       <DependentUpon>frmCrearViajeExtra.aspx</DependentUpon>

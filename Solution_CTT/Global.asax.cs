@@ -73,6 +73,7 @@ namespace Solution_CTT
             Session["tasaDevesofft"] = null;
             Session["tasaContifico"] = null;
             Session["tokenSMARTT"] = null;
+            Session["idLocalidadSMARTT"] = null;
         }
 
         protected void Application_BeginRequest(object sender, EventArgs e)

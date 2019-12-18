@@ -35,14 +35,15 @@ namespace DATOS
                     {
                         todos = new ENTItinierario()
                         {
-                            IIDITINERARIO = dtConsulta.Rows[i][0].ToString(),
-                            IIDRUTA = dtConsulta.Rows[i][1].ToString(),
-                            IIDHORARIO = dtConsulta.Rows[i][2].ToString(),
-                            ICODIGO = dtConsulta.Rows[i][3].ToString(),
-                            IDESCRIPCION = dtConsulta.Rows[i][4].ToString(),
-                            IDESTINO = dtConsulta.Rows[i][5].ToString(),
-                            IHORASALIDA = Convert.ToDateTime(dtConsulta.Rows[i][6].ToString()).ToString("HH:mm"),
-                            IESTADO = dtConsulta.Rows[i][7].ToString()
+                            IIDITINERARIO = dtConsulta.Rows[i]["id_ctt_itinerario"].ToString(),
+                            IIDRUTA = dtConsulta.Rows[i]["id_ctt_ruta"].ToString(),
+                            IIDHORARIO = dtConsulta.Rows[i]["id_ctt_horario"].ToString(),
+                            ICODIGO = dtConsulta.Rows[i]["codigo"].ToString(),
+                            IDESCRIPCION = dtConsulta.Rows[i]["descripcion"].ToString(),
+                            IDESTINO = dtConsulta.Rows[i]["destino"].ToString(),
+                            IHORASALIDA = Convert.ToDateTime(dtConsulta.Rows[i]["hora_salida"].ToString()).ToString("HH:mm"),
+                            IESTADO = dtConsulta.Rows[i]["estado"].ToString(),
+                            IVIA = dtConsulta.Rows[i]["via"].ToString(),
                         };
                         coleccion.Add(todos);
                     }

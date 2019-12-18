@@ -48,6 +48,14 @@ namespace ENTIDADES
             set { iNUMERO = value; }
         }
 
+        private string iIDENTIFICACION;
+
+        public string IIDENTIFICACION
+        {
+            get { return iIDENTIFICACION; }
+            set { iIDENTIFICACION = value; }
+        }
+
         private string iSQL;
 
         public string ISQL
