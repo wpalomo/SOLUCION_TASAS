@@ -89,6 +89,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\SISTEMA_BOLETOS_TASA\SISTEMA_BOLETOS_TASA\bin\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="QRCoder, Version=1.3.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.3.6\lib\net40\QRCoder.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -715,6 +719,7 @@
     <Content Include="frmTipoComprobante.aspx" />
     <Content Include="frmTipoVehiculos.aspx" />
     <Content Include="frmTipoViajes.aspx" />
+    <Content Include="frmTransaccionesSMARTT.aspx" />
     <Content Include="frmVehiculos.aspx" />
     <Content Include="frmVentasOtrasLocalidades.aspx" />
     <Content Include="frmViajesMasivos.aspx" />
@@ -7340,6 +7345,7 @@
     <Compile Include="Clases_Contifico\ClaseBuses.cs" />
     <Compile Include="Clases_Contifico\ClaseConductores.cs" />
     <Compile Include="Clases_Contifico\ClaseConsultaViajes.cs" />
+    <Compile Include="Clases_Contifico\ClaseCrearVenta.cs" />
     <Compile Include="Clases_Contifico\ClaseCrearViaje.cs" />
     <Compile Include="Clases_Contifico\ClaseFrecuencias.cs" />
     <Compile Include="Clases_Contifico\ClaseLocalidades.cs" />
@@ -8066,6 +8072,13 @@
     </Compile>
     <Compile Include="frmTransacciones.aspx.designer.cs">
       <DependentUpon>frmTransacciones.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmTransaccionesSMARTT.aspx.cs">
+      <DependentUpon>frmTransaccionesSMARTT.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmTransaccionesSMARTT.aspx.designer.cs">
+      <DependentUpon>frmTransaccionesSMARTT.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmVehiculos.aspx.cs">
       <DependentUpon>frmVehiculos.aspx</DependentUpon>
