@@ -44,7 +44,8 @@ namespace DATOS
                             IFACTURA = dtConsulta.Rows[i].ItemArray[6].ToString() + "-" + dtConsulta.Rows[i].ItemArray[7].ToString() + "-" + dtConsulta.Rows[i].ItemArray[8].ToString().PadLeft(9, '0'),
                             IFECHAVIAJE = Convert.ToDateTime(dtConsulta.Rows[i].ItemArray[9].ToString()).ToString("dd-MM-yyyy"),
                             IIDCTTPUEBLOORIGEN = dtConsulta.Rows[i][10].ToString(),
-                            IIDCTTPUEBLODESTNO = dtConsulta.Rows[i][11].ToString()
+                            IIDCTTPUEBLODESTNO = dtConsulta.Rows[i][11].ToString(),
+                            IIDTASASMARTT = dtConsulta.Rows[i]["id_tasa_smartt"].ToString()
                         };
                         coleccion.Add(todos);
                     }

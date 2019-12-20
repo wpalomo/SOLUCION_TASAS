@@ -131,8 +131,6 @@ namespace Solution_CTT
                     txtUrlRutas.Text = "";
                     txtUrlVentas.Text = "";
                     txtUrlViajes.Text = "";
-                    txtUrlCambiarBus.Text = "";
-                    txtUrlAnularAsiento.Text = "";
                     txtTiempoRespuesta.Text = "";
                     txtUrlAutenticacion.Focus();
                 }
@@ -148,8 +146,6 @@ namespace Solution_CTT
                     txtUrlRutas.Text = dtConsulta.Rows[0]["api_rutas_contifico"].ToString();
                     txtUrlVentas.Text = dtConsulta.Rows[0]["api_ventas_contifico"].ToString();
                     txtUrlViajes.Text = dtConsulta.Rows[0]["api_viajes_contifico"].ToString();
-                    txtUrlCambiarBus.Text = dtConsulta.Rows[0]["api_cambiar_bus_contifico"].ToString();
-                    txtUrlAnularAsiento.Text = dtConsulta.Rows[0]["api_anular_asiento_contifico"].ToString();
                     txtTiempoRespuesta.Text = (Convert.ToInt32(dtConsulta.Rows[0]["timeout"].ToString()) / 1000).ToString();
                     cmbProveedor.SelectedValue = dtConsulta.Rows[0]["id_ctt_proveedor_tasa"].ToString();
 
@@ -178,8 +174,6 @@ namespace Solution_CTT
             txtUrlRutas.Text = "";
             txtUrlVentas.Text = "";
             txtUrlViajes.Text = "";
-            txtUrlCambiarBus.Text = "";
-            txtUrlAnularAsiento.Text = "";
             txtTiempoRespuesta.Text = "";
 
             MsjValidarCampos.Visible = false;
@@ -206,15 +200,13 @@ namespace Solution_CTT
                 sSql += "insert into ctt_tasa_parametros (" + Environment.NewLine;
                 sSql += "api_autenticacion_contifico, api_localidades_contifico, api_conductores_contifico," + Environment.NewLine;
                 sSql += "api_frecuencias_contifico, api_buses_contifico, api_rutas_contifico," + Environment.NewLine;
-                sSql += "api_ventas_contifico, api_viajes_contifico, api_cambiar_bus_contifico," + Environment.NewLine;
-                sSql += "api_anular_asiento_contifico, id_ctt_proveedor_tasa, timeout, estado," + Environment.NewLine;
+                sSql += "api_ventas_contifico, api_viajes_contifico, id_ctt_proveedor_tasa, timeout, estado," + Environment.NewLine;
                 sSql += "fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += "'" + txtUrlAutenticacion.Text.Trim() + "', '" + txtUrlLocalidades.Text.Trim() + "'," + Environment.NewLine;
                 sSql += "'" + txtUrlConductores.Text.Trim() + "', '" + txtUrlFrecuencias.Text.Trim() + "'," + Environment.NewLine;
                 sSql += "'" + txtUrlBuses.Text.Trim() + "', '" + txtUrlRutas.Text.Trim() + "'," + Environment.NewLine;
                 sSql += "'" + txtUrlVentas.Text.Trim() + "', '" + txtUrlViajes.Text.Trim() + "'," + Environment.NewLine;
-                sSql += "'" + txtUrlCambiarBus.Text.Trim() + "', '" + txtUrlAnularAsiento.Text.Trim() + "'," + Environment.NewLine;
                 sSql += cmbProveedor.SelectedValue + ", " + iTiempoRespuesta + ", 'A', GETDATE()," + Environment.NewLine;
                 sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
@@ -263,8 +255,6 @@ namespace Solution_CTT
                 sSql += "api_rutas_contifico = '" + txtUrlRutas.Text.Trim() + "'," + Environment.NewLine;
                 sSql += "api_ventas_contifico = '" + txtUrlVentas.Text.Trim() + "'," + Environment.NewLine;
                 sSql += "api_viajes_contifico = '" + txtUrlViajes.Text.Trim() + "'," + Environment.NewLine;
-                sSql += "api_cambiar_bus_contifico = '" + txtUrlCambiarBus.Text.Trim() + "'," + Environment.NewLine;
-                sSql += "api_anular_asiento_contifico = '" +  txtUrlAnularAsiento.Text.Trim() + "'," + Environment.NewLine;
                 sSql += "timeout = " + iTiempoRespuesta + Environment.NewLine;
                 sSql += "where id_ctt_tasa_parametro = " + Session["idRegistro_CONTIFICO"].ToString();
 
@@ -350,18 +340,6 @@ namespace Solution_CTT
                 {
                     MsjValidarCampos.Visible = true;
                     txtUrlViajes.Focus();
-                }
-
-                else if (txtUrlCambiarBus.Text.Trim() == "")
-                {
-                    MsjValidarCampos.Visible = true;
-                    txtUrlCambiarBus.Focus();
-                }
-
-                else if (txtUrlAnularAsiento.Text.Trim() == "")
-                {
-                    MsjValidarCampos.Visible = true;
-                    txtUrlAnularAsiento.Focus();
                 }
 
                 else if (txtTiempoRespuesta.Text.Trim() == "")

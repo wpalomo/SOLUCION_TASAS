@@ -16,14 +16,8 @@ using Microsoft.Reporting.WebForms;
 
 namespace Solution_CTT
 {
-    public class TasaUsuarioAnula
+    public partial class frmDevolucionBoletosSMARTT : System.Web.UI.Page
     {
-        public object[] Error { get; set; }
-        public long id_tasa { get; set; }
-    }
-
-    public partial class frmDevolucionBoletos : System.Web.UI.Page
-    {        
         ENTViajes asignarE = new ENTViajes();
         ENTVendidos vendidoE = new ENTVendidos();
         ENTFacturasItinerario facturaE = new ENTFacturasItinerario();
@@ -37,6 +31,10 @@ namespace Solution_CTT
         Clases.ClaseReporteBoleto reporte = new Clases.ClaseReporteBoleto();
         Clases.ClaseImpresion imprimir = new Clases.ClaseImpresion();
 
+        Clases_Contifico.ClaseAnularLiberar anularLiberarBoleto;
+        Clase_Variables_Contifico.Boleto boletoLiberar;
+        Clase_Variables_Contifico.TasaUsuarioSmartt consultarTasaAnulada;
+
         string sSql;
         string sEstadoViaje;
         string sFecha;
@@ -45,12 +43,14 @@ namespace Solution_CTT
         string sCiudad;
         string sDireccion;
         string sTelefono;
+        string sRespuesta_A;
         string sCorreoElectronico;
-        string sImprimir;
-        string sPathImpresora;
+        string sIdentificacionParaTasa;
         string[] sDatosMaximo = new string[5];
 
         DataTable dtConsulta;
+        DataTable dtDetalleTasaOriginal;
+        DataTable dtTasasEmitidas;
 
         bool bRespuesta;
         bool bEstadoColumna;
@@ -74,28 +74,14 @@ namespace Solution_CTT
         int iIdDocumentoPago;
         int iIdFactura;
         int iNumeroFactura;
-        int iCortarPapel;
-        int iAbrirCajon;
-        int iNumeroMovimientoCaja;
-        int iIdMovimientoCaja;
-        int iTasaEmitidaBandera;
-        int iIdTasaAnulada;
         int iManejaFacturacionElectronica;
-        int iEmiteTasaUsuario;
-        int iAmbienteTasa;
         int iNuevaCantidadTasas;
-        int iNuevoNumeroCantidadToken;
-        int iCantidadDisponible;
         int iIdFormaPagoFactura;
-        int iBanderaSincronizarTasasAnuladas;
-        int iBanderaMensajeEmite_P;
-        int iBanderaMensajeAnula_P;
-        int iBanderaMensajeToken_P;
+        int iVendidos_REP;
+        int iIdDetPedido;
 
         int iCgTipoDocumento = 7456;
         int iCgEstadoDctoPorCobrar = 7461;
-
-        decimal dbValorTasa;
 
         double dbPrecioUnitario;
         double dbDescuento;
@@ -103,31 +89,10 @@ namespace Solution_CTT
         double dbIva;
         double dbServicio;
         double dbTotal;
-        
+
         long iMaximo;
 
-        //TASAS DE USUARIO
-        string sObjetoOficina;
-        string sObjetoTasa;
-        string sObjetoInfo;
-        string sObjetoCliente;
-        string sObjetoJson;
-        string sUrlCredenciales;
-        string sUrlEnvio;
-        string sUrlAnula;
-        string sToken;
-        string sCuentaToken;
-        string sTasaUsuario;
-        string sCantidadBoletosToken;
-        string sTipoClienteTasa;
-        string sIdTasaRespuesta;
-        string respuestaJson;
-        string strToken_P;
-
         //VARIABLES DEL REPORTE
-        int iVendidos_REP;
-        int iCuenta_REP;
-        int iPorcentajeNotificacionEntero;
 
         decimal dbCantidad_REP;
         decimal dbPrecioUnitario_REP;
@@ -137,13 +102,8 @@ namespace Solution_CTT
 
         string sNumeroFactura_REP;
         string sAsientos_REP;
-        string sTasaUsuarioRecuperado_REP;
 
-        Decimal dbCantidad_Notificacion;
-        Decimal dbDisponible_Notificacion;
-        Decimal dbPorcentaje_Notificacion;        
-
-        Byte[] Logo { get; set; }        
+        Byte[] Logo { get; set; }
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -157,12 +117,10 @@ namespace Solution_CTT
             sDatosMaximo[1] = Environment.MachineName.ToString();
             sDatosMaximo[2] = "A";
 
-            Session["modulo"] = "MÓDULO DE DEVOLUCIÓN Y ANULACIÓN DE FACTURAS";
+            Session["modulo"] = "MÓDULO DE DEVOLUCIÓN Y ANULACIÓN DE FACTURAS - SMARTT";
 
             if (!IsPostBack)
             {
-                consultarParametrosTasa();
-
                 sFecha = DateTime.Now.ToString("dd/MM/yyyy");
                 txtDate.Text = sFecha;
                 llenarGrid(sFecha);
@@ -170,364 +128,9 @@ namespace Solution_CTT
                 Session["idVehiculo"] = null;
                 Session["idProgramacion"] = null;
             }
-
-            //else
-            //{
-            //    if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
-            //    {
-            //        consultarParametrosTasa();
-            //    }
-            //}
         }
 
-        #region FUNCIONES RECUPERADAS PARA INTEGRACION
-
-        //FUNCION PARA ACTUALIZAR LAS TASAS PENDIENTES
-        private bool actualizarTasaPendiente()
-        {
-            try
-            {
-                if (conexionM.iniciarTransaccion() == false)
-                {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo iniciar la transacción para el proceso de información.', 'danger');", true);
-                    return false;
-                }
-
-                sSql = "";
-                sSql += "update cv403_facturas set" + Environment.NewLine;
-                sSql += "tasa_emitida = 1," + Environment.NewLine;
-                sSql += "id_tasa_emitida = " + sIdTasaRespuesta + Environment.NewLine;
-                sSql += "from cv403_facturas" + Environment.NewLine;
-                sSql += "where id_factura = " + Convert.ToInt32(Session["idFacturaAnular"].ToString()) + Environment.NewLine;
-                sSql += "and estado = 'A'";
-
-                if (!conexionM.ejecutarInstruccionSQL(sSql))
-                {
-                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
-                    ScriptManager.RegisterStartupScript(this, GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                    conexionM.reversaTransaccion();
-                    return false;
-                }
-
-                conexionM.terminaTransaccion();
-                return true;
-            }
-
-            catch (Exception)
-            {
-                conexionM.reversaTransaccion();
-                return false;
-            }
-        }
-
-        //FUNCION PARA CONSULTAR LOS DATOS DEL TOKEN
-        private void consultarDatosToken()
-        {
-            try
-            {
-                sSql = "";
-                sSql += "select isnull(sum(isnull(maximo_secuencial, 0)), 0) suma_total," + Environment.NewLine;
-                sSql += "isnull(sum(isnull(maximo_secuencial, 0)) - sum(isnull(emitidos, 0)), 0) disponibles" + Environment.NewLine;
-                sSql += "from ctt_tasa_token" + Environment.NewLine;
-                sSql += "where estado = 'A'" + Environment.NewLine;
-                sSql += "and estado_token = 'Abierta'" + Environment.NewLine;
-                sSql += "and ambiente_token = " + Convert.ToInt32(Session["emision"].ToString()) + Environment.NewLine;
-                sSql += "and validado = 1" + Environment.NewLine;
-                sSql += "and id_ctt_oficinista = " + Convert.ToInt32(Session["idUsuario"].ToString());
-
-                dtConsulta = new DataTable();
-                dtConsulta.Clear();
-
-                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
-
-                if (bRespuesta == true)
-                {                   
-
-                    dbCantidad_Notificacion = Convert.ToDecimal(dtConsulta.Rows[0]["suma_total"].ToString());
-                    dbDisponible_Notificacion = Convert.ToDecimal(dtConsulta.Rows[0]["disponibles"].ToString());
-
-                    if (dbCantidad_Notificacion == 0)
-                    {
-                        dbPorcentaje_Notificacion = 0;
-                    }
-
-                    else
-                    {
-                        dbPorcentaje_Notificacion = (dbDisponible_Notificacion * 100) / dbCantidad_Notificacion;
-                    }
-
-                    iPorcentajeNotificacionEntero = Convert.ToInt32(dbPorcentaje_Notificacion);
-
-                    if ((((iPorcentajeNotificacionEntero == 0) || ((iPorcentajeNotificacionEntero >= 5) && (iPorcentajeNotificacionEntero <= 6))) || ((iPorcentajeNotificacionEntero >= 9) && (iPorcentajeNotificacionEntero <= 11))) || (((iPorcentajeNotificacionEntero >= 24) && (iPorcentajeNotificacionEntero <= 26)) || ((iPorcentajeNotificacionEntero >= 48) && (iPorcentajeNotificacionEntero <= 52))))
-                    {
-                        Session["dbCantidad_Notificacion"] = dbCantidad_Notificacion.ToString();
-                        Session["dbDisponible_Notificacion"] = dbDisponible_Notificacion.ToString();
-                        Session["iPorcentajeNotificacionEntero"] = iPorcentajeNotificacionEntero.ToString();
-                        string str = DateTime.Now.ToString();
-                        Session["ver_notificacion"] = "1";
-                        Session["lblMensajeNotificacion"] = "Hoy " + Convert.ToDateTime(str).ToString("dd-MM-yyyy") + " a las " + Convert.ToDateTime(str).ToString("HH:mm") + ".</br>Se le notifica que solo dispone de:";
-                        ((Master)Master).mostrarNotificacionEmergente();
-                    }
-                }
-
-                else
-                {
-                    cerrarModal();
-                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
-                    ScriptManager.RegisterStartupScript(this, GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                }
-            }
-
-            catch (Exception ex)
-            {
-                cerrarModal();
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
-                ScriptManager.RegisterStartupScript(this, GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-            }
-        }
-
-        //FUNCION PARA CREAR EL JSON TASAS PENDIENTES
-        private bool crearJsonTasaPendiente()
-        {
-            try
-            {
-                if (Session["identificacion_cliente"].ToString().Trim() == "9999999999999")
-                {
-                    sTipoClienteTasa = "07";
-                }
-
-                else if (Session["identificacion_cliente"].ToString().Trim().Length == 10)
-                {
-                    sTipoClienteTasa = "05";
-                }
-
-                else if (Session["identificacion_cliente"].ToString().Trim().Length == 13)
-                {
-                    sTipoClienteTasa = "04";
-                }
-
-                else
-                {
-                    sTipoClienteTasa = "06";
-                }
-
-                string sTasaUsuarioEmitida_P = Session["tasa_usuario_emitida"].ToString();
-                string sCantidad_P = sTasaUsuarioEmitida_P.Trim().Substring(0, 2);
-                string sSecuencialUnico_P = sTasaUsuarioEmitida_P.Trim().Substring(14, 4);
-                string sTokenUnico_P = sTasaUsuarioEmitida_P.Trim().Substring(9, 5);
-
-                sObjetoJson = "";
-                sObjetoJson += "{" + Environment.NewLine;
-
-                sObjetoOficina = "";
-                sObjetoOficina += "\"oficina\": {" + Environment.NewLine;
-                sObjetoOficina += "\"id_oficina\": \"" + Session["id_tasa_oficina"].ToString() + "\"," + Environment.NewLine;
-                sObjetoOficina += "\"id_coop\": \"" + Session["id_tasa_cooperativa"].ToString() + "\"," + Environment.NewLine;
-                sObjetoOficina += "\"id_terminal\": \"" + Session["id_tasa_terminal"].ToString() + "\"" + Environment.NewLine;
-                sObjetoOficina += "},";
-
-                sObjetoJson += sObjetoOficina + Environment.NewLine;
-
-                sObjetoTasa = "";
-                sObjetoTasa += "\"tasa\": {" + Environment.NewLine;
-                sObjetoTasa += "\"cantidad\": \"" + sCantidad_P + "\"," + Environment.NewLine;
-                sObjetoTasa += "\"secuencial\": \"" + sSecuencialUnico_P.Trim() + "\"," + Environment.NewLine;
-                sObjetoTasa += "\"token\": \"" + sTokenUnico_P.Trim() + "\"," + Environment.NewLine;
-                sObjetoTasa += "\"tipo\": \"1\"," + Environment.NewLine;
-                sObjetoTasa += "\"codigo\": \"" + sTasaUsuarioEmitida_P + "\"" + Environment.NewLine;
-                sObjetoTasa += "},";
-
-                sObjetoJson += sObjetoTasa + Environment.NewLine;
-
-                sObjetoInfo = "";
-                sObjetoInfo += "\"info\": {" + Environment.NewLine;
-                sObjetoInfo += "\"id_inicio\": \"" + Session["id_pueblo_origen_tasa"].ToString() + "\"," + Environment.NewLine;
-                sObjetoInfo += "\"id_destino\": \"" + Session["id_pueblo_destino_tasa"] + "\"," + Environment.NewLine;
-                sObjetoInfo += "\"str_inicio\": \"" + Session["pueblo_origen_tasa"].ToString() + "\"," + Environment.NewLine;
-                sObjetoInfo += "\"str_destino\": \"" + Session["pueblo_destino_tasa"].ToString() + "\"," + Environment.NewLine;
-                sObjetoInfo += "\"str_horaSalida\": \"" + Session["fecha_viaje"].ToString() + "\"," + Environment.NewLine;
-                sObjetoInfo += "\"str_fechaSalida\": \"" + Session["hora_salida"].ToString() + "\"," + Environment.NewLine;
-                sObjetoInfo += "\"pasajeros\": \"" + sCantidad_P.Trim() + "\"," + Environment.NewLine;
-                sObjetoInfo += "\"list_pasajeros\": [" + Environment.NewLine;
-
-
-                int iSuma_P = 0;
-                int num2 = Convert.ToInt32(sCantidad_P);
-
-                foreach (GridViewRow row in this.dgvDetalle.Rows)
-                {
-                    sObjetoInfo += "{" + Environment.NewLine;
-                    sObjetoInfo += "\"nombre\": \"" + row.Cells[11].Text + "\"," + Environment.NewLine;
-                    sObjetoInfo += "\"id\": \"" + row.Cells[10].Text + "\"" + Environment.NewLine;
-                    iSuma_P++;
-
-                    if (num2 == iSuma_P)
-                    {
-                        sObjetoInfo += "}" + Environment.NewLine;
-                    }
-                    
-                    else
-                    {
-                        sObjetoInfo += "}," + Environment.NewLine;
-                    }
-                }
-
-                sObjetoInfo += "]," + Environment.NewLine;
-                sObjetoInfo += "\"n_bus\": \"" + Session["disco_vehiculo_tasa"].ToString() + "\"" + Environment.NewLine;
-                sObjetoInfo += "},";
-
-                sObjetoJson += sObjetoInfo + Environment.NewLine;
-
-                sCiudad = Application["ciudad_default"].ToString().ToUpper();
-                sCorreoElectronico = Application["correo_default"].ToString().ToLower();
-                sTelefono = Application["telefono_default"].ToString();
-
-                sObjetoCliente = "";
-                sObjetoCliente += "\"cliente\": {" + Environment.NewLine;
-                sObjetoCliente += "\"ruc\": \"" + Session["identificacion_cliente"].ToString() + "\"," + Environment.NewLine;
-                sObjetoCliente += "\"nombre\": \"" + Session["nombre_cliente"].ToString() + "\"," + Environment.NewLine;
-                sObjetoCliente += "\"direccion\": \"" + sCiudad.ToUpper() + "\"," + Environment.NewLine;
-                sObjetoCliente += "\"correo\": \"" + sCorreoElectronico.ToLower() + "\"," + Environment.NewLine;
-                sObjetoCliente += "\"telefono\": \"" + sTelefono + "\"," + Environment.NewLine;
-                sObjetoCliente += "\"tipo\": \"" + sTipoClienteTasa + "\"" + Environment.NewLine;
-                sObjetoCliente += "}";
-
-                sObjetoJson += sObjetoCliente + Environment.NewLine + "}";
-                Session["Json"] = sObjetoJson;
-
-                enviarJsonTasaPendiente();
-
-                if (this.sIdTasaRespuesta != "0")
-                {
-                    this.actualizarTasaPendiente();
-                }
-
-                return true;
-            }
-
-            catch (Exception ex)
-            {
-                cerrarModal();
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
-                ScriptManager.RegisterStartupScript(this, GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                return false;
-            }
-        }
-
-        //FUNCION PARA ENVIAR EL JSON DE TASAS PENDIENTES
-        private string enviarJsonTasaPendiente()
-        {
-            try
-            {
-                if (Session["ambiente_tasa_usuario_actual"].ToString() == "0")
-                {
-                    sUrlEnvio = Session["servidor_pruebas"].ToString() + Session["tasa_usuario"].ToString();
-                }
-                else
-                {
-                    sUrlEnvio = Session["servidor_produccion"].ToString() + Session["tasa_usuario"].ToString();
-                }
-
-                //Llamar a funcion para aceptar los certificados de la URL
-                ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications);
-
-                //Declara el objeto con el que haremos la llamada al servicio            
-                HttpWebRequest request = WebRequest.Create(sUrlEnvio) as HttpWebRequest;
-                //Configurar las propiedad del objeto de llamada
-                request.Method = "POST";
-                request.ContentType = "application/json";
-                request.Timeout = 30000;
-
-                //Serializar el objeto a enviar. Para esto uso la libreria Newtonsoft
-                //string sb = JsonConvert.SerializeObject(sAyuda);
-                string sb = Session["Json"].ToString();
-
-                //Convertir el objeto serializado a arreglo de byte
-                Byte[] bt = Encoding.UTF8.GetBytes(sb);
-
-                try
-                {
-                    //Agregar el objeto Byte[] al request
-                    Stream st = request.GetRequestStream();
-                    st.Write(bt, 0, bt.Length);
-                    st.Close();
-
-                    //Hacer la llamada
-                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-                    {
-                        //Leer el resultado de la llamada
-                        Stream stream1 = response.GetResponseStream();
-                        StreamReader sr = new StreamReader(stream1);
-                        respuestaJson = sr.ReadToEnd();
-                    }
-
-                    TasaUsuario usuario = JsonConvert.DeserializeObject<TasaUsuario>(respuestaJson);
-                    sIdTasaRespuesta = usuario.id_tasa;
-                    iBanderaMensajeEmite_P = 1;
-                }
-
-                catch (Exception)
-                {
-                    iBanderaMensajeEmite_P = 2;
-                    sIdTasaRespuesta = "0";
-                }
-
-                Session["id_tasa_usuario_emitida"] = sIdTasaRespuesta;
-                return "OK";
-            }
-
-            catch (Exception)
-            {
-                iBanderaMensajeEmite_P = 0;
-                return "ERROR";
-            }
-        }
-
-        //FUNCION PARA REVERSAR LA CUENTA DEL TOKEN
-        private bool reversarCuentaToken()
-        {
-            try
-            {
-                strToken_P = Session["tasa_usuario_emitida"].ToString().Substring(9, 5);
-
-                int num = Convert.ToInt32(Session["tasa_usuario_emitida"].ToString().Substring(0, 2));
-
-                if (!conexionM.iniciarTransaccion())
-                {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo iniciar iniciar la transacci\x00f3n.', 'danger');", true);
-                    return false;
-                }
-
-                sSql = "";
-                sSql += "update ctt_tasa_token set" + Environment.NewLine;
-                sSql += "emitidos = emitidos - "  + num + Environment.NewLine;
-                sSql += "where token = '" + strToken_P + "'" + Environment.NewLine;
-                sSql += "and estado = 'A'" + Environment.NewLine;
-                sSql += "and validado = 1" + Environment.NewLine;
-                sSql += "and ambiente_token = " + Convert.ToInt32(Session["emision"].ToString());
-
-                if (!conexionM.ejecutarInstruccionSQL(sSql))
-                {
-                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + this.sSql.Replace("\n", "<br/>");
-                    ScriptManager.RegisterStartupScript(this, GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                    conexionM.reversaTransaccion();
-                    return false;
-                }
-
-                conexionM.terminaTransaccion();
-                return true;
-            }
-
-            catch (Exception)
-            {
-                conexionM.reversaTransaccion();
-                return false;
-            }
-        }
-
-        #endregion
-
-        #region FUNCIONES PARA IMPRIMIR
+        #region FUNCIONES DEL USUARIO PARA LAS TASAS DE USUARIO
 
         //FUNCION PARA IMPRIMIR DIRECTAMENTE EL REPORT VIEWER
         private void crearReporteImprimir()
@@ -556,12 +159,6 @@ namespace Solution_CTT
                         sNumeroFactura_REP = dtConsulta.Rows[0][0].ToString() + "-" + dtConsulta.Rows[0][1].ToString() + "-" + dtConsulta.Rows[0][2].ToString().PadLeft(9, '0');
                         iVendidos_REP = dtConsulta.Rows.Count;
 
-                        if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
-                        {
-                            sTasaUsuarioRecuperado_REP = dtConsulta.Rows[0][12].ToString();
-                            Logo = barcode(sTasaUsuarioRecuperado_REP);
-                        }
-
                         sAsientos_REP = "";
                         dbSumaTotal_REP = 0;
 
@@ -571,7 +168,7 @@ namespace Solution_CTT
                             sAsientos_REP += dtConsulta.Rows[i]["numero_asiento"].ToString().Trim();
 
                             if (i + 1 != dtConsulta.Rows.Count)
-                            {   
+                            {
                                 sAsientos_REP += " - ";
                             }
 
@@ -583,14 +180,9 @@ namespace Solution_CTT
                             dbSumaTotal_REP += dbCantidad_REP * (dbPrecioUnitario_REP - dbDescuento_REP + dbIva_REP);
                         }
 
-                        DataColumn imagen = new DataColumn("tasa_generada");
-                        imagen.DataType = System.Type.GetType("System.Byte[]");
-                        dtConsulta.Columns.Add(imagen);
-
                         //RECORRER EL DATATABLE PARA LLENAR DE DATOS
                         for (int i = 0; i < dtConsulta.Rows.Count; i++)
                         {
-                            dtConsulta.Rows[i]["tasa_generada"] = Logo;
                             dtConsulta.Rows[i]["valor_total"] = dbSumaTotal_REP.ToString("N2");
                             dtConsulta.Rows[i]["vendidos"] = iVendidos_REP.ToString();
                             dtConsulta.Rows[i]["asientos"] = sAsientos_REP.Trim();
@@ -599,7 +191,7 @@ namespace Solution_CTT
 
                         DSReportes ds = new DSReportes();
 
-                        DataTable dt = ds.Tables["dtFactura"];
+                        DataTable dt = ds.Tables["dtFacturaSimple"];
                         dt.Clear();
 
                         dt = dtConsulta;
@@ -619,25 +211,7 @@ namespace Solution_CTT
                         if (bRespuesta == true)
                         {
                             LocalReport reporteLocal = new LocalReport();
-
-                            if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
-                            {
-                                if (Convert.ToInt32(Session["adjuntar_tasa_dev"].ToString()) == 1)
-                                {
-                                    reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFactura.rdlc");
-                                }
-
-                                else
-                                {
-                                    reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFactura_2.rdlc");
-                                }
-                            }
-
-                            else
-                            {
-                                reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFactura_2.rdlc");
-                            }
-
+                            reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFacturaGuayaquil.rdlc");
                             ReportDataSource datasource = new ReportDataSource("DataSet1", dt);
                             ReportDataSource datasource2 = new ReportDataSource("DataSet2", dt2);
                             reporteLocal.DataSources.Add(datasource);
@@ -661,488 +235,6 @@ namespace Solution_CTT
                 cerrarModal();
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-            }
-        }
-
-        //FUNCION DE PRUEBA
-        private byte[] barcode(string sTasa)
-        {
-            BarcodeLib.Barcode codigo = new BarcodeLib.Barcode();
-            codigo.IncludeLabel = true;
-
-            var ms = new MemoryStream();
-
-            Bitmap imgOK = new Bitmap(codigo.Encode(BarcodeLib.TYPE.CODE128, sTasa.ToString(), Color.Black, Color.White, 500, 150));
-
-            imgOK.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-
-            return ms.ToArray();
-        }
-
-        #endregion
-
-        #region FUNCIONES DEL USUARIO PARA LAS TASAS DE USUARIO
-
-        //FUNCION PARA CONSULTAR LOS PARAMETROS DEL SERVIDOR
-        private void consultarParametrosTasa()
-        {
-            try
-            {
-                sSql = "";
-                sSql += "select id_ctt_tasa_parametro, id_ctt_tasa_terminal, id_oficina, id_cooperativa," + Environment.NewLine;
-                sSql += "servidor_pruebas, servidor_produccion, webservice_tasa_anulacion, emision," + Environment.NewLine;
-                sSql += "valor_tasa, permite_anular_tasa, webservice_tasa_usuario, webservice_verifica_token," + Environment.NewLine;
-                sSql += "webservice_tasa_usuario, notificacion_emergente, adjuntar_tasa_boleto" + Environment.NewLine;
-                sSql += "from ctt_tasa_parametros" + Environment.NewLine;
-                sSql += "where estado = 'A'";
-
-                dtConsulta = new DataTable();
-                dtConsulta.Clear();
-                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
-
-                if (bRespuesta == true)
-                {
-                    Session["id_ctt_tasa_parametro"] = dtConsulta.Rows[0]["id_ctt_tasa_parametro"].ToString();
-                    Session["id_tasa_terminal"] = dtConsulta.Rows[0]["id_ctt_tasa_terminal"].ToString();
-                    Session["id_tasa_oficina"] = dtConsulta.Rows[0]["id_oficina"].ToString();
-                    Session["id_tasa_cooperativa"] = dtConsulta.Rows[0]["id_cooperativa"].ToString();
-                    Session["servidor_pruebas"] = dtConsulta.Rows[0]["servidor_pruebas"].ToString();
-                    Session["servidor_produccion"] = dtConsulta.Rows[0]["servidor_produccion"].ToString();
-                    Session["tasa_anulacion"] = dtConsulta.Rows[0]["webservice_tasa_anulacion"].ToString();
-                    Session["emision"] = dtConsulta.Rows[0]["emision"].ToString();
-                    Session["valor_tasa"] = dtConsulta.Rows[0]["valor_tasa"].ToString();
-                    Session["permite_anular_tasa"] = dtConsulta.Rows[0]["permite_anular_tasa"].ToString();
-                    Session["webservice_tasa_usuario"] = dtConsulta.Rows[0]["webservice_tasa_usuario"].ToString();
-                    Session["webservice_verifica_token"] = dtConsulta.Rows[0]["webservice_verifica_token"].ToString();
-                    Session["tasa_usuario"] = dtConsulta.Rows[0]["webservice_tasa_usuario"].ToString();
-                    Session["notificacion_emergente_dev"] = dtConsulta.Rows[0]["notificacion_emergente"].ToString();
-                    Session["adjuntar_tasa_dev"] = dtConsulta.Rows[0]["adjuntar_tasa_boleto"].ToString();
-                }
-
-                else
-                {
-                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                }
-            }
-
-            catch (Exception ex)
-            {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-            }
-        }
-
-        //FUNCION PARA CONSULTAR LOS VALORES DE CUENTAS DEL TOKEN
-        private bool consultarToken()
-        {
-            try
-            {
-                sSql = "";
-                sSql += "select token, maximo_secuencial - emitidos disponibles, id_ctt_tasa_token, cuenta" + Environment.NewLine;
-                sSql += "from ctt_tasa_token" + Environment.NewLine;
-                sSql += "where estado = 'A'" + Environment.NewLine;
-                sSql += "and estado_token = 'Abierta'" + Environment.NewLine;
-                sSql += "and ambiente_token = " + Convert.ToInt32(Session["emision"].ToString()) + Environment.NewLine;
-                sSql += "and validado = 1" + Environment.NewLine;
-                sSql += "and id_ctt_oficinista = " + Convert.ToInt32(Session["idUsuario"].ToString()) + Environment.NewLine;
-                sSql += "order by id_ctt_tasa_token";
-
-                dtConsulta = new DataTable();
-                dtConsulta.Clear();
-                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
-
-                if (bRespuesta == true)
-                {
-                    for (int i = 0; i < dtConsulta.Rows.Count; i++)
-                    {
-                        iCantidadDisponible = Convert.ToInt32(dtConsulta.Rows[i]["disponibles"].ToString());
-
-                        if (iNuevaCantidadTasas <= iCantidadDisponible)
-                        {
-                            sToken = dtConsulta.Rows[i]["token"].ToString();
-                            sCuentaToken = dtConsulta.Rows[i]["cuenta"].ToString().Trim().PadLeft(4, '0');
-                            break;
-                        }
-                    }
-                }
-
-                else
-                {
-                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                    return false;
-                }                
-
-                //LLAMAR A FUNCION PARA CREAR LA TASA DE USUARIO
-                if (generarTasaUsuario() == false)
-                {
-                    return false;
-                }
-
-                return true;
-            }
-
-            catch (Exception ex)
-            {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                return false;
-            }
-        }
-
-        //FUNCION PARA GENERAR LA TASA DE USUARIO
-        private bool generarTasaUsuario()
-        {
-            try
-            {
-                sCantidadBoletosToken = iNuevaCantidadTasas.ToString().Trim().PadLeft(2, '0');
-                sTasaUsuario += sCantidadBoletosToken + Session["id_tasa_cooperativa"].ToString().Trim();
-                sTasaUsuario += Session["id_tasa_oficina"].ToString().Trim() + sToken.Trim() + sCuentaToken.Trim();
-                sTasaUsuario += Session["id_tasa_terminal"].ToString().Trim() + "1";
-
-                Session["tasa_usuario_generado"] = sTasaUsuario;
-
-                return true;
-            }
-
-            catch (Exception ex)
-            {
-                cerrarModal();
-                lblMensajeModal.Text = ex.Message;
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#myModal1').modal('show');</script>", false);
-                return false;
-            }
-        }
-
-        //FUNCION PARA CREAR EL JSON PARA ENVIAR
-        private bool crearJson()
-        {
-            try
-            {
-                if (Session["identificacion_cliente"].ToString().Trim() == "9999999999999")
-                {
-                    sTipoClienteTasa = "07";
-                }
-
-                else if (Session["identificacion_cliente"].ToString().Trim().Length == 10)
-                {
-                    sTipoClienteTasa = "05";
-                }
-
-                else if (Session["identificacion_cliente"].ToString().Trim().Length == 13)
-                {
-                    sTipoClienteTasa = "04";
-                }
-
-                else
-                {
-                    sTipoClienteTasa = "06";
-                }
-
-
-                sObjetoJson = "";
-                sObjetoJson += "{" + Environment.NewLine;
-
-                sObjetoOficina = "";
-                sObjetoOficina += "\"oficina\": {" + Environment.NewLine;
-                sObjetoOficina += "\"id_oficina\": \"" + Session["id_tasa_oficina"].ToString() + "\"," + Environment.NewLine;
-                sObjetoOficina += "\"id_coop\": \"" + Session["id_tasa_cooperativa"].ToString() + "\"," + Environment.NewLine;
-                sObjetoOficina += "\"id_terminal\": \"" + Session["id_tasa_terminal"].ToString() + "\"" + Environment.NewLine;
-                sObjetoOficina += "},";
-
-                sObjetoJson += sObjetoOficina + Environment.NewLine;
-
-                sObjetoTasa = "";
-                sObjetoTasa += "\"tasa\": {" + Environment.NewLine;
-                sObjetoTasa += "\"cantidad\": \"" + iNuevaCantidadTasas.ToString().Trim().PadLeft(2, '0') + "\"," + Environment.NewLine;
-                sObjetoTasa += "\"secuencial\": \"" + sCuentaToken.Trim() + "\"," + Environment.NewLine;
-                sObjetoTasa += "\"token\": \"" + sToken.Trim() + "\"," + Environment.NewLine;
-                sObjetoTasa += "\"tipo\": \"1\"," + Environment.NewLine;
-                sObjetoTasa += "\"codigo\": \"" + sTasaUsuario + "\"" + Environment.NewLine;
-                sObjetoTasa += "},";
-
-                sObjetoJson += sObjetoTasa + Environment.NewLine;
-
-                sObjetoInfo = "";
-                sObjetoInfo += "\"info\": {" + Environment.NewLine;
-                sObjetoInfo += "\"id_inicio\": \"" + Session["id_pueblo_origen_tasa"].ToString() + "\"," + Environment.NewLine;
-                sObjetoInfo += "\"id_destino\": \"" + Session["id_pueblo_destino_tasa"] + "\"," + Environment.NewLine;
-                sObjetoInfo += "\"str_inicio\": \"" + Session["pueblo_origen_tasa"].ToString() + "\"," + Environment.NewLine;
-                sObjetoInfo += "\"str_destino\": \"" + Session["pueblo_destino_tasa"].ToString() + "\"," + Environment.NewLine;
-                sObjetoInfo += "\"str_horaSalida\": \"" + Session["fecha_viaje"].ToString() + "\"," + Environment.NewLine;
-                sObjetoInfo += "\"str_fechaSalida\": \"" + Session["hora_salida"].ToString() + "\"," + Environment.NewLine;
-                sObjetoInfo += "\"pasajeros\": \"" + sCantidadBoletosToken.Trim() + "\"," + Environment.NewLine;
-                sObjetoInfo += "\"list_pasajeros\": [" + Environment.NewLine;
-
-                int iSuma_P = 0;
-
-                //INSTRCCIONES PARA INSERTAR EN LA TABLA CV403_DET_PEDIDOS
-                foreach (GridViewRow row in dgvDetalle.Rows)
-                {
-                    CheckBox check = row.FindControl("chkSeleccionar") as CheckBox;
-
-                    if (check.Checked == false)
-                    {
-                        sObjetoInfo += "{" + Environment.NewLine;
-                        sObjetoInfo += "\"nombre\": \"" + row.Cells[11].Text + "\"," + Environment.NewLine;
-                        sObjetoInfo += "\"id\": \"" + row.Cells[10].Text + "\"" + Environment.NewLine;
-                        iSuma_P++;
-
-                        if (iNuevaCantidadTasas == iSuma_P)
-                        {
-                            sObjetoInfo += "}" + Environment.NewLine;
-                        }
-
-                        else
-                        {
-                            sObjetoInfo += "}," + Environment.NewLine;
-                        }
-                    }
-                }
-
-                sObjetoInfo += "]," + Environment.NewLine;
-                sObjetoInfo += "\"n_bus\": \"" + Session["disco_vehiculo_tasa"].ToString() + "\"" + Environment.NewLine;
-                sObjetoInfo += "},";
-
-                sObjetoJson += sObjetoInfo + Environment.NewLine;
-
-                sCiudad = Application["ciudad_default"].ToString().ToUpper();
-                sCorreoElectronico = Application["correo_default"].ToString().ToLower();
-                sTelefono = Application["telefono_default"].ToString();
-
-                //if (sCiudad.Trim() == "")
-                //{
-                //    sCiudad = Application["ciudad_default"].ToString().ToUpper();
-                //}
-
-                //if (sCorreoElectronico.Trim() == "")
-                //{
-                //    sCorreoElectronico = Application["correo_default"].ToString().ToLower();
-                //}
-
-                //if (sTelefono.Trim() == "")
-                //{
-                //    sTelefono = Application["telefono_default"].ToString();
-                //}
-
-                sObjetoCliente = "";
-                sObjetoCliente += "\"cliente\": {" + Environment.NewLine;
-                sObjetoCliente += "\"ruc\": \"" + Session["identificacion_cliente"].ToString() + "\"," + Environment.NewLine;
-                sObjetoCliente += "\"nombre\": \"" + Session["nombre_cliente"].ToString() + "\"," + Environment.NewLine;
-                sObjetoCliente += "\"direccion\": \"" + sCiudad.ToUpper() + "\"," + Environment.NewLine;
-                sObjetoCliente += "\"correo\": \"" + sCorreoElectronico.ToLower() + "\"," + Environment.NewLine;
-                sObjetoCliente += "\"telefono\": \"" + sTelefono + "\"," + Environment.NewLine;
-                sObjetoCliente += "\"tipo\": \"" + sTipoClienteTasa + "\"" + Environment.NewLine;
-                sObjetoCliente += "}";
-
-                sObjetoJson += sObjetoCliente + Environment.NewLine + "}";
-                Session["Json"] = sObjetoJson;
-
-                if (enviarJson() == "ERROR")
-                {
-                    return false;
-                }
-
-                return true;
-            }
-
-            catch (Exception ex)
-            {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                return false;
-            }
-        }
-
-        //FUNCION PARA ENVIAR EL JSON AL SERVIDOR PARA AUTORIZACION
-        private string enviarJson()
-        {
-            try
-            {
-                if (Session["emision"].ToString() == "0")
-                {
-                    sUrlEnvio = Session["servidor_pruebas"].ToString() + Session["tasa_usuario"].ToString();
-                }
-
-                else
-                {
-                    sUrlEnvio = Session["servidor_produccion"].ToString() + Session["tasa_usuario"].ToString();
-                }
-
-
-                //Llamar a funcion para aceptar los certificados de la URL
-                ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications);
-
-                //Declara el objeto con el que haremos la llamada al servicio
-                HttpWebRequest request = WebRequest.Create(sUrlEnvio) as HttpWebRequest;
-                //Configurar las propiedad del objeto de llamada
-                request.Method = "POST";
-                request.ContentType = "application/json";
-                request.Timeout = 10000;
-
-                //Serializar el objeto a enviar. Para esto uso la libreria Newtonsoft
-                //string sb = JsonConvert.SerializeObject(sAyuda);
-                string sb = Session["Json"].ToString();
-
-                //Convertir el objeto serializado a arreglo de byte
-                Byte[] bt = Encoding.UTF8.GetBytes(sb);
-
-                try
-                {
-                    //Agregar el objeto Byte[] al request
-                    Stream st = request.GetRequestStream();
-                    st.Write(bt, 0, bt.Length);
-                    st.Close();
-
-                    //Hacer la llamada
-                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-                    {
-                        //Leer el resultado de la llamada
-                        Stream stream1 = response.GetResponseStream();
-                        StreamReader sr = new StreamReader(stream1);
-                        respuestaJson = sr.ReadToEnd();
-                    }
-
-                    TasaUsuario tasa = JsonConvert.DeserializeObject<TasaUsuario>(respuestaJson);
-
-                    sIdTasaRespuesta = tasa.id_tasa;
-                    iBanderaMensajeEmite_P = 1;
-                }
-
-                catch(Exception)
-                {
-                    iBanderaMensajeEmite_P = 0;
-                    sIdTasaRespuesta = "0";
-                }
-
-                return "OK";
-            }
-
-            catch (Exception)
-            {
-                iBanderaMensajeEmite_P = 0;
-                return "ERROR";
-            }
-        }
-
-        //Funcion para aceptar los certificados de la URL
-        public bool AcceptAllCertifications(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certification, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
-        {
-            return true;
-        }
-
-        //FUNCION PARA CREAR EL JSON PARA ENVIAR
-        private bool crearJsonEliminar()
-        {
-            try
-            {
-                sObjetoJson = "";
-                sObjetoJson += "{" + Environment.NewLine;
-
-                sObjetoOficina = "";
-                sObjetoOficina += "\"oficina\": {" + Environment.NewLine;
-                sObjetoOficina += "\"id_oficina\": \"" + Session["id_tasa_oficina"].ToString() + "\"," + Environment.NewLine;
-                sObjetoOficina += "\"id_coop\": \"" + Session["id_tasa_cooperativa"].ToString() + "\"," + Environment.NewLine;
-                sObjetoOficina += "\"id_terminal\": \"" + Session["id_tasa_terminal"].ToString() + "\"" + Environment.NewLine;
-                sObjetoOficina += "},";
-
-                sObjetoJson += sObjetoOficina + Environment.NewLine;
-
-                sObjetoTasa = "";
-                sObjetoTasa += "\"tasa\": {" + Environment.NewLine;
-                sObjetoTasa += "\"id_tasa\": \"" + Session["id_tasa_usuario_emitida"].ToString() + "\"," + Environment.NewLine;
-                sObjetoTasa += "\"n_tasa\": \"" + Session["tasa_usuario_emitida"].ToString() + "\"" + Environment.NewLine;
-                sObjetoTasa += "}";
-
-                sObjetoJson += sObjetoTasa + Environment.NewLine;
-                sObjetoJson += "}";
-                
-                Session["JsonElimina"] = sObjetoJson;
-
-                if (enviarJsonElimina() == "ERROR")
-                {
-                    return false;
-                }
-
-                return true;
-            }
-
-            catch (Exception ex)
-            {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                return false;
-            }
-        }
-
-        //FUNCION PARA ENVIAR EL JSON AL SERVIDOR PARA AUTORIZACION
-        private string enviarJsonElimina()
-        {
-            try
-            {
-                if (Session["emision"].ToString() == "0")
-                {
-                    sUrlEnvio = Session["servidor_pruebas"].ToString() + Session["tasa_anulacion"].ToString();
-                }
-
-                else
-                {
-                    sUrlEnvio = Session["servidor_produccion"].ToString() + Session["tasa_anulacion"].ToString();
-                }
-
-                //Llamar a funcion para aceptar los certificados de la URL
-                ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications);
-
-                //Declara el objeto con el que haremos la llamada al servicio
-                HttpWebRequest request = WebRequest.Create(sUrlEnvio) as HttpWebRequest;
-                //Configurar las propiedad del objeto de llamada
-                request.Method = "POST";
-                request.ContentType = "application/json";
-                request.Timeout = 30000;
-
-                //Serializar el objeto a enviar. Para esto uso la libreria Newtonsoft
-                //string sb = JsonConvert.SerializeObject(sAyuda);
-                string sb = Session["JsonElimina"].ToString();
-
-                //Convertir el objeto serializado a arreglo de byte
-                Byte[] bt = Encoding.UTF8.GetBytes(sb);
-
-                try
-                {
-                    //Agregar el objeto Byte[] al request
-                    Stream st = request.GetRequestStream();
-                    st.Write(bt, 0, bt.Length);
-                    st.Close();
-
-                    //Hacer la llamada
-                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-                    {
-                        //Leer el resultado de la llamada
-                        Stream stream1 = response.GetResponseStream();
-                        StreamReader sr = new StreamReader(stream1);
-                        respuestaJson = sr.ReadToEnd();
-                    }
-
-                    TasaUsuarioAnula resultado = JsonConvert.DeserializeObject<TasaUsuarioAnula>(respuestaJson);
-
-                    Session["id_tasa_anulada"] = resultado.id_tasa.ToString();
-                    iBanderaMensajeAnula_P = 1;
-                }
-
-                catch(Exception)
-                {
-                    iBanderaMensajeAnula_P = 0;
-                    Session["id_tasa_anulada"] = "0";
-                }
-
-                return "OK";
-            }
-
-            catch (Exception)
-            {
-                iBanderaMensajeAnula_P = 0;
-                return "ERROR";
             }
         }
 
@@ -1179,37 +271,44 @@ namespace Solution_CTT
         {
             try
             {
-                //PRIMERO VERIFICAR LA TASA DE USUARIO
-                if (anularTasaUsuario() == false)
-                {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'Ocurrió un problema al intentar anular una tasa de usuario.', 'danger');", true);
-                    return;
-                }
-
-
                 if (conexionM.iniciarTransaccion() == false)
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo iniciar la transacción para el proceso de información.', 'danger');", true);
-                    goto fin;
+                    return;
                 }
 
                 //  1. GENERAR UN NUEVO PEDIDO CON LOS ITEMS QUE SE MANTENDRÁN
-
                 if (iOp == 1)
                 {
+                    if (consultarTasasEmitidas(iIdPedido_P) == false)
+                    {
+                        conexionM.reversaTransaccion();
+                        return;
+                    }
+
                     if (insertarPedido() == false)
                     {
-                        goto fin;
+                        return;
                     }
 
                     if (insertarPagos() == false)
                     {
-                        goto fin;
+                        return;
                     }
 
                     if (insertarFactura() == false)
                     {
-                        goto fin;
+                        return;
+                    }
+                }
+
+                if (iOp != 1)
+                {
+                    //AQUI PARA ANULAR TODAS LAS VENTAS 
+                    if (anularTasasEmitidas(iIdPedido_P) == false)
+                    {
+                        conexionM.reversaTransaccion();
+                        return;
                     }
                 }
 
@@ -1217,17 +316,17 @@ namespace Solution_CTT
 
                 if (eliminarPedido(iIdPedido_P) == false)
                 {
-                    goto fin;
+                    return;
                 }
 
                 if (eliminarPagos() == false)
                 {
-                    goto fin;
+                    return;
                 }
 
                 if (eliminarFactura(iIdFactura_P) == false)
                 {
-                    goto fin;
+                    return;
                 }
 
                 //INSTRUCCION SQL PARA ACTUALIZAR EL NUMERO DE ASIENTOS
@@ -1243,7 +342,7 @@ namespace Solution_CTT
                     conexionM.reversaTransaccion();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                    goto fin;
+                    return;
                 }
 
                 conexionM.terminaTransaccion();
@@ -1255,86 +354,184 @@ namespace Solution_CTT
 
                 btnPopUp_ModalPopupExtender.Hide();
 
-                if (Convert.ToInt32(this.Session["genera_tasa_usuario"].ToString()) == 1)
-                {
-                    if (iOp == 1)
-                    {
-                        if ((this.iIdTasaAnulada != 0) || (this.iIdTasaAnulada != -1))
-                        {
-                            if (((iBanderaMensajeToken_P == 1) && (iBanderaMensajeAnula_P == 1)) && (iBanderaMensajeEmite_P == 1))
-                            {
-                                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Nueva factura emitida éxitosamente', 'success');", true);
-                            }
-                            else
-                            {
-                                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'Nueva factura emitida éxitosamente. Sincronización en segundo plano. Devolución de tasa usuario no permitida.', 'success');", true);
-                            }
-                        }
-
-                        else if (((iBanderaMensajeToken_P == 1) && (iBanderaMensajeAnula_P == 1)) && (iBanderaMensajeEmite_P == 1))
-                        {
-                            ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'Nueva factura emitida éxitosamente. La tasa de usuario excedió el límite de tiempo para anular o ya fue utilizada.', 'info');", true);
-                        }
-
-                        else
-                        {
-                            ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'Nueva factura emitida éxitosamente. Sincronización en segundo plano. Devolución de tasa usuario no permitida.', 'success');", true);
-                        }
-                    }
-
-                    else if ((iIdTasaAnulada != 0) || (iIdTasaAnulada != -1))
-                    {
-                        if ((iBanderaMensajeToken_P == 2) && (iBanderaMensajeAnula_P == 2))
-                        {
-                            ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Factura anulada éxitosamente. Sincronización en segundo plano. Devolución de tasa usuario no permitida.', 'success');", true);
-                        }
-
-                        else if ((iBanderaMensajeToken_P == 1) && (iBanderaMensajeAnula_P == 1))
-                        {
-                            ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Factura anulada éxitosamente. Tasa de usuario anulada éxitosamente.', 'success');", true);
-                        }
-
-                        else
-                        {
-                            ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'Factura anulada éxitosamente. Devolución de tasa usuario no permitida.', 'success');", true);
-                        }
-                    }
-
-                    else
-                    {
-                        ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'Factura anulada éxitosamente. La tasa de usuario se encuentra pendiente a sincronizar.', 'info');", true);
-                    }
-
-                    if (Convert.ToInt32(Session["notificacion_emergente_dev"].ToString()) == 1)
-                    {
-                        consultarDatosToken();
-                    }
-                }
-
-                else if (iOp == 1)
-                {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('\x00c9xito.!', 'Nueva factura emitida \x00e9xitosamente', 'success');", true);
-                }
-
-                else
-                {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('\x00c9xito.!', 'Factura anulada \x00e9xitosamente', 'success');", true);
-                }
+                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Factura anulada éxitosamente', 'success');", true);
 
                 llenarGridVendidos(0);
 
-                goto fin;
+                return;
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
-
-            fin: { };
         }
 
+        //OBTENER LAS TASAS DE USUARIO EMITIDAS
+        private bool consultarTasasEmitidas(int iIdPedido_P)
+        {
+            try
+            {
+                //CONSULTAR EL DETALLE DE LA TASA DE USUARIO
+                sSql = "";
+                sSql += "select * from ctt_detalle_tasa_smartt" + Environment.NewLine;
+                sSql += "where id_pedido = " + iIdPedido_P;
+
+                dtDetalleTasaOriginal = new DataTable();
+                dtDetalleTasaOriginal.Clear();
+
+                bRespuesta = conexionM.consultarRegistro(sSql, dtDetalleTasaOriginal);
+
+                if (bRespuesta == false)
+                {
+                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    return false;
+                }
+
+                //CONSULTAR LAS TASAS DE USUARIO EMITIDAS
+                sSql = "";
+                sSql += "select * from ctt_vw_tasas_smartt_anular" + Environment.NewLine;
+                sSql += "where id_pedido = " + iIdPedido_P + Environment.NewLine;
+                sSql += "order by id_det_pedido";
+
+                dtTasasEmitidas = new DataTable();
+                dtTasasEmitidas.Clear();
+
+                bRespuesta = conexionM.consultarRegistro(sSql, dtTasasEmitidas);
+
+                if (bRespuesta == false)
+                {
+                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    return false;
+                }
+
+                //INSTRCCIONES PARA INSERTAR EN LA TABLA CV403_DET_PEDIDOS
+                foreach (GridViewRow row in dgvDetalle.Rows)
+                {
+                    CheckBox check = row.FindControl("chkSeleccionar") as CheckBox;
+
+                    if (check.Checked == true)
+                    {
+                        int iNumeroAsiento_Liberar = Convert.ToInt32(row.Cells[9].Text);
+
+                        sRespuesta_A = anularLiberarBoleto.recuperarJsonLiberacionVenta(Session["tokenSMARTT"].ToString(),
+                                       Convert.ToInt32(Session["idViajeDevolucionSMARTT"].ToString()), iNumeroAsiento_Liberar);
+
+                        if (sRespuesta_A == "ERROR")
+                        {
+                            ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'No se pudo obtener registros para la tasa de usuario SMARTT', 'error')</script>");
+                            return false;
+                        }
+
+                        if (sRespuesta_A == "ISNULL")
+                        {
+                            ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Información.!', 'No se proporcionaron credenciales de autenticación. Tasa de Usuario SMARTT', 'info')</script>");
+                            return false;
+                        }
+
+                        Session["JsonLiberar"] = sRespuesta_A;
+
+                        boletoLiberar = JsonConvert.DeserializeObject<Clase_Variables_Contifico.Boleto>(sRespuesta_A);
+
+                        for (int j = 0; j < dtTasasEmitidas.Rows.Count; j++)
+                        {
+                            int iAsientoAux = Convert.ToInt32(dtTasasEmitidas.Rows[j]["numero_asiento"].ToString());
+
+                            if (iAsientoAux == iNumeroAsiento_Liberar)
+                            {
+                                dtTasasEmitidas.Rows[j]["estado_tasa_usuario"] = boletoLiberar.estado.ToString();
+                                dtTasasEmitidas.Rows[j]["estado_nombre"] = boletoLiberar.estado_nombre;
+
+                                int iIdDetPedido_A = Convert.ToInt32(dtTasasEmitidas.Rows[j]["id_det_pedido"].ToString());
+
+                                sSql = "";
+                                sSql += "update ctt_tasas_smartt set" + Environment.NewLine;
+                                sSql += "estado_tasa_usuario = " + boletoLiberar.estado.ToString() + "," + Environment.NewLine;
+                                sSql += "estado_nombre = '" + boletoLiberar.estado_nombre + "'" + Environment.NewLine;
+                                sSql += "where id_det_pedido = " + iIdDetPedido_A;
+
+                                //EJECUCION DE LA INSTRUCCION SQL
+                                if (conexionM.ejecutarInstruccionSQL(sSql) == false)
+                                {
+                                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                                    return false;
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                return true;
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                return false;
+            }
+        }
+
+        //FUNCION PARA ANULAR EL REGISTRO DE SMARTT
+        private bool anularTasasEmitidas(int iIdPedido_P)
+        {
+            try
+            {
+                sRespuesta_A = anularLiberarBoleto.recuperarJsonAnulacionVenta(Session["tokenSMARTT"].ToString(),
+                                       Convert.ToInt32(Session["idTasaFacturaSMARTT"].ToString()));
+
+                if (sRespuesta_A == "ERROR")
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'No se pudo obtener registros para la tasa de usuario SMARTT', 'error')</script>");
+                    return false;
+                }
+
+                if (sRespuesta_A == "ISNULL")
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Información.!', 'No se proporcionaron credenciales de autenticación. Tasa de Usuario SMARTT', 'info')</script>");
+                    return false;
+                }
+
+                Session["JsonLiberar"] = sRespuesta_A;
+
+                consultarTasaAnulada = JsonConvert.DeserializeObject<Clase_Variables_Contifico.TasaUsuarioSmartt>(sRespuesta_A);
+
+                sSql = "";
+                sSql += "update ctt_detalle_tasa_smartt set" + Environment.NewLine;
+                sSql += "estado_smartt = " + consultarTasaAnulada.estado + "," + Environment.NewLine;
+                sSql += "estado_nombre = '" + consultarTasaAnulada.estado_nombre + "'" + Environment.NewLine;
+                sSql += "where id_pedido = " + iIdPedido_P;
+
+                //EJECUCION DE INSTRUCCION SQL
+                if (!conexionM.ejecutarInstruccionSQL(sSql))
+                {
+                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    return false;
+                }
+
+                for (int j = 0; j < dtTasasEmitidas.Rows.Count; j++)
+                {
+                    dtTasasEmitidas.Rows[j]["estado_tasa_usuario"] = consultarTasaAnulada.estado;
+                    dtTasasEmitidas.Rows[j]["estado_nombre"] = boletoLiberar.estado_nombre;
+                }
+
+                return true;
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                return false;
+            }
+        }
 
         //INSERTAR FASE 1 -  CREAR PEDIDO
         private bool insertarPedido()
@@ -1349,7 +546,7 @@ namespace Solution_CTT
                 {
                     dbTotal = dbTotal + Convert.ToDouble(dgvDetalle.Rows[i].Cells[15].Text);
                 }
-
+                    
                 //INSTRUCCION PARA INSERTAR EN LA TABLA CV403_CAB_PEDIDOS
                 sSql = "";
                 sSql += "insert into cv403_cab_pedidos (" + Environment.NewLine;
@@ -1419,6 +616,67 @@ namespace Solution_CTT
                 }
 
                 Session["id_pedido_nuevo"] = iIdPedido.ToString();
+
+                //INSERTANOS LA RESPUESTA DE LAS TASAS DE USUARIO SMARTT EN LA TABLA ctt_detalle_tasa_smartt
+                int iId_S = Convert.ToInt32(dtDetalleTasaOriginal.Rows[0]["id"].ToString());
+                string sFechaHoraVenta_S = dtDetalleTasaOriginal.Rows[0]["fecha_hora_venta"].ToString();
+                string sNumeroDocumento_S = dtDetalleTasaOriginal.Rows[0]["numero_documento"].ToString();
+                string sClaveAcceso_S = dtDetalleTasaOriginal.Rows[0]["clave_acceso"].ToString();
+                string sNumeroDocumentoTasa_S = dtDetalleTasaOriginal.Rows[0]["numero_documento_tasa"].ToString();
+                string sClaveAccesoTasa_S = dtDetalleTasaOriginal.Rows[0]["clave_acceso_tasa"].ToString();
+                Double dbTotalTasas_S = Convert.ToDouble(dtDetalleTasaOriginal.Rows[0]["total_tasas"].ToString());
+                int iViaje_S = Convert.ToInt32(dtDetalleTasaOriginal.Rows[0]["viaje"].ToString());
+                int iFormaPago_S = Convert.ToInt32(dtDetalleTasaOriginal.Rows[0]["forma_de_pago"].ToString());
+                string sIdentificacionFactura_S = dtDetalleTasaOriginal.Rows[0]["identificacion"].ToString();
+                int iIdCliente_S = Convert.ToInt32(dtDetalleTasaOriginal.Rows[0]["id_cliente"].ToString());
+                string sNombreFactura_S = dtDetalleTasaOriginal.Rows[0]["nombre"].ToString();
+                string sCorreoFactura_S = dtDetalleTasaOriginal.Rows[0]["correo"].ToString();
+                string sTipoClienteFactura_S = dtDetalleTasaOriginal.Rows[0]["tipo_cliente"].ToString();
+                string sDireccionFactura_S = dtDetalleTasaOriginal.Rows[0]["direccion"].ToString();
+                string sTelefonoFactura_S = dtDetalleTasaOriginal.Rows[0]["telefono"].ToString();
+                string sTipoIdentificacion_S = dtDetalleTasaOriginal.Rows[0]["tipo_identificacion"].ToString();
+                int iExtranjeroFactura_S = Convert.ToInt32(dtDetalleTasaOriginal.Rows[0]["extranjero"].ToString()); ;
+                int iActivoFactura_S = Convert.ToInt32(dtDetalleTasaOriginal.Rows[0]["is_active_cliente"].ToString());
+                int iHabilitadoFactura_S = Convert.ToInt32(dtDetalleTasaOriginal.Rows[0]["is_enable_cliente"].ToString());
+                string sFechaActualizacionFactura_S = dtDetalleTasaOriginal.Rows[0]["actualizacion_cliente"].ToString();
+                string sUuid = dtDetalleTasaOriginal.Rows[0]["uuid"].ToString();
+                int iEstadoTasa_S = Convert.ToInt32(dtDetalleTasaOriginal.Rows[0]["estado_smartt"].ToString());
+                string sEstadoNombreTasa_S = dtDetalleTasaOriginal.Rows[0]["estado_nombre"].ToString();
+                int iOffline_S = Convert.ToInt32(dtDetalleTasaOriginal.Rows[0]["offline"].ToString());
+                string sEmisionTasa_S = dtDetalleTasaOriginal.Rows[0]["emision"].ToString();
+                int iCooperativaTasa_S = Convert.ToInt32(dtDetalleTasaOriginal.Rows[0]["cooperativa"].ToString());
+                string sDestinoTasa_S = dtDetalleTasaOriginal.Rows[0]["destino"].ToString();
+                int iActivoTasa_S = Convert.ToInt32(dtDetalleTasaOriginal.Rows[0]["is_active"].ToString());
+                int iHabilitadoTasa_S = Convert.ToInt32(dtDetalleTasaOriginal.Rows[0]["is_enable"].ToString());
+                string sFechaActualizacionTasa_S = dtDetalleTasaOriginal.Rows[0]["actualizacion_boletos"].ToString();
+
+                sSql = "";
+                sSql += "insert into ctt_detalle_tasa_smartt (" + Environment.NewLine;
+                sSql += "id_pedido, id, fecha_hora_venta, numero_documento, clave_acceso, numero_documento_tasa," + Environment.NewLine;
+                sSql += "clave_acceso_tasa, total_tasas, viaje, forma_de_pago, identificacion, id_cliente," + Environment.NewLine;
+                sSql += "nombre, correo, tipo_cliente, direccion, telefono, tipo_identificacion, extranjero," + Environment.NewLine;
+                sSql += "is_active_cliente, is_enable_cliente, actualizacion_cliente, uuid, estado_smartt," + Environment.NewLine;
+                sSql += "estado_nombre, offline, emision, cooperativa, destino, is_active, is_enable," + Environment.NewLine;
+                sSql += "actualizacion_boletos, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                sSql += "values (" + Environment.NewLine;
+                sSql += iIdPedido + ", " + iId_S + ", '" + sFechaHoraVenta_S + "', '" + sNumeroDocumento_S + "'," + Environment.NewLine;
+                sSql += "'" + sClaveAcceso_S + "', '" + sNumeroDocumentoTasa_S + "', '" + sClaveAccesoTasa_S + "'," + Environment.NewLine;
+                sSql += dbTotalTasas_S + ", " + iViaje_S + ", " + iFormaPago_S + ", '" + sIdentificacionFactura_S + "'," + Environment.NewLine;
+                sSql += iIdCliente_S + ", '" + sNombreFactura_S + "', '" + sCorreoFactura_S + "', '" + sTipoClienteFactura_S + "'," + Environment.NewLine;
+                sSql += "'" + sDireccionFactura_S + "', '" + sTelefonoFactura_S + "', '" + sTipoIdentificacion_S + "'," + Environment.NewLine;
+                sSql += iExtranjeroFactura_S + ", " + iActivoFactura_S + ", " + iHabilitadoFactura_S + ", '" + sFechaActualizacionFactura_S + "'," + Environment.NewLine;
+                sSql += "'" + sUuid + "', " + iEstadoTasa_S + ", '" + sEstadoNombreTasa_S + "', " + iOffline_S + "," + Environment.NewLine;
+                sSql += "'" + sEmisionTasa_S + "', " + iCooperativaTasa_S + ", '" + sDestinoTasa_S + "', " + iActivoTasa_S + "," + Environment.NewLine;
+                sSql += iHabilitadoTasa_S + ", '" + sFechaActualizacionTasa_S + "', 'A', GETDATE()," + Environment.NewLine;
+                sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
+
+                //EJECUCION DE INSTRUCCION SQL
+                if (!conexionM.ejecutarInstruccionSQL(sSql))
+                {
+                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    return false;
+                }
 
                 //PROCEDIMIENTO PARA EXTRAER EL NUMERO DE PEDIDO
                 sSql = "";
@@ -1519,7 +777,7 @@ namespace Solution_CTT
 
                 if (iMaximo == -1)
                 {
-                    lblMensajeError.Text = "No se pudo obtener el código de la tabla " + sTabla + ".";                    
+                    lblMensajeError.Text = "No se pudo obtener el código de la tabla " + sTabla + ".";
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
                 }
@@ -1600,6 +858,7 @@ namespace Solution_CTT
                         iIdDetalleRuta = Convert.ToInt32(row.Cells[5].Text);
                         iIdProducto = Convert.ToInt32(row.Cells[7].Text);
                         iIdTipoCliente = Convert.ToInt32(row.Cells[8].Text);
+                        sIdentificacionParaTasa = row.Cells[10].Text;
 
                         dbPrecioUnitario = Convert.ToDouble(row.Cells[14].Text);
                         dbDescuento = Convert.ToDouble(row.Cells[15].Text);
@@ -1628,23 +887,92 @@ namespace Solution_CTT
                             return false;
                         }
 
-                        iNuevaCantidadTasas++;
+                        //PROCEDIMINTO PARA EXTRAER EL ID DE LA TABLA CV403_EVENTOS_COBROS
+                        sTabla = "cv403_det_pedidos";
+                        sCampo = "id_det_pedido";
+
+                        iMaximo = conexionM.sacarMaximo(sTabla, sCampo, "", sDatosMaximo);
+
+                        if (iMaximo == -1)
+                        {
+                            lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>No se pudo obtener el código de la tabla " + sTabla + ".";
+                            ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                            return false;
+                        }
+
+                        iIdDetPedido = Convert.ToInt32(iMaximo);
+
+                        for (int k = 0; k < dtTasasEmitidas.Rows.Count; k++)
+                        {
+                            string sIdentificacion_Filtro = dtTasasEmitidas.Rows[k]["identificacion"].ToString();
+
+                            if (sIdentificacion_Filtro == sIdentificacionParaTasa)
+                            {
+                                int iId_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["id"].ToString());
+                                double dbValor_Filtro = Convert.ToDouble(dtTasasEmitidas.Rows[k]["valor"].ToString());
+                                int iLocalidadEmbarque_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["localidad_embarque"].ToString());
+                                int iTipoCliente_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["tipo_cliente"].ToString());
+                                string sParadaEmbarque_Filtro = dtTasasEmitidas.Rows[k]["parada_embarque"].ToString();
+                                int iParadaDestino_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["parada_destino"].ToString());
+                                int iIdPasajero_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["id_pasajero_smartt"].ToString());
+                                string sTipoCiente_Filtro = dtTasasEmitidas.Rows[k]["tipo_cliente_pasajero"].ToString();
+                                string sTipoIdentificacion_Filtro = dtTasasEmitidas.Rows[k]["tipo_identificacion"].ToString();
+
+                                int iExtranjero_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["extranjero_pasajero"].ToString());
+                                int iActivoPasajero_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["is_active_pasajero"].ToString());
+                                int iHabilitadoPasajero_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["is_enable_pasajero"].ToString());
+                                string sFechaActualizacionPasajero_Filtro = dtTasasEmitidas.Rows[k]["actualizacion_pasajero"].ToString();
+                                string sTasaUsuario_Filtro = dtTasasEmitidas.Rows[k]["tasa_usuario"].ToString();
+                                int iEstadoTasa_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["estado_tasa_usuario"].ToString());
+                                string sNombreEstado_Filtro = dtTasasEmitidas.Rows[k]["estado_nombre"].ToString();
+                                int iActivoBoletos_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["is_active_smartt"].ToString());
+                                int iHabilitadoBoletos_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["is_enable_smartt"].ToString());
+                                string sFechaActualizacionBoletos_Filtro = dtTasasEmitidas.Rows[k]["actualizacion_smartt"].ToString();
+
+                                sSql = "";
+                                sSql += "insert into ctt_tasas_smartt (" + Environment.NewLine;
+                                sSql += "id_det_pedido, id, valor, localidad_embarque, tipo_cliente, parada_embarque," + Environment.NewLine;
+                                sSql += "parada_destino, id_pasajero_smartt, tipo_cliente_pasajero, tipo_identificacion," + Environment.NewLine;
+                                sSql += "extranjero_pasajero, is_active_pasajero, is_enable_pasajero, actualizacion_pasajero," + Environment.NewLine;
+                                sSql += "tasa_usuario, estado_tasa_usuario, estado_nombre, is_active_smartt, is_enable_smartt," + Environment.NewLine;
+                                sSql += "actualizacion_smartt, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                                sSql += "values (" + Environment.NewLine;
+                                sSql += iIdDetPedido + ", " + iId_Filtro + ", " + dbValor_Filtro + ", " + iLocalidadEmbarque_Filtro + "," + Environment.NewLine;
+                                sSql += iTipoCliente_Filtro + ", '" + sParadaEmbarque_Filtro + "', " + iParadaDestino_Filtro + "," + Environment.NewLine;
+                                sSql += iIdPasajero_Filtro + ", '" + sTipoCiente_Filtro + "', '" + sTipoIdentificacion_Filtro + "'," + Environment.NewLine;
+                                sSql += iExtranjero_Filtro + ", " + iActivoPasajero_Filtro + ", " + iHabilitadoPasajero_Filtro + ", ";
+                                sSql += "'" + sFechaActualizacionPasajero_Filtro + "', '" + sTasaUsuario_Filtro + "'," + Environment.NewLine;
+                                sSql += iEstadoTasa_Filtro + ", '" + sNombreEstado_Filtro + "', " + iActivoBoletos_Filtro + ", ";
+                                sSql += iHabilitadoBoletos_Filtro + ", '" + sFechaActualizacionBoletos_Filtro + "', 'A', GETDATE()," + Environment.NewLine;
+                                sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
+
+                                //EJECUCION DE INSTRUCCION SQL
+                                if (!conexionM.ejecutarInstruccionSQL(sSql))
+                                {
+                                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                                    return false;
+                                }
+
+                                break;
+                            }
+                        }
                     }
                 }
 
-                columnasGridDetalles(false);                
+                columnasGridDetalles(false);
 
                 return true;
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 goto reversa;
             }
 
-            reversa: { conexionM.reversaTransaccion(); return false; }
+        reversa: { conexionM.reversaTransaccion(); return false; }
         }
 
 
@@ -1864,7 +1192,7 @@ namespace Solution_CTT
 
                 if (bRespuesta == true)
                 {
-                    
+
                     sCiudad = dtConsulta.Rows[0][0].ToString();
                     sDireccion = dtConsulta.Rows[0][1].ToString();
 
@@ -1942,23 +1270,6 @@ namespace Solution_CTT
                 }
 
                 string ClaveAcceso = "";
-                sTasaUsuario = "";
-
-                //CONSULTAR EN CASO DE ENVIAR LA TASA DE USUARIO
-                if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
-                {
-                    iEmiteTasaUsuario = 1;
-
-                    if (consultarToken() == false)
-                    {
-                        return false;
-                    }
-                }
-
-                else
-                {
-                    iEmiteTasaUsuario = 0;
-                }
 
                 if (Convert.ToInt32(Application["facturacion_electronica"].ToString()) == 1)
                 {
@@ -1991,24 +1302,6 @@ namespace Solution_CTT
                 else
                 {
                     iManejaFacturacionElectronica = 0;
-                }
-
-                if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
-                {
-                    if (Convert.ToInt32(Session["emision"].ToString()) == 0)
-                    {
-                        iAmbienteTasa = 0;
-                    }
-
-                    else
-                    {
-                        iAmbienteTasa = 1;
-                    }
-                }
-
-                else
-                {
-                    iAmbienteTasa = 0;
                 }
 
                 //INSTRUCCION PARA EXTRAER LA FORMA DE PAGO DE LA TABLA CV403_FORMAS_PAGOS
@@ -2050,7 +1343,7 @@ namespace Solution_CTT
                 sSql += "'" + sFecha + "', " + Convert.ToInt32(Application["cgMoneda"].ToString()) + ", " + dbTotal + ", 0, 0, GETDATE()," + Environment.NewLine;
                 sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', 'A', 1, 0," + Environment.NewLine;
                 sSql += "'" + sDireccion + "', '" + sTelefono + "', '" + sCiudad + "'," + Environment.NewLine;
-                sSql += "'" + sCorreoElectronico + "', '" + sTasaUsuario + "', " + iManejaFacturacionElectronica + ", '" + ClaveAcceso + "', " + iEmiteTasaUsuario + ", " + iAmbienteTasa + ", ";
+                //sSql += "'" + sCorreoElectronico + "', '" + sTasaUsuario + "', " + iManejaFacturacionElectronica + ", '" + ClaveAcceso + "', " + iEmiteTasaUsuario + ", " + iAmbienteTasa + ", ";
                 sSql += iNuevaCantidadTasas + ")";
 
                 //EJECUCION DE INSTRUCCION SQL
@@ -2128,222 +1421,6 @@ namespace Solution_CTT
                     return false;
                 }
 
-                //CONSULTAR EN CASO DE ENVIAR LA TASA DE USUARIO
-                if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
-                {
-                    sIdTasaRespuesta = "";
-
-                    if (conexionInternet() == true)
-                    {
-                        if (crearJson() == false)
-                        {
-                            return false;
-                        }
-
-                        iTasaEmitidaBandera = 1;
-                    }
-
-                    else
-                    {
-                        iTasaEmitidaBandera = 0;
-                    }                    
-
-                    //ACTUALIZAR LA TABLA CV403_FACTURAS
-                    sSql = "";
-                    sSql += "update cv403_facturas set" + Environment.NewLine;
-                    sSql += "id_tasa_emitida = '" + sIdTasaRespuesta + "'," + Environment.NewLine;
-                    sSql += "tasa_emitida = " + iTasaEmitidaBandera + Environment.NewLine;                    
-                    sSql += "where id_factura = " + iIdFactura + Environment.NewLine;
-                    sSql += "and estado = 'A'";
-
-                    //EJECUCION DE INSTRUCCION SQL
-                    if (!conexionM.ejecutarInstruccionSQL(sSql))
-                    {
-                        lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                        return false;
-                    }
-
-                    //ACTUALIZAR LOS CONTADORES DE LA TABLA CTT_TASA_TOKEN
-                    sSql = "";
-                    sSql += "update ctt_tasa_token set" + Environment.NewLine;
-                    sSql += "cuenta = cuenta + 1," + Environment.NewLine;
-                    sSql += "emitidos = emitidos + " + iNuevaCantidadTasas + Environment.NewLine;
-                    sSql += "where token = '" + sToken + "'" + Environment.NewLine;
-                    sSql += "and estado = 'A'" + Environment.NewLine;
-                    sSql += "and validado = 1" + Environment.NewLine;
-                    sSql += "and ambiente_token = " + Convert.ToInt32(Session["emision"].ToString()) + Environment.NewLine;
-                    sSql += "and estado_token = 'Abierta'";
-
-                    //EJECUCION DE INSTRUCCION SQL
-                    if (!conexionM.ejecutarInstruccionSQL(sSql))
-                    {
-                        lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                        return false;
-                    }
-
-                    //VERIFICAR SI YA ESTÁ AL LIMITE PERMITIDO LA TASA DE USUARIO Y CERRAR EL TOKEN
-                    sSql = "";
-                    sSql += "select maximo_secuencial, emitidos" + Environment.NewLine;
-                    sSql += "from ctt_tasa_token" + Environment.NewLine;
-                    sSql += "where token = '" + sToken + "'" + Environment.NewLine;
-                    sSql += "and estado = 'A'" + Environment.NewLine;
-                    sSql += "and validado = 1" + Environment.NewLine;
-                    sSql += "and ambiente_token = " + Convert.ToInt32(Session["emision"].ToString()) + Environment.NewLine;
-                    sSql += "and estado_token = 'Abierta'";
-
-                    dtConsulta = new DataTable();
-                    dtConsulta.Clear();
-
-                    bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
-
-                    if (bRespuesta == true)
-                    {
-                        if (dtConsulta.Rows.Count > 0)
-                        {
-                            int iMaximo_P = Convert.ToInt32(dtConsulta.Rows[0]["maximo_secuencial"].ToString());
-                            int iEmitidos_P = Convert.ToInt32(dtConsulta.Rows[0]["emitidos"].ToString());
-
-                            if (iMaximo_P == iEmitidos_P)
-                            {
-                                //ACTUALIZAR LOS CONTADORES DE LA TABLA CTT_TASA_TOKEN
-                                sSql = "";
-                                sSql += "update ctt_tasa_token set" + Environment.NewLine;
-                                sSql += "estado_token = 'Cerrada'" + Environment.NewLine;
-                                sSql += "where token = '" + sToken + "'" + Environment.NewLine;
-                                sSql += "and estado = 'A'" + Environment.NewLine;
-                                sSql += "and validado = 1" + Environment.NewLine;
-                                sSql += "and ambiente_token = " + Convert.ToInt32(Session["emision"].ToString()) + Environment.NewLine;
-                                sSql += "and estado_token = 'Abierta'";
-
-                                //EJECUCION DE INSTRUCCION SQL
-                                if (!conexionM.ejecutarInstruccionSQL(sSql))
-                                {
-                                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
-                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                                    return false;
-                                }
-                            }
-                        }
-                    }
-
-                    else
-                    {
-                        lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                        return false;
-                    }
-
-                    //PROCEDIMIENTO PARA EXTRAER EL NUMERO DE MOVIMIENTO
-                    sSql = "";
-                    sSql += "select numeromovimientocaja" + Environment.NewLine;
-                    sSql += "from tp_localidades_impresoras" + Environment.NewLine;
-                    sSql += "where estado = 'A'" + Environment.NewLine;
-                    sSql += "and id_localidad = " + Convert.ToInt32(Application["idLocalidad"].ToString());
-
-                    dtConsulta = new DataTable();
-                    dtConsulta.Clear();
-
-                    bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
-
-                    if (bRespuesta == true)
-                    {
-                        iNumeroMovimientoCaja = Convert.ToInt32(dtConsulta.Rows[0][0].ToString());
-                    }
-
-                    else
-                    {
-                        lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                        return false;
-                    }
-
-                    //dbValorTasa = Convert.ToDecimal(txtTasaUsuario.Text.Trim()) * Convert.ToDecimal(Session["valor_tasa_usuario"].ToString());
-                    dbValorTasa = Convert.ToDecimal(iNuevaCantidadTasas.ToString(), System.Globalization.CultureInfo.InvariantCulture) * Convert.ToDecimal(Session["valor_tasa"].ToString(), System.Globalization.CultureInfo.InvariantCulture);
-
-                    int iCobrarTasa_P;
-
-                    if (iAmbienteTasa == 1)
-                    {
-                        iCobrarTasa_P = 1;
-                    }
-
-                    else
-                    {
-                        iCobrarTasa_P = 0;
-                    }
-
-                    //INSERTAR EN LA TABLA CTT_MOVIMIENTO_CAJA
-                    sSql = "";
-                    sSql += "insert into ctt_movimiento_caja (" + Environment.NewLine;
-                    sSql += "tipo_movimiento, idempresa, id_localidad, id_factura, id_caja, id_ctt_jornada," + Environment.NewLine;
-                    sSql += "cg_moneda, fecha, hora, cantidad, valor, tasa_usuario, estado, fecha_ingreso," + Environment.NewLine;
-                    sSql += "usuario_ingreso, terminal_ingreso, id_tasa_usuario, ambiente_tasa_usuario, cobro_tasa_usuario)" + Environment.NewLine;
-                    sSql += "values (" + Environment.NewLine;
-                    sSql += "1, " + Convert.ToInt32(Application["idEmpresa"].ToString()) + ", " + Convert.ToInt32(Application["idLocalidad"].ToString()) + "," + Environment.NewLine;
-                    sSql += iIdFactura + ", 30, " + Convert.ToInt32(Session["idJornada"].ToString()) + ", " + Convert.ToInt32(Application["cgMoneda"].ToString()) + ", '" + sFecha + "', GETDATE()," + Environment.NewLine;
-                    sSql += iNuevaCantidadTasas + ", " + dbValorTasa.ToString(System.Globalization.CultureInfo.InvariantCulture) + ", '" + sTasaUsuario + "'," + Environment.NewLine;
-                    sSql += "'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', '" + sIdTasaRespuesta + "', " + iAmbienteTasa + ", " + iCobrarTasa_P + ")";
-
-                    //EJECUCION DE INSTRUCCION SQL
-                    if (!conexionM.ejecutarInstruccionSQL(sSql))
-                    {
-                        lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                        return false;
-                    }
-
-                    //PROCEDIMINTO PARA EXTRAER EL ID DE LA TABLA CTT_MOVIMIENTO_CAJA
-                    sTabla = "ctt_movimiento_caja";
-                    sCampo = "id_ctt_movimiento_caja";
-
-                    iMaximo = conexionM.sacarMaximo(sTabla, sCampo, "", sDatosMaximo);
-
-                    if (iMaximo == -1)
-                    {
-                        lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>No se pudo obtener el código de la tabla " + sTabla + ".";
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                        return false;
-                    }
-
-                    else
-                    {
-                        iIdMovimientoCaja = Convert.ToInt32(iMaximo);
-                    }
-
-                    //INSTRUCCION INSERTAR EN LA TABLA CTT_NUMERO_MOVIMIENTO_CAJA
-                    sSql = "";
-                    sSql += "insert into ctt_numero_movimiento_caja (" + Environment.NewLine;
-                    sSql += "id_ctt_movimiento_caja, numero_movimiento_caja, estado," + Environment.NewLine;
-                    sSql += "fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
-                    sSql += "values (" + Environment.NewLine;
-                    sSql += iIdMovimientoCaja + ", " + iNumeroMovimientoCaja + ", 'A', GETDATE()," + Environment.NewLine;
-                    sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
-
-                    //EJECUCION DE INSTRUCCION SQL
-                    if (!conexionM.ejecutarInstruccionSQL(sSql))
-                    {
-                        lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                        return false;
-                    }
-
-                    //QUERY PARA ACTUALIZAR EL NUMERO DE MOVIMIENTO EN LA TABLA TP_LOCALIDADES_IMPRESORAS
-                    sSql = "";
-                    sSql += "update tp_localidades_impresoras set" + Environment.NewLine;
-                    sSql += "numeromovimientocaja = numeromovimientocaja + 1" + Environment.NewLine;
-                    sSql += "where id_localidad = " + Convert.ToInt32(Application["idLocalidad"].ToString());
-
-                    //EJECUCION DE INSTRUCCION SQL
-                    if (!conexionM.ejecutarInstruccionSQL(sSql))
-                    {
-                        lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                        return false;
-                    }
-                }
-
                 return true;
             }
 
@@ -2394,6 +1471,23 @@ namespace Solution_CTT
                 //INSTRUCCION SQL PARA ANULAR EN CV403_CAB_PEDIDOS
                 sSql = "";
                 sSql += "update cv403_cab_pedidos set" + Environment.NewLine;
+                sSql += "estado = 'E'," + Environment.NewLine;
+                sSql += "fecha_anula = GETDATE()," + Environment.NewLine;
+                sSql += "usuario_anula = '" + sDatosMaximo[0] + "'," + Environment.NewLine;
+                sSql += "terminal_anula = '" + sDatosMaximo[1] + "'" + Environment.NewLine;
+                sSql += "where id_pedido = " + iIdPedidoAnterior;
+
+                //EJECUCION DE INSTRUCCION SQL
+                if (!conexionM.ejecutarInstruccionSQL(sSql))
+                {
+                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    return false;
+                }
+
+                //INSTRUCCION SQL PARA ANULAR EN ctt_detalle_tasa_smartt
+                sSql = "";
+                sSql += "update ctt_detalle_tasa_smartt set" + Environment.NewLine;
                 sSql += "estado = 'E'," + Environment.NewLine;
                 sSql += "fecha_anula = GETDATE()," + Environment.NewLine;
                 sSql += "usuario_anula = '" + sDatosMaximo[0] + "'," + Environment.NewLine;
@@ -2560,6 +1654,39 @@ namespace Solution_CTT
                     return false;
                 }
 
+                //RECORRER LOS REGISTROS DE LAS TASAS EMITIDAS
+                for (int i = 0; i < dtTasasEmitidas.Rows.Count; i++)
+                {
+                    int iEstadoTasaUsuario_A = Convert.ToInt32(dtTasasEmitidas.Rows[i]["estado_tasa_usuario"].ToString());
+                    int iIdDetPedido_API = Convert.ToInt32(dtTasasEmitidas.Rows[i]["id_det_pedido"].ToString());
+
+                    sSql = "";
+                    sSql += "update ctt_tasas_smartt set" + Environment.NewLine;
+
+                    if (iEstadoTasaUsuario_A == 1)
+                    {
+                        sSql += "estado = 'E'," + Environment.NewLine;
+                    }
+
+                    else
+                    {
+                        sSql += "estado = 'N'," + Environment.NewLine;
+                    }
+
+                    sSql += "fecha_anula = GETDATE()," + Environment.NewLine;
+                    sSql += "usuario_anula = '" +sDatosMaximo[0] + "'," + Environment.NewLine;
+                    sSql += "terminal_anula = '" + sDatosMaximo[1] + "'" + Environment.NewLine;
+                    sSql += "where id_det_pedido = " + iIdDetPedido_API;
+
+                    //EJECUCION DE INSTRUCCION SQL
+                    if (!conexionM.ejecutarInstruccionSQL(sSql))
+                    {
+                        lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                        return false;
+                    }
+                }
+
                 return true;
             }
 
@@ -2570,7 +1697,7 @@ namespace Solution_CTT
                 goto reversa;
             }
 
-            reversa: { conexionM.reversaTransaccion(); return false; }
+        reversa: { conexionM.reversaTransaccion(); return false; }
         }
 
         //ELIMINAR LOS DATOS DE LA FASE 2
@@ -2608,7 +1735,7 @@ namespace Solution_CTT
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
                 }
-                
+
                 //iINSTRUCCION SQL PARA ANULAR EN CV403_NUMEROS_PAGOS
                 sSql = "";
                 sSql += "update cv403_numeros_pagos set" + Environment.NewLine;
@@ -2679,7 +1806,7 @@ namespace Solution_CTT
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
                 }
-                
+
                 return true;
             }
 
@@ -2690,7 +1817,7 @@ namespace Solution_CTT
                 goto reversa;
             }
 
-            reversa: { conexionM.reversaTransaccion(); return false; }
+        reversa: { conexionM.reversaTransaccion(); return false; }
         }
 
 
@@ -2702,13 +1829,6 @@ namespace Solution_CTT
                 //iINSTRUCCION SQL PARA ANULAR EN CV403_FACTURAS
                 sSql = "";
                 sSql += "update cv403_facturas set" + Environment.NewLine;
-
-                if ((iIdTasaAnulada != -1) || (iIdTasaAnulada != 0))
-                {
-                    sSql += "id_tasa_anulada = " + iIdTasaAnulada + "," + Environment.NewLine;
-                }
-
-                sSql += "sincronizar_tasa_anulada = " +iBanderaSincronizarTasasAnuladas + "," + Environment.NewLine;
                 sSql += "estado = 'E'," + Environment.NewLine;
                 sSql += "fecha_anula = GETDATE()," + Environment.NewLine;
                 sSql += "usuario_anula = '" + sDatosMaximo[0] + "'," + Environment.NewLine;
@@ -2767,337 +1887,7 @@ namespace Solution_CTT
                 goto reversa;
             }
 
-            reversa: { conexionM.reversaTransaccion(); return false; }
-        }
-
-        //ELIMINACION DE LA TASA DE USUARIO EN CASO DE NO SER USADA
-        private bool anularTasaUsuario()
-        {
-            try
-            {
-                iIdTasaAnulada = 0;
-                iBanderaSincronizarTasasAnuladas = 0;
-
-                if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
-                {
-                    if (Convert.ToInt32(Session["permite_anular_tasa"].ToString()) == 1)
-                    {
-                        if (Session["tasa_usuario_emitida"].ToString().Trim() != "")
-                        {
-                            if (conexionInternet() == false)
-                            {
-                                iBanderaMensajeToken_P = 2;
-                                iBanderaMensajeAnula_P = 2;
-                                return true;
-                            }
-
-                            crearJsonTasaPendiente();
-
-                            if (sIdTasaRespuesta != "0")
-                            {
-                                if (crearJsonEliminar() == false)
-                                {
-                                    Session["id_tasa_anulada"] = "0";
-                                    //return false;
-                                }
-
-                                if (Convert.ToInt32(Session["id_tasa_anulada"].ToString()) == 0)
-                                {
-                                    iIdTasaAnulada = 0;
-                                }
-
-                                else if (Convert.ToInt32(Session["id_tasa_anulada"].ToString()) == -1)
-                                {
-                                    iIdTasaAnulada = -1;
-                                }
-
-                                else
-                                {
-                                    iIdTasaAnulada = Convert.ToInt32(Session["id_tasa_anulada"].ToString());
-                                    sincronizarToken();
-                                    iBanderaSincronizarTasasAnuladas = 1;
-                                }
-
-                                return true;
-                            }
-                        } //
-
-                        if (!this.conexionInternet())
-                        {
-                            iBanderaMensajeToken_P = 2;
-                            iBanderaMensajeAnula_P = 2;
-                            return true;
-                        }
-                        if (!crearJsonEliminar())
-                        {
-                            Session["id_tasa_anulada"] = "0";
-                        }
-                        if (Convert.ToInt32(Session["id_tasa_anulada"].ToString()) == 0)
-                        {
-                            iIdTasaAnulada = 0;
-                        }
-                        else if (Convert.ToInt32(Session["id_tasa_anulada"].ToString()) == -1)
-                        {
-                            iIdTasaAnulada = -1;
-                        }
-                        else
-                        {
-                            iIdTasaAnulada = Convert.ToInt32(Session["id_tasa_anulada"].ToString());
-                            sincronizarToken();
-                            iBanderaSincronizarTasasAnuladas = 1;
-                        }
-                    }
-                }
-
-                return true;
-            }
-
-            catch (Exception ex)
-            {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                return false;
-            }
-        }
-
-        //FUNCION PARA AUMENTAR LA TASA DE USUARIO
-        private bool sincronizarToken()
-        {
-            try
-            {
-                string sObtenerToken_P;
-                int iObtenerCantidadPasadas_P;
-
-                sObtenerToken_P = Session["tasa_usuario_emitida"].ToString().Substring(9, 5);
-                iObtenerCantidadPasadas_P = Convert.ToInt32(Session["tasa_usuario_emitida"].ToString().Substring(0, 2));
-
-                if (crearJsonValidarToken(sObtenerToken_P) == false)
-                {
-                    return false;
-                }
-
-                if (actualizarNumeroToken(sObtenerToken_P, iObtenerCantidadPasadas_P) == false)
-                {
-                    return false;
-                }
-
-                return true;
-            }
-
-
-            catch (Exception ex)
-            {
-
-                return false;
-            }
-        }
-
-        //FUNCION PARA CREAR EL JSON PARA ENVIAR
-        private bool crearJsonValidarToken(string sObtenerToken_P)
-        {
-            try
-            {
-                sObjetoJson = "";
-                sObjetoJson += "{" + Environment.NewLine;
-
-                sObjetoOficina = "";
-                sObjetoOficina += "\"oficina\": {" + Environment.NewLine;
-                sObjetoOficina += "\"id_oficina\": \"" + Session["id_tasa_oficina"].ToString() + "\"," + Environment.NewLine;
-                sObjetoOficina += "\"id_coop\": \"" + Session["id_tasa_cooperativa"].ToString() + "\"," + Environment.NewLine;
-                sObjetoOficina += "\"id_terminal\": \"" + Session["id_tasa_terminal"].ToString() + "\"" + Environment.NewLine;
-                sObjetoOficina += "}," + Environment.NewLine;
-                sObjetoOficina += "\"token\": \"" + sObtenerToken_P + "\"";
-                sObjetoOficina += "}";
-
-                sObjetoJson += sObjetoOficina;
-
-                Session["Json"] = sObjetoJson;
-
-                if (enviarJsonValidarToken() == "ERROR")
-                {
-                    return false;
-                }
-
-                return true;
-            }
-
-            catch (Exception ex)
-            {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                return false;
-            }
-        }
-
-        //FUNCION PARA ENVIAR EL JSON AL SERVIDOR PARA VALIDAR EL TOKEN
-        private string enviarJsonValidarToken()
-        {
-            try
-            {
-                string respuestaJson = "";
-
-                if (Session["emision"].ToString() == "0")
-                {
-                    sUrlEnvio = Session["servidor_pruebas"].ToString() + Session["webservice_verifica_token"].ToString();
-                }
-
-                else
-                {
-                    sUrlEnvio = Session["servidor_produccion"].ToString() + Session["webservice_verifica_token"].ToString();
-                }
-
-                //Llamar a funcion para aceptar los certificados de la URL
-                ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications);
-
-                //Declara el objeto con el que haremos la llamada al servicio            
-                HttpWebRequest request = WebRequest.Create(sUrlEnvio) as HttpWebRequest;
-                //Configurar las propiedad del objeto de llamada
-                request.Method = "POST";
-                request.ContentType = "application/json";
-                request.Timeout = 10000;
-
-                //Serializar el objeto a enviar. Para esto uso la libreria Newtonsoft
-                //string sb = JsonConvert.SerializeObject(sAyuda);
-                string sb = Session["Json"].ToString();
-
-                //Convertir el objeto serializado a arreglo de byte
-                Byte[] bt = Encoding.UTF8.GetBytes(sb);
-
-                try
-                {
-                    //Agregar el objeto Byte[] al request
-                    Stream st = request.GetRequestStream();
-                    st.Write(bt, 0, bt.Length);
-                    st.Close();
-
-                    //Hacer la llamada
-                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-                    {
-                        //Leer el resultado de la llamada
-                        Stream stream1 = response.GetResponseStream();
-                        StreamReader sr = new StreamReader(stream1);
-                        respuestaJson = sr.ReadToEnd();
-                    }
-
-                    TasaVerificaToken verifica = JsonConvert.DeserializeObject<TasaVerificaToken>(respuestaJson);
-
-                    if (verifica.Usar == false)
-                    {
-                        iNuevoNumeroCantidadToken = Convert.ToInt32(verifica.Cantidad.ToString());
-                    }
-
-                    iBanderaMensajeToken_P = 1;
-                }
-
-                catch (Exception)
-                {
-                    iBanderaMensajeToken_P = 0;
-                    sIdTasaRespuesta = "";
-                    iTasaEmitidaBandera = 0;
-                }
-
-                return "OK";
-            }
-
-            catch (Exception)
-            {
-                iBanderaMensajeToken_P = 0;
-                return "ERROR";
-            }
-        }
-
-        //FUNCION PARA ACTUALIZAR EL NUEVO NUMERO MAXIMO PARA EL TOKEN
-        private bool actualizarNumeroToken(string sObtenerToken_P, int iObtenerCantidadPasadas_P)
-        {
-            try
-            {
-                if (conexionM.iniciarTransaccion() == false)
-                {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo iniciar iniciar la transacción.', 'danger');", true);
-                    return false;
-                }
-
-                sSql = "";
-                sSql += "update ctt_tasa_token set" + Environment.NewLine;
-                sSql += "maximo_secuencial = " + iNuevoNumeroCantidadToken + "," + Environment.NewLine;
-                sSql += "anulados = anulados + " + iObtenerCantidadPasadas_P + Environment.NewLine;
-                sSql += "where token = '" + sObtenerToken_P + "'" + Environment.NewLine;
-                sSql += "and estado = 'A'" + Environment.NewLine;
-                sSql += "and validado = 1" + Environment.NewLine;
-                sSql += "and ambiente_token = " + Convert.ToInt32(Session["emision"].ToString());
-
-                //EJECUCION DE INSTRUCCION SQL
-                if (!conexionM.ejecutarInstruccionSQL(sSql))
-                {
-                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                    return false;
-                }
-
-                //VERIFICAR EN CASO DE QUE EL TOKEN YA SE CERRÓ
-                sSql = "";
-                sSql += "select maximo_secuencial, emitidos, estado_token" + Environment.NewLine;
-                sSql += "from ctt_tasa_token" + Environment.NewLine;
-                sSql += "where token = '" + sObtenerToken_P + "'" + Environment.NewLine;
-                sSql += "and estado = 'A'" + Environment.NewLine;
-                sSql += "and validado = 1" + Environment.NewLine;
-                sSql += "and ambiente_token = " + Convert.ToInt32(Session["emision"].ToString());
-
-                dtConsulta = new DataTable();
-                dtConsulta.Clear();
-
-                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
-
-                if (bRespuesta == true)
-                {
-                    if (dtConsulta.Rows.Count > 0)
-                    {
-                        string sEstadoToken_P = dtConsulta.Rows[0]["estado_token"].ToString();
-
-                        if (sEstadoToken_P == "Cerrada")
-                        {
-                            int iMaximoSecuencial_P = Convert.ToInt32(dtConsulta.Rows[0]["maximo_secuencial"].ToString());
-                            int iEmitidos = Convert.ToInt32(dtConsulta.Rows[0]["emitidos"].ToString());
-
-                            if (iMaximoSecuencial_P > iEmitidos)
-                            {
-                                sSql = "";
-                                sSql += "update ctt_tasa_token set" + Environment.NewLine;
-                                sSql += "estado_token = 'Abierta'," + Environment.NewLine;
-                                sSql += "where token = '" + sObtenerToken_P + "'" + Environment.NewLine;
-                                sSql += "and estado = 'A'" + Environment.NewLine;
-                                sSql += "and validado = 1" + Environment.NewLine;
-                                sSql += "and ambiente_token = " + Convert.ToInt32(Session["emision"].ToString());
-
-                                //EJECUCION DE INSTRUCCION SQL
-                                if (!conexionM.ejecutarInstruccionSQL(sSql))
-                                {
-                                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
-                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                                    return false;
-                                }
-                            }
-                        }                        
-                    }
-                }
-
-                else
-                {
-                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                    return false;
-                }
-
-                conexionM.terminaTransaccion();
-
-                return true;
-            }
-
-            catch (Exception ex)
-            {
-
-                return false;
-            }
+        reversa: { conexionM.reversaTransaccion(); return false; }
         }
 
         #endregion
@@ -3137,6 +1927,7 @@ namespace Solution_CTT
             dgvDatos.Columns[15].Visible = ok;
             dgvDatos.Columns[16].Visible = ok;
             dgvDatos.Columns[17].Visible = ok;
+            dgvDatos.Columns[18].Visible = ok;
         }
 
         //FUNCION PARA MAIPULACION DE COLUMNAS EN GRID DE PASAJEROS
@@ -3148,12 +1939,13 @@ namespace Solution_CTT
             dgvVendidos.Columns[3].Visible = ok;
             dgvVendidos.Columns[8].Visible = ok;
             dgvVendidos.Columns[9].Visible = ok;
+            dgvVendidos.Columns[10].Visible = ok;
 
             dgvVendidos.Columns[4].ItemStyle.Width = 150;
             dgvVendidos.Columns[5].ItemStyle.Width = 300;
             dgvVendidos.Columns[6].ItemStyle.Width = 150;
             dgvVendidos.Columns[7].ItemStyle.Width = 150;
-            dgvVendidos.Columns[10].ItemStyle.Width = 100;
+            dgvVendidos.Columns[11].ItemStyle.Width = 100;
 
             dgvVendidos.Columns[4].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
             dgvVendidos.Columns[6].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
@@ -3219,6 +2011,7 @@ namespace Solution_CTT
             dgvDatosExtras.Columns[15].Visible = ok;
             dgvDatosExtras.Columns[16].Visible = ok;
             dgvDatosExtras.Columns[17].Visible = ok;
+            dgvDatosExtras.Columns[18].Visible = ok;
         }
 
         //FUNCION PARA LLENAR EL GRID
@@ -3292,7 +2085,7 @@ namespace Solution_CTT
 
         //FUNCION PARA MAIPULACION DE COLUMNAS EN GRID DE PASAJEROS
         private void columnasGridDetalles(bool ok)
-        {            
+        {
             dgvDetalle.Columns[1].Visible = ok;
             dgvDetalle.Columns[2].Visible = ok;
             dgvDetalle.Columns[3].Visible = ok;
@@ -3330,7 +2123,7 @@ namespace Solution_CTT
                 sSql += "identificacion_pasajero, nombre_pasajero, apellido_pasajero, Nombre," + Environment.NewLine;
                 sSql += "precio_unitario, valor_dscto, valor_iva," + Environment.NewLine;
                 sSql += "ltrim(str(precio_unitario - valor_dscto + valor_iva, 10, 2)) valor," + Environment.NewLine;
-                sSql += "id_ctt_tipo_cliente, tipo_cliente" + Environment.NewLine;
+                sSql += "id_ctt_tipo_cliente, tipo_cliente, id_venta_smartt" + Environment.NewLine;
                 sSql += "from ctt_vw_factura" + Environment.NewLine;
                 sSql += "where id_pedido = " + Convert.ToInt32(Session["idPedido"].ToString()) + Environment.NewLine;
                 sSql += "order by numero_asiento";
@@ -3342,7 +2135,7 @@ namespace Solution_CTT
                 columnasGridDetalles(false);
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
@@ -3407,7 +2200,7 @@ namespace Solution_CTT
                 }
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
@@ -3452,15 +2245,16 @@ namespace Solution_CTT
                 else
                 {
                     lblDetalleBus.Text = "FECHA SALIDA: " + dgvDatos.Rows[a].Cells[3].Text + " - HORA SALIDA: " + dgvDatos.Rows[a].Cells[6].Text + " - VEHÍCULO: " + dgvDatos.Rows[a].Cells[4].Text;
-                    
+
                     string[] sSeparar_Bus = dgvDatos.Rows[a].Cells[4].Text.Split('-');
                     Session["disco_vehiculo_tasa"] = sSeparar_Bus[0].ToString().Trim();
 
                     string[] sSeparar_Ruta = dgvDatos.Rows[a].Cells[5].Text.Split('-');
                     Session["pueblo_origen_tasa"] = sSeparar_Ruta[0].ToString().Trim();
-                    Session["pueblo_destino_tasa"] = sSeparar_Ruta[1].ToString().Trim();                    
+                    Session["pueblo_destino_tasa"] = sSeparar_Ruta[1].ToString().Trim();
                     Session["id_pueblo_origen_tasa"] = dgvDatos.Rows[a].Cells[16].Text;
                     Session["id_pueblo_destino_tasa"] = dgvDatos.Rows[a].Cells[17].Text;
+                    Session["idViajeDevolucionSMARTT"] = dgvDatos.Rows[a].Cells[18].Text;
                     llenarGridVendidos(0);
                     pnlGrid.Visible = false;
                     pnlVendidos.Visible = true;
@@ -3483,7 +2277,7 @@ namespace Solution_CTT
         {
             limpiar();
         }
-        
+
         protected void dgvVendidos_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             dgvVendidos.PageIndex = e.NewPageIndex;
@@ -3499,6 +2293,8 @@ namespace Solution_CTT
                 Session["idPedido"] = dgvVendidos.Rows[a].Cells[0].Text;
                 Session["idPuebloOrigen_P"] = dgvVendidos.Rows[a].Cells[8].Text;
                 Session["idPuebloDestino_P"] = dgvVendidos.Rows[a].Cells[9].Text;
+                Session["idTasaFacturaSMARTT"] = dgvVendidos.Rows[a].Cells[10].Text;
+
                 columnasGridVendidos(false);
 
                 btnPopUp_ModalPopupExtender.Show();
@@ -3540,9 +2336,9 @@ namespace Solution_CTT
             {
                 lblAdvertencia.Text = "";
                 iTotalRegistros = dgvDetalle.Rows.Count;
-                iCuentaRegistros = 0;                
-                                
-                foreach(GridViewRow row in dgvDetalle.Rows)
+                iCuentaRegistros = 0;
+
+                foreach (GridViewRow row in dgvDetalle.Rows)
                 {
                     CheckBox check = row.FindControl("chkSeleccionar") as CheckBox;
 
@@ -3571,7 +2367,7 @@ namespace Solution_CTT
                 }
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
@@ -3640,6 +2436,7 @@ namespace Solution_CTT
                     Session["pueblo_destino_tasa"] = sSeparar_Ruta[1].ToString().Trim();
                     Session["id_pueblo_origen_tasa"] = dgvDatosExtras.Rows[a].Cells[16].Text;
                     Session["id_pueblo_destino_tasa"] = dgvDatosExtras.Rows[a].Cells[17].Text;
+                    Session["idViajeDevolucionSMARTT"] = dgvDatosExtras.Rows[a].Cells[18].Text;
 
                     llenarGridVendidos(0);
                     pnlGrid.Visible = false;

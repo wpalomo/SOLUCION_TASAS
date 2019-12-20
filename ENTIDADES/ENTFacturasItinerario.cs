@@ -95,5 +95,13 @@ namespace ENTIDADES
             get { return iSQL; }
             set { iSQL = value; }
         }
+
+        private string iIDTASASMARTT;
+
+        public string IIDTASASMARTT
+        {
+            get { return iIDTASASMARTT; }
+            set { iIDTASASMARTT = value; }
+        }
     }
 }

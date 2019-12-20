@@ -44,6 +44,7 @@ namespace Solution_CTT
         Clases.ImpresionReporte impresiones = new Clases.ImpresionReporte();
 
         Clases_Contifico.ClaseCrearVenta ventaBoleto;
+        Clase_Variables_Contifico.TasaUsuarioSmartt tasaUsuario;
 
         Button botonSeleccionado;
 
@@ -63,6 +64,8 @@ namespace Solution_CTT
         string sIdentificacionPasajero;
         string sNombrePasajero;
         string sDescripcionMes;
+        string sIdentificacionParaTasa;
+        string sJson;
         
         string sRespuesta_A;
 
@@ -117,6 +120,7 @@ namespace Solution_CTT
         int iIdPuebloOrigen;
         int iIdPuebloDestino;
         int iIdFormaPagoFactura;
+        int iIdDetPedido;
 
         int iPorcentajeNotificacionEntero;
 
@@ -196,7 +200,7 @@ namespace Solution_CTT
                 Session["auxiliar"] = "1";
                 Session["idVehiculo"] = null;
                 Session["idProgramacion"] = null;
-                Session["iIdViajeVentaSMARTT"] = null;
+                //Session["iIdViajeVentaSMARTT"] = null;
             }
 
             else
@@ -395,7 +399,6 @@ namespace Solution_CTT
                 sSql += "oficinista, numero_asiento, '' as valor_total, '' as vendidos, '' as asientos, '' as secuencia_factura," + Environment.NewLine;
                 sSql += "destino, cantidad_tasa_emitida" + Environment.NewLine;
                 sSql += "from ctt_vw_factura" + Environment.NewLine;
-                //sSql += "where id_pedido = " + iIdPedido + Environment.NewLine;
                 sSql += "where id_factura = " + iIdFactura + Environment.NewLine;
                 sSql += "order by numero_asiento";
 
@@ -432,14 +435,9 @@ namespace Solution_CTT
                             dbSumaTotal_REP += dbCantidad_REP * (dbPrecioUnitario_REP - dbDescuento_REP + dbIva_REP);
                         }
 
-                        DataColumn imagen = new DataColumn("tasa_generada");
-                        imagen.DataType = System.Type.GetType("System.Byte[]");
-                        dtConsulta.Columns.Add(imagen);
-
                         //RECORRER EL DATATABLE PARA LLENAR DE DATOS
                         for (int i = 0; i < dtConsulta.Rows.Count; i++)
                         {
-                            dtConsulta.Rows[i]["tasa_generada"] = Logo;
                             dtConsulta.Rows[i]["valor_total"] = dbSumaTotal_REP.ToString("N2");
                             dtConsulta.Rows[i]["vendidos"] = iVendidos_REP.ToString();
                             dtConsulta.Rows[i]["asientos"] = sAsientos_REP.Trim();
@@ -448,7 +446,7 @@ namespace Solution_CTT
 
                         DSReportes ds = new DSReportes();
 
-                        DataTable dt = ds.Tables["dtFactura"];
+                        DataTable dt = ds.Tables["dtFacturaSimple"];
                         dt.Clear();
 
                         dt = dtConsulta;
@@ -469,7 +467,7 @@ namespace Solution_CTT
                         {
                             LocalReport reporteLocal = new LocalReport();
 
-                            reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFactura_2.rdlc");
+                            reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFacturaGuayaquil.rdlc");
 
                             ReportDataSource datasource = new ReportDataSource("DataSet1", dt);
                             ReportDataSource datasource2 = new ReportDataSource("DataSet2", dt2);
@@ -1902,69 +1900,181 @@ namespace Solution_CTT
                     return;
                 }
 
-                dtAlmacenar = new DataTable();
-                dtAlmacenar = Session["dtClientes"] as DataTable;
+                ////SOLO PARA PROBAR
+                //dtAlmacenar = new DataTable();
+                //dtAlmacenar = Session["dtClientes"] as DataTable;
 
-                dtDatosTasaUsuario = new DataTable();
-                dtDatosTasaUsuario.Columns.Add("nivel");
-                dtDatosTasaUsuario.Columns.Add("asiento");
-                dtDatosTasaUsuario.Columns.Add("asiento_nombre");
-                dtDatosTasaUsuario.Columns.Add("valor_asiento");
-                dtDatosTasaUsuario.Columns.Add("tipo_tarifa");
-                dtDatosTasaUsuario.Columns.Add("valor_descuento");
-                dtDatosTasaUsuario.Columns.Add("identificacion_pasajero");
-                dtDatosTasaUsuario.Columns.Add("nombre_pasajero");
-                dtDatosTasaUsuario.Columns.Add("correo_pasajero");
-                dtDatosTasaUsuario.Columns.Add("extranjero_pasajero");
+                //dtDatosTasaUsuario = new DataTable();
+                //dtDatosTasaUsuario.Columns.Add("nivel");
+                //dtDatosTasaUsuario.Columns.Add("asiento");
+                //dtDatosTasaUsuario.Columns.Add("asiento_nombre");
+                //dtDatosTasaUsuario.Columns.Add("valor_asiento");
+                //dtDatosTasaUsuario.Columns.Add("tipo_tarifa");
+                //dtDatosTasaUsuario.Columns.Add("valor_descuento");
+                //dtDatosTasaUsuario.Columns.Add("identificacion_pasajero");
+                //dtDatosTasaUsuario.Columns.Add("nombre_pasajero");
+                //dtDatosTasaUsuario.Columns.Add("correo_pasajero");
+                //dtDatosTasaUsuario.Columns.Add("extranjero_pasajero");
 
-                for (int i = 0; i < dtAlmacenar.Rows.Count; i++)
-                {
-                    iNumeroAsiento_API = Convert.ToInt32(dtAlmacenar.Rows[i]["NUMEROASIENTO"].ToString());
-                    sNumeroAsiento_API = dtAlmacenar.Rows[i]["NUMEROASIENTO"].ToString().Trim();
-                    dbValorAsiento_API = Convert.ToDecimal(dtAlmacenar.Rows[i]["PRECIO"].ToString());
+                //for (int i = 0; i < dtAlmacenar.Rows.Count; i++)
+                //{
+                //    iNumeroAsiento_API = Convert.ToInt32(dtAlmacenar.Rows[i]["NUMEROASIENTO"].ToString());
+                //    sNumeroAsiento_API = dtAlmacenar.Rows[i]["NUMEROASIENTO"].ToString().Trim();
+                //    dbValorAsiento_API = Convert.ToDecimal(dtAlmacenar.Rows[i]["PRECIO"].ToString());
 
-                    DataRow[] dFila = dtTarifasSmartt.Select("id_ctt_tipo_cliente = " + dtAlmacenar.Rows[i]["IDTIPOCLIENTE"].ToString());
+                //    DataRow[] dFila = dtTarifasSmartt.Select("id_ctt_tipo_cliente = " + dtAlmacenar.Rows[i]["IDTIPOCLIENTE"].ToString());
 
-                    if (dFila.Length != 0)
-                    {
-                        iTipoTarifa_API = Convert.ToInt32(dFila[0][1].ToString());
-                    }
+                //    if (dFila.Length != 0)
+                //    {
+                //        iTipoTarifa_API = Convert.ToInt32(dFila[0][1].ToString());
+                //    }
 
-                    dbValorDescuento_API = Convert.ToDecimal(dtAlmacenar.Rows[i]["DESCUENTO"].ToString());
-                    sIdentificacionPasajero_API = dtAlmacenar.Rows[i]["IDENTIFICACION"].ToString().Trim();
-                    sNombrePasajero_API = dtAlmacenar.Rows[i]["NOMBREPASAJERO"].ToString().Trim();
-                    sCorreoPasajero_API = Application["correo_default"].ToString().ToLower();
-                    iExtranjero_API = Convert.ToInt32(dtAlmacenar.Rows[i]["EXTRANJERO"].ToString());
+                //    dbValorDescuento_API = Convert.ToDecimal(dtAlmacenar.Rows[i]["DESCUENTO"].ToString());
+                //    sIdentificacionPasajero_API = dtAlmacenar.Rows[i]["IDENTIFICACION"].ToString().Trim();
+                //    sNombrePasajero_API = dtAlmacenar.Rows[i]["NOMBREPASAJERO"].ToString().Trim();
+                //    sCorreoPasajero_API = Application["correo_default"].ToString().ToLower();
+                //    iExtranjero_API = Convert.ToInt32(dtAlmacenar.Rows[i]["EXTRANJERO"].ToString());
 
-                    dtDatosTasaUsuario.Rows.Add(iNivel_API.ToString(), iNumeroAsiento_API.ToString(), sNumeroAsiento_API,
-                                                dbValorAsiento_API.ToString("N2"), iTipoTarifa_API.ToString(),
-                                                dbValorDescuento_API.ToString("N2"), sIdentificacionPasajero_API,
-                                                sNombrePasajero_API, sCorreoPasajero_API, iExtranjero_API.ToString());
-                }
+                //    dtDatosTasaUsuario.Rows.Add(iNivel_API.ToString(), iNumeroAsiento_API.ToString(), sNumeroAsiento_API,
+                //                                dbValorAsiento_API.ToString("N2"), iTipoTarifa_API.ToString(),
+                //                                dbValorDescuento_API.ToString("N2"), sIdentificacionPasajero_API,
+                //                                sNombrePasajero_API, sCorreoPasajero_API, iExtranjero_API.ToString());
+                //}
 
-                sNombreParada_A = dtAlmacenar.Rows[0]["DESTINO"].ToString().Trim();
+                //sNombreParada_A = dtAlmacenar.Rows[0]["DESTINO"].ToString().Trim();
 
-                //---------------------------------------------------------------------------------
+                ////---------------------------------------------------------------------------------
 
 
-                sRespuesta_A = ventaBoleto.recuperarJsonCrearVenta(Session["tokenSMARTT"].ToString().Trim(), sFecha, iNumeroViaje_A,
-                                                                       iFormaPago_A, Session["idLocalidadSMARTT"].ToString(), sNombreParada_A,
-                                                                       sIdentificacionFactura, sClienteFactura, sCorreoElectronico,
-                                                                       iExtranjero_A, dtDatosTasaUsuario);
+                //sRespuesta_A = ventaBoleto.recuperarJsonCrearVenta(Session["tokenSMARTT"].ToString().Trim(), sFecha, iNumeroViaje_A,
+                //                                                       iFormaPago_A, Session["idLocalidadSMARTT"].ToString(), sNombreParada_A,
+                //                                                       sIdentificacionFactura, sClienteFactura, sCorreoElectronico,
+                //                                                       iExtranjero_A, dtDatosTasaUsuario);
 
-                if (sRespuesta_A == "ERROR")
-                {
-                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'No se pudo obtener registros para la tasa de usuario SMARTT', 'error')</script>");
-                    return;
-                }
+                //if (sRespuesta_A == "ERROR")
+                //{
+                //    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'No se pudo obtener registros para la tasa de usuario SMARTT', 'error')</script>");
+                //    return;
+                //}
 
-                if (sRespuesta_A == "ISNULL")
-                {
-                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Información.!', 'No se proporcionaron credenciales de autenticación. Tasa de Usuario SMARTT', 'info')</script>");
-                    return;
-                }
+                //if (sRespuesta_A == "ISNULL")
+                //{
+                //    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Información.!', 'No se proporcionaron credenciales de autenticación. Tasa de Usuario SMARTT', 'info')</script>");
+                //    return;
+                //}
 
-                Session["JsonCrearVenta"] = sRespuesta_A;
+                //Session["JsonCrearVenta"] = sRespuesta_A;
+
+                #region JSON PRUEBAS
+
+                string sJson;
+
+                sJson = "";
+                sJson += "{" + Environment.NewLine;
+                sJson += "\"id\": 31232," + Environment.NewLine;
+                sJson += "\"fecha_hora_venta\": \"2019-12-19T13:10:00-05:00\"," + Environment.NewLine;
+                sJson += "\"numero_documento\": \"\"," + Environment.NewLine;
+                sJson += "\"clave_acceso\": null," + Environment.NewLine;
+                sJson += "\"numero_documento_tasa\": \"001-001-000000007\"," + Environment.NewLine;
+                sJson += "\"clave_acceso_tasa\": \"1912201901099223657400110010010000000071404488312\"," + Environment.NewLine;
+                sJson += "\"total_tasas\": 0.5," + Environment.NewLine;
+                sJson += "\"viaje\": 11002615," + Environment.NewLine;
+                sJson += "\"forma_de_pago\": 1," + Environment.NewLine;
+                sJson += "\"cliente\": {" + Environment.NewLine;
+                sJson += "\"identificacion\": \"1717644551\"," + Environment.NewLine;
+                sJson += "\"id\": 10641153," + Environment.NewLine;
+                sJson += "\"nombre\": \"ELVIS GEOVANNI GUAIGUA AGUALSACA\"," + Environment.NewLine;
+                sJson += "\"correo\": \"\"," + Environment.NewLine;
+                sJson += "\"tipo_cliente\": \"N\"," + Environment.NewLine;
+                sJson += "\"direccion\": null," + Environment.NewLine;
+                sJson += "\"telefono\": null," + Environment.NewLine;
+                sJson += "\"tipo_identificacion\": \"CED\"," + Environment.NewLine;
+                sJson += "\"extranjero\": false," + Environment.NewLine;
+                sJson += "\"is_active\": true," + Environment.NewLine;
+                sJson += "\"is_enable\": true," + Environment.NewLine;
+                sJson += "\"actualizacion\": \"2019-12-19T13:11:04.737187-05:00\"" + Environment.NewLine;
+                sJson += "}," + Environment.NewLine;
+                sJson += "\"boletos\": [" + Environment.NewLine;
+                sJson += "{" + Environment.NewLine;
+                sJson += "\"id\": 34931," + Environment.NewLine;
+                sJson += "\"asiento\": 6," + Environment.NewLine;
+                sJson += "\"asiento_nombre\": \"6\"," + Environment.NewLine;
+                sJson += "\"nivel\": 1," + Environment.NewLine;
+                sJson += "\"valor\": 8," + Environment.NewLine;
+                sJson += "\"localidad_embarque\": 1," + Environment.NewLine;
+                sJson += "\"tipo_cliente\": 1," + Environment.NewLine;
+                sJson += "\"parada_embarque\": null," + Environment.NewLine;
+                sJson += "\"parada_destino\": 846," + Environment.NewLine;
+                sJson += "\"pasajero\": {" + Environment.NewLine;
+                sJson += "\"identificacion\": \"1755971478\"," + Environment.NewLine;
+                sJson += "\"id\": 13630902," + Environment.NewLine;
+                sJson += "\"nombre\": \"KATHERIN NICOLE ENRIQUEZ JIMENEZ\"," + Environment.NewLine;
+                sJson += "\"correo\": \"contabilidad@expressatenas.com.ec\"," + Environment.NewLine;
+                sJson += "\"tipo_cliente\": \"N\"," + Environment.NewLine;
+                sJson += "\"direccion\": null," + Environment.NewLine;
+                sJson += "\"telefono\": null," + Environment.NewLine;
+                sJson += "\"tipo_identificacion\": \"CED\"," + Environment.NewLine;
+                sJson += "\"extranjero\": false," + Environment.NewLine;
+                sJson += "\"is_active\": true," + Environment.NewLine;
+                sJson += "\"is_enable\": true," + Environment.NewLine;
+                sJson += "\"actualizacion\": \"2019-12-19T13:11:04.809424-05:00\"" + Environment.NewLine;
+                sJson += "}," + Environment.NewLine;
+                sJson += "\"tasa\": \"6413802695\"," + Environment.NewLine;
+                sJson += "\"estado\": 1," + Environment.NewLine;
+                sJson += "\"estado_nombre\": \"Vendido\"," + Environment.NewLine;
+                sJson += "\"is_active\": true," + Environment.NewLine;
+                sJson += "\"is_enable\": true," + Environment.NewLine;
+                sJson += "\"actualizacion\": \"2019-12-19T13:11:04.822454-05:00\"" + Environment.NewLine;
+                sJson += "}," + Environment.NewLine;
+
+                sJson += "{" + Environment.NewLine;
+                sJson += "\"id\": 34930," + Environment.NewLine;
+                sJson += "\"asiento\": 5," + Environment.NewLine;
+                sJson += "\"asiento_nombre\": \"5\"," + Environment.NewLine;
+                sJson += "\"nivel\": 1," + Environment.NewLine;
+                sJson += "\"valor\": 8," + Environment.NewLine;
+                sJson += "\"localidad_embarque\": 1," + Environment.NewLine;
+                sJson += "\"tipo_cliente\": 1," + Environment.NewLine;
+                sJson += "\"parada_embarque\": null," + Environment.NewLine;
+                sJson += "\"parada_destino\": 846," + Environment.NewLine;
+                sJson += "\"pasajero\": {" + Environment.NewLine;
+                sJson += "\"identificacion\": \"1717644551\"," + Environment.NewLine;
+                sJson += "\"id\": 10641153," + Environment.NewLine;
+                sJson += "\"nombre\": \"ELVIS GEOVANNI GUAIGUA AGUALSACA\"," + Environment.NewLine;
+                sJson += "\"correo\": \"contabilidad@expressatenas.com.ec\"," + Environment.NewLine;
+                sJson += "\"tipo_cliente\": \"N\"," + Environment.NewLine;
+                sJson += "\"direccion\": null," + Environment.NewLine;
+                sJson += "\"telefono\": null," + Environment.NewLine;
+                sJson += "\"tipo_identificacion\": \"CED\"," + Environment.NewLine;
+                sJson += "\"extranjero\": false," + Environment.NewLine;
+                sJson += "\"is_active\": true," + Environment.NewLine;
+                sJson += "\"is_enable\": true," + Environment.NewLine;
+                sJson += "\"actualizacion\": \"2019-12-19T13:11:04.772417-05:00\"" + Environment.NewLine;
+                sJson += "}," + Environment.NewLine;
+                sJson += "\"tasa\": \"0497329342\"," + Environment.NewLine;
+                sJson += "\"estado\": 1," + Environment.NewLine;
+                sJson += "\"estado_nombre\": \"Vendido\"," + Environment.NewLine;
+                sJson += "\"is_active\": true," + Environment.NewLine;
+                sJson += "\"is_enable\": true," + Environment.NewLine;
+                sJson += "\"actualizacion\": \"2019-12-19T13:11:04.788847-05:00\"" + Environment.NewLine;
+                sJson += "}" + Environment.NewLine;
+
+                sJson += "]," + Environment.NewLine;
+                sJson += "\"uuid\": \"fbd6f704-cf59-4ed1-b74f-5a5864309147\"," + Environment.NewLine;
+                sJson += "\"estado\": 1," + Environment.NewLine;
+                sJson += "\"estado_nombre\": \"Vendido\"," + Environment.NewLine;
+                sJson += "\"offline\": false," + Environment.NewLine;
+                sJson += "\"emision\": null," + Environment.NewLine;
+                sJson += "\"cooperativa\": 101," + Environment.NewLine;
+                sJson += "\"destino\": \"QUITO\"," + Environment.NewLine;
+                sJson += "\"is_active\": true," + Environment.NewLine;
+                sJson += "\"is_enable\": true," + Environment.NewLine;
+                sJson += "\"actualizacion\": \"2019-12-19T13:11:04.743249-05:00\"" + Environment.NewLine;
+                sJson += "}";
+
+                Session["JsonCrearVenta"] = sJson;
+
+                #endregion
 
                 //INICIA LA INSERCION DE DATOS EN LA BASE
                 //--------------------------------------------------------------------------------------
@@ -2123,6 +2233,130 @@ namespace Solution_CTT
                     iIdPedido = Convert.ToInt32(iMaximo);
                 }
 
+                //INSERTANOS LA RESPUESTA DE LAS TASAS DE USUARIO SMARTT EN LA TABLA ctt_detalle_tasa_smartt
+                //DESERIALIZAMOS EN VARIABLES LOS CAMPOS PARA LA TABLA
+                sRespuesta_A = Session["JsonCrearVenta"].ToString();
+
+                tasaUsuario = JsonConvert.DeserializeObject<Clase_Variables_Contifico.TasaUsuarioSmartt>(sRespuesta_A);
+
+                int iId_S = tasaUsuario.id;
+                string sFechaHoraVenta_S = tasaUsuario.fecha_hora_venta.ToString();
+                string sNumeroDocumento_S = tasaUsuario.numero_documento;
+                string sClaveAcceso_S;
+                
+                if (string.IsNullOrEmpty(tasaUsuario.clave_acceso))
+                {
+                    sClaveAcceso_S = "";
+                }
+
+                else
+                {
+                    sClaveAcceso_S = tasaUsuario.clave_acceso;
+                }
+
+                string sNumeroDocumentoTasa_S = tasaUsuario.numero_documento_tasa;
+                string sClaveAccesoTasa_S = tasaUsuario.clave_acceso_tasa;
+                Double dbTotalTasas_S = tasaUsuario.total_tasas;
+                int iViaje_S = tasaUsuario.viaje;
+                int iFormaPago_S = tasaUsuario.forma_de_pago;
+                string sIdentificacionFactura_S = tasaUsuario.cliente.identificacion;
+                int iIdCliente_S = tasaUsuario.cliente.id;
+                string sNombreFactura_S = tasaUsuario.cliente.nombre;
+                string sCorreoFactura_S = tasaUsuario.cliente.correo;
+                string sTipoClienteFactura_S = tasaUsuario.cliente.tipo_cliente;
+                string sDireccionFactura_S;
+                
+                if (string.IsNullOrEmpty(tasaUsuario.cliente.direccion))
+                    sDireccionFactura_S = "";
+                else
+                    sDireccionFactura_S = tasaUsuario.cliente.direccion;             
+                
+                string sTelefonoFactura_S;
+
+                if (string.IsNullOrEmpty(tasaUsuario.cliente.telefono))
+                    sTelefonoFactura_S = "";
+                else
+                    sTelefonoFactura_S = tasaUsuario.cliente.telefono;
+
+                string sTipoIdentificacion_S = tasaUsuario.cliente.tipo_identificacion;
+
+                int iExtranjeroFactura_S, iActivoFactura_S, iHabilitadoFactura_S, iOffline_S, iActivoTasa_S, iHabilitadoTasa_S;
+
+                if (tasaUsuario.cliente.extranjero == true)
+                    iExtranjeroFactura_S = 1;
+                else
+                    iExtranjeroFactura_S = 0;
+
+                if (tasaUsuario.cliente.is_active == true)
+                    iActivoFactura_S = 1;
+                else
+                    iActivoFactura_S = 0;
+
+                if (tasaUsuario.cliente.is_enable == true)
+                    iHabilitadoFactura_S = 1;
+                else
+                    iHabilitadoFactura_S = 0;
+
+                string sFechaActualizacionFactura_S = tasaUsuario.cliente.actualizacion.ToString();
+                string sUuid = tasaUsuario.uuid;
+                int iEstadoTasa_S = tasaUsuario.estado;
+                string sEstadoNombreTasa_S = tasaUsuario.estado_nombre;
+
+                if (tasaUsuario.offline == true)
+                    iOffline_S = 1;
+                else
+                    iOffline_S = 0;
+
+                string sEmisionTasa_S;
+                
+                if (string.IsNullOrEmpty(tasaUsuario.emision))
+                    sEmisionTasa_S = "";
+                else
+                    sEmisionTasa_S = tasaUsuario.emision;
+
+                int iCooperativaTasa_S = tasaUsuario.cooperativa;
+                string sDestinoTasa_S = tasaUsuario.destino;
+
+                if (tasaUsuario.is_active == true)
+                    iActivoTasa_S = 1;
+                else
+                    iActivoTasa_S = 0;
+
+                if (tasaUsuario.is_enable == true)
+                    iHabilitadoTasa_S = 1;
+                else
+                    iHabilitadoTasa_S = 0;
+
+                string sFechaActualizacionTasa_S = tasaUsuario.actualizacion.ToString();
+
+                sSql = "";
+                sSql += "insert into ctt_detalle_tasa_smartt (" + Environment.NewLine;
+                sSql += "id_pedido, id, fecha_hora_venta, numero_documento, clave_acceso, numero_documento_tasa," + Environment.NewLine;
+                sSql += "clave_acceso_tasa, total_tasas, viaje, forma_de_pago, identificacion, id_cliente," + Environment.NewLine;
+                sSql += "nombre, correo, tipo_cliente, direccion, telefono, tipo_identificacion, extranjero," + Environment.NewLine;
+                sSql += "is_active_cliente, is_enable_cliente, actualizacion_cliente, uuid, estado_smartt," + Environment.NewLine;
+                sSql += "estado_nombre, offline, emision, cooperativa, destino, is_active, is_enable," + Environment.NewLine;
+                sSql += "actualizacion_boletos, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                sSql += "values (" + Environment.NewLine;
+                sSql += iIdPedido + ", " + iId_S + ", '" + sFechaHoraVenta_S + "', '" + sNumeroDocumento_S + "'," + Environment.NewLine;
+                sSql += "'" + sClaveAcceso_S + "', '" + sNumeroDocumentoTasa_S + "', '" + sClaveAccesoTasa_S + "'," + Environment.NewLine;
+                sSql += dbTotalTasas_S + ", " + iViaje_S + ", " + iFormaPago_S + ", '" + sIdentificacionFactura_S + "'," + Environment.NewLine;
+                sSql += iIdCliente_S + ", '" + sNombreFactura_S + "', '" + sCorreoFactura_S + "', '" + sTipoClienteFactura_S + "'," + Environment.NewLine;
+                sSql += "'" + sDireccionFactura_S + "', '" + sTelefonoFactura_S + "', '" + sTipoIdentificacion_S + "'," + Environment.NewLine;
+                sSql += iExtranjeroFactura_S + ", " + iActivoFactura_S + ", " + iHabilitadoFactura_S + ", '" + sFechaActualizacionFactura_S + "'," + Environment.NewLine;
+                sSql += "'" + sUuid + "', " + iEstadoTasa_S + ", '" + sEstadoNombreTasa_S + "', " + iOffline_S + "," + Environment.NewLine;
+                sSql += "'" + sEmisionTasa_S + "', " + iCooperativaTasa_S + ", '" + sDestinoTasa_S + "', " + iActivoTasa_S + "," + Environment.NewLine;
+                sSql += iHabilitadoTasa_S + ", '" + sFechaActualizacionTasa_S + "', 'A', GETDATE()," + Environment.NewLine;
+                sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
+
+                //EJECUCION DE INSTRUCCION SQL
+                if (!conexionM.ejecutarInstruccionSQL(sSql))
+                {
+                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    return false;
+                }
+                
                 //PROCEDIMIENTO PARA EXTRAER EL NUMERO DE PEDIDO
                 sSql = "";
                 sSql += "select numero_pedido" + Environment.NewLine;
@@ -2257,9 +2491,6 @@ namespace Solution_CTT
                 }
 
                 //PROCEDIMINTO PARA EXTRAER EL ID DE LA TABLA CV403_EVENTOS_COBROS
-                dtConsulta = new DataTable();
-                dtConsulta.Clear();
-
                 sTabla = "cv403_eventos_cobros";
                 sCampo = "id_evento_cobro";
 
@@ -2314,6 +2545,7 @@ namespace Solution_CTT
                     iIdDetalleRuta = Convert.ToInt32(dtAlmacenar.Rows[i][5].ToString());
                     iIdTipoCliente = Convert.ToInt32(dtAlmacenar.Rows[i][6].ToString());
                     iIdPersonaAsiento = Convert.ToInt32(dtAlmacenar.Rows[i][7].ToString());
+                    sIdentificacionParaTasa = dtAlmacenar.Rows[i]["IDENTIFICACION"].ToString();
 
                     if (iIdPersonaAsiento == iIdPersonaMenorEdad)
                     {
@@ -2343,8 +2575,6 @@ namespace Solution_CTT
                     sSql += "estado, fecha_ingreso, usuario_ingreso, " + Environment.NewLine;
                     sSql += "terminal_ingreso, id_persona, comentario)" + Environment.NewLine;
                     sSql += "values(" + Environment.NewLine;
-                    //sSql += iIdPedido + ", " + iIdProducto + ", 546, " + dbPrecioUnitario + ", " + Environment.NewLine;
-                    //sSql += dbCantidad + ", " + dbDescuento + ", 0, " + dbIva + ", " + dbServicio + ", " + Environment.NewLine;
                     sSql += iIdPedido + ", " + iIdProducto + ", 546, " + dbPrecioUnitario.ToString(System.Globalization.CultureInfo.InvariantCulture) + ", " + Environment.NewLine;
                     sSql += dbCantidad + ", " + dbDescuento.ToString(System.Globalization.CultureInfo.InvariantCulture) + ", 0, " + dbIva.ToString(System.Globalization.CultureInfo.InvariantCulture) + ", " + dbServicio.ToString(System.Globalization.CultureInfo.InvariantCulture) + ", " + Environment.NewLine;
                     sSql += iIdAsiento + ", " + iIdDetalleRuta + "," + Environment.NewLine;
@@ -2367,6 +2597,107 @@ namespace Solution_CTT
                         lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                         return false;
+                    }
+
+                    //PROCEDIMINTO PARA EXTRAER EL ID DE LA TABLA CV403_EVENTOS_COBROS
+                    sTabla = "cv403_det_pedidos";
+                    sCampo = "id_det_pedido";
+
+                    iMaximo = conexionM.sacarMaximo(sTabla, sCampo, "", sDatosMaximo);
+
+                    if (iMaximo == -1)
+                    {
+                        lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>No se pudo obtener el código de la tabla " + sTabla + ".";
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                        return false;
+                    }
+
+                    iIdDetPedido = Convert.ToInt32(iMaximo);
+
+                    //INSERTAMOS EN LA TABLA ctt_tasas_smartt
+                    for (int j = 0; j < tasaUsuario.boletos.Length; j++)
+                    {
+                        string sIdentificacion_Filtro = tasaUsuario.boletos[j].pasajero.identificacion.Trim();
+
+                        if (sIdentificacion_Filtro == sIdentificacionParaTasa)
+                        {
+                            int iId_Filtro = tasaUsuario.boletos[j].id;
+                            double dbValor_Filtro = tasaUsuario.boletos[j].valor;
+                            int iLocalidadEmbarque_Filtro = tasaUsuario.boletos[j].localidad_embarque;
+                            int iTipoCliente_Filtro = tasaUsuario.boletos[j].tipo_cliente;
+                            string sParadaEmbarque_Filtro;
+
+                            if (string.IsNullOrEmpty(tasaUsuario.boletos[j].parada_embarque))
+                                sParadaEmbarque_Filtro = "";
+                            else
+                                sParadaEmbarque_Filtro = tasaUsuario.boletos[j].parada_embarque;
+                            
+                            int iParadaDestino_Filtro = tasaUsuario.boletos[j].parada_destino;
+                            int iIdPasajero_Filtro = tasaUsuario.boletos[j].pasajero.id;
+                            string sTipoCiente_Filtro = tasaUsuario.boletos[j].pasajero.tipo_cliente;
+                            string sTipoIdentificacion_Filtro = tasaUsuario.boletos[j].pasajero.tipo_identificacion;
+
+                            int iExtranjero_Filtro, iActivoPasajero_Filtro, iHabilitadoPasajero_Filtro, iActivoBoletos_Filtro, iHabilitadoBoletos_Filtro;
+
+                            if (tasaUsuario.boletos[j].pasajero.extranjero == true)
+                                iExtranjero_Filtro = 1;
+                            else
+                                iExtranjero_Filtro = 0;
+
+                            if (tasaUsuario.boletos[j].pasajero.is_active == true)
+                                iActivoPasajero_Filtro = 1;
+                            else
+                                iActivoPasajero_Filtro = 0;
+
+                            if (tasaUsuario.boletos[j].pasajero.is_enable == true)
+                                iHabilitadoPasajero_Filtro = 1;
+                            else
+                                iHabilitadoPasajero_Filtro = 0;
+
+                            string sFechaActualizacionPasajero_Filtro = tasaUsuario.boletos[j].pasajero.actualizacion.ToString();
+                            string sTasaUsuario_Filtro = tasaUsuario.boletos[j].tasa;
+                            int iEstadoTasa_Filtro = tasaUsuario.boletos[j].estado;
+                            string sNombreEstado_Filtro = tasaUsuario.boletos[j].estado_nombre;
+
+                            if (tasaUsuario.boletos[j].is_active == true)
+                                iActivoBoletos_Filtro = 1;
+                            else
+                                iActivoBoletos_Filtro = 0;
+
+                            if (tasaUsuario.boletos[j].is_enable == true)
+                                iHabilitadoBoletos_Filtro = 1;
+                            else
+                                iHabilitadoBoletos_Filtro = 0;
+
+                            string sFechaActualizacionBoletos_Filtro = tasaUsuario.boletos[j].actualizacion.ToString();
+
+                            sSql = "";
+                            sSql += "insert into ctt_tasas_smartt (" + Environment.NewLine;
+                            sSql += "id_det_pedido, id, valor, localidad_embarque, tipo_cliente, parada_embarque," + Environment.NewLine;
+                            sSql += "parada_destino, id_pasajero_smartt, tipo_cliente_pasajero, tipo_identificacion," + Environment.NewLine;
+                            sSql += "extranjero_pasajero, is_active_pasajero, is_enable_pasajero, actualizacion_pasajero," + Environment.NewLine;
+                            sSql += "tasa_usuario, estado_tasa_usuario, estado_nombre, is_active_smartt, is_enable_smartt," + Environment.NewLine;
+                            sSql += "actualizacion_smartt, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                            sSql += "values (" + Environment.NewLine;
+                            sSql += iIdDetPedido + ", " + iId_Filtro + ", " + dbValor_Filtro + ", " + iLocalidadEmbarque_Filtro + "," + Environment.NewLine;
+                            sSql += iTipoCliente_Filtro + ", '" + sParadaEmbarque_Filtro + "', " + iParadaDestino_Filtro + "," + Environment.NewLine;
+                            sSql += iIdPasajero_Filtro + ", '" + sTipoCiente_Filtro + "', '" + sTipoIdentificacion_Filtro + "'," + Environment.NewLine;
+                            sSql += iExtranjero_Filtro + ", " + iActivoPasajero_Filtro + ", " + iHabilitadoPasajero_Filtro + ", ";
+                            sSql += "'" + sFechaActualizacionPasajero_Filtro + "', '" + sTasaUsuario_Filtro + "'," + Environment.NewLine;
+                            sSql += iEstadoTasa_Filtro + ", '" + sNombreEstado_Filtro + "', " + iActivoBoletos_Filtro + ", ";
+                            sSql += iHabilitadoBoletos_Filtro + ", '" + sFechaActualizacionBoletos_Filtro + "', 'A', GETDATE()," + Environment.NewLine;
+                            sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
+
+                            //EJECUCION DE INSTRUCCION SQL
+                            if (!conexionM.ejecutarInstruccionSQL(sSql))
+                            {
+                                lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                                return false;
+                            }
+
+                            break;
+                        }
                     }
                 }
 

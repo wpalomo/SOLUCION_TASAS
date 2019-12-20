@@ -392,6 +392,7 @@
                             <li><a href="frmConductoresContifico.aspx"><i class="fa fa-circle-o"></i>Conductores</a></li>
                             <li><a href="frmConsultaViajesContifico.aspx"><i class="fa fa-circle-o"></i>Consulta de Viajes</a></li>
                             <li><a href="frmTransaccionesSMARTT.aspx"><i class="fa fa-circle-o"></i>Venta de Boletos</a></li>
+                            <li><a href="frmDevolucionBoletosSMARTT.aspx"><i class="fa fa-circle-o"></i>Devoluciones</a></li>
                         </ul>
                     </li>
 

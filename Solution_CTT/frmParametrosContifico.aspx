@@ -118,30 +118,6 @@
 
                                         <%--QUINTA FILA--%>
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <asp:Label ID="Label7" runat="server" Text="URL Cambiar Bus"></asp:Label>
-                                                    <div class="input-group col-sm-12">
-                                                        <asp:TextBox ID="txtUrlCambiarBus" runat="server" CssClass="form-control input-sm" placeholder="URL para el Cambio de Bus" BackColor="White"></asp:TextBox>
-                                                        <span class="input-group-addon input-sm"><i class="fa fa-users"></i></span>
-                                                    </div>                                                
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <asp:Label ID="Label9" runat="server" Text="URL Anular Asiento"></asp:Label>
-                                                    <div class="input-group col-sm-12">
-                                                        <asp:TextBox ID="txtUrlAnularAsiento" runat="server" CssClass="form-control input-sm" placeholder="URL para Anular Asientos" BackColor="White"></asp:TextBox>
-                                                        <span class="input-group-addon input-sm"><i class="fa fa-users"></i></span>
-                                                    </div>                                                
-                                                </div>
-                                            </div>
-                                        </div>                                        
-                                        <%--FIN QUINTA FILA--%>
-
-                                        <%--QUINTA FILA--%>
-                                        <div class="row">
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <asp:Label ID="Label12" runat="server" Text="Tiempo de Respuesta en Segundos"></asp:Label>

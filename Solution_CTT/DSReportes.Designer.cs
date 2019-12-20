@@ -60,6 +60,8 @@ namespace Solution_CTT {
         
         private dtPagosCumplidosDataTable tabledtPagosCumplidos;
         
+        private dtFacturaSimpleDataTable tabledtFacturaSimple;
+        
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -141,6 +143,9 @@ namespace Solution_CTT {
                 }
                 if ((ds.Tables["dtPagosCumplidos"] != null)) {
                     base.Tables.Add(new dtPagosCumplidosDataTable(ds.Tables["dtPagosCumplidos"]));
+                }
+                if ((ds.Tables["dtFacturaSimple"] != null)) {
+                    base.Tables.Add(new dtFacturaSimpleDataTable(ds.Tables["dtFacturaSimple"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -342,6 +347,16 @@ namespace Solution_CTT {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public dtFacturaSimpleDataTable dtFacturaSimple {
+            get {
+                return this.tabledtFacturaSimple;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.BrowsableAttribute(true)]
         [global::System.ComponentModel.DesignerSerializationVisibilityAttribute(global::System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public override global::System.Data.SchemaSerializationMode SchemaSerializationMode {
@@ -460,6 +475,9 @@ namespace Solution_CTT {
                 }
                 if ((ds.Tables["dtPagosCumplidos"] != null)) {
                     base.Tables.Add(new dtPagosCumplidosDataTable(ds.Tables["dtPagosCumplidos"]));
+                }
+                if ((ds.Tables["dtFacturaSimple"] != null)) {
+                    base.Tables.Add(new dtFacturaSimpleDataTable(ds.Tables["dtFacturaSimple"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -602,6 +620,12 @@ namespace Solution_CTT {
                     this.tabledtPagosCumplidos.InitVars();
                 }
             }
+            this.tabledtFacturaSimple = ((dtFacturaSimpleDataTable)(base.Tables["dtFacturaSimple"]));
+            if ((initTable == true)) {
+                if ((this.tabledtFacturaSimple != null)) {
+                    this.tabledtFacturaSimple.InitVars();
+                }
+            }
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -648,6 +672,8 @@ namespace Solution_CTT {
             base.Tables.Add(this.tabledtReporteDetalleTasas);
             this.tabledtPagosCumplidos = new dtPagosCumplidosDataTable();
             base.Tables.Add(this.tabledtPagosCumplidos);
+            this.tabledtFacturaSimple = new dtFacturaSimpleDataTable();
+            base.Tables.Add(this.tabledtFacturaSimple);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -760,6 +786,12 @@ namespace Solution_CTT {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private bool ShouldSerializedtFacturaSimple() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void SchemaChanged(object sender, global::System.ComponentModel.CollectionChangeEventArgs e) {
             if ((e.Action == global::System.ComponentModel.CollectionChangeAction.Remove)) {
                 this.InitVars();
@@ -866,6 +898,9 @@ namespace Solution_CTT {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public delegate void dtPagosCumplidosRowChangeEventHandler(object sender, dtPagosCumplidosRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public delegate void dtFacturaSimpleRowChangeEventHandler(object sender, dtFacturaSimpleRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
@@ -8008,6 +8043,614 @@ namespace Solution_CTT {
         }
         
         /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class dtFacturaSimpleDataTable : global::System.Data.TypedTableBase<dtFacturaSimpleRow> {
+            
+            private global::System.Data.DataColumn columnestablecimiento;
+            
+            private global::System.Data.DataColumn columnpunto_emision;
+            
+            private global::System.Data.DataColumn columnnumero_factura;
+            
+            private global::System.Data.DataColumn columnfecha_ingreso;
+            
+            private global::System.Data.DataColumn columnidentificacion;
+            
+            private global::System.Data.DataColumn columncliente;
+            
+            private global::System.Data.DataColumn columndescripcion_ruta;
+            
+            private global::System.Data.DataColumn columntipo_viaje;
+            
+            private global::System.Data.DataColumn columnfecha_viaje;
+            
+            private global::System.Data.DataColumn columnhora_salida;
+            
+            private global::System.Data.DataColumn columndescripcion_anden;
+            
+            private global::System.Data.DataColumn columndescripcion_disco;
+            
+            private global::System.Data.DataColumn columntasa_usuario;
+            
+            private global::System.Data.DataColumn columncantidad;
+            
+            private global::System.Data.DataColumn columnprecio_unitario;
+            
+            private global::System.Data.DataColumn columnvalor_dscto;
+            
+            private global::System.Data.DataColumn columnvalor_iva;
+            
+            private global::System.Data.DataColumn columnclave_acceso;
+            
+            private global::System.Data.DataColumn columnoficinista;
+            
+            private global::System.Data.DataColumn columnnumero_asiento;
+            
+            private global::System.Data.DataColumn columnvalor_total;
+            
+            private global::System.Data.DataColumn columnvendidos;
+            
+            private global::System.Data.DataColumn columnasientos;
+            
+            private global::System.Data.DataColumn columnsecuencia_factura;
+            
+            private global::System.Data.DataColumn columndestino;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public dtFacturaSimpleDataTable() {
+                this.TableName = "dtFacturaSimple";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal dtFacturaSimpleDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected dtFacturaSimpleDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn establecimientoColumn {
+                get {
+                    return this.columnestablecimiento;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn punto_emisionColumn {
+                get {
+                    return this.columnpunto_emision;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn numero_facturaColumn {
+                get {
+                    return this.columnnumero_factura;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn fecha_ingresoColumn {
+                get {
+                    return this.columnfecha_ingreso;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn identificacionColumn {
+                get {
+                    return this.columnidentificacion;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn clienteColumn {
+                get {
+                    return this.columncliente;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn descripcion_rutaColumn {
+                get {
+                    return this.columndescripcion_ruta;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn tipo_viajeColumn {
+                get {
+                    return this.columntipo_viaje;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn fecha_viajeColumn {
+                get {
+                    return this.columnfecha_viaje;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn hora_salidaColumn {
+                get {
+                    return this.columnhora_salida;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn descripcion_andenColumn {
+                get {
+                    return this.columndescripcion_anden;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn descripcion_discoColumn {
+                get {
+                    return this.columndescripcion_disco;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn tasa_usuarioColumn {
+                get {
+                    return this.columntasa_usuario;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn cantidadColumn {
+                get {
+                    return this.columncantidad;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn precio_unitarioColumn {
+                get {
+                    return this.columnprecio_unitario;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn valor_dsctoColumn {
+                get {
+                    return this.columnvalor_dscto;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn valor_ivaColumn {
+                get {
+                    return this.columnvalor_iva;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn clave_accesoColumn {
+                get {
+                    return this.columnclave_acceso;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn oficinistaColumn {
+                get {
+                    return this.columnoficinista;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn numero_asientoColumn {
+                get {
+                    return this.columnnumero_asiento;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn valor_totalColumn {
+                get {
+                    return this.columnvalor_total;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn vendidosColumn {
+                get {
+                    return this.columnvendidos;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn asientosColumn {
+                get {
+                    return this.columnasientos;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn secuencia_facturaColumn {
+                get {
+                    return this.columnsecuencia_factura;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn destinoColumn {
+                get {
+                    return this.columndestino;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public dtFacturaSimpleRow this[int index] {
+                get {
+                    return ((dtFacturaSimpleRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event dtFacturaSimpleRowChangeEventHandler dtFacturaSimpleRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event dtFacturaSimpleRowChangeEventHandler dtFacturaSimpleRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event dtFacturaSimpleRowChangeEventHandler dtFacturaSimpleRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event dtFacturaSimpleRowChangeEventHandler dtFacturaSimpleRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void AdddtFacturaSimpleRow(dtFacturaSimpleRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public dtFacturaSimpleRow AdddtFacturaSimpleRow(
+                        string establecimiento, 
+                        string punto_emision, 
+                        string numero_factura, 
+                        System.DateTime fecha_ingreso, 
+                        string identificacion, 
+                        string cliente, 
+                        string descripcion_ruta, 
+                        string tipo_viaje, 
+                        System.DateTime fecha_viaje, 
+                        System.DateTime hora_salida, 
+                        string descripcion_anden, 
+                        string descripcion_disco, 
+                        string tasa_usuario, 
+                        decimal cantidad, 
+                        decimal precio_unitario, 
+                        decimal valor_dscto, 
+                        decimal valor_iva, 
+                        string clave_acceso, 
+                        string oficinista, 
+                        string numero_asiento, 
+                        string valor_total, 
+                        string vendidos, 
+                        string asientos, 
+                        string secuencia_factura, 
+                        string destino) {
+                dtFacturaSimpleRow rowdtFacturaSimpleRow = ((dtFacturaSimpleRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        establecimiento,
+                        punto_emision,
+                        numero_factura,
+                        fecha_ingreso,
+                        identificacion,
+                        cliente,
+                        descripcion_ruta,
+                        tipo_viaje,
+                        fecha_viaje,
+                        hora_salida,
+                        descripcion_anden,
+                        descripcion_disco,
+                        tasa_usuario,
+                        cantidad,
+                        precio_unitario,
+                        valor_dscto,
+                        valor_iva,
+                        clave_acceso,
+                        oficinista,
+                        numero_asiento,
+                        valor_total,
+                        vendidos,
+                        asientos,
+                        secuencia_factura,
+                        destino};
+                rowdtFacturaSimpleRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowdtFacturaSimpleRow);
+                return rowdtFacturaSimpleRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                dtFacturaSimpleDataTable cln = ((dtFacturaSimpleDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new dtFacturaSimpleDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal void InitVars() {
+                this.columnestablecimiento = base.Columns["establecimiento"];
+                this.columnpunto_emision = base.Columns["punto_emision"];
+                this.columnnumero_factura = base.Columns["numero_factura"];
+                this.columnfecha_ingreso = base.Columns["fecha_ingreso"];
+                this.columnidentificacion = base.Columns["identificacion"];
+                this.columncliente = base.Columns["cliente"];
+                this.columndescripcion_ruta = base.Columns["descripcion_ruta"];
+                this.columntipo_viaje = base.Columns["tipo_viaje"];
+                this.columnfecha_viaje = base.Columns["fecha_viaje"];
+                this.columnhora_salida = base.Columns["hora_salida"];
+                this.columndescripcion_anden = base.Columns["descripcion_anden"];
+                this.columndescripcion_disco = base.Columns["descripcion_disco"];
+                this.columntasa_usuario = base.Columns["tasa_usuario"];
+                this.columncantidad = base.Columns["cantidad"];
+                this.columnprecio_unitario = base.Columns["precio_unitario"];
+                this.columnvalor_dscto = base.Columns["valor_dscto"];
+                this.columnvalor_iva = base.Columns["valor_iva"];
+                this.columnclave_acceso = base.Columns["clave_acceso"];
+                this.columnoficinista = base.Columns["oficinista"];
+                this.columnnumero_asiento = base.Columns["numero_asiento"];
+                this.columnvalor_total = base.Columns["valor_total"];
+                this.columnvendidos = base.Columns["vendidos"];
+                this.columnasientos = base.Columns["asientos"];
+                this.columnsecuencia_factura = base.Columns["secuencia_factura"];
+                this.columndestino = base.Columns["destino"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            private void InitClass() {
+                this.columnestablecimiento = new global::System.Data.DataColumn("establecimiento", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnestablecimiento);
+                this.columnpunto_emision = new global::System.Data.DataColumn("punto_emision", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnpunto_emision);
+                this.columnnumero_factura = new global::System.Data.DataColumn("numero_factura", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnnumero_factura);
+                this.columnfecha_ingreso = new global::System.Data.DataColumn("fecha_ingreso", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnfecha_ingreso);
+                this.columnidentificacion = new global::System.Data.DataColumn("identificacion", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnidentificacion);
+                this.columncliente = new global::System.Data.DataColumn("cliente", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columncliente);
+                this.columndescripcion_ruta = new global::System.Data.DataColumn("descripcion_ruta", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columndescripcion_ruta);
+                this.columntipo_viaje = new global::System.Data.DataColumn("tipo_viaje", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columntipo_viaje);
+                this.columnfecha_viaje = new global::System.Data.DataColumn("fecha_viaje", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnfecha_viaje);
+                this.columnhora_salida = new global::System.Data.DataColumn("hora_salida", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnhora_salida);
+                this.columndescripcion_anden = new global::System.Data.DataColumn("descripcion_anden", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columndescripcion_anden);
+                this.columndescripcion_disco = new global::System.Data.DataColumn("descripcion_disco", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columndescripcion_disco);
+                this.columntasa_usuario = new global::System.Data.DataColumn("tasa_usuario", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columntasa_usuario);
+                this.columncantidad = new global::System.Data.DataColumn("cantidad", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columncantidad);
+                this.columnprecio_unitario = new global::System.Data.DataColumn("precio_unitario", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnprecio_unitario);
+                this.columnvalor_dscto = new global::System.Data.DataColumn("valor_dscto", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnvalor_dscto);
+                this.columnvalor_iva = new global::System.Data.DataColumn("valor_iva", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnvalor_iva);
+                this.columnclave_acceso = new global::System.Data.DataColumn("clave_acceso", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnclave_acceso);
+                this.columnoficinista = new global::System.Data.DataColumn("oficinista", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnoficinista);
+                this.columnnumero_asiento = new global::System.Data.DataColumn("numero_asiento", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnnumero_asiento);
+                this.columnvalor_total = new global::System.Data.DataColumn("valor_total", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnvalor_total);
+                this.columnvendidos = new global::System.Data.DataColumn("vendidos", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnvendidos);
+                this.columnasientos = new global::System.Data.DataColumn("asientos", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnasientos);
+                this.columnsecuencia_factura = new global::System.Data.DataColumn("secuencia_factura", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnsecuencia_factura);
+                this.columndestino = new global::System.Data.DataColumn("destino", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columndestino);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public dtFacturaSimpleRow NewdtFacturaSimpleRow() {
+                return ((dtFacturaSimpleRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new dtFacturaSimpleRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(dtFacturaSimpleRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.dtFacturaSimpleRowChanged != null)) {
+                    this.dtFacturaSimpleRowChanged(this, new dtFacturaSimpleRowChangeEvent(((dtFacturaSimpleRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.dtFacturaSimpleRowChanging != null)) {
+                    this.dtFacturaSimpleRowChanging(this, new dtFacturaSimpleRowChangeEvent(((dtFacturaSimpleRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.dtFacturaSimpleRowDeleted != null)) {
+                    this.dtFacturaSimpleRowDeleted(this, new dtFacturaSimpleRowChangeEvent(((dtFacturaSimpleRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.dtFacturaSimpleRowDeleting != null)) {
+                    this.dtFacturaSimpleRowDeleting(this, new dtFacturaSimpleRowChangeEvent(((dtFacturaSimpleRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void RemovedtFacturaSimpleRow(dtFacturaSimpleRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                DSReportes ds = new DSReportes();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "dtFacturaSimpleDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
         public partial class RptPasajerosRow : global::System.Data.DataRow {
@@ -13978,6 +14621,727 @@ namespace Solution_CTT {
         }
         
         /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class dtFacturaSimpleRow : global::System.Data.DataRow {
+            
+            private dtFacturaSimpleDataTable tabledtFacturaSimple;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal dtFacturaSimpleRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tabledtFacturaSimple = ((dtFacturaSimpleDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string establecimiento {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtFacturaSimple.establecimientoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'establecimiento\' de la tabla \'dtFacturaSimple\' es DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.establecimientoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string punto_emision {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtFacturaSimple.punto_emisionColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'punto_emision\' de la tabla \'dtFacturaSimple\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.punto_emisionColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string numero_factura {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtFacturaSimple.numero_facturaColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'numero_factura\' de la tabla \'dtFacturaSimple\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.numero_facturaColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public System.DateTime fecha_ingreso {
+                get {
+                    try {
+                        return ((global::System.DateTime)(this[this.tabledtFacturaSimple.fecha_ingresoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'fecha_ingreso\' de la tabla \'dtFacturaSimple\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.fecha_ingresoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string identificacion {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtFacturaSimple.identificacionColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'identificacion\' de la tabla \'dtFacturaSimple\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.identificacionColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string cliente {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtFacturaSimple.clienteColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'cliente\' de la tabla \'dtFacturaSimple\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.clienteColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string descripcion_ruta {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtFacturaSimple.descripcion_rutaColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'descripcion_ruta\' de la tabla \'dtFacturaSimple\' es DBNull" +
+                                ".", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.descripcion_rutaColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string tipo_viaje {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtFacturaSimple.tipo_viajeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'tipo_viaje\' de la tabla \'dtFacturaSimple\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.tipo_viajeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public System.DateTime fecha_viaje {
+                get {
+                    try {
+                        return ((global::System.DateTime)(this[this.tabledtFacturaSimple.fecha_viajeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'fecha_viaje\' de la tabla \'dtFacturaSimple\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.fecha_viajeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public System.DateTime hora_salida {
+                get {
+                    try {
+                        return ((global::System.DateTime)(this[this.tabledtFacturaSimple.hora_salidaColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'hora_salida\' de la tabla \'dtFacturaSimple\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.hora_salidaColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string descripcion_anden {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtFacturaSimple.descripcion_andenColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'descripcion_anden\' de la tabla \'dtFacturaSimple\' es DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.descripcion_andenColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string descripcion_disco {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtFacturaSimple.descripcion_discoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'descripcion_disco\' de la tabla \'dtFacturaSimple\' es DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.descripcion_discoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string tasa_usuario {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtFacturaSimple.tasa_usuarioColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'tasa_usuario\' de la tabla \'dtFacturaSimple\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.tasa_usuarioColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public decimal cantidad {
+                get {
+                    try {
+                        return ((decimal)(this[this.tabledtFacturaSimple.cantidadColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'cantidad\' de la tabla \'dtFacturaSimple\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.cantidadColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public decimal precio_unitario {
+                get {
+                    try {
+                        return ((decimal)(this[this.tabledtFacturaSimple.precio_unitarioColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'precio_unitario\' de la tabla \'dtFacturaSimple\' es DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.precio_unitarioColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public decimal valor_dscto {
+                get {
+                    try {
+                        return ((decimal)(this[this.tabledtFacturaSimple.valor_dsctoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'valor_dscto\' de la tabla \'dtFacturaSimple\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.valor_dsctoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public decimal valor_iva {
+                get {
+                    try {
+                        return ((decimal)(this[this.tabledtFacturaSimple.valor_ivaColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'valor_iva\' de la tabla \'dtFacturaSimple\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.valor_ivaColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string clave_acceso {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtFacturaSimple.clave_accesoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'clave_acceso\' de la tabla \'dtFacturaSimple\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.clave_accesoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string oficinista {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtFacturaSimple.oficinistaColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'oficinista\' de la tabla \'dtFacturaSimple\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.oficinistaColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string numero_asiento {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtFacturaSimple.numero_asientoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'numero_asiento\' de la tabla \'dtFacturaSimple\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.numero_asientoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string valor_total {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtFacturaSimple.valor_totalColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'valor_total\' de la tabla \'dtFacturaSimple\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.valor_totalColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string vendidos {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtFacturaSimple.vendidosColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'vendidos\' de la tabla \'dtFacturaSimple\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.vendidosColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string asientos {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtFacturaSimple.asientosColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'asientos\' de la tabla \'dtFacturaSimple\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.asientosColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string secuencia_factura {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtFacturaSimple.secuencia_facturaColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'secuencia_factura\' de la tabla \'dtFacturaSimple\' es DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.secuencia_facturaColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string destino {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtFacturaSimple.destinoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'destino\' de la tabla \'dtFacturaSimple\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtFacturaSimple.destinoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsestablecimientoNull() {
+                return this.IsNull(this.tabledtFacturaSimple.establecimientoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetestablecimientoNull() {
+                this[this.tabledtFacturaSimple.establecimientoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool Ispunto_emisionNull() {
+                return this.IsNull(this.tabledtFacturaSimple.punto_emisionColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void Setpunto_emisionNull() {
+                this[this.tabledtFacturaSimple.punto_emisionColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool Isnumero_facturaNull() {
+                return this.IsNull(this.tabledtFacturaSimple.numero_facturaColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void Setnumero_facturaNull() {
+                this[this.tabledtFacturaSimple.numero_facturaColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool Isfecha_ingresoNull() {
+                return this.IsNull(this.tabledtFacturaSimple.fecha_ingresoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void Setfecha_ingresoNull() {
+                this[this.tabledtFacturaSimple.fecha_ingresoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsidentificacionNull() {
+                return this.IsNull(this.tabledtFacturaSimple.identificacionColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetidentificacionNull() {
+                this[this.tabledtFacturaSimple.identificacionColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsclienteNull() {
+                return this.IsNull(this.tabledtFacturaSimple.clienteColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetclienteNull() {
+                this[this.tabledtFacturaSimple.clienteColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool Isdescripcion_rutaNull() {
+                return this.IsNull(this.tabledtFacturaSimple.descripcion_rutaColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void Setdescripcion_rutaNull() {
+                this[this.tabledtFacturaSimple.descripcion_rutaColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool Istipo_viajeNull() {
+                return this.IsNull(this.tabledtFacturaSimple.tipo_viajeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void Settipo_viajeNull() {
+                this[this.tabledtFacturaSimple.tipo_viajeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool Isfecha_viajeNull() {
+                return this.IsNull(this.tabledtFacturaSimple.fecha_viajeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void Setfecha_viajeNull() {
+                this[this.tabledtFacturaSimple.fecha_viajeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool Ishora_salidaNull() {
+                return this.IsNull(this.tabledtFacturaSimple.hora_salidaColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void Sethora_salidaNull() {
+                this[this.tabledtFacturaSimple.hora_salidaColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool Isdescripcion_andenNull() {
+                return this.IsNull(this.tabledtFacturaSimple.descripcion_andenColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void Setdescripcion_andenNull() {
+                this[this.tabledtFacturaSimple.descripcion_andenColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool Isdescripcion_discoNull() {
+                return this.IsNull(this.tabledtFacturaSimple.descripcion_discoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void Setdescripcion_discoNull() {
+                this[this.tabledtFacturaSimple.descripcion_discoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool Istasa_usuarioNull() {
+                return this.IsNull(this.tabledtFacturaSimple.tasa_usuarioColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void Settasa_usuarioNull() {
+                this[this.tabledtFacturaSimple.tasa_usuarioColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IscantidadNull() {
+                return this.IsNull(this.tabledtFacturaSimple.cantidadColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetcantidadNull() {
+                this[this.tabledtFacturaSimple.cantidadColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool Isprecio_unitarioNull() {
+                return this.IsNull(this.tabledtFacturaSimple.precio_unitarioColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void Setprecio_unitarioNull() {
+                this[this.tabledtFacturaSimple.precio_unitarioColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool Isvalor_dsctoNull() {
+                return this.IsNull(this.tabledtFacturaSimple.valor_dsctoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void Setvalor_dsctoNull() {
+                this[this.tabledtFacturaSimple.valor_dsctoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool Isvalor_ivaNull() {
+                return this.IsNull(this.tabledtFacturaSimple.valor_ivaColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void Setvalor_ivaNull() {
+                this[this.tabledtFacturaSimple.valor_ivaColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool Isclave_accesoNull() {
+                return this.IsNull(this.tabledtFacturaSimple.clave_accesoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void Setclave_accesoNull() {
+                this[this.tabledtFacturaSimple.clave_accesoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsoficinistaNull() {
+                return this.IsNull(this.tabledtFacturaSimple.oficinistaColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetoficinistaNull() {
+                this[this.tabledtFacturaSimple.oficinistaColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool Isnumero_asientoNull() {
+                return this.IsNull(this.tabledtFacturaSimple.numero_asientoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void Setnumero_asientoNull() {
+                this[this.tabledtFacturaSimple.numero_asientoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool Isvalor_totalNull() {
+                return this.IsNull(this.tabledtFacturaSimple.valor_totalColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void Setvalor_totalNull() {
+                this[this.tabledtFacturaSimple.valor_totalColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsvendidosNull() {
+                return this.IsNull(this.tabledtFacturaSimple.vendidosColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetvendidosNull() {
+                this[this.tabledtFacturaSimple.vendidosColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsasientosNull() {
+                return this.IsNull(this.tabledtFacturaSimple.asientosColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetasientosNull() {
+                this[this.tabledtFacturaSimple.asientosColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool Issecuencia_facturaNull() {
+                return this.IsNull(this.tabledtFacturaSimple.secuencia_facturaColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void Setsecuencia_facturaNull() {
+                this[this.tabledtFacturaSimple.secuencia_facturaColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsdestinoNull() {
+                return this.IsNull(this.tabledtFacturaSimple.destinoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetdestinoNull() {
+                this[this.tabledtFacturaSimple.destinoColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -14575,6 +15939,40 @@ namespace Solution_CTT {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public dtPagosCumplidosRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public class dtFacturaSimpleRowChangeEvent : global::System.EventArgs {
+            
+            private dtFacturaSimpleRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public dtFacturaSimpleRowChangeEvent(dtFacturaSimpleRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public dtFacturaSimpleRow Row {
                 get {
                     return this.eventRow;
                 }

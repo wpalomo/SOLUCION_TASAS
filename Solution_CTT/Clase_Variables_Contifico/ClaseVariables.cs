@@ -163,4 +163,85 @@ namespace Solution_CTT.Clase_Variables_Contifico
         public int localidad_origen { get; set; }
     }
 
+    //VARIABLES PARA OBTENER LA RESPUESTA DE LA TASA DE USUARIO SMARTT
+    public class Cliente
+    {
+        public string identificacion { get; set; }
+        public int id { get; set; }
+        public string nombre { get; set; }
+        public string correo { get; set; }
+        public string tipo_cliente { get; set; }
+        public string direccion { get; set; }
+        public string telefono { get; set; }
+        public string tipo_identificacion { get; set; }
+        public bool extranjero { get; set; }
+        public bool is_active { get; set; }
+        public bool is_enable { get; set; }
+        public DateTime actualizacion { get; set; }
+    }
+
+    public class Pasajero
+    {
+        public string identificacion { get; set; }
+        public int id { get; set; }
+        public string nombre { get; set; }
+        public string correo { get; set; }
+        public string tipo_cliente { get; set; }
+        public string direccion { get; set; }
+        public string telefono { get; set; }
+        public string tipo_identificacion { get; set; }
+        public bool extranjero { get; set; }
+        public bool is_active { get; set; }
+        public bool is_enable { get; set; }
+        public DateTime actualizacion { get; set; }
+    }
+
+    public class Boleto
+    {
+        public int id { get; set; }
+        public int asiento { get; set; }
+        public string asiento_nombre { get; set; }
+        public int nivel { get; set; }
+        public int valor { get; set; }
+        public int localidad_embarque { get; set; }
+        public int tipo_cliente { get; set; }
+        public string parada_embarque { get; set; }
+        public int parada_destino { get; set; }
+        public Pasajero pasajero { get; set; }
+        public string tasa { get; set; }
+        public int estado { get; set; }
+        public string estado_nombre { get; set; }
+        public bool is_active { get; set; }
+        public bool is_enable { get; set; }
+        public DateTime actualizacion { get; set; }
+    }
+
+    public class TasaUsuarioSmartt
+    {
+        public int id { get; set; }
+        public DateTime fecha_hora_venta { get; set; }
+        public string numero_documento { get; set; }
+        public string clave_acceso { get; set; }
+        public string numero_documento_tasa { get; set; }
+        public string clave_acceso_tasa { get; set; }
+        public double total_tasas { get; set; }
+        public int viaje { get; set; }
+        public int forma_de_pago { get; set; }
+        public Cliente cliente { get; set; }
+        public Boleto[] boletos { get; set; }
+        public string uuid { get; set; }
+        public int estado { get; set; }
+        public string estado_nombre { get; set; }
+        public bool offline { get; set; }
+        public string emision { get; set; }
+        public int cooperativa { get; set; }
+        public string destino { get; set; }
+        public bool is_active { get; set; }
+        public bool is_enable { get; set; }
+        public DateTime actualizacion { get; set; }
+    }
+
+    //VARIABLES DE LA LIBERACION DE ASIENTOS
+
+
 }

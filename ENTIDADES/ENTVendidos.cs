@@ -151,6 +151,5 @@ namespace ENTIDADES
             get { return iTOTAL; }
             set { iTOTAL = value; }
         }
-
     }
 }

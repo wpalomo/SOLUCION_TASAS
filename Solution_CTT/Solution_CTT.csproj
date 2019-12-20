@@ -648,6 +648,7 @@
     <Content Include="frmDetalleRuta.aspx" />
     <Content Include="frmDetalleTransaccionesTasa.aspx" />
     <Content Include="frmDevolucionBoletos.aspx" />
+    <Content Include="frmDevolucionBoletosSMARTT.aspx" />
     <Content Include="frmDirectorio.aspx" />
     <Content Include="frmEmisor.aspx" />
     <Content Include="frmEnvioComprobantes.aspx" />
@@ -7341,6 +7342,7 @@
     <Compile Include="Clases\Impresor2.cs" />
     <Compile Include="Clases\ValidarCedula.cs" />
     <Compile Include="Clases\ValidarRUC.cs" />
+    <Compile Include="Clases_Contifico\ClaseAnularLiberar.cs" />
     <Compile Include="Clases_Contifico\ClaseAutenticacion.cs" />
     <Compile Include="Clases_Contifico\ClaseBuses.cs" />
     <Compile Include="Clases_Contifico\ClaseConductores.cs" />
@@ -7365,6 +7367,7 @@
     <Compile Include="Clases_Tasa_Usuario\ClaseTasaUsuarioLote.cs" />
     <Compile Include="Clases_Tasa_Usuario\ClaseValidarToken.cs" />
     <Compile Include="Clases_Tasa_Usuario\Get_Tokens.cs" />
+    <Compile Include="Clase_Variables_Contifico\ClaseJsonPruebas.cs" />
     <Compile Include="Clase_Variables_Contifico\ClaseVariables.cs" />
     <Compile Include="DetalleEnvioAutorizacion.cs" />
     <Compile Include="DetalleGenerarXML.cs" />
@@ -7547,6 +7550,13 @@
     </Compile>
     <Compile Include="frmDevolucionBoletos.aspx.designer.cs">
       <DependentUpon>frmDevolucionBoletos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmDevolucionBoletosSMARTT.aspx.cs">
+      <DependentUpon>frmDevolucionBoletosSMARTT.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmDevolucionBoletosSMARTT.aspx.designer.cs">
+      <DependentUpon>frmDevolucionBoletosSMARTT.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmDirectorio.aspx.cs">
       <DependentUpon>frmDirectorio.aspx</DependentUpon>
@@ -8155,6 +8165,7 @@
     <EmbeddedResource Include="Reportes\rptCodigoBarras.rdlc" />
     <EmbeddedResource Include="Reportes\rptDetalleTransaccionesTasa.rdlc" />
     <EmbeddedResource Include="Reportes\rptFactura.rdlc" />
+    <EmbeddedResource Include="Reportes\rptFacturaGuayaquil.rdlc" />
     <EmbeddedResource Include="Reportes\rptFactura_2.rdlc" />
     <EmbeddedResource Include="Reportes\rptGenerarRIDE.rdlc" />
     <EmbeddedResource Include="Reportes\rptListadoPasajeros.rdlc" />
