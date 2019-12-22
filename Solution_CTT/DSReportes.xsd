@@ -353,6 +353,26 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="dtTasaSmartt" msprop:Generator_TableClassName="dtTasaSmarttDataTable" msprop:Generator_TableVarName="tabledtTasaSmartt" msprop:Generator_RowChangedName="dtTasaSmarttRowChanged" msprop:Generator_TablePropName="dtTasaSmartt" msprop:Generator_RowDeletingName="dtTasaSmarttRowDeleting" msprop:Generator_RowChangingName="dtTasaSmarttRowChanging" msprop:Generator_RowEvHandlerName="dtTasaSmarttRowChangeEventHandler" msprop:Generator_RowDeletedName="dtTasaSmarttRowDeleted" msprop:Generator_RowClassName="dtTasaSmarttRow" msprop:Generator_UserTableName="dtTasaSmartt" msprop:Generator_RowEvArgName="dtTasaSmarttRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="numero_factura" msprop:Generator_ColumnVarNameInTable="columnnumero_factura" msprop:Generator_ColumnPropNameInRow="numero_factura" msprop:Generator_ColumnPropNameInTable="numero_facturaColumn" msprop:Generator_UserColumnName="numero_factura" type="xs:string" minOccurs="0" />
+              <xs:element name="fecha_emision" msprop:Generator_ColumnVarNameInTable="columnfecha_emision" msprop:Generator_ColumnPropNameInRow="fecha_emision" msprop:Generator_ColumnPropNameInTable="fecha_emisionColumn" msprop:Generator_UserColumnName="fecha_emision" type="xs:string" minOccurs="0" />
+              <xs:element name="clave_acceso_tasa" msprop:Generator_ColumnVarNameInTable="columnclave_acceso_tasa" msprop:Generator_ColumnPropNameInRow="clave_acceso_tasa" msprop:Generator_ColumnPropNameInTable="clave_acceso_tasaColumn" msprop:Generator_UserColumnName="clave_acceso_tasa" type="xs:string" minOccurs="0" />
+              <xs:element name="cantidad" msprop:Generator_ColumnVarNameInTable="columncantidad" msprop:Generator_ColumnPropNameInRow="cantidad" msprop:Generator_ColumnPropNameInTable="cantidadColumn" msprop:Generator_UserColumnName="cantidad" type="xs:string" minOccurs="0" />
+              <xs:element name="descripcion" msprop:Generator_ColumnVarNameInTable="columndescripcion" msprop:Generator_ColumnPropNameInRow="descripcion" msprop:Generator_ColumnPropNameInTable="descripcionColumn" msprop:Generator_UserColumnName="descripcion" type="xs:string" minOccurs="0" />
+              <xs:element name="valor_unitario" msprop:Generator_ColumnVarNameInTable="columnvalor_unitario" msprop:Generator_ColumnPropNameInRow="valor_unitario" msprop:Generator_ColumnPropNameInTable="valor_unitarioColumn" msprop:Generator_UserColumnName="valor_unitario" type="xs:string" minOccurs="0" />
+              <xs:element name="valor_total" msprop:Generator_ColumnVarNameInTable="columnvalor_total" msprop:Generator_ColumnPropNameInRow="valor_total" msprop:Generator_ColumnPropNameInTable="valor_totalColumn" msprop:Generator_UserColumnName="valor_total" type="xs:string" minOccurs="0" />
+              <xs:element name="cooperativa" msprop:Generator_ColumnVarNameInTable="columncooperativa" msprop:Generator_ColumnPropNameInRow="cooperativa" msprop:Generator_ColumnPropNameInTable="cooperativaColumn" msprop:Generator_UserColumnName="cooperativa" type="xs:string" minOccurs="0" />
+              <xs:element name="fecha_hora_salida" msprop:Generator_ColumnVarNameInTable="columnfecha_hora_salida" msprop:Generator_ColumnPropNameInRow="fecha_hora_salida" msprop:Generator_ColumnPropNameInTable="fecha_hora_salidaColumn" msprop:Generator_UserColumnName="fecha_hora_salida" type="xs:string" minOccurs="0" />
+              <xs:element name="anden" msprop:Generator_ColumnVarNameInTable="columnanden" msprop:Generator_ColumnPropNameInRow="anden" msprop:Generator_ColumnPropNameInTable="andenColumn" msprop:Generator_UserColumnName="anden" type="xs:string" minOccurs="0" />
+              <xs:element name="usuario" msprop:Generator_ColumnVarNameInTable="columnusuario" msprop:Generator_ColumnPropNameInRow="usuario" msprop:Generator_ColumnPropNameInTable="usuarioColumn" msprop:Generator_UserColumnName="usuario" type="xs:string" minOccurs="0" />
+              <xs:element name="identificacion" msprop:Generator_ColumnVarNameInTable="columnidentificacion" msprop:Generator_ColumnPropNameInRow="identificacion" msprop:Generator_ColumnPropNameInTable="identificacionColumn" msprop:Generator_UserColumnName="identificacion" type="xs:string" minOccurs="0" />
+              <xs:element name="cliente" msprop:Generator_ColumnVarNameInTable="columncliente" msprop:Generator_ColumnPropNameInRow="cliente" msprop:Generator_ColumnPropNameInTable="clienteColumn" msprop:Generator_UserColumnName="cliente" type="xs:string" minOccurs="0" />
+              <xs:element name="codigo_qr" msprop:Generator_ColumnVarNameInTable="columncodigo_qr" msprop:Generator_ColumnPropNameInRow="codigo_qr" msprop:Generator_ColumnPropNameInTable="codigo_qrColumn" msprop:Generator_UserColumnName="codigo_qr" type="xs:base64Binary" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
   </xs:element>

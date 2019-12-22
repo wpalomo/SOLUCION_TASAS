@@ -49,6 +49,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Documents\Visual Studio 2013\Projects\Repository\Solucion_Buses - Tasa Usuario\Solution_CTT\bin\ConexionBD.dll</HintPath>
     </Reference>
+    <Reference Include="Gma.QrCodeNet.Encoding, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QrCode.Net.0.4.0.0\lib\net45\Gma.QrCodeNet.Encoding.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AspNet.FriendlyUrls">
       <HintPath>..\packages\Microsoft.AspNet.FriendlyUrls.Core.1.0.2\lib\net45\Microsoft.AspNet.FriendlyUrls.dll</HintPath>
     </Reference>
@@ -8173,6 +8177,7 @@
     <EmbeddedResource Include="Reportes\rptManifiestoPasajeros.rdlc" />
     <EmbeddedResource Include="Reportes\rptPasajerosLocalidades.rdlc" />
     <EmbeddedResource Include="Reportes\rptReporteMovimientoCaja.rdlc" />
+    <EmbeddedResource Include="Reportes\rptTasaUsuarioSMARTT.rdlc" />
     <EmbeddedResource Include="Reportes\rptVentasCliente.rdlc" />
     <EmbeddedResource Include="Reportes\rptViajesActivos.rdlc" />
     <EmbeddedResource Include="Reportes\rptViajesAgrupados.rdlc" />

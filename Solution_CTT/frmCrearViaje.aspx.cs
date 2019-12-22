@@ -1019,7 +1019,6 @@ namespace Solution_CTT
             Session["viaSMARTT"] = null;
             Session["identificacionSMARTT"] = null;
             Session["discoSMARTT"] = null;
-            Session["idLocalidadSMARTT"] = null;
 
             consultarAsistenteDefault();
             consultarIdNormal();

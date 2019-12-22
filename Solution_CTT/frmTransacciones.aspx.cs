@@ -596,8 +596,8 @@ namespace Solution_CTT
 
                         DSReportes ds = new DSReportes();
 
-                            DataTable dt = ds.Tables["dtFactura"];
-                            dt.Clear();
+                        DataTable dt = ds.Tables["dtFactura"];
+                        dt.Clear();
 
                         dt = dtConsulta;
 
