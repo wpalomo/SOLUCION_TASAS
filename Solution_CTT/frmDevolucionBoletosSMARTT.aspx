@@ -149,7 +149,7 @@
                                             <asp:BoundField DataField="IFECHAVIAJE" HeaderText="FECHA DE VIAJE" />
                                             <asp:BoundField DataField="IIDCTTPUEBLOORIGEN" HeaderText="ID PUEBLO ORIGEN" />
                                             <asp:BoundField DataField="IIDCTTPUEBLODESTNO" HeaderText="ID PUEBLO DESTINO" />
-                                            <asp:BoundField DataField="IIDVENTASMARTT" HeaderText="IIDVENTASMARTT" />
+                                            <asp:BoundField DataField="IIDTASASMARTT" HeaderText="IIDTASASMARTT" />
                                             <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="VER">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="lbtnEditarFactura" runat="server" CommandName="Select" class="btn btn-xs btn-warning" ToolTip="Clic aquí para ver el detalle de la factura."><i class="fa fa-folder-open"></i></asp:LinkButton>

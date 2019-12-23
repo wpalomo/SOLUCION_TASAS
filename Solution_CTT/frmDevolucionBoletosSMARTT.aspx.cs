@@ -78,7 +78,7 @@ namespace Solution_CTT
         int iNuevaCantidadTasas;
         int iIdFormaPagoFactura;
         int iVendidos_REP;
-        int iIdDetPedido;
+        int iIdTasaSmartt;
 
         int iCgTipoDocumento = 7456;
         int iCgEstadoDctoPorCobrar = 7461;
@@ -376,7 +376,8 @@ namespace Solution_CTT
                 //CONSULTAR EL DETALLE DE LA TASA DE USUARIO
                 sSql = "";
                 sSql += "select * from ctt_detalle_tasa_smartt" + Environment.NewLine;
-                sSql += "where id_pedido = " + iIdPedido_P;
+                sSql += "where id_pedido = " + iIdPedido_P + Environment.NewLine;
+                sSql += "and estado = 'A'";
 
                 dtDetalleTasaOriginal = new DataTable();
                 dtDetalleTasaOriginal.Clear();
@@ -394,7 +395,7 @@ namespace Solution_CTT
                 sSql = "";
                 sSql += "select * from ctt_vw_tasas_smartt_anular" + Environment.NewLine;
                 sSql += "where id_pedido = " + iIdPedido_P + Environment.NewLine;
-                sSql += "order by id_det_pedido";
+                //sSql += "order by id_det_pedido";
 
                 dtTasasEmitidas = new DataTable();
                 dtTasasEmitidas.Clear();
@@ -417,6 +418,9 @@ namespace Solution_CTT
                     {
                         int iNumeroAsiento_Liberar = Convert.ToInt32(row.Cells[9].Text);
 
+                        anularLiberarBoleto = new Clases_Contifico.ClaseAnularLiberar();
+                        string sVer = Session["idViajeDevolucionSMARTT"].ToString();
+
                         sRespuesta_A = anularLiberarBoleto.recuperarJsonLiberacionVenta(Session["tokenSMARTT"].ToString(),
                                        Convert.ToInt32(Session["idViajeDevolucionSMARTT"].ToString()), iNumeroAsiento_Liberar);
 
@@ -434,24 +438,58 @@ namespace Solution_CTT
 
                         Session["JsonLiberar"] = sRespuesta_A;
 
+                        //sRespuesta_A = "";
+                        //sRespuesta_A += "{" + Environment.NewLine;
+                        //sRespuesta_A += "\"id\": 56749," + Environment.NewLine;
+                        //sRespuesta_A += "\"asiento\": 44," + Environment.NewLine;
+                        //sRespuesta_A += "\"asiento_nombre\": \"44\"," + Environment.NewLine;
+                        //sRespuesta_A += "\"nivel\": 1," + Environment.NewLine;
+                        //sRespuesta_A += "\"valor\": 8," + Environment.NewLine;
+                        //sRespuesta_A += "\"localidad_embarque\": 1," + Environment.NewLine;
+                        //sRespuesta_A += "\"tipo_cliente\": 1," + Environment.NewLine;
+                        //sRespuesta_A += "\"parada_embarque\": null," + Environment.NewLine;
+                        //sRespuesta_A += "\"parada_destino\": 846," + Environment.NewLine;
+                        //sRespuesta_A += "\"pasajero\": {" + Environment.NewLine;
+                        //sRespuesta_A += "\"identificacion\": \"9999999999999\"," + Environment.NewLine;
+                        //sRespuesta_A += "\"id\": 5380," + Environment.NewLine;
+                        //sRespuesta_A += "\"nombre\": \"CONSUMIDOR FINAL\"," + Environment.NewLine;
+                        //sRespuesta_A += "\"correo\": \"contabilidad@expressatenas.com.ec\"," + Environment.NewLine;
+                        //sRespuesta_A += "\"tipo_cliente\": \"N\"," + Environment.NewLine;
+                        //sRespuesta_A += "\"direccion\": null," + Environment.NewLine;
+                        //sRespuesta_A += "\"telefono\": null," + Environment.NewLine;
+                        //sRespuesta_A += "\"tipo_identificacion\": \"RUC\"," + Environment.NewLine;
+                        //sRespuesta_A += "\"extranjero\": false," + Environment.NewLine;
+                        //sRespuesta_A += "\"is_active\": true," + Environment.NewLine;
+                        //sRespuesta_A += "\"is_enable\": true," + Environment.NewLine;
+                        //sRespuesta_A += "\"actualizacion\": \"2019-12-23T14:35:46.492711-05:00\"" + Environment.NewLine;
+                        //sRespuesta_A += "}," + Environment.NewLine;
+                        //sRespuesta_A += "\"tasa\": \"9385167124\"," + Environment.NewLine;
+                        //sRespuesta_A += "\"estado\": 0," + Environment.NewLine;
+                        //sRespuesta_A += "\"estado_nombre\": \"Anulado\"," + Environment.NewLine;
+                        //sRespuesta_A += "\"is_active\": true," + Environment.NewLine;
+                        //sRespuesta_A += "\"is_enable\": true," + Environment.NewLine;
+                        //sRespuesta_A += "\"actualizacion\": \"2019-12-23T14:42:38.429032-05:00\"" + Environment.NewLine;
+                        //sRespuesta_A += "}";
+
                         boletoLiberar = JsonConvert.DeserializeObject<Clase_Variables_Contifico.Boleto>(sRespuesta_A);
 
                         for (int j = 0; j < dtTasasEmitidas.Rows.Count; j++)
                         {
-                            int iAsientoAux = Convert.ToInt32(dtTasasEmitidas.Rows[j]["numero_asiento"].ToString());
+                            //int iAsientoAux = Convert.ToInt32(dtTasasEmitidas.Rows[j]["numero_asiento"].ToString());
+                            int iIdCttTasaSmartt = Convert.ToInt32(dtTasasEmitidas.Rows[j]["id_ctt_tasas_smartt"].ToString());
+                            string sTasaUsuarioAnulada = boletoLiberar.tasa.Trim();
+                            string sTasaUsuarioEmitida = dtTasasEmitidas.Rows[j]["tasa_usuario"].ToString().Trim();
 
-                            if (iAsientoAux == iNumeroAsiento_Liberar)
+                            if (sTasaUsuarioAnulada == sTasaUsuarioEmitida)
                             {
                                 dtTasasEmitidas.Rows[j]["estado_tasa_usuario"] = boletoLiberar.estado.ToString();
                                 dtTasasEmitidas.Rows[j]["estado_nombre"] = boletoLiberar.estado_nombre;
-
-                                int iIdDetPedido_A = Convert.ToInt32(dtTasasEmitidas.Rows[j]["id_det_pedido"].ToString());
 
                                 sSql = "";
                                 sSql += "update ctt_tasas_smartt set" + Environment.NewLine;
                                 sSql += "estado_tasa_usuario = " + boletoLiberar.estado.ToString() + "," + Environment.NewLine;
                                 sSql += "estado_nombre = '" + boletoLiberar.estado_nombre + "'" + Environment.NewLine;
-                                sSql += "where id_det_pedido = " + iIdDetPedido_A;
+                                sSql += "where id_ctt_tasas_smartt = " + iIdCttTasaSmartt;
 
                                 //EJECUCION DE LA INSTRUCCION SQL
                                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
@@ -483,6 +521,8 @@ namespace Solution_CTT
         {
             try
             {
+                anularLiberarBoleto = new Clases_Contifico.ClaseAnularLiberar();
+
                 sRespuesta_A = anularLiberarBoleto.recuperarJsonAnulacionVenta(Session["tokenSMARTT"].ToString(),
                                        Convert.ToInt32(Session["idTasaFacturaSMARTT"].ToString()));
 
@@ -516,10 +556,27 @@ namespace Solution_CTT
                     return false;
                 }
 
+                //CONSULTAR LAS TASAS DE USUARIO EMITIDAS
+                sSql = "";
+                sSql += "select * from ctt_vw_tasas_smartt_anular" + Environment.NewLine;
+                sSql += "where id_pedido = " + iIdPedido_P + Environment.NewLine;
+
+                dtTasasEmitidas = new DataTable();
+                dtTasasEmitidas.Clear();
+
+                bRespuesta = conexionM.consultarRegistro(sSql, dtTasasEmitidas);
+
+                if (bRespuesta == false)
+                {
+                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    return false;
+                }
+
                 for (int j = 0; j < dtTasasEmitidas.Rows.Count; j++)
                 {
                     dtTasasEmitidas.Rows[j]["estado_tasa_usuario"] = consultarTasaAnulada.estado;
-                    dtTasasEmitidas.Rows[j]["estado_nombre"] = boletoLiberar.estado_nombre;
+                    dtTasasEmitidas.Rows[j]["estado_nombre"] = consultarTasaAnulada.estado_nombre;
                 }
 
                 return true;
@@ -619,7 +676,7 @@ namespace Solution_CTT
 
                 //INSERTANOS LA RESPUESTA DE LAS TASAS DE USUARIO SMARTT EN LA TABLA ctt_detalle_tasa_smartt
                 int iId_S = Convert.ToInt32(dtDetalleTasaOriginal.Rows[0]["id"].ToString());
-                string sFechaHoraVenta_S = dtDetalleTasaOriginal.Rows[0]["fecha_hora_venta"].ToString();
+                string sFechaHoraVenta_S = Convert.ToDateTime(dtDetalleTasaOriginal.Rows[0]["fecha_hora_venta"].ToString()).ToString("yyyy-MM-dd HH:mm:ss");
                 string sNumeroDocumento_S = dtDetalleTasaOriginal.Rows[0]["numero_documento"].ToString();
                 string sClaveAcceso_S = dtDetalleTasaOriginal.Rows[0]["clave_acceso"].ToString();
                 string sNumeroDocumentoTasa_S = dtDetalleTasaOriginal.Rows[0]["numero_documento_tasa"].ToString();
@@ -638,7 +695,7 @@ namespace Solution_CTT
                 int iExtranjeroFactura_S = Convert.ToInt32(dtDetalleTasaOriginal.Rows[0]["extranjero"].ToString()); ;
                 int iActivoFactura_S = Convert.ToInt32(dtDetalleTasaOriginal.Rows[0]["is_active_cliente"].ToString());
                 int iHabilitadoFactura_S = Convert.ToInt32(dtDetalleTasaOriginal.Rows[0]["is_enable_cliente"].ToString());
-                string sFechaActualizacionFactura_S = dtDetalleTasaOriginal.Rows[0]["actualizacion_cliente"].ToString();
+                string sFechaActualizacionFactura_S = Convert.ToDateTime(dtDetalleTasaOriginal.Rows[0]["actualizacion_cliente"].ToString()).ToString("yyyy-MM-dd HH:mm:ss");
                 string sUuid = dtDetalleTasaOriginal.Rows[0]["uuid"].ToString();
                 int iEstadoTasa_S = Convert.ToInt32(dtDetalleTasaOriginal.Rows[0]["estado_smartt"].ToString());
                 string sEstadoNombreTasa_S = dtDetalleTasaOriginal.Rows[0]["estado_nombre"].ToString();
@@ -648,7 +705,7 @@ namespace Solution_CTT
                 string sDestinoTasa_S = dtDetalleTasaOriginal.Rows[0]["destino"].ToString();
                 int iActivoTasa_S = Convert.ToInt32(dtDetalleTasaOriginal.Rows[0]["is_active"].ToString());
                 int iHabilitadoTasa_S = Convert.ToInt32(dtDetalleTasaOriginal.Rows[0]["is_enable"].ToString());
-                string sFechaActualizacionTasa_S = dtDetalleTasaOriginal.Rows[0]["actualizacion_boletos"].ToString();
+                string sFechaActualizacionTasa_S = Convert.ToDateTime(dtDetalleTasaOriginal.Rows[0]["actualizacion_boletos"].ToString()).ToString("yyyy-MM-dd HH:mm:ss");
 
                 sSql = "";
                 sSql += "insert into ctt_detalle_tasa_smartt (" + Environment.NewLine;
@@ -671,11 +728,76 @@ namespace Solution_CTT
                 sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                 //EJECUCION DE INSTRUCCION SQL
+                
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
+                }
+
+                //PROCEDIMINTO PARA EXTRAER EL ID DE LA TABLA ctt_detalle_tasa_smartt
+                sTabla = "ctt_detalle_tasa_smartt";
+                sCampo = "id_ctt_detalle_tasa_smartt";
+
+                iMaximo = conexionM.sacarMaximo(sTabla, sCampo, "", sDatosMaximo);
+
+                if (iMaximo == -1)
+                {
+                    lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>No se pudo obtener el código de la tabla " + sTabla + ".";
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    return false;
+                }
+
+                iIdTasaSmartt = Convert.ToInt32(iMaximo);
+
+                for (int k = 0; k < dtTasasEmitidas.Rows.Count; k++)
+                {
+                    int iId_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["id"].ToString());
+                    double dbValor_Filtro = Convert.ToDouble(dtTasasEmitidas.Rows[k]["valor"].ToString());
+                    int iLocalidadEmbarque_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["localidad_embarque"].ToString());
+                    int iTipoCliente_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["tipo_cliente"].ToString());
+                    string sParadaEmbarque_Filtro = dtTasasEmitidas.Rows[k]["parada_embarque"].ToString();
+                    int iParadaDestino_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["parada_destino"].ToString());
+                    int iIdPasajero_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["id_pasajero_smartt"].ToString());
+                    string sTipoCiente_Filtro = dtTasasEmitidas.Rows[k]["tipo_cliente_pasajero"].ToString();
+                    string sTipoIdentificacion_Filtro = dtTasasEmitidas.Rows[k]["tipo_identificacion"].ToString();
+
+                    int iExtranjero_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["extranjero_pasajero"].ToString());
+                    int iActivoPasajero_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["is_active_pasajero"].ToString());
+                    int iHabilitadoPasajero_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["is_enable_pasajero"].ToString());
+                    string sFechaActualizacionPasajero_Filtro = Convert.ToDateTime(dtTasasEmitidas.Rows[k]["actualizacion_pasajero"].ToString()).ToString("yyyy-MM-dd HH:mm:ss");
+                    string sTasaUsuario_Filtro = dtTasasEmitidas.Rows[k]["tasa_usuario"].ToString();
+                    int iEstadoTasa_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["estado_tasa_usuario"].ToString());
+                    string sNombreEstado_Filtro = dtTasasEmitidas.Rows[k]["estado_nombre"].ToString();
+                    int iActivoBoletos_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["is_active_smartt"].ToString());
+                    int iHabilitadoBoletos_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["is_enable_smartt"].ToString());
+                    string sFechaActualizacionBoletos_Filtro = Convert.ToDateTime(dtTasasEmitidas.Rows[k]["actualizacion_smartt"].ToString()).ToString("yyyy-MM-dd HH:mm:ss");
+
+                    sSql = "";
+                    sSql += "insert into ctt_tasas_smartt (" + Environment.NewLine;
+                    sSql += "id_ctt_detalle_tasa_smartt, id, valor, localidad_embarque, tipo_cliente, parada_embarque," + Environment.NewLine;
+                    sSql += "parada_destino, id_pasajero_smartt, tipo_cliente_pasajero, tipo_identificacion," + Environment.NewLine;
+                    sSql += "extranjero_pasajero, is_active_pasajero, is_enable_pasajero, actualizacion_pasajero," + Environment.NewLine;
+                    sSql += "tasa_usuario, estado_tasa_usuario, estado_nombre, is_active_smartt, is_enable_smartt," + Environment.NewLine;
+                    sSql += "actualizacion_smartt, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                    sSql += "values (" + Environment.NewLine;
+                    sSql += iIdTasaSmartt + ", " + iId_Filtro + ", " + dbValor_Filtro + ", " + iLocalidadEmbarque_Filtro + "," + Environment.NewLine;
+                    sSql += iTipoCliente_Filtro + ", '" + sParadaEmbarque_Filtro + "', " + iParadaDestino_Filtro + "," + Environment.NewLine;
+                    sSql += iIdPasajero_Filtro + ", '" + sTipoCiente_Filtro + "', '" + sTipoIdentificacion_Filtro + "'," + Environment.NewLine;
+                    sSql += iExtranjero_Filtro + ", " + iActivoPasajero_Filtro + ", " + iHabilitadoPasajero_Filtro + ", ";
+                    sSql += "'" + sFechaActualizacionPasajero_Filtro + "', '" + sTasaUsuario_Filtro + "'," + Environment.NewLine;
+                    sSql += iEstadoTasa_Filtro + ", '" + sNombreEstado_Filtro + "', " + iActivoBoletos_Filtro + ", ";
+                    sSql += iHabilitadoBoletos_Filtro + ", '" + sFechaActualizacionBoletos_Filtro + "', 'A', GETDATE()," + Environment.NewLine;
+                    sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
+
+                    //EJECUCION DE INSTRUCCION SQL
+                    if (!conexionM.ejecutarInstruccionSQL(sSql))
+                    {
+                        lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                        return false;
+                    }
                 }
 
                 //PROCEDIMIENTO PARA EXTRAER EL NUMERO DE PEDIDO
@@ -886,77 +1008,6 @@ namespace Solution_CTT
                             ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                             return false;
                         }
-
-                        //PROCEDIMINTO PARA EXTRAER EL ID DE LA TABLA CV403_EVENTOS_COBROS
-                        sTabla = "cv403_det_pedidos";
-                        sCampo = "id_det_pedido";
-
-                        iMaximo = conexionM.sacarMaximo(sTabla, sCampo, "", sDatosMaximo);
-
-                        if (iMaximo == -1)
-                        {
-                            lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>No se pudo obtener el código de la tabla " + sTabla + ".";
-                            ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                            return false;
-                        }
-
-                        iIdDetPedido = Convert.ToInt32(iMaximo);
-
-                        for (int k = 0; k < dtTasasEmitidas.Rows.Count; k++)
-                        {
-                            string sIdentificacion_Filtro = dtTasasEmitidas.Rows[k]["identificacion"].ToString();
-
-                            if (sIdentificacion_Filtro == sIdentificacionParaTasa)
-                            {
-                                int iId_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["id"].ToString());
-                                double dbValor_Filtro = Convert.ToDouble(dtTasasEmitidas.Rows[k]["valor"].ToString());
-                                int iLocalidadEmbarque_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["localidad_embarque"].ToString());
-                                int iTipoCliente_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["tipo_cliente"].ToString());
-                                string sParadaEmbarque_Filtro = dtTasasEmitidas.Rows[k]["parada_embarque"].ToString();
-                                int iParadaDestino_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["parada_destino"].ToString());
-                                int iIdPasajero_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["id_pasajero_smartt"].ToString());
-                                string sTipoCiente_Filtro = dtTasasEmitidas.Rows[k]["tipo_cliente_pasajero"].ToString();
-                                string sTipoIdentificacion_Filtro = dtTasasEmitidas.Rows[k]["tipo_identificacion"].ToString();
-
-                                int iExtranjero_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["extranjero_pasajero"].ToString());
-                                int iActivoPasajero_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["is_active_pasajero"].ToString());
-                                int iHabilitadoPasajero_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["is_enable_pasajero"].ToString());
-                                string sFechaActualizacionPasajero_Filtro = dtTasasEmitidas.Rows[k]["actualizacion_pasajero"].ToString();
-                                string sTasaUsuario_Filtro = dtTasasEmitidas.Rows[k]["tasa_usuario"].ToString();
-                                int iEstadoTasa_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["estado_tasa_usuario"].ToString());
-                                string sNombreEstado_Filtro = dtTasasEmitidas.Rows[k]["estado_nombre"].ToString();
-                                int iActivoBoletos_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["is_active_smartt"].ToString());
-                                int iHabilitadoBoletos_Filtro = Convert.ToInt32(dtTasasEmitidas.Rows[k]["is_enable_smartt"].ToString());
-                                string sFechaActualizacionBoletos_Filtro = dtTasasEmitidas.Rows[k]["actualizacion_smartt"].ToString();
-
-                                sSql = "";
-                                sSql += "insert into ctt_tasas_smartt (" + Environment.NewLine;
-                                sSql += "id_det_pedido, id, valor, localidad_embarque, tipo_cliente, parada_embarque," + Environment.NewLine;
-                                sSql += "parada_destino, id_pasajero_smartt, tipo_cliente_pasajero, tipo_identificacion," + Environment.NewLine;
-                                sSql += "extranjero_pasajero, is_active_pasajero, is_enable_pasajero, actualizacion_pasajero," + Environment.NewLine;
-                                sSql += "tasa_usuario, estado_tasa_usuario, estado_nombre, is_active_smartt, is_enable_smartt," + Environment.NewLine;
-                                sSql += "actualizacion_smartt, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
-                                sSql += "values (" + Environment.NewLine;
-                                sSql += iIdDetPedido + ", " + iId_Filtro + ", " + dbValor_Filtro + ", " + iLocalidadEmbarque_Filtro + "," + Environment.NewLine;
-                                sSql += iTipoCliente_Filtro + ", '" + sParadaEmbarque_Filtro + "', " + iParadaDestino_Filtro + "," + Environment.NewLine;
-                                sSql += iIdPasajero_Filtro + ", '" + sTipoCiente_Filtro + "', '" + sTipoIdentificacion_Filtro + "'," + Environment.NewLine;
-                                sSql += iExtranjero_Filtro + ", " + iActivoPasajero_Filtro + ", " + iHabilitadoPasajero_Filtro + ", ";
-                                sSql += "'" + sFechaActualizacionPasajero_Filtro + "', '" + sTasaUsuario_Filtro + "'," + Environment.NewLine;
-                                sSql += iEstadoTasa_Filtro + ", '" + sNombreEstado_Filtro + "', " + iActivoBoletos_Filtro + ", ";
-                                sSql += iHabilitadoBoletos_Filtro + ", '" + sFechaActualizacionBoletos_Filtro + "', 'A', GETDATE()," + Environment.NewLine;
-                                sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
-
-                                //EJECUCION DE INSTRUCCION SQL
-                                if (!conexionM.ejecutarInstruccionSQL(sSql))
-                                {
-                                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
-                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                                    return false;
-                                }
-
-                                break;
-                            }
-                        }
                     }
                 }
 
@@ -974,8 +1025,7 @@ namespace Solution_CTT
 
         reversa: { conexionM.reversaTransaccion(); return false; }
         }
-
-
+        
         //INSERTAR FASE 2 - CREAR PAGOS
         private bool insertarPagos()
         {
@@ -1165,7 +1215,6 @@ namespace Solution_CTT
             }
         }
 
-
         //INSERTAR FASE 3 - CREAR FACTURA
         private bool insertarFactura()
         {
@@ -1343,8 +1392,7 @@ namespace Solution_CTT
                 sSql += "'" + sFecha + "', " + Convert.ToInt32(Application["cgMoneda"].ToString()) + ", " + dbTotal + ", 0, 0, GETDATE()," + Environment.NewLine;
                 sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', 'A', 1, 0," + Environment.NewLine;
                 sSql += "'" + sDireccion + "', '" + sTelefono + "', '" + sCiudad + "'," + Environment.NewLine;
-                //sSql += "'" + sCorreoElectronico + "', '" + sTasaUsuario + "', " + iManejaFacturacionElectronica + ", '" + ClaveAcceso + "', " + iEmiteTasaUsuario + ", " + iAmbienteTasa + ", ";
-                sSql += iNuevaCantidadTasas + ")";
+                sSql += "'" + sCorreoElectronico + "', '', " + iManejaFacturacionElectronica + ", '" + ClaveAcceso + "', 0, 0, 0)";
 
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
@@ -1658,7 +1706,7 @@ namespace Solution_CTT
                 for (int i = 0; i < dtTasasEmitidas.Rows.Count; i++)
                 {
                     int iEstadoTasaUsuario_A = Convert.ToInt32(dtTasasEmitidas.Rows[i]["estado_tasa_usuario"].ToString());
-                    int iIdDetPedido_API = Convert.ToInt32(dtTasasEmitidas.Rows[i]["id_det_pedido"].ToString());
+                    int iIdCttTasaSmartt_API = Convert.ToInt32(dtTasasEmitidas.Rows[i]["id_ctt_tasas_smartt"].ToString());
 
                     sSql = "";
                     sSql += "update ctt_tasas_smartt set" + Environment.NewLine;
@@ -1676,7 +1724,7 @@ namespace Solution_CTT
                     sSql += "fecha_anula = GETDATE()," + Environment.NewLine;
                     sSql += "usuario_anula = '" +sDatosMaximo[0] + "'," + Environment.NewLine;
                     sSql += "terminal_anula = '" + sDatosMaximo[1] + "'" + Environment.NewLine;
-                    sSql += "where id_det_pedido = " + iIdDetPedido_API;
+                    sSql += "where id_ctt_tasas_smartt = " + iIdCttTasaSmartt_API;
 
                     //EJECUCION DE INSTRUCCION SQL
                     if (!conexionM.ejecutarInstruccionSQL(sSql))
@@ -1819,8 +1867,7 @@ namespace Solution_CTT
 
         reversa: { conexionM.reversaTransaccion(); return false; }
         }
-
-
+        
         //ELIMINAR LOS DATOS DE LA FASE 3
         private bool eliminarFactura(int iIdFacturaAnterior)
         {
@@ -2293,6 +2340,9 @@ namespace Solution_CTT
                 Session["idPedido"] = dgvVendidos.Rows[a].Cells[0].Text;
                 Session["idPuebloOrigen_P"] = dgvVendidos.Rows[a].Cells[8].Text;
                 Session["idPuebloDestino_P"] = dgvVendidos.Rows[a].Cells[9].Text;
+
+                string sIdTasaSmartt = dgvVendidos.Rows[a].Cells[10].Text;
+
                 Session["idTasaFacturaSMARTT"] = dgvVendidos.Rows[a].Cells[10].Text;
 
                 columnasGridVendidos(false);
@@ -2405,7 +2455,7 @@ namespace Solution_CTT
 
         protected void btnCancelarGrid_Click(object sender, EventArgs e)
         {
-            Response.Redirect("frmDevolucionBoletos.aspx");
+            Response.Redirect("frmDevolucionBoletosSMARTT.aspx");
         }
 
         protected void dgvDatosExtras_SelectedIndexChanged(object sender, EventArgs e)

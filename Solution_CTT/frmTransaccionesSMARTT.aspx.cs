@@ -2350,7 +2350,7 @@ namespace Solution_CTT
                     return false;
                 }
 
-                //PROCEDIMINTO PARA EXTRAER EL ID DE LA TABLA CV403_EVENTOS_COBROS
+                //PROCEDIMINTO PARA EXTRAER EL ID DE LA TABLA ctt_detalle_tasa_smartt
                 sTabla = "ctt_detalle_tasa_smartt";
                 sCampo = "id_ctt_detalle_tasa_smartt";
 
