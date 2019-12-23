@@ -79,5 +79,13 @@ namespace ENTIDADES
             get { return iUSUARIO; }
             set { iUSUARIO = value; }
         }
+
+        private string iPOSSECRET;
+
+        public string IPOSSECRET
+        {
+            get { return iPOSSECRET; }
+            set { iPOSSECRET = value; }
+        }
     }
 }

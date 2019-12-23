@@ -270,7 +270,47 @@ namespace Solution_CTT
             sRespuesta_A = Session["JsonRutas"].ToString();
             ruta = JsonConvert.DeserializeObject<Clase_Variables_Contifico.Rutas>(sRespuesta_A);
 
-            postbackVias();
+            //postbackVias();
+            //postbackParadas(Convert.ToInt32(cmbVia.SelectedValue));
+
+            for (int i = 0; i < ruta.results.Length; i++)
+            {
+                string sVia_P = cmbVia.SelectedValue.ToString().Trim().ToLower();
+
+                if (ruta.results[i].via.ToString().Trim().ToLower() == sVia_P)
+                {
+                    Session["PosIRuta"] = i.ToString();
+
+                    Session["viaJson"] = ruta.results[i].via.ToString();
+                    txtNombreDestino.Text = ruta.results[i].destino_nombre.Trim().ToUpper();
+                    txtNumeroAnden.Text = ruta.results[i].anden.ToString();
+
+                    //CREAR EL COMBO DE PARADAS
+                    dtConsulta = new DataTable();
+                    dtConsulta.Clear();
+
+                    dtConsulta.Columns.Add("parada_nombre");
+                    dtConsulta.Columns.Add("descripcion");
+
+                    for (int j = 0; j < ruta.results[i].paradas.Length; j++)
+                    {
+                        DataRow row = dtConsulta.NewRow();
+                        row["parada_nombre"] = ruta.results[i].paradas[j].parada_nombre.Trim().ToUpper();
+                        row["descripcion"] = ruta.results[i].paradas[j].parada_nombre.Trim().ToUpper();
+                        dtConsulta.Rows.Add(row);
+                    }
+
+                    cmbParadas.DataSource = dtConsulta;
+                    cmbParadas.DataValueField = "parada_nombre";
+                    cmbParadas.DataTextField = "descripcion";
+                    cmbParadas.DataBind();
+
+                    //AQUI LLAMAR LA FUNCION POSTBACK PARADAS
+                    postbackParadas(Convert.ToInt32(Session["PosIRuta"].ToString()));
+
+                    break;
+                }
+            }
         }
     }
 }

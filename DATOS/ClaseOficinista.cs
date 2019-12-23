@@ -42,7 +42,8 @@ namespace DATOS
                             IDESCRIPCION = dtConsulta.Rows[i][4].ToString(),
                             IUSUARIO = dtConsulta.Rows[i][5].ToString(),
                             IESTADO = dtConsulta.Rows[i][6].ToString(),
-                            ICLAVE = dtConsulta.Rows[i][7].ToString()
+                            ICLAVE = dtConsulta.Rows[i][7].ToString(),
+                            IPOSSECRET = dtConsulta.Rows[i]["pos_secret"].ToString()
                         };
                         coleccion.Add(todos);
                     }

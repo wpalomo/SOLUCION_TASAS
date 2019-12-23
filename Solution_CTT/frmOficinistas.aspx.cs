@@ -109,12 +109,13 @@ namespace Solution_CTT
             dgvDatos.Columns[4].ItemStyle.Width = 250;
             dgvDatos.Columns[5].ItemStyle.Width = 100;
             dgvDatos.Columns[6].ItemStyle.Width = 100;
-            dgvDatos.Columns[8].ItemStyle.Width = 100;
             dgvDatos.Columns[9].ItemStyle.Width = 100;
+            dgvDatos.Columns[10].ItemStyle.Width = 100;
 
             dgvDatos.Columns[0].Visible = ok;
             dgvDatos.Columns[1].Visible = ok;
             dgvDatos.Columns[7].Visible = ok;
+            dgvDatos.Columns[8].Visible = ok;
         }
         
         //FUNCION PARA LLENAR EL GRIDVIEW
@@ -125,7 +126,8 @@ namespace Solution_CTT
                 sSql = "";
                 sSql += "select O.id_ctt_oficinista, O.id_persona, O.codigo," + Environment.NewLine;
                 sSql += "ltrim(isnull(TP.nombres, '') + ' ' + TP.apellidos) propietario, O.descripcion, O.usuario," + Environment.NewLine;
-                sSql += "case O.estado when 'A' then 'ACTIVO' else 'ELIMINADO' end estado, O.claveacceso" + Environment.NewLine;
+                sSql += "case O.estado when 'A' then 'ACTIVO' else 'ELIMINADO' end estado, O.claveacceso," + Environment.NewLine;
+                sSql += "pos_secret" + Environment.NewLine;
                 sSql += "from tp_personas TP INNER JOIN" + Environment.NewLine;
                 sSql += "ctt_oficinista O ON O.id_persona = TP.id_persona" + Environment.NewLine;
                 sSql += "and O.estado = 'A'" + Environment.NewLine;
@@ -186,11 +188,11 @@ namespace Solution_CTT
                 sSql = "";
                 sSql += "insert into ctt_oficinista (" + Environment.NewLine;
                 sSql += "id_persona, codigo, descripcion, usuario, claveacceso, cambiar_clave," + Environment.NewLine;
-                sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                sSql += "pos_secret, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(Session["id_Persona"].ToString()) + ", '" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;
                 sSql += "'" + txtDescripcion.Text.Trim().ToUpper() + "', '" + txtUsuario.Text.Trim().ToLower() + "', '" + txtUsuario.Text.Trim().ToLower() + "'," + Environment.NewLine;
-                sSql += "0, 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
+                sSql += "0, '" + txtPostSecret.Text.Trim() + "', 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
                 {
@@ -231,7 +233,7 @@ namespace Solution_CTT
                 sSql = "";
                 sSql += "update ctt_oficinista set" + Environment.NewLine;
                 sSql += "id_persona = " + Convert.ToInt32(Session["id_Persona"]) + "," + Environment.NewLine;
-                //sSql += "codigo = '" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;
+                sSql += "pos_secret = '" + txtPostSecret.Text.Trim() + "'," + Environment.NewLine;
                 sSql += "descripcion = '" + txtDescripcion.Text.Trim().ToUpper() + "'" + Environment.NewLine;
                 sSql += "where id_ctt_oficinista = " + Convert.ToInt32(Session["idRegistro"]) + Environment.NewLine;
                 sSql += "and estado = 'A'";
@@ -349,10 +351,12 @@ namespace Solution_CTT
             txtDescripcion.Text = "";
             txtUsuario.Text = "";
             TxtPersona.Text = "";
+            txtPostSecret.Text = "";
             Session["idRegistro"] = null;
             Session["id_Persona"] = null;
             txtUsuario.ReadOnly = false;
             txtCodigo.ReadOnly = false;
+            MsjValidarCampos.Visible = false;
             btnSave.Text = "Crear";
             llenarGrid(0);
         }
@@ -375,6 +379,7 @@ namespace Solution_CTT
                     TxtPersona.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[3].Text.Trim());
                     txtDescripcion.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[4].Text.Trim());
                     txtUsuario.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[5].Text.Trim());
+                    txtPostSecret.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[8].Text.Trim());
                     txtUsuario.ReadOnly = true;
                     txtCodigo.ReadOnly = true;
                 }

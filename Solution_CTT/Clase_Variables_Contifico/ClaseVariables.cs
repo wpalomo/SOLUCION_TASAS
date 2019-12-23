@@ -99,8 +99,8 @@ namespace Solution_CTT.Clase_Variables_Contifico
         public int anio_fabricacion { get; set; }
         public string placa { get; set; }
         public string marca_nombre { get; set; }
-        public string fecha_emision_matricula { get; set; }
-        public string fecha_vencimiento_matricula { get; set; }
+        public object fecha_emision_matricula { get; set; }
+        public object fecha_vencimiento_matricula { get; set; }
     }
 
     public class Buses

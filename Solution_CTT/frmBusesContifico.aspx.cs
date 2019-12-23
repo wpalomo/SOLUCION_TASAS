@@ -120,12 +120,40 @@ namespace Solution_CTT
                     {
                         txtDisco.Text = bus.results[i].disco.ToString();
                         txtPlaca.Text = bus.results[i].placa.Trim().ToUpper();
-                        txtConductor.Text = "";
+
+                        if (bus.results[i].conductor == null)
+                        {
+                            txtConductor.Text = "";
+                        }
+
+                        else
+                        {
+                            txtConductor.Text = bus.results[i].conductor.ToString();
+                        }
+
                         txtCapacidad.Text = bus.results[i].capacidad.ToString();
                         txtAnioFabricacion.Text = bus.results[i].anio_fabricacion.ToString();
                         txtMarca.Text = bus.results[i].marca_nombre.Trim().ToUpper();
-                        txtFechaEmision.Text = bus.results[i].fecha_emision_matricula.Trim();
-                        txtFechaCaducidad.Text = bus.results[i].fecha_vencimiento_matricula.Trim();
+
+                        if (bus.results[i].fecha_emision_matricula == null)
+                        {
+                            txtFechaEmision.Text = "";
+                        }
+
+                        else
+                        {
+                            txtFechaEmision.Text = bus.results[i].fecha_emision_matricula.ToString();
+                        }
+
+                        if (bus.results[i].fecha_vencimiento_matricula == null)
+                        {
+                            txtFechaCaducidad.Text = "";
+                        }
+
+                        else
+                        {
+                            txtFechaCaducidad.Text = bus.results[i].fecha_vencimiento_matricula.ToString();
+                        }
                         break;
                     }
                 }
