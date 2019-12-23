@@ -413,10 +413,11 @@ namespace Solution_CTT
                     if (dtConsulta.Rows.Count > 0)
                     {
                         sNumeroFactura_REP = dtConsulta.Rows[0][0].ToString() + "-" + dtConsulta.Rows[0][1].ToString() + "-" + dtConsulta.Rows[0][2].ToString().PadLeft(9, '0');
-                        iVendidos_REP = Convert.ToInt32(dtConsulta.Rows[0]["cantidad_tasa_emitida"].ToString());
+                        //iVendidos_REP = Convert.ToInt32(dtConsulta.Rows[0]["cantidad_tasa_emitida"].ToString());
 
                         sAsientos_REP = "";
                         dbSumaTotal_REP = 0;
+                        iVendidos_REP = dtConsulta.Rows.Count;
 
                         //RECORRER LOS ASIENTOS Y SUMAR TOTAL
                         for (int i = 0; i < dtConsulta.Rows.Count; i++)
@@ -432,7 +433,6 @@ namespace Solution_CTT
                             dbPrecioUnitario_REP = Convert.ToDecimal(dtConsulta.Rows[i]["precio_unitario"].ToString());
                             dbDescuento_REP = Convert.ToDecimal(dtConsulta.Rows[i]["valor_dscto"].ToString());
                             dbIva_REP = Convert.ToDecimal(dtConsulta.Rows[i]["valor_iva"].ToString());
-
                             dbSumaTotal_REP += dbCantidad_REP * (dbPrecioUnitario_REP - dbDescuento_REP + dbIva_REP);
                         }
 
