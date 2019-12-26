@@ -97,7 +97,9 @@ namespace Solution_CTT
             }
         }
 
-        #endregion
+        #endregion        
+
+        #region FUNCION DEL USUARIO
 
         //FUNCION PARA OBTENER EL CODIGO SUPERIOR
         private void consultarCodigoMaximo()
@@ -131,8 +133,6 @@ namespace Solution_CTT
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
-
-        #region FUNCION DEL USUARIO
 
         //FUNCION PARA LAS COLUMNAS
         private void columnasGrid(bool ok)

@@ -58,6 +58,42 @@ namespace Solution_CTT {
         protected global::System.Web.UI.WebControls.Label lblNombreUsuario_3;
         
         /// <summary>
+        /// Control venta_normal.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl venta_normal;
+        
+        /// <summary>
+        /// Control devolucion_normal.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl devolucion_normal;
+        
+        /// <summary>
+        /// Control venta_smartt.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl venta_smartt;
+        
+        /// <summary>
+        /// Control devolucion_smartt.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl devolucion_smartt;
+        
+        /// <summary>
         /// Control ingreso_pago_pendiente.
         /// </summary>
         /// <remarks>

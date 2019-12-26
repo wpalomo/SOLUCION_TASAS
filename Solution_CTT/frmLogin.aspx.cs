@@ -403,6 +403,12 @@ namespace Solution_CTT
 
                     if (Session["tasaContifico"] != null)
                     {
+                        if (Session["pos_secret"].ToString() == "")
+                        {
+                            ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Información.!', 'El usuario no dispone de la credenciales para el uso de las tasas de usuario SMARTT', 'info')</script>");
+                            return;
+                        }
+
                         if (Session["tasaContifico"].ToString() == "02")
                         {
                             autenticacion = new Clases_Contifico.ClaseAutenticacion();

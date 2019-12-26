@@ -87,11 +87,19 @@ namespace Solution_CTT
 
             if (Session["tasaContifico"] == null)
             {
+                venta_normal.Visible = true;
+                devolucion_normal.Visible = true;
+                venta_smartt.Visible = false;
+                devolucion_smartt.Visible = false;
                 contifico.Visible = false;
             }
 
             else
             {
+                venta_normal.Visible = false;
+                devolucion_normal.Visible = false;
+                venta_smartt.Visible = true;
+                devolucion_smartt.Visible = true;
                 contifico.Visible = true;
             }
 
