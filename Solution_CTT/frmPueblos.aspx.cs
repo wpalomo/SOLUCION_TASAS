@@ -174,7 +174,7 @@ namespace Solution_CTT
                 //OPCION 4 PARA FILTRAR POR BUSQUEDA EN CAJA DE TEXTO
                 if (iOp == 1)
                 {
-                    sSql += "and descripcion like '%" + txtFiltrar.Text.Trim() + "%'" + Environment.NewLine;
+                    sSql += "where descripcion like '%" + txtFiltrar.Text.Trim() + "%'" + Environment.NewLine;
                 }
 
                 sSql += "order by id_ctt_pueblo" + Environment.NewLine;

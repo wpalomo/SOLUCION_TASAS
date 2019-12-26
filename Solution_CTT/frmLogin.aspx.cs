@@ -401,25 +401,28 @@ namespace Solution_CTT
                     sDatosMaximo[1] = Environment.MachineName.ToString();
                     sDatosMaximo[2] = "A";
 
-                    if (Session["tasaContifico"].ToString() == "02")
+                    if (Session["tasaContifico"] != null)
                     {
-                        autenticacion = new Clases_Contifico.ClaseAutenticacion();
-
-                        string sRespuesta_A = autenticacion.recuperarToken(dtConsulta.Rows[0][1].ToString().Trim().ToLower(), dtConsulta.Rows[0][3].ToString().Trim(), dtConsulta.Rows[0]["pos_secret"].ToString().Trim());
-
-                        if (sRespuesta_A == "ERROR")
+                        if (Session["tasaContifico"].ToString() == "02")
                         {
-                            ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'No se pudo obtener registros para la tasa de usuario SMARTT', 'error')</script>");
-                            return;
-                        }
+                            autenticacion = new Clases_Contifico.ClaseAutenticacion();
 
-                        if (sRespuesta_A == "ISNULL")
-                        {
-                            ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Información.!', 'No se proporcionaron credenciales de autenticación. Tasa de Usuario SMARTT', 'info')</script>");
-                            return;
-                        }
+                            string sRespuesta_A = autenticacion.recuperarToken(dtConsulta.Rows[0][1].ToString().Trim().ToLower(), dtConsulta.Rows[0][3].ToString().Trim(), dtConsulta.Rows[0]["pos_secret"].ToString().Trim());
 
-                        Session["tokenSMARTT"] = sRespuesta_A;
+                            if (sRespuesta_A == "ERROR")
+                            {
+                                ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'No se pudo obtener registros para la tasa de usuario SMARTT', 'error')</script>");
+                                return;
+                            }
+
+                            if (sRespuesta_A == "ISNULL")
+                            {
+                                ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Información.!', 'No se proporcionaron credenciales de autenticación. Tasa de Usuario SMARTT', 'info')</script>");
+                                return;
+                            }
+
+                            Session["tokenSMARTT"] = sRespuesta_A;
+                        }
                     }
 
                     if (!GetVariablesFE()) return;//CARGO RESTO DE PARAMETROS PARA LA FE

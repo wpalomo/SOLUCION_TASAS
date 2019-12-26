@@ -85,6 +85,16 @@ namespace Solution_CTT
                 devesofft.Visible = true;
             }
 
+            if (Session["tasaContifico"] == null)
+            {
+                contifico.Visible = false;
+            }
+
+            else
+            {
+                contifico.Visible = true;
+            }
+
             if (Session["ejecuta_cobro_administrativo"].ToString() == "1")
             {
                 ingreso_pago_pendiente.Visible = true;

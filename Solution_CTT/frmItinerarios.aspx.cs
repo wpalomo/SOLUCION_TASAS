@@ -48,6 +48,7 @@ namespace Solution_CTT
                 cmbLocalidad.SelectedIndexChanged += new EventHandler(cmbLocalidad_SelectedIndexChanged);
                 llenarComboRutas();
                 llenarComboHorarios();
+                consultarCodigoMaximo();
                 llenarGrid(0);
                 
             }
@@ -172,7 +173,7 @@ namespace Solution_CTT
                     sSql += "and I.codigo = '" + txtCodigo.Text.Trim().ToUpper() + "'" + Environment.NewLine;
                 }
 
-                sSql += "order by H.hora_salida";
+                sSql += "order by I.codigo";
 
                 columnasGrid(true);
                 itinerarioE.ISQL = sSql;
@@ -180,6 +181,39 @@ namespace Solution_CTT
                 dgvDatos.DataBind();
                 columnasGrid(false);
 
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
+
+        //FUNCION PARA OBTENER EL CODIGO SUPERIOR
+        private void consultarCodigoMaximo()
+        {
+            try
+            {
+                sSql = "";
+                sSql += "select top 1 isnull(codigo, '0') codigo" + Environment.NewLine;
+                sSql += "from ctt_itinerario" + Environment.NewLine;
+                sSql += "order by id_ctt_itinerario desc";
+
+                dtConsulta = new DataTable();
+                dtConsulta.Clear();
+                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
+
+                if (bRespuesta == true)
+                {
+                    txtCodigo.Text = (Convert.ToInt32(dtConsulta.Rows[0]["codigo"].ToString()) + 1).ToString();
+                }
+
+                else
+                {
+                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                }
             }
 
             catch (Exception ex)
@@ -269,7 +303,7 @@ namespace Solution_CTT
                 sSql += "update ctt_itinerario set" + Environment.NewLine;
                 sSql += "id_ctt_ruta = " + Convert.ToInt32(cmbRutas.SelectedValue) + "," + Environment.NewLine;
                 sSql += "id_ctt_horario = " + Convert.ToInt32(cmbHoraSalida.SelectedValue) + Environment.NewLine;
-                sSql += "where id_ctt_itinerario = " + Convert.ToInt32(Session["idRegistro"]) + Environment.NewLine;
+                sSql += "where id_ctt_itinerario = " + Convert.ToInt32(Session["idRegistroINORMAL"]) + Environment.NewLine;
                 sSql += "and estado = 'A'";
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
@@ -308,12 +342,12 @@ namespace Solution_CTT
 
                 sSql = "";
                 sSql += "update ctt_itinerario set" + Environment.NewLine;
-                sSql += "codigo = 'codigo." + Convert.ToInt32(Session["idRegistro"]).ToString() + "," + Environment.NewLine;
+                sSql += "codigo = 'codigo." + Convert.ToInt32(Session["idRegistroINORMAL"]).ToString() + "," + Environment.NewLine;
                 sSql += "estado = 'E'," + Environment.NewLine;
                 sSql += "fecha_anula = GETDATE()," + Environment.NewLine;
                 sSql += "usuario_anula = '" + sDatosMaximo[0] + "'," + Environment.NewLine;
                 sSql += "terminal_anula = '" + sDatosMaximo[1] + "'" + Environment.NewLine;
-                sSql += "where id_ctt_itinerario = " + Convert.ToInt32(Session["idRegistro"]);
+                sSql += "where id_ctt_itinerario = " + Convert.ToInt32(Session["idRegistroINORMAL"]);
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
                 {
@@ -379,15 +413,12 @@ namespace Solution_CTT
         //FUNCION PARA LIMPIAR
         private void limpiar()
         {
-            txtCodigo.Text = "";
+            consultarCodigoMaximo();
             cmbRutas.SelectedIndex = 0;
             cmbHoraSalida.SelectedIndex = 0;
-            txtCodigo.Text = "";
-            Session["idRegistro"] = null;
+            Session["idRegistroINORMAL"] = null;
             btnGuardar.Text = "Crear";
             MsjValidarCampos.Visible = false;
-            txtCodigo.ReadOnly = false;
-            txtCodigo.Focus();
             llenarGrid(0);
         }
 
@@ -460,7 +491,7 @@ namespace Solution_CTT
 
                 else
                 {
-                    if (Session["idRegistro"] == null)
+                    if (Session["idRegistroINORMAL"] == null)
                     {
                         //ENVIO A FUNCION DE INSERCION
                         insertarRegistro();
@@ -486,7 +517,7 @@ namespace Solution_CTT
             {
                 dgvDatos.PageIndex = e.NewPageIndex;
 
-                if (txtCodigo.Text.Trim() == "")
+                if (txtFiltrar.Text.Trim() == "")
                 {
                     llenarGrid(0);
                 }
@@ -533,7 +564,7 @@ namespace Solution_CTT
                 int a = dgvDatos.SelectedIndex;
                 columnasGrid(true);
 
-                Session["idRegistro"] = dgvDatos.Rows[a].Cells[0].Text.Trim();
+                Session["idRegistroINORMAL"] = dgvDatos.Rows[a].Cells[0].Text.Trim();
 
                 if (sAccion == "Editar")
                 {
@@ -550,8 +581,6 @@ namespace Solution_CTT
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
-
-        fin: { }
         }
 
         protected void cmbLocalidad_SelectedIndexChanged(object sender, EventArgs e)

@@ -73,7 +73,7 @@
                                     <div class="row">
                                         <div class="col-md-offset-1 col-md-10">
                                             <div class="form-group has-feedback">
-                                                <asp:TextBox ID="txtCodigo" runat="server" CssClass="form-control" placeholder="Código *" autocomplete="off"></asp:TextBox>
+                                                <asp:TextBox ID="txtCodigo" runat="server" ReadOnly="true" CssClass="form-control" placeholder="Código *" autocomplete="off"></asp:TextBox>
                                             </div>
                                             <div class="form-group has-feedback">
                                                 <asp:TextBox ID="txtDescripcion" runat="server" CssClass="form-control" placeholder="Descripción *" autocomplete="off"></asp:TextBox>

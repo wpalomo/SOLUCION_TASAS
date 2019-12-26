@@ -47,6 +47,7 @@ namespace Solution_CTT
 
             if (!IsPostBack)
             {
+                consultarCodigoMaximo();
                 llenarGrid(0);
             }
         }
@@ -100,6 +101,39 @@ namespace Solution_CTT
         #endregion
 
         #region FUNCION DEL USUARIO
+
+        //FUNCION PARA OBTENER EL CODIGO SUPERIOR
+        private void consultarCodigoMaximo()
+        {
+            try
+            {
+                sSql = "";
+                sSql += "select top 1 isnull(codigo, '0') codigo" + Environment.NewLine;
+                sSql += "from ctt_asistente" + Environment.NewLine;
+                sSql += "order by id_ctt_asistente desc";
+
+                dtConsulta = new DataTable();
+                dtConsulta.Clear();
+                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
+
+                if (bRespuesta == true)
+                {
+                    txtCodigo.Text = (Convert.ToInt32(dtConsulta.Rows[0]["codigo"].ToString()) + 1).ToString();
+                }
+
+                else
+                {
+                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
 
         //FUNCION PARA LAS COLUMNAS
         private void columnasGrid(bool ok)
@@ -180,7 +214,7 @@ namespace Solution_CTT
                 sSql += "insert into ctt_asistente (" + Environment.NewLine;
                 sSql += "id_persona, codigo, descripcion, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
-                sSql += Convert.ToInt32(Session["id_Persona"].ToString()) + ", '" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;
+                sSql += Convert.ToInt32(Session["id_PersonaAsistente"].ToString()) + ", '" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;
                 sSql += "'" + txtDescripcion.Text.Trim().ToUpper() + "', 'A', GETDATE(), '" + sDatosMaximo[0] + "'," + Environment.NewLine;
                 sSql += "'" + sDatosMaximo[1] + "')";
 
@@ -222,10 +256,10 @@ namespace Solution_CTT
 
                 sSql = "";
                 sSql += "update ctt_asistente set" + Environment.NewLine;
-                sSql += "id_persona = " + Convert.ToInt32(Session["id_Persona"].ToString()) + "," + Environment.NewLine;
+                sSql += "id_persona = " + Convert.ToInt32(Session["id_PersonaAsistente"].ToString()) + "," + Environment.NewLine;
                 sSql += "codigo = '" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;
                 sSql += "descripcion = '" + txtDescripcion.Text.Trim().ToUpper() + "'" + Environment.NewLine;
-                sSql += "where id_ctt_asistente = " + Convert.ToInt32(Session["idRegistro"]) + Environment.NewLine;
+                sSql += "where id_ctt_asistente = " + Convert.ToInt32(Session["idRegistroAsistente"]) + Environment.NewLine;
                 sSql += "and estado = 'A'";
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
@@ -270,7 +304,7 @@ namespace Solution_CTT
                 sSql += "fecha_anula = GETDATE()," + Environment.NewLine;
                 sSql += "usuario_anula = '" + sDatosMaximo[0] + "'," + Environment.NewLine;
                 sSql += "terminal_anula = '" + sDatosMaximo[1] + "'" + Environment.NewLine;
-                sSql += "where id_ctt_asistente = " + Convert.ToInt32(Session["idRegistro"]);
+                sSql += "where id_ctt_asistente = " + Convert.ToInt32(Session["idRegistroAsistente"]);
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
                 {
@@ -306,7 +340,7 @@ namespace Solution_CTT
                 sSql += "select count(*) cuenta" + Environment.NewLine;
                 sSql += "from ctt_asistente" + Environment.NewLine;
                 sSql += "where codigo = '" + txtCodigo.Text.Trim() + "'" + Environment.NewLine;
-                sSql += "or id_persona = " + Convert.ToInt32(Session["id_Persona"]) + Environment.NewLine;
+                sSql += "or id_persona = " + Convert.ToInt32(Session["id_PersonaAsistente"]) + Environment.NewLine;
                 sSql += "and estado = 'A'";
 
                 dtConsulta = new DataTable();
@@ -337,14 +371,12 @@ namespace Solution_CTT
         //FUNCION PARA LIMPIAR
         private void limpiar()
         {
-            txtCodigo.Text = "";
+            consultarCodigoMaximo();
             txtDescripcion.Text = "";
             TxtPersona.Text = "";
-            Session["idRegistro"] = null;
+            Session["idRegistroAsistente"] = null;
             btnSave.Text = "Crear";
             MsjValidarCampos.Visible = false;
-            txtCodigo.ReadOnly = false;
-            txtCodigo.Focus();
             llenarGrid(0);
         }
 
@@ -357,8 +389,8 @@ namespace Solution_CTT
             {
                 int a = dgvDatos.SelectedIndex;
                 columnasGrid(true);
-                Session["idRegistro"] = dgvDatos.Rows[a].Cells[0].Text.Trim();
-                Session["id_Persona"] = dgvDatos.Rows[a].Cells[1].Text.Trim();
+                Session["idRegistroAsistente"] = dgvDatos.Rows[a].Cells[0].Text.Trim();
+                Session["id_PersonaAsistente"] = dgvDatos.Rows[a].Cells[1].Text.Trim();
 
                 if (sAccion == "E")
                 {
@@ -388,7 +420,7 @@ namespace Solution_CTT
 
                 if (sAccionFiltro == "Seleccion")
                 {
-                    Session["id_Persona"] = dgvFiltrarPersonas.Rows[a].Cells[0].Text.Trim();
+                    Session["id_PersonaAsistente"] = dgvFiltrarPersonas.Rows[a].Cells[0].Text.Trim();
                     TxtPersona.Text = HttpUtility.HtmlDecode(dgvFiltrarPersonas.Rows[a].Cells[2].Text.Trim());
                     txtFiltrarPersonas.Text = "";
                     btnPopUp_ModalPopupExtender.Hide();
@@ -466,7 +498,7 @@ namespace Solution_CTT
             txtCodigo.Text = "";
             txtDescripcion.Text = "";
             TxtPersona.Text = "";
-            Session["idRegistro"] = null;
+            Session["idRegistroAsistente"] = null;
             btnSave.Text = "Crear";
             MsjValidarCampos.Visible = false;
             txtCodigo.ReadOnly = false;
@@ -507,7 +539,7 @@ namespace Solution_CTT
 
             else
             {
-                if (Session["idRegistro"] == null)
+                if (Session["idRegistroAsistente"] == null)
                 {
                     //ENVIO A FUNCION DE INSERCION
                     insertarRegistro();

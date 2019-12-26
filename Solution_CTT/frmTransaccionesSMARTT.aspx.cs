@@ -122,6 +122,7 @@ namespace Solution_CTT
         int iIdPuebloDestino;
         int iIdFormaPagoFactura;
         int iIdTasaSmartt;
+        int idFormularioSRI = 19;
 
         int iPorcentajeNotificacionEntero;
 
@@ -665,8 +666,7 @@ namespace Solution_CTT
                 {
                     goto reversa;
                 }
-
-
+                
                 int icuenta = dtAsientos.Rows.Count;
                 int a = 1;
 
@@ -767,7 +767,7 @@ namespace Solution_CTT
                     pnlAsientos.Controls.Add(new LiteralControl("<br />"));
                 }
 
-                goto fin;
+                return;
             }
 
             catch (Exception ex)
@@ -782,8 +782,6 @@ namespace Solution_CTT
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>Error al consultar los asientos del vehículo.";
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
-
-        fin: { }
         }
 
         //EVENTO CLIC DEL BOTON DE ASIENTO
@@ -3028,7 +3026,7 @@ namespace Solution_CTT
                 sSql += "cantidad_tasa_emitida, id_tipo_ambiente, id_tipo_emision)" + Environment.NewLine;
                 sSql += "values(" + Environment.NewLine;
                 sSql += Convert.ToInt32(Application["idEmpresa"].ToString()) + ", " + iIdPersona + ", " + Convert.ToInt32(Application["cgEmpresa"].ToString()) + ", 1," + Environment.NewLine;
-                sSql += Convert.ToInt32(Application["idLocalidad"].ToString()) + ", 19, " + Convert.ToInt32(Session["idVendedor"].ToString()) + ", " + iIdFormaPagoFactura + ", '" + sFecha + "'," + Environment.NewLine;
+                sSql += Convert.ToInt32(Application["idLocalidad"].ToString()) + ", " + idFormularioSRI + ", " + Convert.ToInt32(Session["idVendedor"].ToString()) + ", " + iIdFormaPagoFactura + ", '" + sFecha + "'," + Environment.NewLine;
                 //sSql += "'" + sFecha + "', " + Convert.ToInt32(Application["cgMoneda"].ToString()) + ", " + dbTotal + ", 0, 0, GETDATE()," + Environment.NewLine;
                 sSql += "'" + sFecha + "', " + Convert.ToInt32(Application["cgMoneda"].ToString()) + ", " + dbTotal.ToString(System.Globalization.CultureInfo.InvariantCulture) + ", 0, 0, GETDATE()," + Environment.NewLine;
                 sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', 'A', 1, 0," + Environment.NewLine;

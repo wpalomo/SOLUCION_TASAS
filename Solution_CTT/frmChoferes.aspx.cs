@@ -46,6 +46,7 @@ namespace Solution_CTT
 
             if (!IsPostBack)
             {
+                consultarCodigoMaximo();
                 llenarGrid(0);
             }
         }
@@ -97,6 +98,39 @@ namespace Solution_CTT
         }
 
         #endregion
+
+        //FUNCION PARA OBTENER EL CODIGO SUPERIOR
+        private void consultarCodigoMaximo()
+        {
+            try
+            {
+                sSql = "";
+                sSql += "select top 1 isnull(codigo, '0') codigo" + Environment.NewLine;
+                sSql += "from ctt_chofer" + Environment.NewLine;
+                sSql += "order by id_ctt_chofer desc";
+
+                dtConsulta = new DataTable();
+                dtConsulta.Clear();
+                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
+
+                if (bRespuesta == true)
+                {
+                    txtCodigo.Text = (Convert.ToInt32(dtConsulta.Rows[0]["codigo"].ToString()) + 1).ToString();
+                }
+
+                else
+                {
+                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
 
         #region FUNCION DEL USUARIO
 
@@ -179,7 +213,7 @@ namespace Solution_CTT
                 sSql += "insert into ctt_chofer (" + Environment.NewLine;
                 sSql += "id_persona, codigo, descripcion, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
-                sSql += Convert.ToInt32(Session["id_Persona"].ToString()) + ", '" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;
+                sSql += Convert.ToInt32(Session["id_PersonaChofer"].ToString()) + ", '" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;
                 sSql += "'" + txtDescripcion.Text.Trim().ToUpper() + "', 'A', GETDATE(), '" + sDatosMaximo[0] + "'," + Environment.NewLine;
                 sSql += "'" + sDatosMaximo[1] + "')";
 
@@ -221,7 +255,7 @@ namespace Solution_CTT
 
                 sSql = "";
                 sSql += "update ctt_chofer set" + Environment.NewLine;
-                sSql += "id_persona = " + Convert.ToInt32(Session["id_Persona"].ToString()) + "," + Environment.NewLine;
+                sSql += "id_persona = " + Convert.ToInt32(Session["id_PersonaChofer"].ToString()) + "," + Environment.NewLine;
                 sSql += "codigo = '" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;
                 sSql += "descripcion = '" + txtDescripcion.Text.Trim().ToUpper() + "'" + Environment.NewLine;
                 sSql += "where id_ctt_chofer = " + Convert.ToInt32(Session["idRegistroChofer"]) + Environment.NewLine;
@@ -336,15 +370,14 @@ namespace Solution_CTT
         //FUNCION PARA LIMPIAR
         private void limpiar()
         {
-            txtCodigo.Text = "";
+            consultarCodigoMaximo();
             txtDescripcion.Text = "";
             TxtPersona.Text = "";
             txtCedula.Text = "";
             Session["idRegistroChofer"] = null;
+            Session["id_PersonaChofer"] = null;
             btnSave.Text = "Crear";
-            MsjValidarCampos.Visible = false;
-            txtCodigo.ReadOnly = false;            
-            txtCodigo.Focus();
+            MsjValidarCampos.Visible = false;         
             llenarGrid(0);
         }
 
@@ -358,7 +391,7 @@ namespace Solution_CTT
                 int a = dgvDatos.SelectedIndex;
                 columnasGrid(true);
                 Session["idRegistroChofer"] = dgvDatos.Rows[a].Cells[0].Text.Trim();
-                Session["id_Persona"] = dgvDatos.Rows[a].Cells[1].Text.Trim();//ESTE FUERA PORQUE ES NECESARIO PARA CONSULTAR
+                Session["id_PersonaChofer"] = dgvDatos.Rows[a].Cells[1].Text.Trim();//ESTE FUERA PORQUE ES NECESARIO PARA CONSULTAR
 
                 if (sAccion == "E")
                 {
@@ -392,7 +425,7 @@ namespace Solution_CTT
 
                 if (sAccionFiltro == "Seleccion")
                 {
-                    Session["id_Persona"] = dgvFiltrarPersonas.Rows[a].Cells[0].Text.Trim();
+                    Session["id_PersonaChofer"] = dgvFiltrarPersonas.Rows[a].Cells[0].Text.Trim();
                     txtCedula.Text = HttpUtility.HtmlDecode(dgvFiltrarPersonas.Rows[a].Cells[1].Text.Trim());
                     TxtPersona.Text = HttpUtility.HtmlDecode(dgvFiltrarPersonas.Rows[a].Cells[2].Text.Trim());
                     txtFiltrarPersonas.Text = "";

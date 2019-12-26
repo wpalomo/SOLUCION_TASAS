@@ -646,7 +646,6 @@
     <Content Include="frmCierreCajero.aspx" />
     <Content Include="frmConductoresContifico.aspx" />
     <Content Include="frmConsultaViajesContifico.aspx" />
-    <Content Include="frmCrearViajeContifico.aspx" />
     <Content Include="frmDefinicionCortaLocalidades.aspx" />
     <Content Include="frmDefinicionLocalidades.aspx" />
     <Content Include="frmDetalleRuta.aspx" />
@@ -7505,13 +7504,6 @@
     </Compile>
     <Compile Include="frmCrearViaje.aspx.designer.cs">
       <DependentUpon>frmCrearViaje.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="frmCrearViajeContifico.aspx.cs">
-      <DependentUpon>frmCrearViajeContifico.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="frmCrearViajeContifico.aspx.designer.cs">
-      <DependentUpon>frmCrearViajeContifico.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmCrearViajeExtra.aspx.cs">
       <DependentUpon>frmCrearViajeExtra.aspx</DependentUpon>

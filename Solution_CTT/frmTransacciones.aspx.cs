@@ -156,6 +156,7 @@ namespace Solution_CTT
         int iCantidadTasasEmitir;
         int iCantidadDisponible;
         int iIdFormaPagoFactura;
+        int iIdCajaLocalidad;
 
         int iPorcentajeNotificacionEntero;
 
@@ -3254,6 +3255,31 @@ namespace Solution_CTT
                         iCobrarTasa_P = 0;
                     }
 
+                    //EXTRAER EL ID DE LA CAJA DE LA LOCALIDAD
+                    sSql = "";
+                    sSql += "select id_caja" + Environment.NewLine;
+                    sSql += "from cv405_cajas" + Environment.NewLine;
+                    sSql += "where estado = 'A'" + Environment.NewLine;
+                    sSql += "and id_localidad = " + Convert.ToInt32(Application["idLocalidad"].ToString());
+
+                    dtConsulta = new DataTable();
+                    dtConsulta.Clear();
+
+                    bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
+
+                    if (bRespuesta == true)
+                    {
+                        iIdCajaLocalidad = Convert.ToInt32(dtConsulta.Rows[0][0].ToString());
+                    }
+
+                    else
+                    {
+                        lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                        return false;
+                    }     
+
+
                     //INSERTAR EN LA TABLA CTT_MOVIMIENTO_CAJA
                     sSql = "";
                     sSql += "insert into ctt_movimiento_caja (" + Environment.NewLine;
@@ -3262,7 +3288,7 @@ namespace Solution_CTT
                     sSql += "usuario_ingreso, terminal_ingreso, id_tasa_usuario, ambiente_tasa_usuario, cobro_tasa_usuario)" + Environment.NewLine;
                     sSql += "values (" + Environment.NewLine;
                     sSql += "1, " + Convert.ToInt32(Application["idEmpresa"].ToString()) + ", " + Convert.ToInt32(Application["idLocalidad"].ToString()) + "," + Environment.NewLine;
-                    sSql += iIdFactura + ", 30, " + Convert.ToInt32(Session["idJornada"].ToString()) + ", " + Convert.ToInt32(Application["cgMoneda"].ToString()) + ", '" + sFecha + "', GETDATE()," + Environment.NewLine;
+                    sSql += iIdFactura + ", " + iIdCajaLocalidad + ", " + Convert.ToInt32(Session["idJornada"].ToString()) + ", " + Convert.ToInt32(Application["cgMoneda"].ToString()) + ", '" + sFecha + "', GETDATE()," + Environment.NewLine;
                     sSql += Convert.ToInt32(txtTasaUsuario.Text.Trim()) + ", " + dbValorTasa.ToString(System.Globalization.CultureInfo.InvariantCulture) + ", '" + sTasaUsuario + "'," + Environment.NewLine;
                     sSql += "'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', '" + sIdTasaRespuesta + "', " + iAmbienteTasa + ", " + iCobrarTasa_P + ")";
 

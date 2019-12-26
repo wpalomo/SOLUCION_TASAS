@@ -47,6 +47,7 @@ namespace Solution_CTT
 
             if (!IsPostBack)
             {
+                consultarCodigoMaximo();
                 llenarGrid(0);
             }
         }
@@ -100,6 +101,39 @@ namespace Solution_CTT
         #endregion
 
         #region FUNCION DEL USUARIO
+
+        //FUNCION PARA OBTENER EL CODIGO SUPERIOR
+        private void consultarCodigoMaximo()
+        {
+            try
+            {
+                sSql = "";
+                sSql += "select top 1 isnull(codigo, '0') codigo" + Environment.NewLine;
+                sSql += "from ctt_oficinista" + Environment.NewLine;
+                sSql += "order by id_ctt_oficinista desc";
+
+                dtConsulta = new DataTable();
+                dtConsulta.Clear();
+                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
+
+                if (bRespuesta == true)
+                {
+                    txtCodigo.Text = (Convert.ToInt32(dtConsulta.Rows[0]["codigo"].ToString()) + 1).ToString();
+                }
+
+                else
+                {
+                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
 
         //FUNCION PARA LAS COLUMNAS
         private void columnasGrid(bool ok)
@@ -190,7 +224,7 @@ namespace Solution_CTT
                 sSql += "id_persona, codigo, descripcion, usuario, claveacceso, cambiar_clave," + Environment.NewLine;
                 sSql += "pos_secret, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
-                sSql += Convert.ToInt32(Session["id_Persona"].ToString()) + ", '" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;
+                sSql += Convert.ToInt32(Session["id_PersonaOFICINISTA"].ToString()) + ", '" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;
                 sSql += "'" + txtDescripcion.Text.Trim().ToUpper() + "', '" + txtUsuario.Text.Trim().ToLower() + "', '" + txtUsuario.Text.Trim().ToLower() + "'," + Environment.NewLine;
                 sSql += "0, '" + txtPostSecret.Text.Trim() + "', 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
@@ -232,10 +266,10 @@ namespace Solution_CTT
 
                 sSql = "";
                 sSql += "update ctt_oficinista set" + Environment.NewLine;
-                sSql += "id_persona = " + Convert.ToInt32(Session["id_Persona"]) + "," + Environment.NewLine;
+                sSql += "id_persona = " + Convert.ToInt32(Session["id_PersonaOFICINISTA"]) + "," + Environment.NewLine;
                 sSql += "pos_secret = '" + txtPostSecret.Text.Trim() + "'," + Environment.NewLine;
                 sSql += "descripcion = '" + txtDescripcion.Text.Trim().ToUpper() + "'" + Environment.NewLine;
-                sSql += "where id_ctt_oficinista = " + Convert.ToInt32(Session["idRegistro"]) + Environment.NewLine;
+                sSql += "where id_ctt_oficinista = " + Convert.ToInt32(Session["idRegistroOFICINISTA"]) + Environment.NewLine;
                 sSql += "and estado = 'A'";
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
@@ -280,7 +314,7 @@ namespace Solution_CTT
                 sSql += "fecha_anula = GETDATE()," + Environment.NewLine;
                 sSql += "usuario_anula = '" + sDatosMaximo[0] + "'," + Environment.NewLine;
                 sSql += "terminal_anula = '" + sDatosMaximo[1] + "'" + Environment.NewLine;
-                sSql += "where id_ctt_oficinista = " + Convert.ToInt32(Session["idRegistro"]);
+                sSql += "where id_ctt_oficinista = " + Convert.ToInt32(Session["idRegistroOFICINISTA"]);
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
                 {
@@ -347,15 +381,14 @@ namespace Solution_CTT
         //FUNCION PARA LIMPIAR
         private void limpiar()
         {
-            txtCodigo.Text = "";
+            consultarCodigoMaximo();
             txtDescripcion.Text = "";
             txtUsuario.Text = "";
             TxtPersona.Text = "";
             txtPostSecret.Text = "";
-            Session["idRegistro"] = null;
-            Session["id_Persona"] = null;
+            Session["idRegistroOFICINISTA"] = null;
+            Session["id_PersonaOFICINISTA"] = null;
             txtUsuario.ReadOnly = false;
-            txtCodigo.ReadOnly = false;
             MsjValidarCampos.Visible = false;
             btnSave.Text = "Crear";
             llenarGrid(0);
@@ -370,11 +403,11 @@ namespace Solution_CTT
             {
                 int a = dgvDatos.SelectedIndex;
                 columnasGrid(true);
-                Session["idRegistro"] = dgvDatos.Rows[a].Cells[0].Text.Trim();                
+                Session["idRegistroOFICINISTA"] = dgvDatos.Rows[a].Cells[0].Text.Trim();                
 
                 if (sAccion == "Editar")
                 {
-                    Session["id_Persona"] = dgvDatos.Rows[a].Cells[1].Text.Trim();
+                    Session["id_PersonaOFICINISTA"] = dgvDatos.Rows[a].Cells[1].Text.Trim();
                     txtCodigo.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[2].Text.Trim());
                     TxtPersona.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[3].Text.Trim());
                     txtDescripcion.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[4].Text.Trim());
@@ -404,7 +437,7 @@ namespace Solution_CTT
 
                 if (sAccionFiltro == "Seleccion")
                 {
-                    Session["id_Persona"] = dgvFiltrarPersonas.Rows[a].Cells[0].Text.Trim();
+                    Session["id_PersonaOFICINISTA"] = dgvFiltrarPersonas.Rows[a].Cells[0].Text.Trim();
                     TxtPersona.Text = HttpUtility.HtmlDecode(dgvFiltrarPersonas.Rows[a].Cells[2].Text.Trim());
                     txtFiltrarPersonas.Text = "";
                     btnPopUp_ModalPopupExtender.Hide();
@@ -517,7 +550,7 @@ namespace Solution_CTT
 
             else
             {
-                if (Session["idRegistro"] == null)
+                if (Session["idRegistroOFICINISTA"] == null)
                 {
                     //ENVIO A FUNCION DE INSERCION
                     insertarRegistro();

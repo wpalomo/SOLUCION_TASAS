@@ -94,7 +94,7 @@
                                             </div>                                            
 
                                             <div class="form-group has-feedback">
-                                                <asp:TextBox ID="txtCodigo" runat="server" CssClass="form-control" placeholder="Código *"></asp:TextBox>
+                                                <asp:TextBox ID="txtCodigo" runat="server" ReadOnly="true" autocomplete="off" CssClass="form-control" placeholder="Código *"></asp:TextBox>
                                             </div>
                                             <%--<div class="form-group has-feedback">
                                                 <asp:TextBox ID="txtDescripcion" runat="server" CssClass="form-control" placeholder="Descripción *" onkeypress="return validar_letras(event)"></asp:TextBox>                                                

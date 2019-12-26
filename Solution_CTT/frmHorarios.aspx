@@ -71,7 +71,7 @@
                                   <div class="row">
                                       <div class="col-md-offset-1 col-md-10">
                                           <div class="form-group has-feedback">
-                                              <asp:TextBox ID="txtCodigo" runat="server" CssClass="form-control" placeholder="Código *" Autocomplete="off" BackColor="White"></asp:TextBox>
+                                              <asp:TextBox ID="txtCodigo" runat="server" CssClass="form-control" placeholder="Código *" ReadOnly="true" Autocomplete="off" BackColor="White"></asp:TextBox>
                                           </div>
                                           <div class="form-group has-feedback">
                                               <asp:TextBox ID="txtHoraSalida" runat="server" type="time" class="form-control timepicker"></asp:TextBox>
