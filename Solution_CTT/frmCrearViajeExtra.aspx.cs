@@ -1629,7 +1629,7 @@ namespace Solution_CTT
 
                 if (sAccionFiltroItinerario == "Seleccion")
                 {
-                    txtItinerario.Text = "CÓDIGO: " + dgvItinerarios.Rows[a].Cells[3].Text.Trim() + " - RUTA: " + dgvItinerarios.Rows[a].Cells[4].Text.Trim() + " - HORA DE SALIDA: " + dgvItinerarios.Rows[a].Cells[6].Text.Trim();
+                    txtItinerario.Text = "CÓDIGO: " + HttpUtility.HtmlDecode(dgvItinerarios.Rows[a].Cells[3].Text.Trim()) + " - RUTA: " + HttpUtility.HtmlDecode(dgvItinerarios.Rows[a].Cells[4].Text.Trim()) + " - HORA DE SALIDA: " + HttpUtility.HtmlDecode(dgvItinerarios.Rows[a].Cells[7].Text.Trim());
                     txtFiltrarItinerarios.Text = "";
                     Session["destinoSMARTT"] = dgvItinerarios.Rows[a].Cells[5].Text.Trim();
                     Session["viaSMARTT"] = dgvItinerarios.Rows[a].Cells[6].Text.Trim();
@@ -1671,7 +1671,15 @@ namespace Solution_CTT
 
         protected void lbtnVentas_Click(object sender, EventArgs e)
         {
-            Response.Redirect("frmTransacciones.aspx");
+            if (Session["tasaContifico"] == null)
+            {
+                Response.Redirect("frmTransacciones.aspx");
+            }
+
+            else
+            {
+                Response.Redirect("frmTransaccionesSMARTT.aspx");
+            }
         }
 
         protected void btnAccept_Click(object sender, EventArgs e)

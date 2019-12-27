@@ -70,6 +70,7 @@
                                             <asp:BoundField DataField="IIDITINERARIO" HeaderText="ID ITINERARIO" />
                                             <asp:BoundField DataField="IOCUPADOS" HeaderText="OCUPADOS" />
                                             <asp:BoundField DataField="ICOBROADMINISTATIVO" HeaderText="COBRO ADMINISTATIVO" />
+                                            <asp:BoundField DataField="IIDVIAJECONTIFICO" HeaderText="IIDSMARTT" />
                                             <%--botones de acción sobre los registros...--%>
                                             <asp:TemplateField ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
@@ -496,7 +497,7 @@
     <asp:Panel ID="pnlItinerarios" runat="server" >
     <asp:UpdatePanel ID="UpdatePanel5" runat="server">
         <ContentTemplate>
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header bg-teal-active color-palette">
                         <asp:Button ID="btnCerrarModalItinerario" runat="server" Text="x" class="close" data-dismiss="modal" aria-label="Close" OnClick="btnCerrarModalItinerario_Click" />
@@ -525,12 +526,11 @@
                                             <asp:BoundField DataField="IIDITINERARIO" HeaderText="ID" />
                                             <asp:BoundField DataField="IIDRUTA" HeaderText="ID RUTA" />
                                             <asp:BoundField DataField="IIDHORARIO" HeaderText="ID HORARIO" />
-                                            <%--<asp:BoundField DataField="IIDTIPOVIAJE" HeaderText="ID TIPO VIAJE" />--%>
                                             <asp:BoundField DataField="ICODIGO" HeaderText="CÓDIGO" />
                                             <asp:BoundField DataField="IDESCRIPCION" HeaderText="DESCRIPCIÓN" />
                                             <asp:BoundField DataField="IDESTINO" HeaderText="DESTINO" />
+                                            <asp:BoundField DataField="IVIA" HeaderText="VÍA" />
                                             <asp:BoundField DataField="IHORASALIDA" HeaderText="HORA SALIDA" />
-                                            <%--<asp:BoundField DataField="ITIPOVIAJE" HeaderText="VIAJE" />--%>
                                             <asp:BoundField DataField="IESTADO" HeaderText="ESTADO" />
                                             <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="SELECCIONAR">
                                                 <ItemTemplate>

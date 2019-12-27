@@ -344,11 +344,13 @@
                         </a>
 
                         <ul class="treeview-menu">
-                            <li><a href="frmTransacciones.aspx"><i class="fa fa-circle-o"></i>Venta de Boletos</a></li>
-                            <li><a href="frmDevolucionBoletos.aspx"><i class="fa fa-circle-o"></i>Devoluciones</a></li>                            
+                            <li id="venta_normal" runat="server"><a href="frmTransacciones.aspx"><i class="fa fa-circle-o"></i>Venta de Boletos</a></li>
+                            <li id="devolucion_normal" runat="server"><a href="frmDevolucionBoletos.aspx"><i class="fa fa-circle-o"></i>Devoluciones</a></li>
+                            <li id="venta_smartt" runat="server"><a href="frmTransaccionesSMARTT.aspx"><i class="fa fa-circle-o"></i>Venta de Boletos</a></li>
+                            <li id="devolucion_smartt" runat="server"><a href="frmDevolucionBoletosSMARTT.aspx"><i class="fa fa-circle-o"></i>Devoluciones</a></li>
                             <li><a href="frmCrearViaje.aspx"><i class="fa fa-circle-o"></i>Viajes Normales</a></li>
                             <li><a href="frmCrearViajeExtra.aspx"><i class="fa fa-circle-o"></i>Viajes Extras</a></li>
-                            <li><a href="frmViajesMasivos.aspx"><i class="fa fa-circle-o"></i>Viajes Masivos</a></li>
+                            <%--<li><a href="frmViajesMasivos.aspx"><i class="fa fa-circle-o"></i>Viajes Masivos</a></li>--%>
                             <li id="ingreso_pago_pendiente" runat="server"><a href="frmIngresoPagosPendientes.aspx"><i class="fa fa-circle-o"></i>Ingresar Pagos Pendientes</a></li>
                             <li id="cobrar_pago_pendiente" runat="server"><a href="frmPagosPendientes.aspx"><i class="fa fa-circle-o"></i>Cobrar Pagos Pendientes</a></li>
                             <li><a href="frmReimpresionFacturas.aspx"><i class="fa fa-circle-o"></i>Reimpresión de Facturas</a></li>
@@ -367,11 +369,29 @@
                         <ul class="treeview-menu">
                             <li><a href="frmSincronizarTasasUsuario.aspx"><i class="fa fa-circle-o"></i>Sincronizar Tasas Pendientes V1</a></li>
                             <li><a href="frmSincronizarTasasUsuario_V2.aspx"><i class="fa fa-circle-o"></i>Sincronizar Tasas Pendientes V2</a></li>
-                            <%--<li><a href="frmSincronizarTasasAnuladas.aspx"><i class="fa fa-circle-o"></i>Sincronizar Tasas Anuladas</a></li>--%>
                             <li><a href="frmDetalleTransaccionesTasa.aspx"><i class="fa fa-circle-o"></i>Transacciones Tasa Usuario</a></li>
                             <li><a href="frmObtenerTokens.aspx"><i class="fa fa-circle-o"></i>Detalle de Tokens</a></li>
                             <li><a href="frmParametrosTasaUsuario.aspx"><i class="fa fa-circle-o"></i>Parámetros de Tasas de Usuario</a></li>
-                            <%--<li><a href="frmIngresarTokenPendiente.aspx"><i class="fa fa-circle-o"></i>Ingresar Token Pendiente</a></li>--%>
+                        </ul>
+                    </li>
+
+                    <li class="treeview" id="contifico" runat="server">
+                        <a href="#">
+                            <i class="fa fa-diamond"></i>
+                            <span>Tasas Usuario SMARTT</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="frmParametrosContifico.aspx"><i class="fa fa-circle-o"></i>Parámetros de Tasas de Usuario</a></li>
+                            <li><a href="frmAsignarDatosLocalidadesContifico.aspx"><i class="fa fa-circle-o"></i>Datos por Localidades</a></li>
+                            <li><a href="frmRutasContifico.aspx"><i class="fa fa-circle-o"></i>Rutas</a></li>
+                            <li><a href="frmFrecuenciasContifico.aspx"><i class="fa fa-circle-o"></i>Frecuencias</a></li>
+                            <li><a href="frmBusesContifico.aspx"><i class="fa fa-circle-o"></i>Buses</a></li>
+                            <li><a href="frmConductoresContifico.aspx"><i class="fa fa-circle-o"></i>Conductores</a></li>
+                            <li><a href="frmConsultaViajesContifico.aspx"><i class="fa fa-circle-o"></i>Consulta de Viajes</a></li>
+                            <li><a href="frmConsultarVentasSmartt.aspx"><i class="fa fa-circle-o"></i>Consulta de Ventas</a></li>
                         </ul>
                     </li>
 

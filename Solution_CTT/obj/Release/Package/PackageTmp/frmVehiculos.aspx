@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="frmVehiculos.aspx.cs" Inherits="Solution_CTT.frmVehiculos" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -269,6 +270,30 @@
                                             </div>
                                         </div>
                                         <%--FIN QUINTA FILA--%>
+
+                                         <%--SEXTA FILA--%>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                            <div class="form-group">
+                                                <asp:Label ID="Label10" runat="server" Text="Fecha Emisión Matrícula"></asp:Label>
+                                                <div class="input-group col-sm-12">
+                                                    <asp:TextBox ID="txtFechaEmisionMatricula" runat="server" class="form-control" BackColor="White"></asp:TextBox>
+                                                    <ajaxToolkit:MaskedEditExtender ID="txtFechaEmisionMatricula_MaskedEditExtender" runat="server" BehaviorID="txtFechaEmisionMatricula_MaskedEditExtender" Century="2000" CultureAMPMPlaceholder="" CultureCurrencySymbolPlaceholder="" CultureDateFormat="" CultureDatePlaceholder="" CultureDecimalPlaceholder="" CultureThousandsPlaceholder="" CultureTimePlaceholder="" Mask="99/99/9999" MaskType="Date" TargetControlID="txtFechaEmisionMatricula" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <asp:Label ID="Label2" runat="server" Text="Fecha Caducidad Matrícula"></asp:Label>
+                                                <div class="input-group col-sm-12">
+                                                    <asp:TextBox ID="txtFechaCaducidadMatricula" runat="server" class="form-control" BackColor="White"></asp:TextBox>
+                                                    <ajaxToolkit:MaskedEditExtender ID="txtFechaCaducidadMatricula_MaskedEditExtender" runat="server" BehaviorID="txtFechaCaducidadMatricula_MaskedEditExtender" Century="2000" CultureAMPMPlaceholder="" CultureCurrencySymbolPlaceholder="" CultureDateFormat="" CultureDatePlaceholder="" CultureDecimalPlaceholder="" CultureThousandsPlaceholder="" CultureTimePlaceholder="" Mask="99/99/9999" MaskType="Date" TargetControlID="txtFechaCaducidadMatricula" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <%--FIN SEXTA FILA--%>
                                     </div>
                                 </div>
 

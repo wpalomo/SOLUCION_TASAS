@@ -148,6 +148,15 @@ namespace Solution_CTT {
         protected global::System.Web.UI.WebControls.CheckBox chkHabilitado;
         
         /// <summary>
+        /// Control pnlRegistros.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlRegistros;
+        
+        /// <summary>
         /// Control Label3.
         /// </summary>
         /// <remarks>
@@ -299,6 +308,15 @@ namespace Solution_CTT {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkHabilitadoTarifa;
+        
+        /// <summary>
+        /// Control dgvDatos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView dgvDatos;
         
         /// <summary>
         /// Control MsjValidarCampos.

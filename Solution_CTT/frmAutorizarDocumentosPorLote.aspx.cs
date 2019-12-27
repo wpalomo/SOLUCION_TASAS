@@ -189,6 +189,7 @@ namespace Solution_CTT
                 txtFechaInicial.Text = DateTime.Now.ToString("dd/MM/yyyy");
             }
         }
+
         #region FUNCIONES DEL USUARIO
 
         //LLENAR COMBO LOCALIDAD

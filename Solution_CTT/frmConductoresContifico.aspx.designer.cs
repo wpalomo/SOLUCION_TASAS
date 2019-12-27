@@ -22,6 +22,15 @@ namespace Solution_CTT {
         protected global::System.Web.UI.UpdatePanel UpdatePanel1;
         
         /// <summary>
+        /// Control pnlRegistros.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlRegistros;
+        
+        /// <summary>
         /// Control Label18.
         /// </summary>
         /// <remarks>
@@ -112,13 +121,31 @@ namespace Solution_CTT {
         protected global::System.Web.UI.WebControls.TextBox txtNombreConductor;
         
         /// <summary>
-        /// Control MsjValidarCampos.
+        /// Control dgvDatos.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl MsjValidarCampos;
+        protected global::System.Web.UI.WebControls.GridView dgvDatos;
+        
+        /// <summary>
+        /// Control btnAnterior.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAnterior;
+        
+        /// <summary>
+        /// Control btnSiguiente.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSiguiente;
         
         /// <summary>
         /// Control lbAccion.

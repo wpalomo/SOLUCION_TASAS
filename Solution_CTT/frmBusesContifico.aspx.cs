@@ -44,12 +44,67 @@ namespace Solution_CTT
 
             if (!IsPostBack)
             {
-                consultarBusesJson();
-                //llenarGrid();
+                Session["pagina_buses"] = "1";
+                llenarGrid(0);
             }
         }
 
         #region FUNCIONES DEL USUARIO
+
+        //FUNCION PARA LLENAR EL GRID CON LA INFORMACIÓN
+        private void llenarGrid(int iOp)
+        {
+            try
+            {
+                buses = new Clases_Contifico.ClaseBuses();
+
+                sRespuesta_A = buses.recuperarJson(Session["tokenSMARTT"].ToString().Trim(), iOp, Convert.ToInt32(Session["pagina_buses"].ToString()));
+
+                if (sRespuesta_A == "ERROR")
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'No se pudo obtener registros para la tasa de usuario SMARTT', 'error')</script>");
+                    return;
+                }
+
+                if (sRespuesta_A == "ISNULL")
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Información.!', 'No se proporcionaron credenciales de autenticación. Tasa de Usuario SMARTT', 'info')</script>");
+                    return;
+                }
+
+                Session["JsonBuses"] = sRespuesta_A;
+                bus = JsonConvert.DeserializeObject<Clase_Variables_Contifico.Buses>(sRespuesta_A);
+
+                dgvDatos.DataSource = bus.results;
+                dgvDatos.DataBind();
+
+                if (bus.next == null)
+                {
+                    btnSiguiente.Visible = false;
+                }
+
+                else
+                {
+                    btnSiguiente.Visible = true;
+                }
+
+                if (bus.previous == null)
+                {
+                    btnAnterior.Visible = false;
+                }
+
+                else
+                {
+                    btnAnterior.Visible = true;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
 
         //FUNCION PARA EXTRAER EL JSON DE LOCALIDADES
         private void consultarBusesJson()
@@ -58,7 +113,7 @@ namespace Solution_CTT
             {
                 buses = new Clases_Contifico.ClaseBuses();
 
-                sRespuesta_A = buses.recuperarJson(Session["tokenSMARTT"].ToString().Trim());
+                //sRespuesta_A = buses.recuperarJson(Session["tokenSMARTT"].ToString().Trim());
 
                 if (sRespuesta_A == "ERROR")
                 {
@@ -176,6 +231,30 @@ namespace Solution_CTT
         protected void cmbBuses_SelectedIndexChanged(object sender, EventArgs e)
         {
             postbackBuses();
+        }
+
+        protected void btnAnterior_Click(object sender, EventArgs e)
+        {
+            int iPagina_A = Convert.ToInt32(Session["pagina_buses"].ToString()) - 1;
+            
+            if (iPagina_A == 1)
+            {
+                Session["pagina_buses"] = "1";
+                llenarGrid(0);
+            }
+
+            else
+            {
+                Session["pagina_buses"] = iPagina_A.ToString();
+                llenarGrid(1);
+            }
+        }
+
+        protected void btnSiguiente_Click(object sender, EventArgs e)
+        {
+            int iPagina_A = Convert.ToInt32(Session["pagina_buses"].ToString()) + 1;
+            Session["pagina_buses"] = iPagina_A.ToString();
+            llenarGrid(1);
         }
     }
 }

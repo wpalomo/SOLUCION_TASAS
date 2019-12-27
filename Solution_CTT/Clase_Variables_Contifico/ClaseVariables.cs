@@ -241,6 +241,14 @@ namespace Solution_CTT.Clase_Variables_Contifico
         public DateTime actualizacion { get; set; }
     }
 
+    public class ConsultarVentas
+    {
+        public int count { get; set; }
+        public object next { get; set; }
+        public object previous { get; set; }
+        public List<TasaUsuarioSmartt> results { get; set; }
+    }
+
     //VARIABLES DE LA LIBERACION DE ASIENTOS
 
 

@@ -127,16 +127,16 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:51:43</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>12/16/2019 10:50:05</publishTime>
+      <publishTime>12/27/2019 17:09:29</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>12/16/2019 10:50:05</publishTime>
+      <publishTime>12/27/2019 17:09:29</publishTime>
     </File>
     <File Include="bin/App_GlobalResources.compiled">
-      <publishTime>12/16/2019 10:50:04</publishTime>
+      <publishTime>12/27/2019 17:09:27</publishTime>
     </File>
     <File Include="bin/App_GlobalResources.dll">
-      <publishTime>12/16/2019 10:50:03</publishTime>
+      <publishTime>12/27/2019 17:09:27</publishTime>
     </File>
     <File Include="bin/BarcodeLib.dll">
       <publishTime>11/13/2019 20:52:14</publishTime>
@@ -145,10 +145,13 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:51:43</publishTime>
     </File>
     <File Include="bin/DATOS.dll">
-      <publishTime>12/14/2019 09:48:20</publishTime>
+      <publishTime>12/27/2019 10:30:15</publishTime>
     </File>
     <File Include="bin/ENTIDADES.dll">
-      <publishTime>12/14/2019 09:48:18</publishTime>
+      <publishTime>12/27/2019 10:30:14</publishTime>
+    </File>
+    <File Include="bin/Gma.QrCodeNet.Encoding.dll">
+      <publishTime>12/22/2019 12:35:06</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.FriendlyUrls.dll">
       <publishTime>11/13/2019 20:52:14</publishTime>
@@ -178,13 +181,16 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:52:14</publishTime>
     </File>
     <File Include="bin/NEGOCIO.dll">
-      <publishTime>12/14/2019 09:48:20</publishTime>
+      <publishTime>12/27/2019 10:30:15</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>10/02/2013 12:10:10</publishTime>
     </File>
+    <File Include="bin/QRCoder.dll">
+      <publishTime>12/19/2019 13:46:41</publishTime>
+    </File>
     <File Include="bin/Solution_CTT.dll">
-      <publishTime>12/16/2019 10:48:29</publishTime>
+      <publishTime>12/27/2019 17:08:33</publishTime>
     </File>
     <File Include="bin/SqlServerTypes/x64/msvcr100.dll">
       <publishTime>11/13/2019 20:52:14</publishTime>
@@ -20791,10 +20797,10 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:51:50</publishTime>
     </File>
     <File Include="DSReportes.xsc">
-      <publishTime>12/06/2019 05:54:58</publishTime>
+      <publishTime>12/22/2019 12:07:33</publishTime>
     </File>
     <File Include="DSReportes.xss">
-      <publishTime>12/06/2019 05:54:58</publishTime>
+      <publishTime>12/22/2019 12:07:33</publishTime>
     </File>
     <File Include="frmAndenes.aspx">
       <publishTime>11/20/2019 15:55:08</publishTime>
@@ -20808,11 +20814,17 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
     <File Include="frmAsientos.aspx">
       <publishTime>11/13/2019 20:51:50</publishTime>
     </File>
+    <File Include="frmAsignarDatosLocalidadesContifico.aspx">
+      <publishTime>12/17/2019 11:26:46</publishTime>
+    </File>
     <File Include="frmAsistentes.aspx">
-      <publishTime>11/20/2019 22:09:51</publishTime>
+      <publishTime>12/26/2019 12:27:15</publishTime>
     </File>
     <File Include="frmAutorizarDocumentosPorLote.aspx">
       <publishTime>11/20/2019 15:57:53</publishTime>
+    </File>
+    <File Include="frmBusesContifico.aspx">
+      <publishTime>12/27/2019 09:47:30</publishTime>
     </File>
     <File Include="frmCambiarPassword.aspx">
       <publishTime>11/13/2019 20:51:50</publishTime>
@@ -20824,22 +20836,31 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:51:50</publishTime>
     </File>
     <File Include="frmChoferes.aspx">
-      <publishTime>12/13/2019 13:55:17</publishTime>
+      <publishTime>12/26/2019 12:24:46</publishTime>
     </File>
     <File Include="frmCierreCajero.aspx">
       <publishTime>12/06/2019 19:30:35</publishTime>
     </File>
+    <File Include="frmConductoresContifico.aspx">
+      <publishTime>12/27/2019 09:52:57</publishTime>
+    </File>
     <File Include="frmConsultaAutorizacion.aspx">
       <publishTime>11/20/2019 22:19:58</publishTime>
+    </File>
+    <File Include="frmConsultarVentasSmartt.aspx">
+      <publishTime>12/27/2019 16:46:55</publishTime>
+    </File>
+    <File Include="frmConsultaViajesContifico.aspx">
+      <publishTime>12/18/2019 12:42:09</publishTime>
     </File>
     <File Include="frmCorteCaja.aspx">
       <publishTime>11/13/2019 20:51:50</publishTime>
     </File>
     <File Include="frmCrearViaje.aspx">
-      <publishTime>12/06/2019 05:08:09</publishTime>
+      <publishTime>12/27/2019 11:53:27</publishTime>
     </File>
     <File Include="frmCrearViajeExtra.aspx">
-      <publishTime>11/20/2019 22:27:39</publishTime>
+      <publishTime>12/26/2019 12:17:10</publishTime>
     </File>
     <File Include="frmDefinicionCortaLocalidades.aspx">
       <publishTime>11/20/2019 15:59:30</publishTime>
@@ -20855,6 +20876,9 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
     </File>
     <File Include="frmDevolucionBoletos.aspx">
       <publishTime>11/20/2019 22:30:42</publishTime>
+    </File>
+    <File Include="frmDevolucionBoletosSMARTT.aspx">
+      <publishTime>12/23/2019 14:03:09</publishTime>
     </File>
     <File Include="frmDirectorio.aspx">
       <publishTime>11/20/2019 16:05:01</publishTime>
@@ -20880,6 +20904,9 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
     <File Include="frmFirmarXML.aspx">
       <publishTime>11/20/2019 22:33:22</publishTime>
     </File>
+    <File Include="frmFrecuenciasContifico.aspx">
+      <publishTime>12/17/2019 16:25:22</publishTime>
+    </File>
     <File Include="frmGenerarRIDE.aspx">
       <publishTime>11/13/2019 20:51:50</publishTime>
     </File>
@@ -20890,7 +20917,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/20/2019 22:34:56</publishTime>
     </File>
     <File Include="frmHorarios.aspx">
-      <publishTime>11/20/2019 16:08:37</publishTime>
+      <publishTime>12/26/2019 11:43:48</publishTime>
     </File>
     <File Include="frmImpresoras.aspx">
       <publishTime>11/20/2019 16:08:47</publishTime>
@@ -20905,10 +20932,10 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/20/2019 16:11:51</publishTime>
     </File>
     <File Include="frmItinerarios.aspx">
-      <publishTime>11/20/2019 16:12:00</publishTime>
+      <publishTime>12/26/2019 12:01:47</publishTime>
     </File>
     <File Include="frmItinerariosExtras.aspx">
-      <publishTime>11/20/2019 16:13:07</publishTime>
+      <publishTime>12/26/2019 12:03:47</publishTime>
     </File>
     <File Include="frmLocalidadesImpresoras.aspx">
       <publishTime>11/20/2019 16:13:43</publishTime>
@@ -20938,7 +20965,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/20/2019 16:17:05</publishTime>
     </File>
     <File Include="frmOficinistas.aspx">
-      <publishTime>11/20/2019 22:38:10</publishTime>
+      <publishTime>12/26/2019 12:23:08</publishTime>
     </File>
     <File Include="frmPagosPendientes.aspx">
       <publishTime>11/20/2019 16:35:39</publishTime>
@@ -20952,6 +20979,9 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
     <File Include="frmParametros.aspx">
       <publishTime>11/20/2019 10:59:05</publishTime>
     </File>
+    <File Include="frmParametrosContifico.aspx">
+      <publishTime>12/20/2019 14:09:03</publishTime>
+    </File>
     <File Include="frmParametrosFacturacionElectronica.aspx">
       <publishTime>11/13/2019 20:51:50</publishTime>
     </File>
@@ -20959,13 +20989,13 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/20/2019 16:37:17</publishTime>
     </File>
     <File Include="frmParametrosTasaUsuario.aspx">
-      <publishTime>11/16/2019 11:14:39</publishTime>
+      <publishTime>12/16/2019 12:50:23</publishTime>
     </File>
     <File Include="frmPermisos.aspx">
       <publishTime>11/13/2019 20:51:50</publishTime>
     </File>
     <File Include="frmPrecios.aspx">
-      <publishTime>11/20/2019 16:40:29</publishTime>
+      <publishTime>12/26/2019 11:44:32</publishTime>
     </File>
     <File Include="frmPreciosPasajes.aspx">
       <publishTime>11/20/2019 16:41:05</publishTime>
@@ -20974,7 +21004,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/20/2019 16:41:38</publishTime>
     </File>
     <File Include="frmPrincipal.aspx">
-      <publishTime>11/13/2019 20:51:50</publishTime>
+      <publishTime>12/27/2019 08:38:28</publishTime>
     </File>
     <File Include="frmPropietario.aspx">
       <publishTime>11/20/2019 16:42:15</publishTime>
@@ -21037,7 +21067,10 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/20/2019 17:24:31</publishTime>
     </File>
     <File Include="frmRutas.aspx">
-      <publishTime>11/20/2019 17:25:05</publishTime>
+      <publishTime>12/26/2019 13:46:40</publishTime>
+    </File>
+    <File Include="frmRutasContifico.aspx">
+      <publishTime>12/27/2019 10:25:34</publishTime>
     </File>
     <File Include="frmSincronizacioIndividual.aspx">
       <publishTime>11/13/2019 20:51:50</publishTime>
@@ -21072,8 +21105,11 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
     <File Include="frmTransacciones.aspx">
       <publishTime>12/14/2019 09:44:43</publishTime>
     </File>
+    <File Include="frmTransaccionesSMARTT.aspx">
+      <publishTime>12/19/2019 13:09:08</publishTime>
+    </File>
     <File Include="frmVehiculos.aspx">
-      <publishTime>11/20/2019 17:39:41</publishTime>
+      <publishTime>12/26/2019 12:48:21</publishTime>
     </File>
     <File Include="frmVentasOtrasLocalidades.aspx">
       <publishTime>11/20/2019 17:40:03</publishTime>
@@ -21082,10 +21118,10 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>12/12/2019 16:11:43</publishTime>
     </File>
     <File Include="Master.Master">
-      <publishTime>12/16/2019 10:29:49</publishTime>
+      <publishTime>12/27/2019 12:54:04</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>11/13/2019 20:52:14</publishTime>
+      <publishTime>12/22/2019 12:35:09</publishTime>
     </File>
     <File Include="plugins/bootstrap-slider/bootstrap-slider.js">
       <publishTime>11/13/2019 20:52:14</publishTime>
@@ -21520,7 +21556,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:52:14</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>12/16/2019 10:49:59</publishTime>
+      <publishTime>12/27/2019 17:09:19</publishTime>
     </File>
     <File Include="Site.Mobile.Master">
       <publishTime>11/13/2019 20:51:43</publishTime>
@@ -21544,7 +21580,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:51:43</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>11/16/2019 09:50:21</publishTime>
+      <publishTime>12/27/2019 10:30:33</publishTime>
     </File>
   </ItemGroup>
 </Project>

@@ -35,6 +35,7 @@
                                 <asp:BoundField DataField="IUSUARIO" HeaderText="USUARIO" />
                                 <asp:BoundField DataField="IESTADO" HeaderText="ESTADO"  />
                                 <asp:BoundField DataField="ICLAVE" HeaderText="CLAVE"/>
+                                <asp:BoundField DataField="IPOSSECRET" HeaderText="SECRET"/>
                                 <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="EDITAR">
                                     <ItemTemplate>
                                         <asp:LinkButton ID="lbtnEdit" runat="server" CommandName="Select" class="btn btn-xs btn-warning" OnClick="lbtnEdit_Click"><i class="fa fa-pencil"></i></asp:LinkButton>
@@ -72,24 +73,23 @@
                                     <div class="row">
                                         <div class="col-md-offset-1 col-md-10">
                                             <div class="form-group has-feedback">
-                                                <asp:TextBox ID="txtCodigo" runat="server" CssClass="form-control" placeholder="Código *" autocomplete="off"></asp:TextBox>
+                                                <asp:TextBox ID="txtCodigo" runat="server" ReadOnly="true" CssClass="form-control" placeholder="Código *" autocomplete="off"></asp:TextBox>
                                             </div>
                                             <div class="form-group has-feedback">
                                                 <asp:TextBox ID="txtDescripcion" runat="server" CssClass="form-control" placeholder="Descripción *" autocomplete="off"></asp:TextBox>
                                             </div>
                                             <div class="form-group has-feedback">
                                                 <asp:TextBox ID="txtUsuario" runat="server" CssClass="form-control" placeholder="Usuario *" onkeypress="return validar_letras(event)" autocomplete="off"></asp:TextBox>                                                
+                                            </div>                                            
+                                            <div class="form-group has-feedback">
+                                                <asp:TextBox ID="TxtPersona" ReadOnly="true" runat="server" CssClass="form-control" placeholder="Oficinista *"></asp:TextBox>                                                    
                                             </div>
-                                            
-                                                <div class="form-group has-feedback">
-                                                        <asp:TextBox ID="TxtPersona" ReadOnly="true" runat="server" CssClass="form-control" placeholder="Oficinista *"></asp:TextBox>
-                                                    
-                                                </div>
-                                                <div class="form-group has-feedback">                                                       
-                                                        <asp:LinkButton ID="btnAbrirModalPersonas" runat="server" Text="" class="btn btn-block btn-success" OnClick="btnAbrirModalPersonas_Click"><i class="fa fa-search"> BUSCAR OFICINISTA</i></asp:LinkButton>
-                                                    
-                                                </div>
-                                            
+                                            <div class="form-group has-feedback">                                                       
+                                                <asp:LinkButton ID="btnAbrirModalPersonas" runat="server" Text="" class="btn btn-block btn-success" OnClick="btnAbrirModalPersonas_Click"><i class="fa fa-search"> BUSCAR OFICINISTA</i></asp:LinkButton>                                                    
+                                            </div>
+                                            <div class="form-group has-feedback">
+                                                <asp:TextBox ID="txtPostSecret" runat="server" CssClass="form-control" placeholder="Pos_Secret SMARTT" autocomplete="off"></asp:TextBox>
+                                            </div>                                         
                                         </div>
                                     </div>
                                     <div class="row">
@@ -190,25 +190,26 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <asp:Button ID="btnCerrarModal" runat="server" Text="x" class="close" data-dismiss="modal" aria-label="Close" OnClick="btnCerrarModal_Click" />
-                        <h4 class="modal-title" id="myModalLabel5">Registro de Pasajeros</h4>
+                        <h4 class="modal-title" id="myModalLabel5">Registros de Pasajeros</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <asp:TextBox ID="txtFiltrarPersonas" runat="server" class="form-control" placeholder="BÚSQUEDA DE PERSONAS" Style="text-transform: uppercase" autocomplete="off"></asp:TextBox>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <asp:Button ID="btnFiltarPersonas" runat="server" Text="Buscar" class="btn btn btn-info" UseSubmitBehavior="false" OnClick="btnFiltrarPersonas_Click" />
-                                </div>
-                            </div>   
-                        </div>
+                        <asp:Panel ID="Panel1" runat="server" DefaultButton="btnFiltarPersonas">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <asp:TextBox ID="txtFiltrarPersonas" runat="server" class="form-control" placeholder="BÚSQUEDA DE PERSONAS" Style="text-transform: uppercase" autocomplete="off"></asp:TextBox>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <asp:Button ID="btnFiltarPersonas" runat="server" Text="Buscar" class="btn btn btn-info" UseSubmitBehavior="false" OnClick="btnFiltrarPersonas_Click" />
+                                    </div>
+                                </div>   
+                            </div>
+                        </asp:Panel>
                         <div class="form-group"></div>
                                            
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-md-15">
+                                <div class="col-md-12">
                                     <asp:GridView ID="dgvFiltrarPersonas" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnSelectedIndexChanged="dgvFiltrarPersonas_SelectedIndexChanged" AllowPaging="true" PageSize="5" OnPageIndexChanging="dgvFiltrarPersonas_PageIndexChanging" OnRowDataBound="dgvFiltrarPersonas_RowDataBound" >
                                         <Columns>
                                             <asp:BoundField DataField="IIDCLIENTEFILTRO" HeaderText="ID"  />

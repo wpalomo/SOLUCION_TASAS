@@ -85,13 +85,12 @@
                                                 </div>
                                             </div>
 
-
                                             <div class="form-group has-feedback">
-                                                <asp:TextBox ID="txtCodigo" runat="server" CssClass="form-control" placeholder="Código *"></asp:TextBox>
+                                                <asp:TextBox ID="txtVia" runat="server" AutoComplete="off" CssClass="form-control" Style="text-transform: uppercase" placeholder="Vía *" ></asp:TextBox>                                                
                                             </div>
                                             <div class="form-group has-feedback">
-                                                <asp:TextBox ID="txtVia" runat="server" CssClass="form-control" Style="text-transform: uppercase" placeholder="Vía *" ></asp:TextBox>                                                
-                                            </div>
+                                                <asp:TextBox ID="txtCodigo" runat="server" ReadOnly="true" CssClass="form-control" AutoComplete="off" placeholder="Código *"></asp:TextBox>
+                                            </div>                                            
                                         </div>
                                     </div>
                                     <div class="row">

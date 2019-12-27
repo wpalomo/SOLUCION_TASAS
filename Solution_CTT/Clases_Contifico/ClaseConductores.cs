@@ -31,7 +31,7 @@ namespace Solution_CTT.Clases_Contifico
         int iTiempoRespuesta;
 
         //FUNCION QUE DEVUELVE EL JSON
-        public string recuperarJson(string sToken_P)
+        public string recuperarJson(string sToken_P, int iOp, int iPagina_P)
         {
             try
             {
@@ -47,7 +47,16 @@ namespace Solution_CTT.Clases_Contifico
                     return "ISNULL";
                 }
 
-                sUrlConductores = dtConsulta.Rows[0]["api_conductores_contifico"].ToString().Trim();
+                if (iOp == 0)
+                {
+                    sUrlConductores = dtConsulta.Rows[0]["api_conductores_contifico"].ToString().Trim();
+                }
+
+                else
+                {
+                    sUrlConductores = dtConsulta.Rows[0]["api_conductores_contifico"].ToString().Trim() + "?page=" + iPagina_P.ToString();
+                }
+
                 iTiempoRespuesta = Convert.ToInt32(dtConsulta.Rows[0]["timeout"].ToString());
 
                 if (enviarJson(sToken_P) == false)

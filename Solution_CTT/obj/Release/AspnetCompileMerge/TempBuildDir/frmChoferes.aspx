@@ -71,7 +71,7 @@
                                     <div class="row">
                                         <div class="col-md-offset-1 col-md-10">
                                             <div class="form-group has-feedback">
-                                                <asp:TextBox ID="txtCodigo" runat="server" CssClass="form-control" autocomplete="off" placeholder="CÓDIGO *" style='text-transform:uppercase'></asp:TextBox>
+                                                <asp:TextBox ID="txtCodigo" runat="server" CssClass="form-control" ReadOnly="true" autocomplete="off" placeholder="CÓDIGO *" style='text-transform:uppercase'></asp:TextBox>
                                             </div>
                                             <div class="form-group has-feedback">
                                                 <asp:TextBox ID="txtDescripcion" runat="server" CssClass="form-control" autocomplete="off" placeholder="DESCRIPCIÓN *" style='text-transform:uppercase'></asp:TextBox>

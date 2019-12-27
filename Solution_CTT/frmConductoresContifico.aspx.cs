@@ -44,12 +44,67 @@ namespace Solution_CTT
 
             if (!IsPostBack)
             {
-                consultarConductoresJson();
-                //llenarGrid();
+                Session["pagina_conductores"] = "1";
+                llenarGrid(0);
             }
         }
 
         #region FUNCIONES DEL USUARIO
+
+        //FUNCION PARA LLENAR EL GRID CON LA INFORMACIÓN
+        private void llenarGrid(int iOp)
+        {
+            try
+            {
+                conductores = new Clases_Contifico.ClaseConductores();
+
+                sRespuesta_A = conductores.recuperarJson(Session["tokenSMARTT"].ToString().Trim(), iOp, Convert.ToInt32(Session["pagina_conductores"].ToString()));
+
+                if (sRespuesta_A == "ERROR")
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'No se pudo obtener registros para la tasa de usuario SMARTT', 'error')</script>");
+                    return;
+                }
+
+                if (sRespuesta_A == "ISNULL")
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Información.!', 'No se proporcionaron credenciales de autenticación. Tasa de Usuario SMARTT', 'info')</script>");
+                    return;
+                }
+
+                Session["JsonBuses"] = sRespuesta_A;
+                conductor = JsonConvert.DeserializeObject<Clase_Variables_Contifico.Conductores>(sRespuesta_A);
+
+                dgvDatos.DataSource = conductor.results;
+                dgvDatos.DataBind();
+
+                if (conductor.next == null)
+                {
+                    btnSiguiente.Visible = false;
+                }
+
+                else
+                {
+                    btnSiguiente.Visible = true;
+                }
+
+                if (conductor.previous == null)
+                {
+                    btnAnterior.Visible = false;
+                }
+
+                else
+                {
+                    btnAnterior.Visible = true;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
 
         //FUNCION PARA EXTRAER EL JSON DE FRECUENCIA
         private void consultarConductoresJson()
@@ -58,7 +113,7 @@ namespace Solution_CTT
             {
                 conductores = new Clases_Contifico.ClaseConductores();
 
-                sRespuesta_A = conductores.recuperarJson(Session["tokenSMARTT"].ToString().Trim());
+                //sRespuesta_A = conductores.recuperarJson(Session["tokenSMARTT"].ToString().Trim());
 
                 if (sRespuesta_A == "ERROR")
                 {
@@ -145,6 +200,29 @@ namespace Solution_CTT
         protected void cmbConductores_SelectedIndexChanged(object sender, EventArgs e)
         {
             postbackConductores();
+        }
+        protected void btnAnterior_Click(object sender, EventArgs e)
+        {
+            int iPagina_A = Convert.ToInt32(Session["pagina_conductores"].ToString()) - 1;
+
+            if (iPagina_A == 1)
+            {
+                Session["pagina_conductores"] = "1";
+                llenarGrid(0);
+            }
+
+            else
+            {
+                Session["pagina_conductores"] = iPagina_A.ToString();
+                llenarGrid(1);
+            }
+        }
+
+        protected void btnSiguiente_Click(object sender, EventArgs e)
+        {
+            int iPagina_A = Convert.ToInt32(Session["pagina_conductores"].ToString()) + 1;
+            Session["pagina_conductores"] = iPagina_A.ToString();
+            llenarGrid(1);
         }
     }
 }

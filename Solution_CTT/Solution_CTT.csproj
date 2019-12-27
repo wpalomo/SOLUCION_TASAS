@@ -645,6 +645,7 @@
     <Content Include="frmBusesContifico.aspx" />
     <Content Include="frmCierreCajero.aspx" />
     <Content Include="frmConductoresContifico.aspx" />
+    <Content Include="frmConsultarVentasSmartt.aspx" />
     <Content Include="frmConsultaViajesContifico.aspx" />
     <Content Include="frmDefinicionCortaLocalidades.aspx" />
     <Content Include="frmDefinicionLocalidades.aspx" />
@@ -7307,7 +7308,9 @@
     <Content Include="plugins\timepicker\bootstrap-timepicker.min.js" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="ViewSwitcher.ascx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_GlobalResources\MESSAGES1.designer.cs">
@@ -7349,6 +7352,7 @@
     <Compile Include="Clases_Contifico\ClaseAutenticacion.cs" />
     <Compile Include="Clases_Contifico\ClaseBuses.cs" />
     <Compile Include="Clases_Contifico\ClaseConductores.cs" />
+    <Compile Include="Clases_Contifico\ClaseConsultarVentas.cs" />
     <Compile Include="Clases_Contifico\ClaseConsultaViajes.cs" />
     <Compile Include="Clases_Contifico\ClaseCrearVenta.cs" />
     <Compile Include="Clases_Contifico\ClaseCrearViaje.cs" />
@@ -7483,6 +7487,13 @@
     </Compile>
     <Compile Include="frmConsultaAutorizacion.aspx.designer.cs">
       <DependentUpon>frmConsultaAutorizacion.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmConsultarVentasSmartt.aspx.cs">
+      <DependentUpon>frmConsultarVentasSmartt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmConsultarVentasSmartt.aspx.designer.cs">
+      <DependentUpon>frmConsultarVentasSmartt.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmConsultaViajesContifico.aspx.cs">
       <DependentUpon>frmConsultaViajesContifico.aspx</DependentUpon>

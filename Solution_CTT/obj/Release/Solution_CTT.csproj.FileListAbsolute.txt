@@ -58,3 +58,7 @@ C:\Users\Usuario\Desktop\SOLUCION_TASAS\Solution_CTT\obj\Release\RdlCompile.cach
 C:\Users\Usuario\Desktop\SOLUCION_TASAS\Solution_CTT\obj\Release\RdlCompile.compiled
 C:\Users\Usuario\Desktop\SOLUCION_TASAS\Solution_CTT\obj\Release\Solution_CTT.dll
 C:\Users\Usuario\Desktop\SOLUCION_TASAS\Solution_CTT\obj\Release\Solution_CTT.pdb
+C:\Users\Usuario\Desktop\SOLUCION_TASAS\Solution_CTT\bin\Gma.QrCodeNet.Encoding.dll
+C:\Users\Usuario\Desktop\SOLUCION_TASAS\Solution_CTT\bin\QRCoder.dll
+C:\Users\Usuario\Desktop\SOLUCION_TASAS\Solution_CTT\bin\Gma.QrCodeNet.Encoding.pdb
+C:\Users\Usuario\Desktop\SOLUCION_TASAS\Solution_CTT\bin\Gma.QrCodeNet.Encoding.xml

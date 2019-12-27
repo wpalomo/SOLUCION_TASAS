@@ -378,7 +378,7 @@
                     <li class="treeview" id="contifico" runat="server">
                         <a href="#">
                             <i class="fa fa-diamond"></i>
-                            <span>Tasas Usuario CONTÍFICO</span>
+                            <span>Tasas Usuario SMARTT</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
@@ -391,6 +391,7 @@
                             <li><a href="frmBusesContifico.aspx"><i class="fa fa-circle-o"></i>Buses</a></li>
                             <li><a href="frmConductoresContifico.aspx"><i class="fa fa-circle-o"></i>Conductores</a></li>
                             <li><a href="frmConsultaViajesContifico.aspx"><i class="fa fa-circle-o"></i>Consulta de Viajes</a></li>
+                            <li><a href="frmConsultarVentasSmartt.aspx"><i class="fa fa-circle-o"></i>Consulta de Ventas</a></li>
                         </ul>
                     </li>
 

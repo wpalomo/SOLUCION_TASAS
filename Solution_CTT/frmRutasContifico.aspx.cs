@@ -138,32 +138,50 @@ namespace Solution_CTT
                         txtOrdenLlegada.Text = ruta.results[i].paradas[k].orden_llegada.ToString();
                         chkHabilitado.Checked = ruta.results[i].paradas[k].is_enable;
 
-                        //CREAR EL COMBO DE TARIFAS
-                        dtConsulta = new DataTable();
-                        dtConsulta.Clear();
-
-                        dtConsulta.Columns.Add("id");
-                        dtConsulta.Columns.Add("descripcion");
-
-                        for (int l = 0; l < ruta.results[i].paradas[k].tarifas.Length; l++)
-                        {
-                            DataRow row = dtConsulta.NewRow();
-                            row["id"] = ruta.results[i].paradas[k].tarifas[l].id;
-                            row["descripcion"] = ruta.results[i].paradas[k].tarifas[l].tipo_servicio_nombre + " - " + ruta.results[i].paradas[k].tarifas[l].tipo_cliente_nombre;
-                            dtConsulta.Rows.Add(row);
-                        }
-
-                        cmbTarifa.DataSource = dtConsulta;
-                        cmbTarifa.DataValueField = "id";
-                        cmbTarifa.DataTextField = "descripcion";
-                        cmbTarifa.DataBind();
-
                         //AQUI LLAMAR LA FUNCION POSTBACK TARIFAS
                         postbackTarifas(Convert.ToInt32(Session["PosIRuta"].ToString()), Convert.ToInt32(Session["PosKRuta"].ToString()));
 
                         break;
-                    }                    
+                    }
                 }
+
+                //for (int k = 0; k < ruta.results[i].paradas.Length; k++)
+                //{
+                //    string sParada_P = cmbParadas.SelectedValue.ToString().Trim().ToUpper();
+
+                //    if (ruta.results[i].paradas[k].parada_nombre.ToString().Trim().ToUpper() == sParada_P)
+                //    {
+                //        Session["PosKRuta"] = k.ToString();
+
+                //        txtOrdenLlegada.Text = ruta.results[i].paradas[k].orden_llegada.ToString();
+                //        chkHabilitado.Checked = ruta.results[i].paradas[k].is_enable;
+
+                //        //CREAR EL COMBO DE TARIFAS
+                //        dtConsulta = new DataTable();
+                //        dtConsulta.Clear();
+
+                //        dtConsulta.Columns.Add("id");
+                //        dtConsulta.Columns.Add("descripcion");
+
+                //        for (int l = 0; l < ruta.results[i].paradas[k].tarifas.Length; l++)
+                //        {
+                //            DataRow row = dtConsulta.NewRow();
+                //            row["id"] = ruta.results[i].paradas[k].tarifas[l].id;
+                //            row["descripcion"] = ruta.results[i].paradas[k].tarifas[l].tipo_servicio_nombre + " - " + ruta.results[i].paradas[k].tarifas[l].tipo_cliente_nombre;
+                //            dtConsulta.Rows.Add(row);
+                //        }
+
+                //        cmbTarifa.DataSource = dtConsulta;
+                //        cmbTarifa.DataValueField = "id";
+                //        cmbTarifa.DataTextField = "descripcion";
+                //        cmbTarifa.DataBind();
+
+                //        //AQUI LLAMAR LA FUNCION POSTBACK TARIFAS
+                //        postbackTarifas(Convert.ToInt32(Session["PosIRuta"].ToString()), Convert.ToInt32(Session["PosKRuta"].ToString()));
+
+                //        break;
+                //    }                    
+                //}
             }
 
             catch (Exception ex)
@@ -178,25 +196,28 @@ namespace Solution_CTT
         {
             try
             {
-                for (int m = 0; m < ruta.results[i].paradas[k].tarifas.Length; m++)
-                {
-                    int iTarifa_P = ruta.results[i].paradas[k].tarifas[m].id;
+                dgvDatos.DataSource = ruta.results[i].paradas[k].tarifas;
+                dgvDatos.DataBind();
 
-                    if (Convert.ToInt32(cmbTarifa.SelectedValue) == iTarifa_P)
-                    {
-                        txtIdTarifa.Text = ruta.results[i].paradas[k].tarifas[m].id.ToString();
-                        txtTipoServicio.Text = ruta.results[i].paradas[k].tarifas[m].tipo_servicio.ToString();
-                        txtNombreServicio.Text = ruta.results[i].paradas[k].tarifas[m].tipo_servicio_nombre.Trim().ToUpper();
-                        txtTipoCliente.Text = ruta.results[i].paradas[k].tarifas[m].tipo_cliente.ToString();
-                        txtClienteNombre.Text = ruta.results[i].paradas[k].tarifas[m].tipo_cliente_nombre.Trim().ToUpper();
-                        txtTarifa.Text = ruta.results[i].paradas[k].tarifas[m].tarifa.ToString("N2");
-                        txtActualizacion.Text = ruta.results[i].paradas[k].tarifas[m].actualizacion.ToString();
-                        chkEspecialTarifa.Checked = ruta.results[i].paradas[k].tarifas[m].especial;
-                        chkActivoTarifa.Checked = ruta.results[i].paradas[k].tarifas[m].is_active;
-                        chkHabilitadoTarifa.Checked = ruta.results[i].paradas[k].tarifas[m].is_enable;
-                        break;
-                    }
-                }
+                //for (int m = 0; m < ruta.results[i].paradas[k].tarifas.Length; m++)
+                //{
+                //    int iTarifa_P = ruta.results[i].paradas[k].tarifas[m].id;
+
+                //    if (Convert.ToInt32(cmbTarifa.SelectedValue) == iTarifa_P)
+                //    {
+                //        txtIdTarifa.Text = ruta.results[i].paradas[k].tarifas[m].id.ToString();
+                //        txtTipoServicio.Text = ruta.results[i].paradas[k].tarifas[m].tipo_servicio.ToString();
+                //        txtNombreServicio.Text = ruta.results[i].paradas[k].tarifas[m].tipo_servicio_nombre.Trim().ToUpper();
+                //        txtTipoCliente.Text = ruta.results[i].paradas[k].tarifas[m].tipo_cliente.ToString();
+                //        txtClienteNombre.Text = ruta.results[i].paradas[k].tarifas[m].tipo_cliente_nombre.Trim().ToUpper();
+                //        txtTarifa.Text = ruta.results[i].paradas[k].tarifas[m].tarifa.ToString("N2");
+                //        txtActualizacion.Text = ruta.results[i].paradas[k].tarifas[m].actualizacion.ToString();
+                //        chkEspecialTarifa.Checked = ruta.results[i].paradas[k].tarifas[m].especial;
+                //        chkActivoTarifa.Checked = ruta.results[i].paradas[k].tarifas[m].is_active;
+                //        chkHabilitadoTarifa.Checked = ruta.results[i].paradas[k].tarifas[m].is_enable;
+                //        break;
+                //    }
+                //}
             }
 
             catch (Exception ex)
