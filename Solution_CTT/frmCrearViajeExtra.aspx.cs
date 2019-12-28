@@ -163,7 +163,8 @@ namespace Solution_CTT
             {
                 sSql = "";
                 sSql += "select A.id_ctt_asistente, A.descripcion, A.codigo," + Environment.NewLine;
-                sSql += "ltrim(isnull(TP.nombres, '') + ' ' + TP.apellidos) asistente" + Environment.NewLine;
+                sSql += "ltrim(isnull(TP.nombres, '') + ' ' + TP.apellidos) asistente," + Environment.NewLine;
+                sSql += "TP.identificacion" + Environment.NewLine;
                 sSql += "from ctt_asistente A, tp_personas TP" + Environment.NewLine;
                 sSql += "where A.id_persona = TP.id_persona" + Environment.NewLine;
                 sSql += "and A.estado = 'A'" + Environment.NewLine;
@@ -199,7 +200,8 @@ namespace Solution_CTT
             {
                 sSql = "";
                 sSql += "select C.id_ctt_chofer, C.descripcion, C.codigo," + Environment.NewLine;
-                sSql += "ltrim(isnull(TP.nombres, '') + ' ' + TP.apellidos) chofer" + Environment.NewLine;
+                sSql += "ltrim(isnull(TP.nombres, '') + ' ' + TP.apellidos) chofer," + Environment.NewLine;
+                sSql += "TP.identificacion" + Environment.NewLine;
                 sSql += "from ctt_chofer C, tp_personas TP" + Environment.NewLine;
                 sSql += "where C.id_persona = TP.id_persona" + Environment.NewLine;
                 sSql += "and C.estado = 'A'" + Environment.NewLine;
@@ -705,25 +707,28 @@ namespace Solution_CTT
             {
                 sFecha = Convert.ToDateTime(TxtFechaViaje.Text.Trim()).ToString("yyyy-MM-dd");
 
-                int iConsultarReg = consultarRegistro();
+                //int iConsultarReg = consultarRegistro();
 
-                if (iConsultarReg > 0)
-                {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'Ya existe un registro con el código ingresado.', 'warning');", true);
-                    return;
-                }
+                //if (iConsultarReg > 0)
+                //{
+                //    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'Ya existe un registro con el código ingresado.', 'warning');", true);
+                //    return;
+                //}
 
-                else if (iConsultarReg == -1)
-                {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'Ocurrió un problema al consultar el código para el registro.', 'danger');", true);
-                    return;
-                }
+                //else if (iConsultarReg == -1)
+                //{
+                //    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'Ocurrió un problema al consultar el código para el registro.', 'danger');", true);
+                //    return;
+                //}
 
-                if (Session["tasaContifico"].ToString().Trim() == "02")
+                if (Session["tasaContifico"] != null)
                 {
-                    if (consultarCrearViajeAPI(sFecha) == false)
+                    if (Session["tasaContifico"].ToString().Trim() == "02")
                     {
-                        return;
+                        if (consultarCrearViajeAPI(sFecha) == false)
+                        {
+                            return;
+                        }
                     }
                 }
 
@@ -782,10 +787,11 @@ namespace Solution_CTT
         {
             try
             {
-                if (Session["tasaContifico"].ToString().Trim() == "02")
+                if (Session["discoSMARTT"] != null)
                 {
-                    if (Session["discoSMARTT"] != null)
+                    if (Session["tasaContifico"].ToString().Trim() == "02")
                     {
+
                         string sDiscoActual = Session["discoSMARTT"].ToString().Trim();
                         string sDiscoNuevo_R = Session["numeroDiscoSMARTT"].ToString().Trim();
 

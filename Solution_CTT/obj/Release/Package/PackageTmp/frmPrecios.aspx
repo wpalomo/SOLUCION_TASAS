@@ -21,12 +21,12 @@
                                         <div class="input-group-btn">
                                             <%--<asp:Button ID="btnFiltrarGrid" runat="server" Text="FILTRAR" class="btn btn-default" OnClick="btnFiltrarGrid_Click" />--%>
                                         </div>
-                                        <div class="input-group input-group-sm" style="width: 150px;">
+                                        <%--<div class="input-group input-group-sm" style="width: 150px;">
                                             <asp:TextBox ID="txtFiltrar" runat="server" class="form-control pull-right" autocomplete="off" placeholder="Buscar"></asp:TextBox>
                                             <div class="input-group-btn">
                                                 <asp:LinkButton ID="btnFiltrar" runat="server" class="btn btn-default" OnClick="btnFiltrar_Click" ><i class="fa fa-search"></i></asp:LinkButton>
                                             </div>
-                                        </div>
+                                        </div>--%>
                                     </div>
                                     <%--<div class="input-group input-group-sm" style="width: 150px;">
                                         <asp:TextBox ID="txtFiltrar" runat="server" class="form-control pull-right" autocomplete="off" placeholder="Buscar"></asp:TextBox>

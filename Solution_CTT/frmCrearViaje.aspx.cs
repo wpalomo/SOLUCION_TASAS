@@ -151,7 +151,6 @@ namespace Solution_CTT
             dgvAsistentesChofer.Columns[4].ItemStyle.Width = 300;
             dgvAsistentesChofer.Columns[5].ItemStyle.Width = 100;
 
-
             dgvAsistentesChofer.Columns[0].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
             dgvAsistentesChofer.Columns[3].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
         }
@@ -746,13 +745,16 @@ namespace Solution_CTT
                     return;
                 }
 
-                if (Session["tasaContifico"].ToString().Trim() == "02")
+                if (Session["tasaContifico"] != null)
                 {
-                    if (consultarCrearViajeAPI(sFecha) == false)
+                    if (Session["tasaContifico"].ToString().Trim() == "02")
                     {
-                        return;
+                        if (consultarCrearViajeAPI(sFecha) == false)
+                        {
+                            return;
+                        }
                     }
-                }
+                }                
 
                 if (conexionM.iniciarTransaccion() == false)
                 {
@@ -809,10 +811,11 @@ namespace Solution_CTT
         {
             try
             {
-                if (Session["tasaContifico"].ToString().Trim() == "02")
+                if (Session["discoSMARTT"] != null)
                 {
-                    if (Session["discoSMARTT"] != null)
+                    if (Session["tasaContifico"].ToString().Trim() == "02")
                     {
+
                         string sDiscoActual = Session["discoSMARTT"].ToString().Trim();
                         string sDiscoNuevo_R = Session["numeroDiscoSMARTT"].ToString().Trim();
 

@@ -395,6 +395,7 @@
                                             <asp:BoundField DataField="IDESCRIPCION" HeaderText="DESCRIPCIÓN" />
                                             <asp:BoundField DataField="ICODIGO" HeaderText="CÓDIGO" />
                                             <asp:BoundField DataField="INOMBRE" HeaderText="NOMBRE COMPLETO" />
+                                            <asp:BoundField DataField="IIDENTIFICACION" HeaderText="IDENTIFICACIÓN" />
                                             <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="SELECCIONAR">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="lbtnSeleccionAsistenteChofer" runat="server" CommandName="Select" class="btn btn-xs btn-success" OnClick="lbtnSeleccionAsistenteChofer_Click"><i class="fa fa-check-square-o"></i></asp:LinkButton>

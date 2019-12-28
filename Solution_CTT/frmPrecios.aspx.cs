@@ -287,10 +287,10 @@ namespace Solution_CTT
                     sSql += "where id_producto_padre = " + Convert.ToInt32(cmbFiltrarGrid.SelectedValue) + Environment.NewLine;
                 }
 
-                else if (iOp == 2)
-                {
-                    sSql += "where nombre like '%" + txtFiltrar.Text.Trim() + "%'" + Environment.NewLine;
-                }
+                //else if (iOp == 2)
+                //{
+                    //sSql += "where nombre like '%" + txtFiltrar.Text.Trim() + "%'" + Environment.NewLine;
+                //}
 
                 sSql += "order by id_producto";
 
@@ -1111,18 +1111,18 @@ namespace Solution_CTT
 
         protected void btnFiltrar_Click(object sender, EventArgs e)
         {
-            Session["buscar"] = "0";
+            //Session["buscar"] = "0";
 
 
-            if (txtFiltrar.Text.Trim() == "")
-            {
-                llenarGrid(0);
-            }
+            //if (txtFiltrar.Text.Trim() == "")
+            //{
+            //    llenarGrid(0);
+            //}
 
-            else
-            {
-                llenarGrid(2);
-            }
+            //else
+            //{
+            //    llenarGrid(2);
+            //}
         }
 
         protected void btnSave_Click(object sender, EventArgs e)
@@ -1199,20 +1199,32 @@ namespace Solution_CTT
             {
                 dgvDatos.PageIndex = e.NewPageIndex;
 
-                if (txtFiltrar.Text.Trim() == "")
+                if (Convert.ToInt32(cmbFiltrarGrid.SelectedValue) == 0)
                 {
                     llenarGrid(0);
                 }
 
-                else if (Convert.ToInt32(Session["buscar"].ToString()) == 1)
+                else
                 {
                     llenarGrid(1);
                 }
 
-                else
-                {
-                    llenarGrid(2);
-                }
+                //if (txtFiltrar.Text.Trim() == "")
+                //{
+                //    llenarGrid(0);
+                //}
+
+                //else if (Convert.ToInt32(Session["buscar"].ToString()) == 1)
+                //{
+                //    llenarGrid(1);
+                //}
+
+                //else
+                //{
+                //    llenarGrid(2);
+                //}
+
+
             }
 
             catch (Exception ex)
@@ -1236,13 +1248,13 @@ namespace Solution_CTT
         {
             if (Convert.ToInt32(cmbFiltrarGrid.SelectedValue) == 0)
             {
-                Session["buscar"] = "0";
+                //Session["buscar"] = "0";
                 llenarGrid(0);
             }
 
             else
             {
-                Session["buscar"] = "1";
+                //Session["buscar"] = "1";
                 llenarGrid(1);
             }
         }
@@ -1251,13 +1263,13 @@ namespace Solution_CTT
         {
             if (Convert.ToInt32(cmbFiltrarGrid.SelectedValue) == 0)
             {
-                Session["buscar"] = "0";
+                //Session["buscar"] = "0";
                 llenarGrid(0);
             }
 
             else
             {
-                Session["buscar"] = "1";
+                //Session["buscar"] = "1";
                 llenarGrid(1);
             }
         }
