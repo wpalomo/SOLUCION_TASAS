@@ -30,8 +30,8 @@ namespace Solution_CTT
 
         int iCodigo;
         int iNumeroViaje;
-        int iIdHorarioGrid;
-        int iIdHorarioConsulta;
+        int iIdItinerario;
+        int iIditinerarioConsulta;
         int iCuentaFrecuenciasCreadas;
         int iBanderaCobraAdministracion;
 
@@ -60,22 +60,38 @@ namespace Solution_CTT
         //FUNCION PARA LIMPIAR EL FORMULARIO
         private void limpiar()
         {
-            btnGenerar.Visible = true;
             txtFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
             Session["fecha"] = DateTime.Now.ToString("dd/MM/yyyy");
-            consultarFrecuenciasCreadas(Session["fecha"].ToString());
+            controlGridViajes();            
         }
 
-        //FUNCION PARA LLENAR EL GRID
-        private void llenarGrid(string sFecha_P)
+        //FUNCION PARA CONTROLAR LA CREACION DEL GRIDVIEW
+        private void controlGridViajes()
         {
             try
             {
+                int iIdTipoServicio = extraerIdTipoViaje();
+
+                if (iIdTipoServicio == -1)
+                {
+                    return;
+                }
+
+                if (iIdTipoServicio == 0)
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'No se encuentran configurados los tipos de viajes.', 'info');", true);
+                    return;
+                }
+
+                if (consultarFrecuenciasCreadas(Session["fecha"].ToString(), iIdTipoServicio) == false)
+                {
+                    return;
+                }
+
                 sSql = "";
-                sSql += "select 0 numero, id_ctt_itinerario, hora_salida, id_ctt_tipo_servicio" + Environment.NewLine;
-                sSql += "from ctt_vw_horarios_masivos" + Environment.NewLine;
-                sSql += "where habilitado = 1" + Environment.NewLine;
-                sSql += "and id_ctt_pueblo = " + Convert.ToInt32(Session["id_pueblo"].ToString()) + Environment.NewLine;
+                sSql += "select 0 numero, * from ctt_vw_horarios_masivos_2" + Environment.NewLine;
+                sSql += "where id_ctt_pueblo_origen = " + Convert.ToInt32(Session["id_pueblo"].ToString()) + Environment.NewLine;
+                sSql += "and id_ctt_tipo_servicio = " + iIdTipoServicio + Environment.NewLine;
                 sSql += "order by hora_salida";
 
                 dtGrid = new DataTable();
@@ -83,50 +99,55 @@ namespace Solution_CTT
 
                 bRespuesta = conexionM.consultarRegistro(sSql, dtGrid);
 
-                if (bRespuesta == true)
+                if (bRespuesta == false)
                 {
-                    if (iCuentaFrecuenciasCreadas > 0)
+                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    return;
+                }
+
+                if (iCuentaFrecuenciasCreadas > 0)
+                {
+                    btnGenerar.Visible = true;
+
+                    //PROCESO PARA ELIMINAR LOS REGISTROS DE DATATABLE ANTES DE COLOCARLO EN EL GRIDVIEW
+                    //RECORRIDO DE DATATABLE CON LOS OBJETOS DEL GRIDVIEW HACIA ATRAS
+                    for (int i = dtGrid.Rows.Count - 1; i >= 0; i--)
                     {
-                        //PROCESO PARA ELIMINAR LOS REGISTROS DE DATATABLE ANTES DE COLOCARLO EN EL GRIDVIEW
-                        //RECORRIDO DE DATATABLE CON LOS OBJETOS DEL GRIDVIEW HACIA ATRAS
-                        for (int i = dtGrid.Rows.Count - 1; i >= 0; i--)
+                        iIdItinerario = Convert.ToInt32(dtGrid.Rows[i]["id_ctt_itinerario"].ToString());
+
+                        //RECORRER EL DATATABLE CON LOS REGISTROS YA CREADOS EN FRECUENCIA
+                        for (int j = 0; j < dtConsulta.Rows.Count; j++)
                         {
-                            iIdHorarioGrid = Convert.ToInt32(dtGrid.Rows[i][1].ToString());
+                            iIditinerarioConsulta = Convert.ToInt32(dtConsulta.Rows[j]["id_ctt_itinerario"].ToString());
 
-                            //RECORRER EL DATATABLE CON LOS REGISTROS YA CREADOS EN FRECUENCIA
-                            for (int j = 0; j < dtConsulta.Rows.Count; j++)
+                            //COMPARACION DE ID
+                            // SI ES VERDADERO ELIMINA LA FILA Y SALE DEL CICLO
+                            if (iIditinerarioConsulta == iIdItinerario)
                             {
-                                iIdHorarioConsulta = Convert.ToInt32(dtConsulta.Rows[j][0].ToString());
-
-                                //COMPARACION DE ID
-                                // SI ES VERDADERO ELIMINA LA FILA Y SALE DEL CICLO
-                                if (iIdHorarioConsulta == iIdHorarioGrid)
-                                {
-                                    dtGrid.Rows.RemoveAt(i);
-                                    break;
-                                }
+                                dtGrid.Rows.RemoveAt(i);
+                                break;
                             }
                         }
                     }
-
-                    dgvDatos.Columns[1].Visible = true;
-                    dgvDatos.Columns[3].Visible = true;
-                    dgvDatos.DataSource = dtGrid;
-                    dgvDatos.DataBind();
-                    dgvDatos.Columns[1].Visible = false;
-                    dgvDatos.Columns[3].Visible = false;
-
-                    for (int i = 0; i < dgvDatos.Rows.Count; i++)
-                    {
-                        dgvDatos.Rows[i].Cells[0].Text = (i + 1).ToString();
-                    }                    
                 }
 
                 else
                 {
-                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    btnGenerar.Visible = false;
                 }
+
+                dgvDatos.Columns[1].Visible = true;
+                dgvDatos.Columns[3].Visible = true;
+                dgvDatos.DataSource = dtGrid;
+                dgvDatos.DataBind();
+                dgvDatos.Columns[1].Visible = false;
+                dgvDatos.Columns[3].Visible = false;
+
+                for (int i = 0; i < dgvDatos.Rows.Count; i++)
+                {
+                    dgvDatos.Rows[i].Cells[0].Text = (i + 1).ToString();
+                } 
             }
 
             catch (Exception ex)
@@ -136,26 +157,61 @@ namespace Solution_CTT
             }
         }
 
-        //FUNCION PARA VALIDAR SI LOS HORARIOS YA FUERON CREADOS
-        private void consultarFrecuenciasCreadas(string sFecha_P)
+        //FUNCION PARA EXTRAER EL ID DE TIPO SERVICIO
+        private int extraerIdTipoViaje()
         {
             try
             {
-                //sSql = "";
-                //sSql += "select id_ctt_horario" + Environment.NewLine;
-                //sSql += "from ctt_programacion" + Environment.NewLine;
-                //sSql += "where fecha_viaje = '" + Convert.ToDateTime(sFecha_P).ToString("yyyy/MM/dd") + "'" + Environment.NewLine;
-                //sSql += "and id_ctt_tipo_servicio = 1" + Environment.NewLine;
-                //sSql += "and estado = 'A'";
-
                 sSql = "";
-                sSql += "select I.id_ctt_horario" + Environment.NewLine;
+                sSql += "select id_ctt_tipo_servicio" + Environment.NewLine;
+                sSql += "from ctt_tipo_servicio" + Environment.NewLine;
+                sSql += "where estado = 'A'" + Environment.NewLine;
+                sSql += "and normal = 1";
+
+                dtConsulta = new DataTable();
+                dtConsulta.Clear();
+
+                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
+
+                if (bRespuesta == false)
+                {
+                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    return -1;
+                }
+
+                if (dtConsulta.Rows.Count == 0)
+                {
+                    return 0;
+                }
+
+                return Convert.ToInt32(dtConsulta.Rows[0]["id_ctt_tipo_servicio"].ToString());
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                return -1;
+            }
+        }
+
+        //FUNCION PARA VALIDAR SI LOS HORARIOS YA FUERON CREADOS
+        private bool consultarFrecuenciasCreadas(string sFecha_P, int iIdTipoServicio_P)
+        {
+            try
+            {
+                sSql = "";
+                sSql += "select P.id_ctt_itinerario" + Environment.NewLine;
                 sSql += "from ctt_itinerario I INNER JOIN" + Environment.NewLine;
                 sSql += "ctt_programacion P ON I.id_ctt_itinerario = P.id_ctt_itinerario" + Environment.NewLine;
                 sSql += "and I.estado = 'A'" + Environment.NewLine;
-                sSql += "and P.estado = 'A'" + Environment.NewLine;
-                sSql += "where fecha_viaje = '" + Convert.ToDateTime(sFecha_P).ToString("yyyy/MM/dd") + "'" + Environment.NewLine;
-                sSql += "and P.id_ctt_tipo_servicio = 1";
+                sSql += "and P.estado = 'A' INNER JOIN" + Environment.NewLine;
+                sSql += "ctt_ruta R ON R.id_ctt_ruta = I.id_ctt_ruta" + Environment.NewLine;
+                sSql += "and R.estado = 'A'" + Environment.NewLine;
+                sSql += "where P.fecha_viaje = '" + Convert.ToDateTime(sFecha_P).ToString("yyyy/MM/dd") + "'" + Environment.NewLine;
+                sSql += "and P.id_ctt_tipo_servicio = " + iIdTipoServicio_P + Environment.NewLine;
+                sSql += "and R.id_ctt_pueblo_origen = " + Convert.ToInt32(Session["id_pueblo"].ToString());
 
                 dtConsulta = new DataTable();
                 dtConsulta.Clear();
@@ -165,13 +221,14 @@ namespace Solution_CTT
                 if (bRespuesta == true)
                 {
                     iCuentaFrecuenciasCreadas = dtConsulta.Rows.Count;
-                    llenarGrid(Session["fecha"].ToString());
+                    return true;
                 }
 
                 else
                 {
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    return false;
                 }
             }
 
@@ -179,6 +236,7 @@ namespace Solution_CTT
             {
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                return false;
             }
         }
 
@@ -288,42 +346,7 @@ namespace Solution_CTT
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
-
-        //FUNCION PARA EXTRAER EL NUMERO DE ANDEN POR DEFAULT
-        //private void consultarAnden()
-        //{
-        //    try
-        //    {
-        //        sSql = "";
-        //        sSql += "select id_ctt_anden, descripcion" + Environment.NewLine;
-        //        sSql += "from ctt_anden" + Environment.NewLine;
-        //        sSql += "where id_ctt_pueblo = " + Convert.ToInt32(Session["id_pueblo"].ToString()) + Environment.NewLine;
-        //        sSql += "and anden_principal = 1" + Environment.NewLine;
-        //        sSql += "and estado = 'A'";
-
-        //        dtConsulta = new DataTable();
-        //        dtConsulta.Clear();
-        //        bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
-
-        //        if (bRespuesta == true)
-        //        {
-        //            Session["idAndenMasivo"] = dtConsulta.Rows[0]["id_ctt_anden"].ToString();
-        //        }
-
-        //        else
-        //        {
-        //            lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
-        //            ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-        //        }
-        //    }
-
-        //    catch (Exception ex)
-        //    {
-        //        lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
-        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-        //    }
-        //}
-
+        
         //FUNCION PARA CARGAR NÚMERO DE VIAJE
         private bool numeroViaje()
         {
@@ -504,7 +527,6 @@ namespace Solution_CTT
 
         protected void btnGenerar_Click(object sender, EventArgs e)
         {
-            //insertarRegistro();
             ScriptManager.RegisterStartupScript(this, GetType(), "ModalView", "<script>$('#QuestionModalConfirmar').modal('show');</script>", false);
         }
 
@@ -512,6 +534,7 @@ namespace Solution_CTT
         {
             Response.Redirect("frmPrincipal.aspx");
         }
+        
         protected void btnFiltrar_Click(object sender, EventArgs e)
         {
             btnGenerar.Visible = true;
@@ -524,15 +547,13 @@ namespace Solution_CTT
             else if (Convert.ToDateTime(txtFecha.Text.Trim()) < DateTime.Now)
             {
                 ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Aviso.!', 'No puede crear frecuencias de fechas pasadas.', 'warning');", true);
-                Session["fecha"] = txtFecha.Text.Trim();
-                consultarFrecuenciasCreadas(Session["fecha"].ToString());
-                btnGenerar.Visible = false;
+                limpiar();
             }
 
             else
             {
                 Session["fecha"] = txtFecha.Text.Trim();
-                consultarFrecuenciasCreadas(Session["fecha"].ToString());
+                controlGridViajes();
             }
         }
 

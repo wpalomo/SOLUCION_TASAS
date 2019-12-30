@@ -67,7 +67,7 @@ namespace Solution_CTT
 
             if (!IsPostBack)
             {
-                Session["idRegistro"] = null;
+                Session["idRegistroViajeNormal"] = null;
                 sFecha = DateTime.Now.ToString("dd/MM/yyyy");
                 txtDate.Text = sFecha;
                 datosListas();
@@ -813,17 +813,19 @@ namespace Solution_CTT
             {
                 if (Session["discoSMARTT"] != null)
                 {
-                    if (Session["tasaContifico"].ToString().Trim() == "02")
+                    if (Session["tasaContifico"] != null)
                     {
-
-                        string sDiscoActual = Session["discoSMARTT"].ToString().Trim();
-                        string sDiscoNuevo_R = Session["numeroDiscoSMARTT"].ToString().Trim();
-
-                        if (sDiscoActual != sDiscoNuevo_R)
+                        if (Session["tasaContifico"].ToString().Trim() == "02")
                         {
-                            if (consultarCambiarBusAPI() == false)
+                            string sDiscoActual = Session["discoSMARTT"].ToString().Trim();
+                            string sDiscoNuevo_R = Session["numeroDiscoSMARTT"].ToString().Trim();
+
+                            if (sDiscoActual != sDiscoNuevo_R)
                             {
-                                return;
+                                if (consultarCambiarBusAPI() == false)
+                                {
+                                    return;
+                                }
                             }
                         }
                     }
@@ -849,7 +851,7 @@ namespace Solution_CTT
                 sSql += "codigo = '" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;
                 sSql += "fecha_viaje = '" + sFecha + "'," + Environment.NewLine;
                 sSql += "cobrar_administracion = " + iCobrarAdministracion + Environment.NewLine;
-                sSql += "where id_ctt_programacion = " + Convert.ToInt32(Session["idRegistro"]) + Environment.NewLine;
+                sSql += "where id_ctt_programacion = " + Convert.ToInt32(Session["idRegistroViajeNormal"]) + Environment.NewLine;
                 sSql += "and estado = 'A'";
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
@@ -895,7 +897,7 @@ namespace Solution_CTT
                 sSql += "fecha_anula = GETDATE()," + Environment.NewLine;
                 sSql += "usuario_anula = '" + sDatosMaximo[0] + "'," + Environment.NewLine;
                 sSql += "terminal_anula = '" + sDatosMaximo[1] + "'" + Environment.NewLine;
-                sSql += "where id_ctt_programacion = " + Convert.ToInt32(Session["idRegistro"]);
+                sSql += "where id_ctt_programacion = " + Convert.ToInt32(Session["idRegistroViajeNormal"]);
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
                 {
@@ -1010,7 +1012,7 @@ namespace Solution_CTT
             txtAsistente.Text = "";
             txtItinerario.Text = "";
             
-            Session["idRegistro"] = null;
+            Session["idRegistroViajeNormal"] = null;
             Session["id_Chofer"] = null;
             Session["id_Asistente"] = null;
             Session["id_Vehiculo"] = null;
@@ -1271,7 +1273,7 @@ namespace Solution_CTT
                         iCobrarAdministracion = 0;
                     }
 
-                    if (Session["idRegistro"] != null)
+                    if (Session["idRegistroViajeNormal"] != null)
                     {
                         if (Session["id_Vehiculo"].ToString() == Session["idReemplazo"].ToString())
                         {
@@ -1770,13 +1772,15 @@ namespace Solution_CTT
 
                 else
                 {
-                    Session["idRegistro"] = dgvDatos.Rows[a].Cells[1].Text.Trim();
+
+                    verificarCobros();
+                    Session["idRegistroViajeNormal"] = dgvDatos.Rows[a].Cells[1].Text.Trim();
                     Session["ocupados"] = dgvDatos.Rows[a].Cells[23].Text.Trim();
                     Session["idViajeSMARTT"] = dgvDatos.Rows[a].Cells[25].Text.Trim();
 
-                    if (consultarBusReemplazo(Convert.ToInt32(Session["idRegistro"].ToString())) == false)
+                    if (consultarBusReemplazo(Convert.ToInt32(Session["idRegistroViajeNormal"].ToString())) == false)
                     {
-                        Session["idRegistro"] = null;
+                        Session["idRegistroViajeNormal"] = null;
                         ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo consultar el proceso de vehiculo de reemplazo. Favor comuníquese con el administrador.', 'error');", true);
                         goto fin;
                     }

@@ -127,16 +127,16 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:51:43</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>12/28/2019 13:16:53</publishTime>
+      <publishTime>12/29/2019 10:04:27</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>12/28/2019 13:16:53</publishTime>
+      <publishTime>12/29/2019 10:04:27</publishTime>
     </File>
     <File Include="bin/App_GlobalResources.compiled">
-      <publishTime>12/28/2019 13:16:52</publishTime>
+      <publishTime>12/29/2019 10:04:26</publishTime>
     </File>
     <File Include="bin/App_GlobalResources.dll">
-      <publishTime>12/28/2019 13:16:52</publishTime>
+      <publishTime>12/29/2019 10:04:26</publishTime>
     </File>
     <File Include="bin/BarcodeLib.dll">
       <publishTime>11/13/2019 20:52:14</publishTime>
@@ -190,7 +190,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>12/19/2019 13:46:41</publishTime>
     </File>
     <File Include="bin/Solution_CTT.dll">
-      <publishTime>12/28/2019 13:14:44</publishTime>
+      <publishTime>12/29/2019 10:03:37</publishTime>
     </File>
     <File Include="bin/SqlServerTypes/x64/msvcr100.dll">
       <publishTime>11/13/2019 20:52:14</publishTime>
@@ -21556,7 +21556,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:52:14</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>12/28/2019 13:16:45</publishTime>
+      <publishTime>12/29/2019 10:04:19</publishTime>
     </File>
     <File Include="Site.Mobile.Master">
       <publishTime>11/13/2019 20:51:43</publishTime>
