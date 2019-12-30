@@ -327,6 +327,7 @@ namespace Solution_CTT
                         Session["cantidad_manifiesto"] = dtConsulta.Rows[0][15].ToString();
                         Session["ejecuta_cobro_administrativo"] = dtConsulta.Rows[0][16].ToString();
                         Session["idLocalidadSMARTT"] = dtConsulta.Rows[0]["id_smartt"].ToString();
+                        Session["aplica_cortesia"] = dtConsulta.Rows[0]["boleto_cortesia"].ToString();
 
                         Session["tasaDevesofft"] = null;
 

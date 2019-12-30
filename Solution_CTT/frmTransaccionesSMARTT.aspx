@@ -226,7 +226,7 @@
                                                 <div class="input-group col-sm-8">
                                                     <asp:TextBox ID="txtDescuento" runat="server" BackColor="White" ReadOnly="true" class="form-control input-sm" Text="0.00" placeholder="Descuento" ></asp:TextBox>
                                                     <span class="input-group-addon input-sm">
-                                                        <asp:CheckBox ID="chkCortesia" runat="server" Text="&nbsp&nbspCortesía" Visible="false" AutoPostBack="true" />    
+                                                        <asp:CheckBox ID="chkCortesia" runat="server" Text="&nbsp&nbspCortesía" Visible="false" AutoPostBack="true" OnCheckedChanged="chkCortesia_CheckedChanged" />    
                                                     </span>
                                                 </div>
                                             </div>

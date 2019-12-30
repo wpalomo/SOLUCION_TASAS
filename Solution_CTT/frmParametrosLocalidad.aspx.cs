@@ -34,6 +34,7 @@ namespace Solution_CTT
         int iTasaUsuario;
         int iEjecutaCobroAdministrativo;
         int iIdProveedorTasa;
+        int iBoletoCortesia;
         
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -228,6 +229,7 @@ namespace Solution_CTT
             dgvDatos.Columns[14].Visible = ok;
             dgvDatos.Columns[15].Visible = ok;
             dgvDatos.Columns[16].Visible = ok;
+            dgvDatos.Columns[17].Visible = ok;
 
             dgvDatos.Columns[0].ItemStyle.Width = 75;
             dgvDatos.Columns[5].ItemStyle.Width = 200;
@@ -308,11 +310,17 @@ namespace Solution_CTT
                         Session["genera_tasa_usuario"] = dtConsulta.Rows[0][14].ToString();
                         Session["cantidad_manifiesto"] = dtConsulta.Rows[0][15].ToString();
                         Session["ejecuta_cobro_administrativo"] = dtConsulta.Rows[0][16].ToString();
+                        Session["aplica_cortesia"] = dtConsulta.Rows[0]["boleto_cortesia"].ToString();
                         Session["tasaDevesofft"] = null;
 
                         if (dtConsulta.Rows[0]["codigo_proveedor"].ToString().Trim() == "01")
                         {
                             Session["tasaDevesofft"] = dtConsulta.Rows[0]["codigo_proveedor"].ToString();
+                        }
+
+                        else if (dtConsulta.Rows[0]["codigo_proveedor"].ToString().Trim() == "02")
+                        {
+                            Session["tasaContifico"] = dtConsulta.Rows[0]["codigo_proveedor"].ToString();
                         }
                     }
 
@@ -341,6 +349,8 @@ namespace Solution_CTT
                         Session["cantidad_manifiesto"] = null;
                         Session["ejecuta_cobro_administrativo"] = null;
                         Session["tasaDevesofft"] = null;
+                        Session["tasaContifico"] = null;
+                        Session["aplica_cortesia"] = null;
 
                         ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'No se encuentra una configuración de parámetros del terminal.', 'error')</script>");
                     }
@@ -389,12 +399,12 @@ namespace Solution_CTT
                 sSql += "insert into ctt_parametro_localidad (" + Environment.NewLine;
                 sSql += "id_ctt_pueblo, id_producto_retencion, id_producto_pagos, cg_ciudad," + Environment.NewLine;
                 sSql += "id_vendedor, genera_tasa_usuario, cantidad_manifiesto, ejecuta_cobro_administrativo," + Environment.NewLine;
-                sSql += "id_ctt_proveedor_tasa, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                sSql += "id_ctt_proveedor_tasa, boleto_cortesia, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(cmbTerminales.SelectedValue) + ", " + Convert.ToInt32(Session["idProductoRetencion"].ToString()) + ", ";
                 sSql += Convert.ToInt32(Session["idProductoPago"].ToString()) + ", " + Convert.ToInt32(cmbCiudad.SelectedValue) + ", " + Environment.NewLine;
                 sSql += Convert.ToInt32(cmbVendedor.SelectedValue) + ", " + iTasaUsuario + ", " + Convert.ToInt32(txtCantidadManifiesto.Text.Trim()) + "," + Environment.NewLine;
-                sSql += + iEjecutaCobroAdministrativo + ", " + iIdProveedorTasa + ", 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
+                sSql += + iEjecutaCobroAdministrativo + ", " + iIdProveedorTasa + ", " + iBoletoCortesia + ", 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                 //EJECUCIÓN DE INSTRUCCION SQL
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
@@ -406,11 +416,6 @@ namespace Solution_CTT
 
                 conexionM.terminaTransaccion();
                 ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Registro ingresado correctamente', 'success');", true);
-
-                //if (Convert.ToInt32(cmbTerminales.SelectedValue) == Convert.ToInt32(Application["id_pueblo"].ToString()))
-                //{
-                //    cargarParametrosTerminal();
-                //}
 
                 limpiar();
                 goto fin;
@@ -450,7 +455,8 @@ namespace Solution_CTT
                 sSql += "id_producto_pagos = " + Convert.ToInt32(Session["idProductoPago"].ToString()) + "," + Environment.NewLine;
                 sSql += "cantidad_manifiesto = " + Convert.ToInt32(txtCantidadManifiesto.Text.Trim()) + "," + Environment.NewLine;
                 sSql += "ejecuta_cobro_administrativo = " + iEjecutaCobroAdministrativo + "," + Environment.NewLine;
-                sSql += "id_ctt_proveedor_tasa = " + iIdProveedorTasa + Environment.NewLine;
+                sSql += "id_ctt_proveedor_tasa = " + iIdProveedorTasa + "," + Environment.NewLine;
+                sSql += "boleto_cortesia = " + iBoletoCortesia + Environment.NewLine;
                 sSql += "where id_ctt_parametro_localidad = " + Convert.ToInt32(Session["idRegistroPLOCALIDAD"].ToString()) + Environment.NewLine;
                 sSql += "and estado = 'A'";
 
@@ -602,6 +608,7 @@ namespace Solution_CTT
             chkManejaTasaUsuario.Checked = false;
             chkEjecutaCobrosAdministrativos.Checked = false;
             cmbProveedoresTasas.Enabled = false;
+            chkBoletoCortesia.Checked = false;
         }
 
         #endregion
@@ -650,6 +657,16 @@ namespace Solution_CTT
                     else
                     {
                         chkEjecutaCobrosAdministrativos.Checked = false;
+                    }
+
+                    if (dgvDatos.Rows[a].Cells[17].Text.Trim() == "1")
+                    {
+                        chkBoletoCortesia.Checked = true;
+                    }
+
+                    else
+                    {
+                        chkBoletoCortesia.Checked = false;
                     }
                 }
 
@@ -762,6 +779,16 @@ namespace Solution_CTT
                 else
                 {
                     iEjecutaCobroAdministrativo = 0;
+                }
+
+                if (chkBoletoCortesia.Checked == true)
+                {
+                    iBoletoCortesia = 1;
+                }
+
+                else
+                {
+                    iBoletoCortesia = 0;
                 }
 
                 iIdProveedorTasa = Convert.ToInt32(cmbProveedoresTasas.SelectedValue);

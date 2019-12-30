@@ -60,6 +60,7 @@ namespace Solution_CTT
             Session["genera_tasa_usuario"] = null;
             Session["cantidad_manifiesto"] = null;
             Session["ejecuta_cobro_administrativo"] = null;
+            Session["aplica_cortesia"] = null;
 
             //VARIABLES DE SESION PARA EL CIERRE DE CAJA
             Session["idCierreCaja"] = null;

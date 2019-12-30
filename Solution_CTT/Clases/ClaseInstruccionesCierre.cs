@@ -1043,7 +1043,7 @@ namespace Solution_CTT.Clases
 
                 //INSTRUCCION SQL PARA EXTRAER EL NUMERO DE FACTURA
                 sSql = "";
-                sSql += "select numeronotaventa" + Environment.NewLine;
+                sSql += "select numeronotaentrega" + Environment.NewLine;
                 sSql += "from tp_localidades_impresoras" + Environment.NewLine;
                 sSql += "where estado = 'A'" + Environment.NewLine;
                 sSql += "and id_localidad = " + Convert.ToInt32(HttpContext.Current.Application["idLocalidad"].ToString());
@@ -1066,7 +1066,7 @@ namespace Solution_CTT.Clases
                 //QUERY PARA ACTUALIZAR EL NUMERO DE PEDIDO EN LA TABLA TP_LOCALIDADES_IMPRESORAS
                 sSql = "";
                 sSql += "update tp_localidades_impresoras set" + Environment.NewLine;
-                sSql += "numeronotaventa = numeronotaventa + 1" + Environment.NewLine;
+                sSql += "numeronotaentrega = numeronotaentrega + 1" + Environment.NewLine;
                 sSql += "where id_localidad = " + Convert.ToInt32(HttpContext.Current.Application["idLocalidad"].ToString());
 
                 //EJECUCION DE INSTRUCCION SQL
@@ -1080,7 +1080,7 @@ namespace Solution_CTT.Clases
                 sSql += "insert into cv403_numeros_facturas (id_factura, idtipocomprobante, numero_factura, " + Environment.NewLine;
                 sSql += "fecha_ingreso, usuario_ingreso, terminal_ingreso, estado) " + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
-                sSql += iIdFactura + ", 2, " + iNumeroFactura + ", GETDATE()," + Environment.NewLine;
+                sSql += iIdFactura + ", " + Convert.ToInt32(HttpContext.Current.Application["id_comprobante"].ToString()) + ", " + iNumeroFactura + ", GETDATE()," + Environment.NewLine;
                 sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', 'A')";
 
                 //EJECUCION DE INSTRUCCION SQL

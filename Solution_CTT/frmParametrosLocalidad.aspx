@@ -43,6 +43,7 @@
                                         <asp:BoundField DataField="IEJECUTACOBROADMINISTRACION" HeaderText="COBRO ADMINISTRADOR" />
                                         <asp:BoundField DataField="IIDPROVEEDORTASAS" HeaderText="ID PROVEEDOR" />
                                         <asp:BoundField DataField="ICODIGOPROVEEDOR" HeaderText="CODIGO PROVEEDOR" />
+                                        <asp:BoundField DataField="IBOLETOCORTESIA" HeaderText="CORTESIA" />
                                         <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="EDITAR">
                                             <ItemTemplate>
                                                 <asp:LinkButton ID="lbtnEdit" runat="server" CommandName="Select" class="btn btn-xs btn-warning" OnClick="lbtnEdit_Click"><i class="fa fa-pencil"></i></asp:LinkButton>
@@ -201,11 +202,20 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <asp:Label ID="Label15" runat="server" Text="Manifiesto *"></asp:Label>
                                                 <div class="input-group col-sm-12">
-                                                    <asp:TextBox ID="txtCantidadManifiesto" runat="server" CssClass="form-control input-sm" placeholder="Cantidad Manifiesto Imprimir" autocomplete="off" BackColor="White" Onkeypress="return ValidaDecimal(this.value);"></asp:TextBox>
+                                                    <asp:TextBox ID="txtCantidadManifiesto" runat="server" CssClass="form-control input-sm" placeholder="Cantidad" autocomplete="off" BackColor="White" Onkeypress="return ValidaDecimal(this.value);"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <asp:Label ID="Label12" runat="server" Text="Boleto Cortesía"></asp:Label>
+                                                <div class="input-group col-sm-12">
+                                                    <asp:CheckBox ID="chkBoletoCortesia" CssClass="form-control input-sm" runat="server" Text="&nbsp;&nbsp;Habilitar Cortesía" />
                                                 </div>
                                             </div>
                                         </div>

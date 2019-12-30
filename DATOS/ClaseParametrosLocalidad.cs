@@ -50,7 +50,8 @@ namespace DATOS
                             ICANTIDADMANIFIESTO = dtConsulta.Rows[i][15].ToString(),
                             IEJECUTACOBROADMINISTRACION = dtConsulta.Rows[i][16].ToString(),
                             IIDPROVEEDORTASAS = dtConsulta.Rows[i][17].ToString(),
-                            ICODIGOPROVEEDOR = dtConsulta.Rows[i][18].ToString()
+                            ICODIGOPROVEEDOR = dtConsulta.Rows[i][18].ToString(),
+                            IBOLETOCORTESIA = dtConsulta.Rows[i]["boleto_cortesia"].ToString()
                         };
                         coleccion.Add(todos);
                     }

@@ -151,5 +151,13 @@ namespace ENTIDADES
             get { return iCODIGOPROVEEDOR; }
             set { iCODIGOPROVEEDOR = value; }
         }
+
+        private string iBOLETOCORTESIA;
+
+        public string IBOLETOCORTESIA
+        {
+            get { return iBOLETOCORTESIA; }
+            set { iBOLETOCORTESIA = value; }
+        }
     }
 }

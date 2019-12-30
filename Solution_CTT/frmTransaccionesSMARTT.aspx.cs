@@ -123,6 +123,12 @@ namespace Solution_CTT
         int iIdFormaPagoFactura;
         int iIdTasaSmartt;
         int idFormularioSRI = 19;
+        int iTipoComprobanteFactura;
+        int iNumeroComprobanteFactura;
+        int iNumeroNotaEntrega;
+
+        int iIdTipoPersona;
+        int iIdTipoIdentificacion;
 
         int iPorcentajeNotificacionEntero;
 
@@ -202,7 +208,16 @@ namespace Solution_CTT
                 Session["auxiliar"] = "1";
                 Session["idVehiculo"] = null;
                 Session["idProgramacion"] = null;
-                //Session["iIdViajeVentaSMARTT"] = null;
+                
+                if (Convert.ToInt32(Session["aplica_cortesia"].ToString()) == 1)
+                {
+                    chkCortesia.Visible = true;
+                }
+
+                else
+                {
+                    chkCortesia.Visible = false;
+                }
             }
 
             else
@@ -1586,41 +1601,50 @@ namespace Solution_CTT
                 int iIdTipoPersona_P;
                 int iIdTipoIdentificacion_P;
 
-                int iTercerDigito = Convert.ToInt32(txtIdentificacionRegistro.Text.Trim().Substring(2, 1));
-                int iLongitud_P = txtIdentificacionRegistro.Text.Trim().Length;
-
-                if (iLongitud_P == 13)
+                if (Convert.ToInt32(cmbIdentificacion.SelectedValue) != 180)
                 {
-                    if (iTercerDigito == 9)
+                    int iTercerDigito = Convert.ToInt32(txtIdentificacionRegistro.Text.Trim().Substring(2, 1));
+                    int iLongitud_P = txtIdentificacionRegistro.Text.Trim().Length;
+
+                    if (iLongitud_P == 13)
                     {
-                        iIdTipoPersona_P = 2448;
-                        iIdTipoIdentificacion_P = 179;
+                        if (iTercerDigito == 9)
+                        {
+                            iIdTipoPersona_P = 2448;
+                            iIdTipoIdentificacion_P = 179;
+                        }
+
+                        else if (iTercerDigito == 6)
+                        {
+                            iIdTipoPersona_P = 2448;
+                            iIdTipoIdentificacion_P = 179;
+                        }
+
+                        else
+                        {
+                            iIdTipoPersona_P = 2447;
+                            iIdTipoIdentificacion_P = 179;
+                        }
                     }
 
-                    else if (iTercerDigito == 6)
+                    else if (iLongitud_P == 10)
                     {
-                        iIdTipoPersona_P = 2448;
-                        iIdTipoIdentificacion_P = 179;
+                        iIdTipoPersona_P = 2447;
+                        iIdTipoIdentificacion_P = 178;
                     }
 
                     else
                     {
                         iIdTipoPersona_P = 2447;
-                        iIdTipoIdentificacion_P = 179;
+                        iIdTipoIdentificacion_P = 180;
                     }
-                }
-
-                else if (iLongitud_P == 10)
-                {
-                    iIdTipoPersona_P = 2447;
-                    iIdTipoIdentificacion_P = 178;
                 }
 
                 else
                 {
                     iIdTipoPersona_P = 2447;
                     iIdTipoIdentificacion_P = 180;
-                }
+                }                
 
                 sSql = "";
                 sSql += "insert into tp_personas (" + Environment.NewLine;
@@ -1815,6 +1839,8 @@ namespace Solution_CTT
             lblEdad.Text = "SIN ASIGNAR";
             lblEdad.ForeColor = Color.Black;
             lblEdad.BackColor = Color.White;
+            chkCortesia.Checked = false;
+            chkCortesia.ForeColor = Color.Black;
 
             asientosOcupados();
             extraerTotalCobrado();
@@ -2480,6 +2506,16 @@ namespace Solution_CTT
                     return false;
                 }
 
+                if (chkCortesia.Checked == false)
+                {
+                    iTipoComprobanteFactura = 1;
+                }
+
+                else
+                {
+                    iTipoComprobanteFactura = Convert.ToInt32(HttpContext.Current.Application["id_comprobante"].ToString());
+                }
+
                 //QUERY PARA PODER INSERTAR REGISTRO EN LA TABLA CV403_NUMERO_CAB_PEDIDO
                 sSql = "";
                 sSql += "insert into cv403_numero_cab_pedido (" + Environment.NewLine;
@@ -2487,7 +2523,7 @@ namespace Solution_CTT
                 sSql += "fecha_ingreso, usuario_ingreso, terminal_ingreso," + Environment.NewLine;
                 sSql += "estado, numero_control_replica, numero_replica_trigger)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
-                sSql += "1, " + iIdPedido + ", " + iNumeroPedido + ", GETDATE()," + Environment.NewLine;
+                sSql += iTipoComprobanteFactura + ", " + iIdPedido + ", " + iNumeroPedido + ", GETDATE()," + Environment.NewLine;
                 sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', 'A', 0, 0)";
 
                 //EJECUCION DE INSTRUCCION SQL
@@ -2942,9 +2978,22 @@ namespace Solution_CTT
                 }
 
                 //QUERY PARA ACTUALIZAR EL NUMERO DE PEDIDO EN LA TABLA TP_LOCALIDADES_IMPRESORAS
+                //QUERY PARA ACTUALIZAR EL NUMERO DE PEDIDO EN LA TABLA TP_LOCALIDADES_IMPRESORAS
                 sSql = "";
                 sSql += "update tp_localidades_impresoras set" + Environment.NewLine;
-                sSql += "numero_factura = numero_factura + 1" + Environment.NewLine;
+
+                if (iTipoComprobanteFactura == 1)
+                {
+                    sSql += "numero_factura = numero_factura + 1" + Environment.NewLine;
+                    iNumeroComprobanteFactura = iNumeroFactura;
+                }
+
+                else
+                {
+                    sSql += "numeronotaentrega = numeronotaentrega + 1" + Environment.NewLine;
+                    iNumeroComprobanteFactura = iNumeroNotaEntrega;
+                }
+
                 sSql += "where id_localidad = " + Convert.ToInt32(Application["idLocalidad"].ToString());
 
                 //EJECUCION DE INSTRUCCION SQL
@@ -3025,7 +3074,7 @@ namespace Solution_CTT
                 sSql += "facturaelectronica, clave_acceso, emite_tasa_usuario, ambiente_tasa_usuario," + Environment.NewLine;
                 sSql += "cantidad_tasa_emitida, id_tipo_ambiente, id_tipo_emision)" + Environment.NewLine;
                 sSql += "values(" + Environment.NewLine;
-                sSql += Convert.ToInt32(Application["idEmpresa"].ToString()) + ", " + iIdPersona + ", " + Convert.ToInt32(Application["cgEmpresa"].ToString()) + ", 1," + Environment.NewLine;
+                sSql += Convert.ToInt32(Application["idEmpresa"].ToString()) + ", " + iIdPersona + ", " + Convert.ToInt32(Application["cgEmpresa"].ToString()) + ", " + iTipoComprobanteFactura + "," + Environment.NewLine;
                 sSql += Convert.ToInt32(Application["idLocalidad"].ToString()) + ", " + idFormularioSRI + ", " + Convert.ToInt32(Session["idVendedor"].ToString()) + ", " + iIdFormaPagoFactura + ", '" + sFecha + "'," + Environment.NewLine;
                 //sSql += "'" + sFecha + "', " + Convert.ToInt32(Application["cgMoneda"].ToString()) + ", " + dbTotal + ", 0, 0, GETDATE()," + Environment.NewLine;
                 sSql += "'" + sFecha + "', " + Convert.ToInt32(Application["cgMoneda"].ToString()) + ", " + dbTotal.ToString(System.Globalization.CultureInfo.InvariantCulture) + ", 0, 0, GETDATE()," + Environment.NewLine;
@@ -3070,7 +3119,7 @@ namespace Solution_CTT
                 sSql += "fecha_ingreso, usuario_ingreso, terminal_ingreso, estado, numero_replica_trigger, " + Environment.NewLine;
                 sSql += "numero_control_replica) " + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
-                sSql += iIdFactura + ", 1, " + iNumeroFactura + ", GETDATE()," + Environment.NewLine;
+                sSql += iIdFactura + ", " + iTipoComprobanteFactura + ", " + iNumeroComprobanteFactura + ", GETDATE()," + Environment.NewLine;
                 sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', 'A', 1, 0 )";
 
                 //EJECUCION DE INSTRUCCION SQL
@@ -3369,6 +3418,7 @@ namespace Solution_CTT
                                 //AQUI ABRIR MODAL PARA CREAR NUEVO PASAJERO                        
                                 ModalPopupExtenderCrearEditar.Show();
                                 lblAlerta.Text = "";
+                                cmbIdentificacion.SelectedValue = iIdTipoIdentificacion.ToString();
                                 txtIdentificacionRegistro.Text = txtIdentificacion.Text.Trim();
                             }
                         }
@@ -4819,6 +4869,14 @@ namespace Solution_CTT
                 return;
             }
 
+            if (Convert.ToInt32(cmbTipoIdentificacion.SelectedValue) == 180)
+            {
+                iIdTipoIdentificacion = 180;
+                iIdTipoPersona = 2447;
+                buscarCliente(txtIdentificacion.Text.Trim());
+                return;
+            }
+
             iLongitudCedula = txtIdentificacion.Text.Trim().Length;
 
             if ((iLongitudCedula == 12) || (iLongitudCedula == 11))
@@ -4859,6 +4917,8 @@ namespace Solution_CTT
 
                     else
                     {
+                        iIdTipoIdentificacion = 178;
+                        iIdTipoPersona = 2447;
                         buscarCliente(txtIdentificacion.Text.Trim());
                     }
                 }
@@ -4870,6 +4930,8 @@ namespace Solution_CTT
                     if (iTercerDigito == 6)
                     {
                         int iCuentaValidar = 0;
+                        iIdTipoIdentificacion = 179;
+                        iIdTipoPersona = 2448;
 
                         if (ruc.validarRucNatural(txtIdentificacion.Text.Trim()) == false)
                         {
@@ -4900,6 +4962,9 @@ namespace Solution_CTT
 
                     else if (iTercerDigito == 9)
                     {
+                        iIdTipoIdentificacion = 179;
+                        iIdTipoPersona = 2448;
+
                         if (ruc.validarRucPrivado(txtIdentificacion.Text.Trim()) == false)
                         {
                             lblAlerta.Text = "El número de identificación es incorrecto.";
@@ -4915,6 +4980,9 @@ namespace Solution_CTT
 
                     else if ((iTercerDigito >= 0) && (iTercerDigito < 6))
                     {
+                        iIdTipoIdentificacion = 178;
+                        iIdTipoPersona = 2447;
+
                         if (ruc.validarRucNatural(txtIdentificacion.Text.Trim()) == false)
                         {
                             ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'El número de identificación es incorrecto.', 'info');", true);
@@ -5066,11 +5134,19 @@ namespace Solution_CTT
 
                     if (Session["idPersonaConsulta"] == null)
                     {
-                        int iTercerDigito = Convert.ToInt32(txtIdentificacionRegistro.Text.Trim().Substring(0, 2));
-
-                        if ((iTercerDigito == 9) || (iTercerDigito == 6))
+                        if (Convert.ToInt32(cmbIdentificacion.SelectedValue) != 180)
                         {
-                            Session["cgTipoPersona"] = "2448";
+                            int iTercerDigito = Convert.ToInt32(txtIdentificacionRegistro.Text.Trim().Substring(0, 2));
+
+                            if ((iTercerDigito == 9) || (iTercerDigito == 6))
+                            {
+                                Session["cgTipoPersona"] = "2448";
+                            }
+
+                            else
+                            {
+                                Session["cgTipoPersona"] = "2447";
+                            }
                         }
 
                         else
@@ -5946,11 +6022,13 @@ namespace Solution_CTT
         {
             if (chkCortesia.Checked == true)
             {
+                chkCortesia.ForeColor = Color.Red;
                 txtDescuento.Text = txtPrecio.Text.Trim();
             }
 
             else
             {
+                chkCortesia.ForeColor = Color.Black;
                 txtDescuento.Text = "0.00";
             }
         }
