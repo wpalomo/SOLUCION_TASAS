@@ -189,6 +189,7 @@ namespace Solution_CTT
             {
                 if (conexionM.iniciarTransaccion() == false)
                 {
+                    cerrarModal();
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo iniciar la transacción para el proceso de información.', 'danger');", true);
                     return false;
                 }
@@ -215,6 +216,7 @@ namespace Solution_CTT
 
             catch (Exception)
             {
+                cerrarModal();
                 conexionM.reversaTransaccion();
                 return false;
             }
@@ -478,6 +480,7 @@ namespace Solution_CTT
 
             catch (Exception)
             {
+                cerrarModal();
                 iBanderaMensajeEmite_P = 0;
                 return "ERROR";
             }
@@ -494,6 +497,7 @@ namespace Solution_CTT
 
                 if (!conexionM.iniciarTransaccion())
                 {
+                    cerrarModal();
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo iniciar iniciar la transacci\x00f3n.', 'danger');", true);
                     return false;
                 }
@@ -508,6 +512,7 @@ namespace Solution_CTT
 
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + this.sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     conexionM.reversaTransaccion();
@@ -520,6 +525,7 @@ namespace Solution_CTT
 
             catch (Exception)
             {
+                cerrarModal();
                 conexionM.reversaTransaccion();
                 return false;
             }
@@ -721,6 +727,7 @@ namespace Solution_CTT
 
                 else
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 }
@@ -728,6 +735,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
+                cerrarModal();
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
@@ -769,6 +777,7 @@ namespace Solution_CTT
 
                 else
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -949,6 +958,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
+                cerrarModal();
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 return false;
@@ -1021,6 +1031,7 @@ namespace Solution_CTT
 
             catch (Exception)
             {
+                cerrarModal();
                 iBanderaMensajeEmite_P = 0;
                 return "ERROR";
             }
@@ -1070,6 +1081,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
+                cerrarModal();
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 return false;
@@ -1141,6 +1153,7 @@ namespace Solution_CTT
 
             catch (Exception)
             {
+                cerrarModal();
                 iBanderaMensajeAnula_P = 0;
                 return "ERROR";
             }
@@ -1182,13 +1195,14 @@ namespace Solution_CTT
                 //PRIMERO VERIFICAR LA TASA DE USUARIO
                 if (anularTasaUsuario() == false)
                 {
+                    cerrarModal();
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'Ocurrió un problema al intentar anular una tasa de usuario.', 'danger');", true);
                     return;
                 }
 
-
                 if (conexionM.iniciarTransaccion() == false)
                 {
+                    cerrarModal();
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo iniciar la transacción para el proceso de información.', 'danger');", true);
                     goto fin;
                 }
@@ -1240,6 +1254,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     conexionM.reversaTransaccion();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
@@ -1328,6 +1343,7 @@ namespace Solution_CTT
 
             catch(Exception ex)
             {
+                cerrarModal();
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
@@ -1373,6 +1389,7 @@ namespace Solution_CTT
                 //EJECUCION DE LA INSTRUCCION SQL
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -1395,6 +1412,7 @@ namespace Solution_CTT
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -1408,6 +1426,7 @@ namespace Solution_CTT
 
                 if (iMaximo == -1)
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -1439,6 +1458,7 @@ namespace Solution_CTT
 
                 else
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -1453,6 +1473,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -1471,6 +1492,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -1484,6 +1506,7 @@ namespace Solution_CTT
 
                 if (iMaximo == -1)
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "No se pudo obtener el código de la tabla " + sTabla + ".";
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -1506,6 +1529,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -1519,6 +1543,7 @@ namespace Solution_CTT
 
                 if (iMaximo == -1)
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "No se pudo obtener el código de la tabla " + sTabla + ".";                    
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -1542,6 +1567,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -1555,6 +1581,7 @@ namespace Solution_CTT
 
                 if (iMaximo == -1)
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "No se pudo obtener el código de la tabla " + sTabla + ".";
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -1580,6 +1607,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -1622,6 +1650,7 @@ namespace Solution_CTT
                         //EJECUCION DE INSTRUCCION SQL
                         if (!conexionM.ejecutarInstruccionSQL(sSql))
                         {
+                            cerrarModal();
                             columnasGridDetalles(false);
                             lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                             ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
@@ -1639,6 +1668,7 @@ namespace Solution_CTT
 
             catch(Exception ex)
             {
+                cerrarModal();
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 goto reversa;
@@ -1672,6 +1702,7 @@ namespace Solution_CTT
 
                 else
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -1693,6 +1724,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -1707,6 +1739,7 @@ namespace Solution_CTT
 
                 if (iMaximo == -1)
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "No se pudo obtener el código de la tabla " + sTabla + ".";
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -1734,6 +1767,7 @@ namespace Solution_CTT
                 }
                 else
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -1751,6 +1785,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -1771,6 +1806,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -1784,6 +1820,7 @@ namespace Solution_CTT
 
                 if (iMaximo == -1)
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "No se pudo obtener el código de la tabla " + sTabla + ".";
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -1807,6 +1844,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -1821,6 +1859,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -1831,6 +1870,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
+                cerrarModal();
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 return false;
@@ -1898,6 +1938,7 @@ namespace Solution_CTT
 
                 else
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -1922,6 +1963,7 @@ namespace Solution_CTT
 
                 else
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -1936,6 +1978,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -2031,6 +2074,7 @@ namespace Solution_CTT
 
                 else
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -2056,6 +2100,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -2069,6 +2114,7 @@ namespace Solution_CTT
 
                 if (iMaximo == -1)
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "No se pudo obtener el código de la tabla " + sTabla + ".";
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -2091,6 +2137,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -2107,6 +2154,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -2123,6 +2171,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -2159,6 +2208,7 @@ namespace Solution_CTT
                     //EJECUCION DE INSTRUCCION SQL
                     if (!conexionM.ejecutarInstruccionSQL(sSql))
                     {
+                        cerrarModal();
                         lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                         return false;
@@ -2178,6 +2228,7 @@ namespace Solution_CTT
                     //EJECUCION DE INSTRUCCION SQL
                     if (!conexionM.ejecutarInstruccionSQL(sSql))
                     {
+                        cerrarModal();
                         lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                         return false;
@@ -2220,6 +2271,7 @@ namespace Solution_CTT
                                 //EJECUCION DE INSTRUCCION SQL
                                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                                 {
+                                    cerrarModal();
                                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                                     return false;
@@ -2230,6 +2282,7 @@ namespace Solution_CTT
 
                     else
                     {
+                        cerrarModal();
                         lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                         return false;
@@ -2254,6 +2307,7 @@ namespace Solution_CTT
 
                     else
                     {
+                        cerrarModal();
                         lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                         return false;
@@ -2289,6 +2343,7 @@ namespace Solution_CTT
                     //EJECUCION DE INSTRUCCION SQL
                     if (!conexionM.ejecutarInstruccionSQL(sSql))
                     {
+                        cerrarModal();
                         lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                         return false;
@@ -2302,6 +2357,7 @@ namespace Solution_CTT
 
                     if (iMaximo == -1)
                     {
+                        cerrarModal();
                         lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>No se pudo obtener el código de la tabla " + sTabla + ".";
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                         return false;
@@ -2324,6 +2380,7 @@ namespace Solution_CTT
                     //EJECUCION DE INSTRUCCION SQL
                     if (!conexionM.ejecutarInstruccionSQL(sSql))
                     {
+                        cerrarModal();
                         lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                         return false;
@@ -2338,6 +2395,7 @@ namespace Solution_CTT
                     //EJECUCION DE INSTRUCCION SQL
                     if (!conexionM.ejecutarInstruccionSQL(sSql))
                     {
+                        cerrarModal();
                         lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                         return false;
@@ -2349,6 +2407,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
+                cerrarModal();
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 return false;
@@ -2403,6 +2462,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -2420,6 +2480,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -2451,6 +2512,7 @@ namespace Solution_CTT
 
                 else
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -2470,6 +2532,7 @@ namespace Solution_CTT
                     //EJECUCION DE INSTRUCCION SQL
                     if (!conexionM.ejecutarInstruccionSQL(sSql))
                     {
+                        cerrarModal();
                         lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                         return false;
@@ -2504,6 +2567,7 @@ namespace Solution_CTT
 
                 else
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -2523,6 +2587,7 @@ namespace Solution_CTT
                     //EJECUCION DE INSTRUCCION SQL
                     if (!conexionM.ejecutarInstruccionSQL(sSql))
                     {
+                        cerrarModal();
                         lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                         return false;
@@ -2541,6 +2606,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -2555,6 +2621,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -2565,6 +2632,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
+                cerrarModal();
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 goto reversa;
@@ -2604,6 +2672,7 @@ namespace Solution_CTT
 
                 else
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -2621,6 +2690,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -2639,6 +2709,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -2657,6 +2728,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -2675,6 +2747,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -2685,6 +2758,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
+                cerrarModal();
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 goto reversa;
@@ -2718,6 +2792,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -2735,6 +2810,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -2752,6 +2828,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -2762,6 +2839,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
+                cerrarModal();
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 goto reversa;
@@ -2854,6 +2932,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
+                cerrarModal();
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 return false;
@@ -2887,7 +2966,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-
+                cerrarModal();
                 return false;
             }
         }
@@ -2923,6 +3002,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
+                cerrarModal();
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 return false;
@@ -3001,6 +3081,7 @@ namespace Solution_CTT
 
             catch (Exception)
             {
+                cerrarModal();
                 iBanderaMensajeToken_P = 0;
                 return "ERROR";
             }
@@ -3029,6 +3110,7 @@ namespace Solution_CTT
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -3072,6 +3154,7 @@ namespace Solution_CTT
                                 //EJECUCION DE INSTRUCCION SQL
                                 if (!conexionM.ejecutarInstruccionSQL(sSql))
                                 {
+                                    cerrarModal();
                                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                                     return false;
@@ -3083,6 +3166,7 @@ namespace Solution_CTT
 
                 else
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                     return false;
@@ -3095,7 +3179,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
-
+                cerrarModal();
                 return false;
             }
         }
@@ -3181,6 +3265,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
+                cerrarModal();
                 lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
@@ -3268,6 +3353,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
+                cerrarModal();
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
@@ -3344,6 +3430,7 @@ namespace Solution_CTT
 
             catch(Exception ex)
             {
+                cerrarModal();
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
@@ -3396,12 +3483,14 @@ namespace Solution_CTT
 
                     else
                     {
+                        cerrarModal();
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", " alert('No existen datos en la factura. Comuníquese con el administrador.')", true);
                     }
                 }
 
                 else
                 {
+                    cerrarModal();
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 }
@@ -3409,6 +3498,7 @@ namespace Solution_CTT
 
             catch(Exception ex)
             {
+                cerrarModal();
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
@@ -3428,6 +3518,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
+                cerrarModal();
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
@@ -3445,6 +3536,7 @@ namespace Solution_CTT
 
                 if (sEstadoViaje == "C")
                 {
+                    cerrarModal();
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'El viaje ya se ha cerrado. No puede realizar devoluciones', 'info');", true);
                     Session["idProgramacion"] = null;
                 }
@@ -3469,6 +3561,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
+                cerrarModal();
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
@@ -3508,6 +3601,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
+                cerrarModal();
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
@@ -3524,6 +3618,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
+                cerrarModal();
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
@@ -3573,6 +3668,7 @@ namespace Solution_CTT
 
             catch(Exception ex)
             {
+                cerrarModal();
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
@@ -3597,6 +3693,7 @@ namespace Solution_CTT
 
             catch (Exception ex)
             {
+                cerrarModal();
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
