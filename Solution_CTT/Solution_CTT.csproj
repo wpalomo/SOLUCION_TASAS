@@ -710,6 +710,7 @@
     <Content Include="frmReportePrueba.aspx" />
     <Content Include="frmReporteRetenciones.aspx" />
     <Content Include="frmReporteVentaClientes.aspx" />
+    <Content Include="frmReporteVentasCooperativa.aspx" />
     <Content Include="frmReporteViajesActivos.aspx" />
     <Content Include="frmReporteViajesAgrupados.aspx" />
     <Content Include="frmRutas.aspx" />
@@ -7984,6 +7985,13 @@
     </Compile>
     <Compile Include="frmReporteVentaClientes.aspx.designer.cs">
       <DependentUpon>frmReporteVentaClientes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmReporteVentasCooperativa.aspx.cs">
+      <DependentUpon>frmReporteVentasCooperativa.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmReporteVentasCooperativa.aspx.designer.cs">
+      <DependentUpon>frmReporteVentasCooperativa.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmReporteViajesActivos.aspx.cs">
       <DependentUpon>frmReporteViajesActivos.aspx</DependentUpon>
