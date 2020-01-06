@@ -704,6 +704,7 @@
     <Content Include="frmReimprimirCajas.aspx" />
     <Content Include="frmReporteCodigo.aspx" />
     <Content Include="frmReporteFactura.aspx" />
+    <Content Include="frmReporteListaBoletos.aspx" />
     <Content Include="frmReporteListaPasajeros.aspx" />
     <Content Include="frmReportePagosAdministrativos.aspx" />
     <Content Include="frmReportePasajerosBus.aspx" />
@@ -736,8 +737,8 @@
     </Content>
     <None Include="DSReportes.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DSReportes.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>DSReportes1.Designer.cs</LastGenOutput>
     </None>
     <Content Include="DSReportes.xss">
       <DependentUpon>DSReportes.xsd</DependentUpon>
@@ -7944,6 +7945,13 @@
     <Compile Include="frmReporteFactura.aspx.designer.cs">
       <DependentUpon>frmReporteFactura.aspx</DependentUpon>
     </Compile>
+    <Compile Include="frmReporteListaBoletos.aspx.cs">
+      <DependentUpon>frmReporteListaBoletos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmReporteListaBoletos.aspx.designer.cs">
+      <DependentUpon>frmReporteListaBoletos.aspx</DependentUpon>
+    </Compile>
     <Compile Include="frmReporteListaPasajeros.aspx.cs">
       <DependentUpon>frmReporteListaPasajeros.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -8183,6 +8191,7 @@
     <EmbeddedResource Include="Reportes\rptFacturaGuayaquil.rdlc" />
     <EmbeddedResource Include="Reportes\rptFactura_2.rdlc" />
     <EmbeddedResource Include="Reportes\rptGenerarRIDE.rdlc" />
+    <EmbeddedResource Include="Reportes\rptListadoBoletos.rdlc" />
     <EmbeddedResource Include="Reportes\rptListadoPasajeros.rdlc" />
     <EmbeddedResource Include="Reportes\rptListaPasajeros.rdlc" />
     <EmbeddedResource Include="Reportes\rptManifiestoPasajeros.rdlc" />

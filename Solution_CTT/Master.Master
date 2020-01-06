@@ -494,6 +494,7 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
+                            <li><a href="frmReporteListaBoletos.aspx"><i class="fa fa-circle-o"></i>Listado de Boletos por Viaje</a></li>
                             <li><a href="frmReporteVentaClientes.aspx"><i class="fa fa-circle-o"></i>Ventas por Clientes</a></li>
                             <li><a href="frmReporteListaPasajeros.aspx"><i class="fa fa-circle-o"></i>Reporte de Pasajeros</a></li>
                             <li><a href="frmReportePasajerosBus.aspx"><i class="fa fa-circle-o"></i>Pasajeros por Vehículo</a></li>
