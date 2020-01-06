@@ -6,10 +6,10 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.99623cm</Width>
+              <Width>1.44062cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.47248cm</Width>
+              <Width>2.02269cm</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>2.3789cm</Width>
@@ -21,10 +21,10 @@
               <Width>5.03448cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.42604cm</Width>
+              <Width>5.14583cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.5cm</Width>
+              <Width>1.78563cm</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -42,6 +42,7 @@
                             <TextRun>
                               <Value>Disco</Value>
                               <Style>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -77,6 +78,7 @@
                             <TextRun>
                               <Value>Viaje</Value>
                               <Style>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -112,6 +114,7 @@
                             <TextRun>
                               <Value>Fecha</Value>
                               <Style>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -147,6 +150,7 @@
                             <TextRun>
                               <Value>Hora</Value>
                               <Style>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -182,6 +186,7 @@
                             <TextRun>
                               <Value>Vía</Value>
                               <Style>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -217,6 +222,7 @@
                             <TextRun>
                               <Value>Destino</Value>
                               <Style>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -252,6 +258,7 @@
                             <TextRun>
                               <Value>Cantidad</Value>
                               <Style>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -291,7 +298,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!disco.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -323,7 +332,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!numero_viaje.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -355,7 +366,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!fecha.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -387,7 +400,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!hora.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -419,7 +434,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!via.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -449,7 +466,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!destino.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -479,7 +498,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!cantidad.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -540,7 +561,7 @@
     <Height>0.61458in</Height>
     <Style />
   </Body>
-  <Width>7.88542in</Width>
+  <Width>7.92708in</Width>
   <Page>
     <PageHeader>
       <Height>1.5875cm</Height>
@@ -567,7 +588,6 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox1</rd:DefaultName>
-          <Left>0cm</Left>
           <Height>0.6cm</Height>
           <Width>20.02896cm</Width>
           <Style>
@@ -589,6 +609,7 @@
                 <TextRun>
                   <Value>Fecha hasta:</Value>
                   <Style>
+                    <FontSize>8pt</FontSize>
                     <FontWeight>Bold</FontWeight>
                   </Style>
                 </TextRun>
@@ -597,8 +618,8 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox2</rd:DefaultName>
-          <Top>0.67056cm</Top>
-          <Left>7.4151cm</Left>
+          <Top>0.63528cm</Top>
+          <Left>5.8422cm</Left>
           <Height>0.6cm</Height>
           <Width>2.5cm</Width>
           <ZIndex>1</ZIndex>
@@ -621,6 +642,7 @@
                 <TextRun>
                   <Value>Localidad:</Value>
                   <Style>
+                    <FontSize>8pt</FontSize>
                     <FontWeight>Bold</FontWeight>
                   </Style>
                 </TextRun>
@@ -629,8 +651,8 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox2</rd:DefaultName>
-          <Top>0.63528cm</Top>
-          <Left>13.63281cm</Left>
+          <Top>0.67056cm</Top>
+          <Left>13.0975cm</Left>
           <Height>0.6cm</Height>
           <Width>2.5cm</Width>
           <ZIndex>2</ZIndex>
@@ -653,6 +675,7 @@
                 <TextRun>
                   <Value>Fecha desde:</Value>
                   <Style>
+                    <FontSize>8pt</FontSize>
                     <FontWeight>Bold</FontWeight>
                   </Style>
                 </TextRun>
@@ -661,8 +684,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox2</rd:DefaultName>
-          <Top>0.67056cm</Top>
-          <Left>0cm</Left>
+          <Top>0.63528cm</Top>
           <Height>0.6cm</Height>
           <Width>2.5cm</Width>
           <ZIndex>3</ZIndex>
