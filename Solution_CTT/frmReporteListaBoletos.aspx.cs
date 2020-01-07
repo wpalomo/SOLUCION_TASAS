@@ -131,6 +131,8 @@ namespace Solution_CTT
             Session["fecha_hastaLB"] = null;
             Session["instruccionLB"] = null;
             Session["dtConsultaLB"] = null;
+            Session["fecha_desde_LB"] = null;
+            Session["fecha_hasta_LB"] = null;
         }
 
         //FUNCION PARA CONSTRUIR LA INSTRUCCION
@@ -246,8 +248,15 @@ namespace Solution_CTT
                 rptReporte.LocalReport.ReportPath = Server.MapPath("~/Reportes/rptListadoBoletos.rdlc");
                 ReportDataSource datasource = new ReportDataSource("DataSet1", dtListado);
 
+                ReportParameter[] parametros = new ReportParameter[4];
+                parametros[0] = new ReportParameter("P_Fecha_Desde", "Fecha desde: " + Convert.ToDateTime(Session["fecha_desde_LB"].ToString()).ToString("dd-MM-yyyy"));
+                parametros[1] = new ReportParameter("P_Fecha_Hasta", "Fecha hasta:" + Convert.ToDateTime(Session["fecha_hasta_LB"].ToString()).ToString("dd-MM-yyyy"));
+                parametros[2] = new ReportParameter("P_Localidad", "Localidad: " + cmbLocalidad.SelectedItem.ToString());
+                parametros[3] = new ReportParameter("P_Usuario_Consulta", "Usuario de consulta: " +  Session["usuario"].ToString().ToLower());
+
                 rptReporte.LocalReport.DataSources.Clear();
                 rptReporte.LocalReport.DataSources.Add(datasource);
+                rptReporte.LocalReport.SetParameters(parametros);
                 rptReporte.LocalReport.Refresh();
             }
 
@@ -281,6 +290,9 @@ namespace Solution_CTT
                 ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'La fecha inicial no puede ser superior a la fecha final.', 'info');", true);
                 return;
             }
+
+            Session["fecha_desde_LB"] = sFechaInicial;
+            Session["fecha_hasta_LB"] = sFechaInicial;
 
             crearInstruccionSQL();
             llenarGrid();

@@ -44,7 +44,7 @@
                                 <div class="form-group">
                                     <asp:LinkButton ID="btnConsultar" runat="server" Text="" class="btn btn-warning" OnClick="btnConsultar_Click" ><i class="fa fa-search"> CONSULTAR</i></asp:LinkButton>
                                     <asp:LinkButton ID="btnLimpiar" runat="server" Text="" class="btn btn-danger" OnClick="btnLimpiar_Click" ><i class="fa fa-eraser"> LIMPIAR</i></asp:LinkButton>
-                                    <asp:LinkButton ID="btnImprimir" runat="server" Text="" class="btn btn-success" OnClick="btnImprimir_Click" Visible="false" ><i class="fa fa-print"> IMPRIMIR</i></asp:LinkButton>
+                                    <asp:LinkButton ID="btnImprimir" runat="server" Text="" class="btn btn-success" OnClick="btnImprimir_Click" Visible="false" ><i class="fa fa-print"> VISUALIZAR REPORTE</i></asp:LinkButton>
                                 </div>
                             </div>
                         </div>

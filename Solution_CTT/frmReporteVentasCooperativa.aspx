@@ -16,7 +16,7 @@
                                 </div>
                                 <div class="box-body">
                                     <div class="row">
-                                        <div class="col-md-2 form-group">
+                                        <div class="col-md-3 form-group">
                                             <label>Terminal</label>
                                             <div class="input-group col-sm-12">
                                                 <asp:DropDownList ID="cmbLocalidad" runat="server" class="form-control input-sm"></asp:DropDownList>
@@ -64,12 +64,12 @@
 
                                 <div class="box-body">
                                     <div class="scrolling-table-container" runat="server" id="Scroll" visible="false">
-                                        <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" OnRowDataBound="dgvDatos_RowDataBound">
+                                        <asp:GridView ID="dgvDatos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" >
                                             <Columns>
                                                 <asp:BoundField DataField="id_ctt_tipo_cliente" HeaderText="id_ctt_tipo_cliente" />
                                                 <asp:BoundField DataField="descripcion" HeaderText="Tipo de Pasaje" />
-                                                <asp:BoundField DataField="cantidad" HeaderText="Cantidad" />
-                                                <asp:BoundField DataField="total" HeaderText="Valor Total" />
+                                                <asp:BoundField DataField="cantidad" HeaderText="Cantidad" ItemStyle-HorizontalAlign="Center" />
+                                                <asp:BoundField DataField="total" HeaderText="Valor Total" ItemStyle-HorizontalAlign="Right" />
                                             </Columns>
                                             <PagerStyle HorizontalAlign="Center" CssClass="pagination-ys" />
                                         </asp:GridView>
@@ -87,16 +87,47 @@
                         <div class="col-md-4">
                             <div class="box box-warning">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title">Tasas de Usuario sin Sincronizar</h3>
+                                    <h3 class="box-title">Totales</h3>
                                 </div>
 
                                 <div class="box-body">
                                     <div class="row">
-                                        <div class="col-md-12 form-group">
+                                        <div class="col-md-6 form-group">
+                                            <label>Cant. Tasas</label>
                                             <div class="input-group col-sm-12">
-                                                <asp:TextBox ID="txtTotalTasasSinSincronizar" runat="server" class="form-control input-sm" ReadOnly="true" BackColor="White" Font-Size="XX-Large" style="text-align:center;" ForeColor="Red" Font-Bold="true" Text="0"></asp:TextBox>
+                                                <asp:TextBox ID="txtCantidadTasas" ReadOnly="true" runat="server" class="form-control input-sm" placeholder="Cantidad" AutoComplete="off" ToolTip=""></asp:TextBox>
                                             </div>
                                         </div>
+                                        <div class="col-md-6 form-group">
+                                            <label>Total</label>
+                                            <div class="input-group col-sm-12">                                                
+                                                <asp:TextBox ID="txtSumaTotalTasas" ReadOnly="true" runat="server" class="form-control input-sm" placeholder="Total" AutoComplete="off" ToolTip=""></asp:TextBox>
+                                            </div>
+                                        </div>                                       
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 form-group">
+                                            <label>Cant. Anulados</label>
+                                            <div class="input-group col-sm-12">
+                                                <asp:TextBox ID="txtCantidadAnulados" ReadOnly="true" runat="server" class="form-control input-sm" placeholder="Cantidad" AutoComplete="off" ToolTip=""></asp:TextBox>
+                                            </div>
+                                        </div>   
+                                        <div class="col-md-6 form-group">
+                                            <label>Total Anulados</label>
+                                            <div class="input-group col-sm-12">
+                                                <asp:TextBox ID="txtTotalAnulados" ReadOnly="true" runat="server" class="form-control input-sm" placeholder="Total" AutoComplete="off" ToolTip=""></asp:TextBox>
+                                            </div>
+                                        </div>                                   
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 form-group">
+                                            <label>TOTAL REPORTADO</label>
+                                            <div class="input-group col-sm-12">
+                                                <asp:TextBox ID="txtTotalReportado" ReadOnly="true" runat="server" class="form-control input-sm" placeholder="Total" AutoComplete="off" ToolTip=""></asp:TextBox>
+                                            </div>
+                                        </div>                                    
                                     </div>
                                 </div>
 
@@ -110,7 +141,7 @@
                                     <div class="col-md-6 form-group">
                                         <label></label>
                                         <div class="input-group col-sm-12">
-                                            <asp:LinkButton ID="btnLimpiar" runat="server" class="form-control btn btn-flat btn-default" ToolTip="Clic aquí para limpiar" ><i class="fa fa-circle-o-notch"></i>Limpiar</asp:LinkButton>
+                                            <asp:LinkButton ID="btnLimpiar" runat="server" class="form-control btn btn-flat btn-default" ToolTip="Clic aquí para limpiar" OnClick="btnLimpiar_Click" ><i class="fa fa-circle-o-notch"></i>Limpiar</asp:LinkButton>
                                         </div>
                                     </div>
                                 </div>

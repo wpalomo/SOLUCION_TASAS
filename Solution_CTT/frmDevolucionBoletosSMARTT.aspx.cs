@@ -426,13 +426,13 @@ namespace Solution_CTT
 
                         if (sRespuesta_A == "ERROR")
                         {
-                            ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'No se pudo obtener registros para la tasa de usuario SMARTT', 'error')</script>");
+                            ScriptManager.RegisterStartupScript((Page)this, base.GetType(), "Popup", "swal('Error.!', 'No se pudo obtener registros para la tasa de usuario SMARTT', 'warning');", true);
                             return false;
                         }
 
                         if (sRespuesta_A == "ISNULL")
                         {
-                            ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Información.!', 'No se proporcionaron credenciales de autenticación. Tasa de Usuario SMARTT', 'info')</script>");
+                            ScriptManager.RegisterStartupScript((Page)this, base.GetType(), "Popup", "swal('Información', 'No se proporcionaron credenciales de autenticación. Tasa de Usuario SMARTT', 'info');", true);
                             return false;
                         }
 
@@ -1533,22 +1533,22 @@ namespace Solution_CTT
                     return false;
                 }
 
-                //INSTRUCCION SQL PARA ANULAR EN ctt_detalle_tasa_smartt
-                sSql = "";
-                sSql += "update ctt_detalle_tasa_smartt set" + Environment.NewLine;
-                sSql += "estado = 'E'," + Environment.NewLine;
-                sSql += "fecha_anula = GETDATE()," + Environment.NewLine;
-                sSql += "usuario_anula = '" + sDatosMaximo[0] + "'," + Environment.NewLine;
-                sSql += "terminal_anula = '" + sDatosMaximo[1] + "'" + Environment.NewLine;
-                sSql += "where id_pedido = " + iIdPedidoAnterior;
+                ////INSTRUCCION SQL PARA ANULAR EN ctt_detalle_tasa_smartt
+                //sSql = "";
+                //sSql += "update ctt_detalle_tasa_smartt set" + Environment.NewLine;
+                //sSql += "estado = 'E'," + Environment.NewLine;
+                //sSql += "fecha_anula = GETDATE()," + Environment.NewLine;
+                //sSql += "usuario_anula = '" + sDatosMaximo[0] + "'," + Environment.NewLine;
+                //sSql += "terminal_anula = '" + sDatosMaximo[1] + "'" + Environment.NewLine;
+                //sSql += "where id_pedido = " + iIdPedidoAnterior;
 
-                //EJECUCION DE INSTRUCCION SQL
-                if (!conexionM.ejecutarInstruccionSQL(sSql))
-                {
-                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                    return false;
-                }
+                ////EJECUCION DE INSTRUCCION SQL
+                //if (!conexionM.ejecutarInstruccionSQL(sSql))
+                //{
+                //    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                //    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                //    return false;
+                //}
 
                 //INSTRUCCION SQL PARA ANULAR EN CV403_NUMERO_CAB_PEDIDO
                 sSql = "";
@@ -1703,37 +1703,37 @@ namespace Solution_CTT
                 }
 
                 //RECORRER LOS REGISTROS DE LAS TASAS EMITIDAS
-                for (int i = 0; i < dtTasasEmitidas.Rows.Count; i++)
-                {
-                    int iEstadoTasaUsuario_A = Convert.ToInt32(dtTasasEmitidas.Rows[i]["estado_tasa_usuario"].ToString());
-                    int iIdCttTasaSmartt_API = Convert.ToInt32(dtTasasEmitidas.Rows[i]["id_ctt_tasas_smartt"].ToString());
+                //for (int i = 0; i < dtTasasEmitidas.Rows.Count; i++)
+                //{
+                //    int iEstadoTasaUsuario_A = Convert.ToInt32(dtTasasEmitidas.Rows[i]["estado_tasa_usuario"].ToString());
+                //    int iIdCttTasaSmartt_API = Convert.ToInt32(dtTasasEmitidas.Rows[i]["id_ctt_tasas_smartt"].ToString());
 
-                    sSql = "";
-                    sSql += "update ctt_tasas_smartt set" + Environment.NewLine;
+                //    sSql = "";
+                //    sSql += "update ctt_tasas_smartt set" + Environment.NewLine;
 
-                    if (iEstadoTasaUsuario_A == 1)
-                    {
-                        sSql += "estado = 'E'," + Environment.NewLine;
-                    }
+                //    if (iEstadoTasaUsuario_A == 1)
+                //    {
+                //        sSql += "estado = 'E'," + Environment.NewLine;
+                //    }
 
-                    else
-                    {
-                        sSql += "estado = 'N'," + Environment.NewLine;
-                    }
+                //    else
+                //    {
+                //        sSql += "estado = 'N'," + Environment.NewLine;
+                //    }
 
-                    sSql += "fecha_anula = GETDATE()," + Environment.NewLine;
-                    sSql += "usuario_anula = '" +sDatosMaximo[0] + "'," + Environment.NewLine;
-                    sSql += "terminal_anula = '" + sDatosMaximo[1] + "'" + Environment.NewLine;
-                    sSql += "where id_ctt_tasas_smartt = " + iIdCttTasaSmartt_API;
+                //    sSql += "fecha_anula = GETDATE()," + Environment.NewLine;
+                //    sSql += "usuario_anula = '" +sDatosMaximo[0] + "'," + Environment.NewLine;
+                //    sSql += "terminal_anula = '" + sDatosMaximo[1] + "'" + Environment.NewLine;
+                //    sSql += "where id_ctt_tasas_smartt = " + iIdCttTasaSmartt_API;
 
-                    //EJECUCION DE INSTRUCCION SQL
-                    if (!conexionM.ejecutarInstruccionSQL(sSql))
-                    {
-                        lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-                        return false;
-                    }
-                }
+                //    //EJECUCION DE INSTRUCCION SQL
+                //    if (!conexionM.ejecutarInstruccionSQL(sSql))
+                //    {
+                //        lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                //        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                //        return false;
+                //    }
+                //}
 
                 return true;
             }

@@ -145,6 +145,7 @@ namespace Solution_CTT
 
         //VARIABLES DEL REPORTE
         int iVendidos_REP;
+        int iTipoComprobante_REP;
 
         decimal dbCantidad_REP;
         decimal dbPrecioUnitario_REP;
@@ -414,7 +415,7 @@ namespace Solution_CTT
                 sSql += "tipo_viaje, fecha_viaje, hora_salida, descripcion_anden, descripcion_disco," + Environment.NewLine;
                 sSql += "isnull(tasa_usuario, '') tasa_usuario, cantidad, precio_unitario, valor_dscto, valor_iva, clave_acceso," + Environment.NewLine;
                 sSql += "oficinista, numero_asiento, '' as valor_total, '' as vendidos, '' as asientos, '' as secuencia_factura," + Environment.NewLine;
-                sSql += "destino, cantidad_tasa_emitida" + Environment.NewLine;
+                sSql += "destino, cantidad_tasa_emitida, idtipocomprobante" + Environment.NewLine;
                 sSql += "from ctt_vw_factura" + Environment.NewLine;
                 sSql += "where id_factura = " + iIdFactura + Environment.NewLine;
                 sSql += "order by numero_asiento";
@@ -429,11 +430,11 @@ namespace Solution_CTT
                     if (dtConsulta.Rows.Count > 0)
                     {
                         sNumeroFactura_REP = dtConsulta.Rows[0][0].ToString() + "-" + dtConsulta.Rows[0][1].ToString() + "-" + dtConsulta.Rows[0][2].ToString().PadLeft(9, '0');
-                        //iVendidos_REP = Convert.ToInt32(dtConsulta.Rows[0]["cantidad_tasa_emitida"].ToString());
+                        iTipoComprobante_REP = Convert.ToInt32(dtConsulta.Rows[0]["idtipocomprobante"].ToString());
 
                         sAsientos_REP = "";
                         dbSumaTotal_REP = 0;
-                        iVendidos_REP = dtConsulta.Rows.Count;
+                        iVendidos_REP = 0;
 
                         //RECORRER LOS ASIENTOS Y SUMAR TOTAL
                         for (int i = 0; i < dtConsulta.Rows.Count; i++)
@@ -445,6 +446,7 @@ namespace Solution_CTT
                                 sAsientos_REP += " - ";
                             }
 
+                            iVendidos_REP += Convert.ToInt32(dtConsulta.Rows[i]["cantidad"].ToString());
                             dbCantidad_REP = Convert.ToDecimal(dtConsulta.Rows[i]["cantidad"].ToString());
                             dbPrecioUnitario_REP = Convert.ToDecimal(dtConsulta.Rows[i]["precio_unitario"].ToString());
                             dbDescuento_REP = Convert.ToDecimal(dtConsulta.Rows[i]["valor_dscto"].ToString());
@@ -484,7 +486,10 @@ namespace Solution_CTT
                         {
                             LocalReport reporteLocal = new LocalReport();
 
-                            reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFacturaGuayaquil.rdlc");
+                            if (iTipoComprobante_REP == 1)
+                                reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFacturaGuayaquil.rdlc");
+                            else
+                                reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptNotaEntrega_2.rdlc");
 
                             ReportDataSource datasource = new ReportDataSource("DataSet1", dt);
                             ReportDataSource datasource2 = new ReportDataSource("DataSet2", dt2);
@@ -555,6 +560,7 @@ namespace Solution_CTT
                         dtLlenarTasas.Columns.Add("usuario");
                         dtLlenarTasas.Columns.Add("identificacion");
                         dtLlenarTasas.Columns.Add("cliente");
+                        dtLlenarTasas.Columns.Add("numero_asiento");
 
                         DataColumn imagen = new DataColumn("codigo_qr");
                         imagen.DataType = System.Type.GetType("System.Byte[]");
@@ -575,6 +581,7 @@ namespace Solution_CTT
                                                dtConsulta.Rows[i]["usuario"].ToString().Trim(),
                                                dtConsulta.Rows[i]["identificacion"].ToString().Trim(),
                                                dtConsulta.Rows[i]["nombre"].ToString().Trim(),
+                                               dtConsulta.Rows[i]["numero_asiento"].ToString().Trim(),
                                                codigoQR);
 
                         DSReportes ds = new DSReportes();
@@ -1309,20 +1316,21 @@ namespace Solution_CTT
             try
             {
                 sSql = "";
-                sSql += "select P.id_producto, PU.descripcion + ' - $' + ltrim(str(PP.valor, 10, 2)) destino" + Environment.NewLine;
-                sSql += "from ctt_pueblos PU, cv401_productos P," + Environment.NewLine;
-                sSql += "cv403_precios_productos PP" + Environment.NewLine;
-                sSql += "where P.id_ctt_pueblo_destino = PU.id_ctt_pueblo" + Environment.NewLine;
-                sSql += "and PP.id_producto = P.id_producto" + Environment.NewLine;
-                sSql += "and id_producto_padre in" + Environment.NewLine;
-                sSql += "(select id_producto from cv401_productos" + Environment.NewLine;
-                sSql += "where id_ctt_pueblo_origen = " + Convert.ToInt32(Session["idPuebloOrigen"].ToString()) + ")" + Environment.NewLine;
-                sSql += "and P.estado = 'A'" + Environment.NewLine;
-                sSql += "and PU.estado = 'A'" + Environment.NewLine;
-                sSql += "and PP.estado = 'A'" + Environment.NewLine;
-                sSql += "and PP.id_lista_precio = " + iIdListaPrecio_P + Environment.NewLine;
+                sSql += "select P.id_producto, PUEBLO.descripcion + ' - $' + ltrim(str(PP.valor, 10, 2)) destino" + Environment.NewLine;
+                sSql += "from ctt_ruta R INNER JOIN" + Environment.NewLine;
+                sSql += "ctt_ruta_destinos RD ON R.id_ctt_ruta = RD.id_ctt_ruta" + Environment.NewLine;
+                sSql += "and R.estado = 'A'" + Environment.NewLine;
+                sSql += "and RD.estado = 'A' INNER JOIN" + Environment.NewLine;
+                sSql += "cv401_productos P ON P.id_producto = RD.id_producto" + Environment.NewLine;
+                sSql += "and P.estado  = 'A' INNER JOIN" + Environment.NewLine;
+                sSql += "cv403_precios_productos PP ON P.id_producto = PP.id_producto" + Environment.NewLine;
+                sSql += "and PP.estado = 'A' INNER JOIN" + Environment.NewLine;
+                sSql += "ctt_pueblos PUEBLO ON PUEBLO.id_ctt_pueblo = P.id_ctt_pueblo_destino" + Environment.NewLine;
+                sSql += "and PUEBLO.estado = 'A'" + Environment.NewLine;
+                sSql += "where PP.id_lista_precio = " + iIdListaPrecio_P + Environment.NewLine;
                 sSql += "and P.aplica_extra = 0" + Environment.NewLine;
-                sSql += "order by PU.descripcion";
+                sSql += "and RD.id_ctt_ruta = " + Convert.ToInt32(Session["iIdRutaVentaSMARTT"].ToString()) + Environment.NewLine;
+                sSql += "order by PUEBLO.descripcion";
 
                 comboE.ISSQL = sSql;
                 cmbDestino.DataSource = comboM.listarCombo(comboE);
@@ -1348,20 +1356,21 @@ namespace Solution_CTT
             try
             {
                 sSql = "";
-                sSql += "select P.id_producto, PU.descripcion + ' - $' + ltrim(str(PP.valor, 10, 2)) destino" + Environment.NewLine;
-                sSql += "from ctt_pueblos PU, cv401_productos P," + Environment.NewLine;
-                sSql += "cv403_precios_productos PP" + Environment.NewLine;
-                sSql += "where P.id_ctt_pueblo_destino = PU.id_ctt_pueblo" + Environment.NewLine;
-                sSql += "and PP.id_producto = P.id_producto" + Environment.NewLine;
-                sSql += "and id_producto_padre in" + Environment.NewLine;
-                sSql += "(select id_producto from cv401_productos" + Environment.NewLine;
-                sSql += "where id_ctt_pueblo_origen = " + Convert.ToInt32(Session["idPuebloOrigen"].ToString()) + ")" + Environment.NewLine;
-                sSql += "and P.estado = 'A'" + Environment.NewLine;
-                sSql += "and PU.estado = 'A'" + Environment.NewLine;
-                sSql += "and PP.estado = 'A'" + Environment.NewLine;
-                sSql += "and PP.id_lista_precio = " + iIdListaPrecio_P + Environment.NewLine;
+                sSql += "select P.id_producto, PUEBLO.descripcion + ' - $' + ltrim(str(PP.valor, 10, 2)) destino" + Environment.NewLine;
+                sSql += "from ctt_ruta R INNER JOIN" + Environment.NewLine;
+                sSql += "ctt_ruta_destinos RD ON R.id_ctt_ruta = RD.id_ctt_ruta" + Environment.NewLine;
+                sSql += "and R.estado = 'A'" + Environment.NewLine;
+                sSql += "and RD.estado = 'A' INNER JOIN" + Environment.NewLine;
+                sSql += "cv401_productos P ON P.id_producto = RD.id_producto" + Environment.NewLine;
+                sSql += "and P.estado  = 'A' INNER JOIN" + Environment.NewLine;
+                sSql += "cv403_precios_productos PP ON P.id_producto = PP.id_producto" + Environment.NewLine;
+                sSql += "and PP.estado = 'A' INNER JOIN" + Environment.NewLine;
+                sSql += "ctt_pueblos PUEBLO ON PUEBLO.id_ctt_pueblo = P.id_ctt_pueblo_destino" + Environment.NewLine;
+                sSql += "and PUEBLO.estado = 'A'" + Environment.NewLine;
+                sSql += "where PP.id_lista_precio = " + iIdListaPrecio_P + Environment.NewLine;
                 sSql += "and P.aplica_extra = 1" + Environment.NewLine;
-                sSql += "order by PU.descripcion";
+                sSql += "and RD.id_ctt_ruta = " + Convert.ToInt32(Session["iIdRutaVentaSMARTT"].ToString()) + Environment.NewLine;
+                sSql += "order by PUEBLO.descripcion";
 
                 comboE.ISSQL = sSql;
                 cmbDestino.DataSource = comboM.listarCombo(comboE);
@@ -1490,6 +1499,7 @@ namespace Solution_CTT
             dgvDatos.Columns[17].Visible = ok;
             dgvDatos.Columns[18].Visible = ok;
             dgvDatos.Columns[19].Visible = ok;
+            dgvDatos.Columns[20].Visible = ok;
         }
 
         //FUNCION PARA LLENAR EL GRID
@@ -1554,6 +1564,7 @@ namespace Solution_CTT
             dgvDatosExtras.Columns[17].Visible = ok;
             dgvDatosExtras.Columns[18].Visible = ok;
             dgvDatosExtras.Columns[19].Visible = ok;
+            dgvDatosExtras.Columns[20].Visible = ok;
         }
 
         //FUNCION PARA LLENAR EL GRID
@@ -2079,13 +2090,13 @@ namespace Solution_CTT
 
                 if (sRespuesta_A == "ERROR")
                 {
-                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'No se pudo obtener registros para la tasa de usuario SMARTT', 'error')</script>");
+                    ScriptManager.RegisterStartupScript((Page)this, base.GetType(), "Popup", "swal('Error.!', 'No se pudo obtener registros para la tasa de usuario SMARTT. Verifique con el administardor.', 'warning');", true);
                     return;
                 }
 
                 if (sRespuesta_A == "ISNULL")
                 {
-                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Información.!', 'No se proporcionaron credenciales de autenticación. Tasa de Usuario SMARTT', 'info')</script>");
+                    ScriptManager.RegisterStartupScript((Page)this, base.GetType(), "Popup", "swal('Información', 'No se proporcionaron credenciales de autenticación. Tasa de Usuario SMARTT', 'info');", true);
                     return;
                 }
 
@@ -2345,6 +2356,7 @@ namespace Solution_CTT
                     iHabilitadoTasa_S = 0;
 
                 string sFechaActualizacionTasa_S = tasaUsuario.actualizacion.ToString("yyyy-MM-dd HH:mm:ss");
+                string sFechaIngresoTasa_S = Convert.ToDateTime(sFechaActualizacionTasa_S).ToString("yyyy-MM-dd");
 
                 sSql = "";
                 sSql += "insert into ctt_detalle_tasa_smartt (" + Environment.NewLine;
@@ -2353,7 +2365,7 @@ namespace Solution_CTT
                 sSql += "nombre, correo, tipo_cliente, direccion, telefono, tipo_identificacion, extranjero," + Environment.NewLine;
                 sSql += "is_active_cliente, is_enable_cliente, actualizacion_cliente, uuid, estado_smartt," + Environment.NewLine;
                 sSql += "estado_nombre, offline, emision, cooperativa, destino, is_active, is_enable," + Environment.NewLine;
-                sSql += "actualizacion_boletos, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                sSql += "actualizacion_boletos, fecha_emision_tasa, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += iIdPedido + ", " + iId_S + ", '" + sFechaHoraVenta_S + "', '" + sNumeroDocumento_S + "'," + Environment.NewLine;
                 sSql += "'" + sClaveAcceso_S + "', '" + sNumeroDocumentoTasa_S + "', '" + sClaveAccesoTasa_S + "'," + Environment.NewLine;
@@ -2363,7 +2375,7 @@ namespace Solution_CTT
                 sSql += iExtranjeroFactura_S + ", " + iActivoFactura_S + ", " + iHabilitadoFactura_S + ", '" + sFechaActualizacionFactura_S + "'," + Environment.NewLine;
                 sSql += "'" + sUuid + "', " + iEstadoTasa_S + ", '" + sEstadoNombreTasa_S + "', " + iOffline_S + "," + Environment.NewLine;
                 sSql += "'" + sEmisionTasa_S + "', " + iCooperativaTasa_S + ", '" + sDestinoTasa_S + "', " + iActivoTasa_S + "," + Environment.NewLine;
-                sSql += iHabilitadoTasa_S + ", '" + sFechaActualizacionTasa_S + "', 'A', GETDATE()," + Environment.NewLine;
+                sSql += iHabilitadoTasa_S + ", '" + sFechaActualizacionTasa_S + "', '" + sFechaIngresoTasa_S + "', 'A', GETDATE()," + Environment.NewLine;
                 sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                 //EJECUCION DE INSTRUCCION SQL
@@ -2441,6 +2453,8 @@ namespace Solution_CTT
                         iHabilitadoBoletos_Filtro = 0;
 
                     string sFechaActualizacionBoletos_Filtro = tasaUsuario.boletos[j].actualizacion.ToString("yyyy-MM-dd HH:mm:ss");
+                    string sFechaEmisionTasa_Filtro = Convert.ToDateTime(sFechaActualizacionBoletos_Filtro).ToString("yyyy-MM-dd");
+                    int iNumeroAsiento_Filtro = tasaUsuario.boletos[j].asiento;
 
                     sSql = "";
                     sSql += "insert into ctt_tasas_smartt (" + Environment.NewLine;
@@ -2448,7 +2462,7 @@ namespace Solution_CTT
                     sSql += "parada_destino, id_pasajero_smartt, tipo_cliente_pasajero, tipo_identificacion," + Environment.NewLine;
                     sSql += "extranjero_pasajero, is_active_pasajero, is_enable_pasajero, actualizacion_pasajero," + Environment.NewLine;
                     sSql += "tasa_usuario, estado_tasa_usuario, estado_nombre, is_active_smartt, is_enable_smartt," + Environment.NewLine;
-                    sSql += "actualizacion_smartt, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                    sSql += "actualizacion_smartt, fecha_emision_tasa, numero_asiento, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                     sSql += "values (" + Environment.NewLine;
                     sSql += iIdTasaSmartt + ", " + iId_Filtro + ", " + dbValor_Filtro + ", " + iLocalidadEmbarque_Filtro + "," + Environment.NewLine;
                     sSql += iTipoCliente_Filtro + ", '" + sParadaEmbarque_Filtro + "', " + iParadaDestino_Filtro + "," + Environment.NewLine;
@@ -2456,8 +2470,8 @@ namespace Solution_CTT
                     sSql += iExtranjero_Filtro + ", " + iActivoPasajero_Filtro + ", " + iHabilitadoPasajero_Filtro + ", ";
                     sSql += "'" + sFechaActualizacionPasajero_Filtro + "', '" + sTasaUsuario_Filtro + "'," + Environment.NewLine;
                     sSql += iEstadoTasa_Filtro + ", '" + sNombreEstado_Filtro + "', " + iActivoBoletos_Filtro + ", ";
-                    sSql += iHabilitadoBoletos_Filtro + ", '" + sFechaActualizacionBoletos_Filtro + "', 'A', GETDATE()," + Environment.NewLine;
-                    sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
+                    sSql += iHabilitadoBoletos_Filtro + ", '" + sFechaActualizacionBoletos_Filtro + "', '" + sFechaEmisionTasa_Filtro + "'," + Environment.NewLine;
+                    sSql += iNumeroAsiento_Filtro + ", 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                     //EJECUCION DE INSTRUCCION SQL
                     if (!conexionM.ejecutarInstruccionSQL(sSql))
@@ -4587,6 +4601,7 @@ namespace Solution_CTT
             dgvViajesActivos.Columns[17].Visible = ok;
             dgvViajesActivos.Columns[18].Visible = ok;
             dgvViajesActivos.Columns[19].Visible = ok;
+            dgvViajesActivos.Columns[20].Visible = ok;
         }
 
         #endregion
@@ -4638,6 +4653,7 @@ namespace Solution_CTT
                     Session["cobrar_administracion_boletos"] = dgvDatos.Rows[a].Cells[18].Text;
 
                     Session["iIdViajeVentaSMARTT"] = dgvDatos.Rows[a].Cells[19].Text;
+                    Session["iIdRutaVentaSMARTT"] = dgvDatos.Rows[a].Cells[20].Text;
 
                     Session["auxiliar"] = "1";
                     Session["dtClientes"] = null;
@@ -5710,6 +5726,7 @@ namespace Solution_CTT
                     Session["cobrar_administracion_boletos"] = dgvDatosExtras.Rows[a].Cells[18].Text;
 
                     Session["iIdViajeVentaSMARTT"] = dgvDatosExtras.Rows[a].Cells[19].Text;
+                    Session["iIdRutaVentaSMARTT"] = dgvDatosExtras.Rows[a].Cells[20].Text;
 
                     Session["auxiliar"] = "1";
                     Session["dtClientes"] = null;
@@ -6402,6 +6419,7 @@ namespace Solution_CTT
                 Session["id_pueblo_destino_tasa"] = dgvViajesActivos.Rows[a].Cells[17].Text;
                 Session["cobrar_administracion_boletos"] = dgvViajesActivos.Rows[a].Cells[18].Text;
                 Session["iIdViajeVentaSMARTT"] = dgvViajesActivos.Rows[a].Cells[19].Text;
+                Session["iIdRutaVentaSMARTT"] = dgvViajesActivos.Rows[a].Cells[20].Text;
 
                 Session["auxiliar"] = "1";
                 Session["dtClientes"] = null;

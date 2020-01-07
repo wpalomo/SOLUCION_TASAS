@@ -59,6 +59,7 @@
                               <Value>=Fields!cuenta.Value</Value>
                               <Style>
                                 <FontSize>7pt</FontSize>
+                                <Format>0</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>

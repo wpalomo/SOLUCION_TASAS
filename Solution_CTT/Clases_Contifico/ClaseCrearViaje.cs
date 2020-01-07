@@ -60,7 +60,7 @@ namespace Solution_CTT.Clases_Contifico
                 sJson += "\"via\": \"" + sVia_P + "\"," + Environment.NewLine;
                 sJson += "\"conductor_identificacion\": \"" + sConductor_1_P + "\"," + Environment.NewLine;
                 sJson += "\"conductor2_identificacion\": \"" + sConductor_2_P + "\"," + Environment.NewLine;
-                sJson += "\"bus_disco\": " + sDisco_P + "," + Environment.NewLine;
+                sJson += "\"bus_disco\": " + Convert.ToInt32(sDisco_P) + "," + Environment.NewLine;
                 sJson += "\"localidad\": " + sLocalidad_P + Environment.NewLine;
                 sJson += "}";
 

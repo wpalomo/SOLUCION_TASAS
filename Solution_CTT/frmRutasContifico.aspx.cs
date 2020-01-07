@@ -52,6 +52,140 @@ namespace Solution_CTT
         #region FUNCIONES DEL USUARIO
 
         //FUNCION POSTBACK PARA LAS VIAS
+        private void postbackVias_2()
+        {
+            try
+            {
+                dtConsulta = new DataTable();
+                dtConsulta.Clear();
+
+                dtConsulta.Columns.Add("id");
+                dtConsulta.Columns.Add("descripcion");
+
+                for (int i = 0; i < ruta.results.Length; i++)
+                {
+                    DataRow row = dtConsulta.NewRow();
+                    row["via"] = (i + 1).ToString();
+                    row["descripcion"] = ruta.results[i].via;
+                    dtConsulta.Rows.Add(row);
+                }
+
+                cmbVia.DataSource = dtConsulta;
+                cmbVia.DataValueField = "id";
+                cmbVia.DataTextField = "descripcion";
+                cmbVia.DataBind();
+
+                int iIdVia = Convert.ToInt32(cmbVia.SelectedValue.ToString()) - 1;
+
+                Session["PosIRuta"] = iIdVia.ToString();
+
+                Session["viaJson"] = ruta.results[iIdVia].via.ToString();
+                txtNombreDestino.Text = ruta.results[iIdVia].destino_nombre.Trim().ToUpper();
+                txtNumeroAnden.Text = ruta.results[iIdVia].anden.ToString();
+
+                //CREAR EL COMBO DE PARADAS
+                dtConsulta = new DataTable();
+                dtConsulta.Clear();
+
+                dtConsulta.Columns.Add("parada_nombre");
+                dtConsulta.Columns.Add("descripcion");
+
+                for (int j = 0; j < ruta.results[iIdVia].paradas.Length; j++)
+                {
+                    DataRow row = dtConsulta.NewRow();
+                    row["parada_nombre"] = ruta.results[iIdVia].paradas[j].parada_nombre.Trim().ToUpper();
+                    row["descripcion"] = ruta.results[iIdVia].paradas[j].parada_nombre.Trim().ToUpper();
+                    dtConsulta.Rows.Add(row);
+                }
+
+                cmbParadas.DataSource = dtConsulta;
+                cmbParadas.DataValueField = "parada_nombre";
+                cmbParadas.DataTextField = "descripcion";
+                cmbParadas.DataBind();
+
+                //AQUI LLAMAR LA FUNCION POSTBACK PARADAS
+                postbackParadas(Convert.ToInt32(Session["PosIRuta"].ToString()));
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
+
+        //FUNCION POSTBACK PARA LAS VIAS
+        private void postbackVias_3()
+        {
+            try
+            {
+                dtConsulta = new DataTable();
+                dtConsulta.Clear();
+
+                dtConsulta.Columns.Add("via");
+                dtConsulta.Columns.Add("descripcion");
+
+                for (int i = 0; i < ruta.results.Length; i++)
+                {
+                    DataRow row = dtConsulta.NewRow();
+                    row["via"] = (i + 1).ToString();
+                    row["descripcion"] = ruta.results[i].via;
+                    dtConsulta.Rows.Add(row);
+                }
+
+                cmbVia.DataSource = dtConsulta;
+                cmbVia.DataValueField = "via";
+                cmbVia.DataTextField = "descripcion";
+                cmbVia.DataBind();
+
+                for (int i = 0; i < ruta.results.Length; i++)
+                {
+                    string sVia_P = cmbVia.SelectedValue.ToString().Trim().ToLower();
+
+                    if (ruta.results[i].via.ToString().Trim().ToLower() == sVia_P)
+                    {
+                        Session["PosIRuta"] = i.ToString();
+
+                        Session["viaJson"] = ruta.results[i].via.ToString();
+                        txtNombreDestino.Text = ruta.results[i].destino_nombre.Trim().ToUpper();
+                        txtNumeroAnden.Text = ruta.results[i].anden.ToString();
+
+                        //CREAR EL COMBO DE PARADAS
+                        dtConsulta = new DataTable();
+                        dtConsulta.Clear();
+
+                        dtConsulta.Columns.Add("parada_nombre");
+                        dtConsulta.Columns.Add("descripcion");
+
+                        for (int j = 0; j < ruta.results[i].paradas.Length; j++)
+                        {
+                            DataRow row = dtConsulta.NewRow();
+                            row["parada_nombre"] = ruta.results[i].paradas[j].parada_nombre.Trim().ToUpper();
+                            row["descripcion"] = ruta.results[i].paradas[j].parada_nombre.Trim().ToUpper();
+                            dtConsulta.Rows.Add(row);
+                        }
+
+                        cmbParadas.DataSource = dtConsulta;
+                        cmbParadas.DataValueField = "parada_nombre";
+                        cmbParadas.DataTextField = "descripcion";
+                        cmbParadas.DataBind();
+
+                        //AQUI LLAMAR LA FUNCION POSTBACK PARADAS
+                        postbackParadas(Convert.ToInt32(Session["PosIRuta"].ToString()));
+
+                        break;
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
+
+        //FUNCION POSTBACK PARA LAS VIAS
         private void postbackVias()
         {
             try
@@ -144,44 +278,6 @@ namespace Solution_CTT
                         break;
                     }
                 }
-
-                //for (int k = 0; k < ruta.results[i].paradas.Length; k++)
-                //{
-                //    string sParada_P = cmbParadas.SelectedValue.ToString().Trim().ToUpper();
-
-                //    if (ruta.results[i].paradas[k].parada_nombre.ToString().Trim().ToUpper() == sParada_P)
-                //    {
-                //        Session["PosKRuta"] = k.ToString();
-
-                //        txtOrdenLlegada.Text = ruta.results[i].paradas[k].orden_llegada.ToString();
-                //        chkHabilitado.Checked = ruta.results[i].paradas[k].is_enable;
-
-                //        //CREAR EL COMBO DE TARIFAS
-                //        dtConsulta = new DataTable();
-                //        dtConsulta.Clear();
-
-                //        dtConsulta.Columns.Add("id");
-                //        dtConsulta.Columns.Add("descripcion");
-
-                //        for (int l = 0; l < ruta.results[i].paradas[k].tarifas.Length; l++)
-                //        {
-                //            DataRow row = dtConsulta.NewRow();
-                //            row["id"] = ruta.results[i].paradas[k].tarifas[l].id;
-                //            row["descripcion"] = ruta.results[i].paradas[k].tarifas[l].tipo_servicio_nombre + " - " + ruta.results[i].paradas[k].tarifas[l].tipo_cliente_nombre;
-                //            dtConsulta.Rows.Add(row);
-                //        }
-
-                //        cmbTarifa.DataSource = dtConsulta;
-                //        cmbTarifa.DataValueField = "id";
-                //        cmbTarifa.DataTextField = "descripcion";
-                //        cmbTarifa.DataBind();
-
-                //        //AQUI LLAMAR LA FUNCION POSTBACK TARIFAS
-                //        postbackTarifas(Convert.ToInt32(Session["PosIRuta"].ToString()), Convert.ToInt32(Session["PosKRuta"].ToString()));
-
-                //        break;
-                //    }                    
-                //}
             }
 
             catch (Exception ex)
@@ -251,6 +347,7 @@ namespace Solution_CTT
                 Session["JsonRutas"] = sRespuesta_A;                
                 ruta = JsonConvert.DeserializeObject<Clase_Variables_Contifico.Rutas>(sRespuesta_A);
                 postbackVias();
+                //postbackVias_2();
             }
 
             catch (Exception ex)
@@ -291,9 +388,6 @@ namespace Solution_CTT
             sRespuesta_A = Session["JsonRutas"].ToString();
             ruta = JsonConvert.DeserializeObject<Clase_Variables_Contifico.Rutas>(sRespuesta_A);
 
-            //postbackVias();
-            //postbackParadas(Convert.ToInt32(cmbVia.SelectedValue));
-
             for (int i = 0; i < ruta.results.Length; i++)
             {
                 string sVia_P = cmbVia.SelectedValue.ToString().Trim().ToLower();
@@ -332,6 +426,41 @@ namespace Solution_CTT
                     break;
                 }
             }
+
+            ////AQUI LLAMAR LA FUNCION POSTBACK VIAS
+            //sRespuesta_A = Session["JsonRutas"].ToString();
+            //ruta = JsonConvert.DeserializeObject<Clase_Variables_Contifico.Rutas>(sRespuesta_A);
+
+            //int iIdPosRuta = Convert.ToInt32(cmbVia.SelectedValue) - 1;
+
+            //Session["PosIRuta"] = iIdPosRuta.ToString();
+
+            //Session["viaJson"] = ruta.results[iIdPosRuta].via.ToString();
+            //txtNombreDestino.Text = ruta.results[iIdPosRuta].destino_nombre.Trim().ToUpper();
+            //txtNumeroAnden.Text = ruta.results[iIdPosRuta].anden.ToString();
+
+            ////CREAR EL COMBO DE PARADAS
+            //dtConsulta = new DataTable();
+            //dtConsulta.Clear();
+
+            //dtConsulta.Columns.Add("parada_nombre");
+            //dtConsulta.Columns.Add("descripcion");
+
+            //for (int j = 0; j < ruta.results[iIdPosRuta].paradas.Length; j++)
+            //{
+            //    DataRow row = dtConsulta.NewRow();
+            //    row["parada_nombre"] = ruta.results[iIdPosRuta].paradas[j].parada_nombre.Trim().ToUpper();
+            //    row["descripcion"] = ruta.results[iIdPosRuta].paradas[j].parada_nombre.Trim().ToUpper();
+            //    dtConsulta.Rows.Add(row);
+            //}
+
+            //cmbParadas.DataSource = dtConsulta;
+            //cmbParadas.DataValueField = "parada_nombre";
+            //cmbParadas.DataTextField = "descripcion";
+            //cmbParadas.DataBind();
+
+            ////AQUI LLAMAR LA FUNCION POSTBACK PARADAS
+            //postbackParadas(Convert.ToInt32(Session["PosIRuta"].ToString()));
         }
     }
 }

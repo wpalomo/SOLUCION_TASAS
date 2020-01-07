@@ -21,7 +21,7 @@
               <Width>5.03448cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>5.14583cm</Width>
+              <Width>4.77541cm</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1.78563cm</Width>
@@ -550,7 +550,7 @@
         <DataSetName>DataSet1</DataSetName>
         <Top>0.17639cm</Top>
         <Height>1.2cm</Height>
-        <Width>20.02896cm</Width>
+        <Width>19.65855cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -558,10 +558,10 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>0.61458in</Height>
+    <Height>0.59955in</Height>
     <Style />
   </Body>
-  <Width>7.92708in</Width>
+  <Width>7.79166in</Width>
   <Page>
     <PageHeader>
       <Height>1.5875cm</Height>
@@ -589,7 +589,7 @@
           </Paragraphs>
           <rd:DefaultName>Textbox1</rd:DefaultName>
           <Height>0.6cm</Height>
-          <Width>20.02896cm</Width>
+          <Width>19.65855cm</Width>
           <Style>
             <Border>
               <Style>None</Style>
@@ -600,28 +600,28 @@
             <PaddingBottom>2pt</PaddingBottom>
           </Style>
         </Textbox>
-        <Textbox Name="Textbox3">
+        <Textbox Name="P_Fecha_Desde">
           <CanGrow>true</CanGrow>
           <KeepTogether>true</KeepTogether>
           <Paragraphs>
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>Fecha hasta:</Value>
+                  <Value>=Parameters!P_Fecha_Desde.Value</Value>
                   <Style>
                     <FontSize>8pt</FontSize>
-                    <FontWeight>Bold</FontWeight>
                   </Style>
                 </TextRun>
               </TextRuns>
-              <Style />
+              <Style>
+                <TextAlign>Left</TextAlign>
+              </Style>
             </Paragraph>
           </Paragraphs>
-          <rd:DefaultName>Textbox2</rd:DefaultName>
-          <Top>0.63528cm</Top>
-          <Left>5.8422cm</Left>
-          <Height>0.6cm</Height>
-          <Width>2.5cm</Width>
+          <rd:DefaultName>P_Fecha_Desde</rd:DefaultName>
+          <Top>0.67056cm</Top>
+          <Height>0.56472cm</Height>
+          <Width>5cm</Width>
           <ZIndex>1</ZIndex>
           <Style>
             <Border>
@@ -633,28 +633,29 @@
             <PaddingBottom>2pt</PaddingBottom>
           </Style>
         </Textbox>
-        <Textbox Name="Textbox4">
+        <Textbox Name="P_Fecha_Hasta">
           <CanGrow>true</CanGrow>
           <KeepTogether>true</KeepTogether>
           <Paragraphs>
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>Localidad:</Value>
+                  <Value>=Parameters!P_Fecha_Hasta.Value</Value>
                   <Style>
                     <FontSize>8pt</FontSize>
-                    <FontWeight>Bold</FontWeight>
                   </Style>
                 </TextRun>
               </TextRuns>
-              <Style />
+              <Style>
+                <TextAlign>Left</TextAlign>
+              </Style>
             </Paragraph>
           </Paragraphs>
-          <rd:DefaultName>Textbox2</rd:DefaultName>
-          <Top>0.67056cm</Top>
-          <Left>13.0975cm</Left>
+          <rd:DefaultName>P_Fecha_Hasta</rd:DefaultName>
+          <Top>0.63528cm</Top>
+          <Left>5.8422cm</Left>
           <Height>0.6cm</Height>
-          <Width>2.5cm</Width>
+          <Width>5.03528cm</Width>
           <ZIndex>2</ZIndex>
           <Style>
             <Border>
@@ -666,27 +667,27 @@
             <PaddingBottom>2pt</PaddingBottom>
           </Style>
         </Textbox>
-        <Textbox Name="Textbox2">
+        <Textbox Name="P_Localidad">
           <CanGrow>true</CanGrow>
           <KeepTogether>true</KeepTogether>
           <Paragraphs>
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>Fecha desde:</Value>
+                  <Value>=Parameters!P_Localidad.Value</Value>
                   <Style>
                     <FontSize>8pt</FontSize>
-                    <FontWeight>Bold</FontWeight>
                   </Style>
                 </TextRun>
               </TextRuns>
               <Style />
             </Paragraph>
           </Paragraphs>
-          <rd:DefaultName>Textbox2</rd:DefaultName>
-          <Top>0.63528cm</Top>
+          <rd:DefaultName>P_Localidad</rd:DefaultName>
+          <Top>0.67056cm</Top>
+          <Left>13.09751cm</Left>
           <Height>0.6cm</Height>
-          <Width>2.5cm</Width>
+          <Width>6.56104cm</Width>
           <ZIndex>3</ZIndex>
           <Style>
             <Border>
@@ -706,9 +707,145 @@
       </Style>
     </PageHeader>
     <PageFooter>
-      <Height>1.37583cm</Height>
+      <Height>0.82021cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="Textbox6">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Fecha de consulta:</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox2</rd:DefaultName>
+          <Top>0.07056cm</Top>
+          <Height>0.6cm</Height>
+          <Width>3.46331cm</Width>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox8">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Now()</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                    <Format>d</Format>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Left</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox2</rd:DefaultName>
+          <Top>0.07056cm</Top>
+          <Left>3.46331cm</Left>
+          <Height>0.6cm</Height>
+          <Width>2.3789cm</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="PageNumber">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Globals!PageNumber</Value>
+                  <Style>
+                    <FontSize>9pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>PageNumber</rd:DefaultName>
+          <Top>0.07056cm</Top>
+          <Left>17.87292cm</Left>
+          <Height>0.6cm</Height>
+          <Width>1.78562cm</Width>
+          <ZIndex>2</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="P_Usuario_Consulta">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Parameters!P_Usuario_Consulta.Value</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Left</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>P_Usuario_Consulta</rd:DefaultName>
+          <Top>0.07056cm</Top>
+          <Left>5.91277cm</Left>
+          <Height>0.6cm</Height>
+          <Width>7.18474cm</Width>
+          <ZIndex>3</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+      </ReportItems>
       <Style>
         <Border>
           <Style>None</Style>
@@ -717,9 +854,9 @@
     </PageFooter>
     <PageHeight>29.7cm</PageHeight>
     <PageWidth>21cm</PageWidth>
-    <LeftMargin>0cm</LeftMargin>
-    <RightMargin>0cm</RightMargin>
-    <TopMargin>0cm</TopMargin>
+    <LeftMargin>0.5cm</LeftMargin>
+    <RightMargin>0.5cm</RightMargin>
+    <TopMargin>1cm</TopMargin>
     <BottomMargin>0cm</BottomMargin>
     <ColumnSpacing>0.13cm</ColumnSpacing>
     <Style />
@@ -780,6 +917,24 @@
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="P_Fecha_Desde">
+      <DataType>String</DataType>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="P_Fecha_Hasta">
+      <DataType>String</DataType>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="P_Localidad">
+      <DataType>String</DataType>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="P_Usuario_Consulta">
+      <DataType>String</DataType>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+  </ReportParameters>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
   <rd:ReportID>3e7d0295-3822-4253-b96b-8b6a02298290</rd:ReportID>
 </Report>

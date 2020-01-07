@@ -183,5 +183,13 @@ namespace ENTIDADES
             get { return iIDVIAJECONTIFICO; }
             set { iIDVIAJECONTIFICO = value; }
         }
+
+        private string iIDRUTA;
+
+        public string IIDRUTA
+        {
+            get { return iIDRUTA; }
+            set { iIDRUTA = value; }
+        }
     }
 }

@@ -70,7 +70,7 @@
                                             <div class="form-group">
                                                 <asp:Label ID="Label4" runat="server" Text="Seleccione la Tarifa"></asp:Label>
                                                 <div class="input-group col-sm-12">
-                                                    <asp:DropDownList ID="cmbTarifa" runat="server" AutoPostBack="true" OnSelectedIndexChanged="cmbTarifa_SelectedIndexChanged" class="form-control input-sm"></asp:DropDownList>
+                                                    <%--<asp:DropDownList ID="cmbTarifa" runat="server" AutoPostBack="true" OnSelectedIndexChanged="cmbTarifa_SelectedIndexChanged" class="form-control input-sm"></asp:DropDownList>--%>
                                                 </div>
                                             </div>
                                         </div>

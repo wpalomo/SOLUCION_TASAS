@@ -75,6 +75,7 @@
                                             <asp:BoundField DataField="IIDPUEBLODESTINO" HeaderText="ID" />
                                             <asp:BoundField DataField="ICOBROADMINISTRATIVO" HeaderText="COBRO ADMINISTATIVO" />
                                             <asp:BoundField DataField="IIDVIAJECONTIFICO" HeaderText="ID VIAJECONTIFICO" />
+                                            <asp:BoundField DataField="IIDRUTA" HeaderText="ID RUTA" />
                                             <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="VER">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="lbtnEdit" runat="server" CommandName="Select" class="btn btn-xs btn-success" OnClick="lbtnEdit_Click"><i class="fa fa-bus"></i></asp:LinkButton>
@@ -119,6 +120,7 @@
                                             <asp:BoundField DataField="IIDPUEBLODESTINO" HeaderText="ID" />
                                             <asp:BoundField DataField="ICOBROADMINISTRATIVO" HeaderText="COBRO ADMINISTATIVO" />
                                             <asp:BoundField DataField="IIDVIAJECONTIFICO" HeaderText="ID VIAJECONTIFICO" />
+                                            <asp:BoundField DataField="IIDRUTA" HeaderText="ID RUTA" />
                                             <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="VER">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="lbtnEditarExtra" runat="server" CommandName="Select" class="btn btn-xs btn-success"><i class="fa fa-bus"></i></asp:LinkButton>
@@ -857,6 +859,7 @@
                                             <asp:BoundField DataField="IIDPUEBLODESTINO" HeaderText="ID" />
                                             <asp:BoundField DataField="ICOBROADMINISTRATIVO" HeaderText="COBRO ADMINISTATIVO" />
                                             <asp:BoundField DataField="IIDVIAJECONTIFICO" HeaderText="ID VIAJECONTIFICO" />
+                                            <asp:BoundField DataField="IIDRUTA" HeaderText="ID RUTA" />
                                             <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="VER">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="lbtnEditarExtra" runat="server" CommandName="Select" class="btn btn-xs btn-success"><i class="fa fa-bus"></i></asp:LinkButton>

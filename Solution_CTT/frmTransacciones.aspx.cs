@@ -199,6 +199,7 @@ namespace Solution_CTT
         //VARIABLES DEL REPORTE
         int iVendidos_REP;
         int iCuenta_REP;
+        int iTipoComprobante_REP;
 
         decimal dbCantidad_REP;
         decimal dbPrecioUnitario_REP;
@@ -547,9 +548,8 @@ namespace Solution_CTT
                 sSql += "tipo_viaje, fecha_viaje, hora_salida, descripcion_anden, descripcion_disco," + Environment.NewLine;
                 sSql += "isnull(tasa_usuario, '') tasa_usuario, cantidad, precio_unitario, valor_dscto, valor_iva, clave_acceso," + Environment.NewLine;
                 sSql += "oficinista, numero_asiento, '' as valor_total, '' as vendidos, '' as asientos, '' as secuencia_factura," + Environment.NewLine;
-                sSql += "destino, cantidad_tasa_emitida" + Environment.NewLine;
+                sSql += "destino, cantidad_tasa_emitida, idtipocomprobante" + Environment.NewLine;
                 sSql += "from ctt_vw_factura" + Environment.NewLine;
-                //sSql += "where id_pedido = " + iIdPedido + Environment.NewLine;
                 sSql += "where id_factura = " + iIdFactura + Environment.NewLine;
                 sSql += "order by numero_asiento";
 
@@ -558,111 +558,120 @@ namespace Solution_CTT
 
                 bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
 
-                if (bRespuesta == true)
+                if (bRespuesta == false)
                 {
-                    if (dtConsulta.Rows.Count > 0)
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo crear el reporte. Comuníquese con el administrador.', 'danger');", true);
+                    return;
+                }
+
+                if (dtConsulta.Rows.Count > 0)
+                {
+                    //iVendidos_REP = Convert.ToInt32(dtConsulta.Rows[0]["cantidad_tasa_emitida"].ToString());
+                    sNumeroFactura_REP = dtConsulta.Rows[0][0].ToString() + "-" + dtConsulta.Rows[0][1].ToString() + "-" + dtConsulta.Rows[0][2].ToString().PadLeft(9, '0');
+                    iTipoComprobante_REP = Convert.ToInt32(dtConsulta.Rows[0]["idtipocomprobante"].ToString());
+
+                    if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
                     {
-                        sNumeroFactura_REP = dtConsulta.Rows[0][0].ToString() + "-" + dtConsulta.Rows[0][1].ToString() + "-" + dtConsulta.Rows[0][2].ToString().PadLeft(9, '0');
-                        iVendidos_REP = Convert.ToInt32(dtConsulta.Rows[0]["cantidad_tasa_emitida"].ToString());
+                        sTasaUsuarioRecuperado_REP = dtConsulta.Rows[0][12].ToString();
+                        Logo = barcode(sTasaUsuarioRecuperado_REP);
+                    }
+
+                    sAsientos_REP = "";
+                    dbSumaTotal_REP = 0;
+                    iVendidos_REP = 0;
+
+                    //RECORRER LOS ASIENTOS Y SUMAR TOTAL
+                    for (int i = 0; i < dtConsulta.Rows.Count; i++)
+                    {
+                        sAsientos_REP += dtConsulta.Rows[i]["numero_asiento"].ToString().Trim();
+
+                        if (i + 1 != dtConsulta.Rows.Count)
+                        {
+                            sAsientos_REP += " - ";
+                        }
+
+                        iVendidos_REP += Convert.ToInt32(dtConsulta.Rows[i]["cantidad"].ToString());
+                        dbCantidad_REP = Convert.ToDecimal(dtConsulta.Rows[i]["cantidad"].ToString());
+                        dbPrecioUnitario_REP = Convert.ToDecimal(dtConsulta.Rows[i]["precio_unitario"].ToString());
+                        dbDescuento_REP = Convert.ToDecimal(dtConsulta.Rows[i]["valor_dscto"].ToString());
+                        dbIva_REP = Convert.ToDecimal(dtConsulta.Rows[i]["valor_iva"].ToString());
+
+                        dbSumaTotal_REP += dbCantidad_REP * (dbPrecioUnitario_REP - dbDescuento_REP + dbIva_REP);
+                    }
+
+                    DataColumn imagen = new DataColumn("tasa_generada");
+                    imagen.DataType = System.Type.GetType("System.Byte[]");
+                    dtConsulta.Columns.Add(imagen);
+
+                    //RECORRER EL DATATABLE PARA LLENAR DE DATOS
+                    for (int i = 0; i < dtConsulta.Rows.Count; i++)
+                    {
+                        dtConsulta.Rows[i]["tasa_generada"] = Logo;
+                        dtConsulta.Rows[i]["valor_total"] = dbSumaTotal_REP.ToString("N2");
+                        dtConsulta.Rows[i]["vendidos"] = iVendidos_REP.ToString();
+                        dtConsulta.Rows[i]["asientos"] = sAsientos_REP.Trim();
+                        dtConsulta.Rows[i]["secuencia_factura"] = sNumeroFactura_REP;
+                    }
+
+                    DSReportes ds = new DSReportes();
+
+                    DataTable dt = ds.Tables["dtFactura"];
+                    dt.Clear();
+
+                    dt = dtConsulta;
+
+                    //AGREGAR EL DETALLE DE BOLETOS VENDIDOS
+                    sSql = "";
+                    sSql += "select tipo_cliente, count(*) cuenta" + Environment.NewLine;
+                    sSql += "from ctt_vw_factura" + Environment.NewLine;
+                    sSql += "where id_factura = " + iIdFactura + Environment.NewLine;
+                    sSql += "group by tipo_cliente";
+
+                    DataTable dt2 = ds.Tables["dtTarifas"];
+                    dt2.Clear();
+
+                    bRespuesta = conexionM.consultarRegistro(sSql, dt2);
+
+                    if (bRespuesta == true)
+                    {
+                        LocalReport reporteLocal = new LocalReport();
 
                         if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
                         {
-                            sTasaUsuarioRecuperado_REP = dtConsulta.Rows[0][12].ToString();
-                            Logo = barcode(sTasaUsuarioRecuperado_REP);
-                        }                        
-
-                        sAsientos_REP = "";
-                        dbSumaTotal_REP = 0;
-
-                        //RECORRER LOS ASIENTOS Y SUMAR TOTAL
-                        for (int i = 0; i < dtConsulta.Rows.Count; i++)
-                        {
-                            sAsientos_REP += dtConsulta.Rows[i]["numero_asiento"].ToString().Trim();
-
-                            if (i + 1 != dtConsulta.Rows.Count)
+                            if (Convert.ToInt32(Session["adjuntar_tasa_boleto"].ToString()) == 1)
                             {
-                                sAsientos_REP += " - ";
-                            }
-
-                            dbCantidad_REP = Convert.ToDecimal(dtConsulta.Rows[i]["cantidad"].ToString());
-                            dbPrecioUnitario_REP = Convert.ToDecimal(dtConsulta.Rows[i]["precio_unitario"].ToString());
-                            dbDescuento_REP = Convert.ToDecimal(dtConsulta.Rows[i]["valor_dscto"].ToString());
-                            dbIva_REP = Convert.ToDecimal(dtConsulta.Rows[i]["valor_iva"].ToString());
-
-                            dbSumaTotal_REP += dbCantidad_REP * (dbPrecioUnitario_REP - dbDescuento_REP + dbIva_REP);
-                        }
-
-                        DataColumn imagen = new DataColumn("tasa_generada");
-                        imagen.DataType = System.Type.GetType("System.Byte[]");
-                        dtConsulta.Columns.Add(imagen);
-
-                        //RECORRER EL DATATABLE PARA LLENAR DE DATOS
-                        for (int i = 0; i < dtConsulta.Rows.Count; i++)
-                        {
-                            dtConsulta.Rows[i]["tasa_generada"] = Logo;
-                            dtConsulta.Rows[i]["valor_total"] = dbSumaTotal_REP.ToString("N2");
-                            dtConsulta.Rows[i]["vendidos"] = iVendidos_REP.ToString();
-                            dtConsulta.Rows[i]["asientos"] = sAsientos_REP.Trim();
-                            dtConsulta.Rows[i]["secuencia_factura"] = sNumeroFactura_REP;
-                        }
-
-                        DSReportes ds = new DSReportes();
-
-                        DataTable dt = ds.Tables["dtFactura"];
-                        dt.Clear();
-
-                        dt = dtConsulta;
-
-                        //AGREGAR EL DETALLE DE BOLETOS VENDIDOS
-                        sSql = "";
-                        sSql += "select tipo_cliente, count(*) cuenta" + Environment.NewLine;
-                        sSql += "from ctt_vw_factura" + Environment.NewLine;
-                        //sSql += "where id_pedido = " + iIdPedido + Environment.NewLine;
-                        sSql += "where id_factura = " + iIdFactura + Environment.NewLine;
-                        sSql += "group by tipo_cliente";
-
-                        DataTable dt2 = ds.Tables["dtTarifas"];
-                        dt2.Clear();
-
-                        bRespuesta = conexionM.consultarRegistro(sSql, dt2);
-
-                        if (bRespuesta == true)
-                        {
-                            LocalReport reporteLocal = new LocalReport();
-
-                            if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
-                            {
-                                if (Convert.ToInt32(Session["adjuntar_tasa_boleto"].ToString()) == 1)
-                                {
+                                if (iTipoComprobante_REP == 1)
                                     reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFactura.rdlc");
-                                }
-
                                 else
-                                {
-                                    reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFactura_2.rdlc");
-                                }
+                                    reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptNotaEntrega.rdlc");
                             }
 
                             else
                             {
-                                reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFactura_2.rdlc");
+                                if (iTipoComprobante_REP == 1)
+                                    reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFactura_2.rdlc");
+                                else
+                                    reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptNotaEntrega_2.rdlc");
                             }
-
-                            ReportDataSource datasource = new ReportDataSource("DataSet1", dt);
-                            ReportDataSource datasource2 = new ReportDataSource("DataSet2", dt2);
-                            reporteLocal.DataSources.Add(datasource);
-                            reporteLocal.DataSources.Add(datasource2);
-
-                            
-                            Clases.Impresor imp = new Clases.Impresor();
-                            imp.Imprime(reporteLocal);
                         }
-                    }
-                }
 
-                else
-                {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo crear el reporte. Comuníquese con el administrador.', 'danger');", true);
+                        else
+                        {
+                            if (iTipoComprobante_REP == 1)
+                                reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFactura_2.rdlc");
+                            else
+                                reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptNotaEntrega_2.rdlc");
+                        }
+
+                        ReportDataSource datasource = new ReportDataSource("DataSet1", dt);
+                        ReportDataSource datasource2 = new ReportDataSource("DataSet2", dt2);
+                        reporteLocal.DataSources.Add(datasource);
+                        reporteLocal.DataSources.Add(datasource2);
+
+
+                        Clases.Impresor imp = new Clases.Impresor();
+                        imp.Imprime(reporteLocal);
+                    }
                 }
             }
 
@@ -2971,37 +2980,37 @@ namespace Solution_CTT
                     iEmiteTasaUsuario = 0;
                 }
 
-                if (Convert.ToInt32(Application["facturacion_electronica"].ToString()) == 1)
+                iManejaFacturacionElectronica = 0;
+
+                if (iTipoComprobanteFactura == 1)
                 {
-                    iManejaFacturacionElectronica = 1;
-
-                    //GENERAR CLAVE DE ACCESO
-                    string Fecha = Convert.ToDateTime(sFecha).ToString("dd/MM/yyyy");
-                    string FechaEmisionFormato = Fecha.Replace("/", "");
-                    string TipoComprobante = "01";
-                    string NumeroRuc = Application["NumeroRUC"].ToString();
-                    string TipoAmbiente = Application["IDTipoAmbienteFE"].ToString();
-                    string Serie = Application["Establecimiento"].ToString() + Application["PuntoEmision"].ToString();
-                    string NumeroComprobante = Convert.ToString(iNumeroFactura);
-                    NumeroComprobante = NumeroComprobante.PadLeft(9, '0');
-                    string DigitoVerificador = "";
-
-                    string CodigoNumerico = "12345678";
-                    string TipoEmision = Application["IDTipoEmisionFE"].ToString();
-                    
-                    if (TipoEmision == "1")
+                    if (Convert.ToInt32(Application["facturacion_electronica"].ToString()) == 1)
                     {
-                        ClaveAcceso = ClaveAcceso + FechaEmisionFormato + TipoComprobante + NumeroRuc + TipoAmbiente;
-                        ClaveAcceso = ClaveAcceso + Serie + NumeroComprobante + CodigoNumerico + TipoEmision;
-                    }
-                    DigitoVerificador = sDigitoVerificarModulo11(ClaveAcceso);
-                    ClaveAcceso = ClaveAcceso + DigitoVerificador;
-                    //FIN CALVE ACCESO
-                }
+                        iManejaFacturacionElectronica = 1;
 
-                else
-                {
-                    iManejaFacturacionElectronica = 0;
+                        //GENERAR CLAVE DE ACCESO
+                        string Fecha = Convert.ToDateTime(sFecha).ToString("dd/MM/yyyy");
+                        string FechaEmisionFormato = Fecha.Replace("/", "");
+                        string TipoComprobante = "01";
+                        string NumeroRuc = Application["NumeroRUC"].ToString();
+                        string TipoAmbiente = Application["IDTipoAmbienteFE"].ToString();
+                        string Serie = Application["Establecimiento"].ToString() + Application["PuntoEmision"].ToString();
+                        string NumeroComprobante = Convert.ToString(iNumeroFactura);
+                        NumeroComprobante = NumeroComprobante.PadLeft(9, '0');
+                        string DigitoVerificador = "";
+
+                        string CodigoNumerico = "12345678";
+                        string TipoEmision = Application["IDTipoEmisionFE"].ToString();
+
+                        if (TipoEmision == "1")
+                        {
+                            ClaveAcceso = ClaveAcceso + FechaEmisionFormato + TipoComprobante + NumeroRuc + TipoAmbiente;
+                            ClaveAcceso = ClaveAcceso + Serie + NumeroComprobante + CodigoNumerico + TipoEmision;
+                        }
+                        DigitoVerificador = sDigitoVerificarModulo11(ClaveAcceso);
+                        ClaveAcceso = ClaveAcceso + DigitoVerificador;
+                        //FIN CALVE ACCESO
+                    }
                 }
 
                 if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)

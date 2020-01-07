@@ -660,13 +660,13 @@ namespace Solution_CTT
 
                 if (sRespuesta_A == "ERROR")
                 {
-                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('SMARTT - Información.!', 'No se pudo crear el viaje', 'error')</script>");
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('SMARTT - Información.', 'No se pudo crear el viaje.', 'error');", true);
                     return false;
                 }
 
                 if (sRespuesta_A == "ISNULL")
                 {
-                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('SMARTT - Información.!', 'No se proporcionaron credenciales de autenticación. Creación de Viaje - SMARTT', 'info')</script>");
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('SMARTT - Información.', 'No se proporcionaron credenciales de autenticación. Creación de Viaje - SMARTT', 'info');", true);
                     return false;
                 }
 
@@ -699,13 +699,13 @@ namespace Solution_CTT
 
                 if (sRespuesta_A == "ERROR")
                 {
-                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('SMARTT - Información.!', 'No se pudo crear el viaje', 'error')</script>");
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('SMARTT - Información.', 'No se pudo cambiar de disco.', 'error');", true);
                     return false;
                 }
 
                 if (sRespuesta_A == "ISNULL")
                 {
-                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('SMARTT - Información.!', 'No se proporcionaron credenciales de autenticación. Creación de Viaje - SMARTT', 'info')</script>");
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('SMARTT - Información.', 'No se proporcionaron credenciales de autenticación. Creación de Viaje - SMARTT.', 'info');", true);
                     return false;
                 }
 
@@ -1565,6 +1565,7 @@ namespace Solution_CTT
                         Session["identificacionSMARTT"] = dgvAsistentesChofer.Rows[a].Cells[5].Text.Trim();
                         txtChofer.Text = dgvAsistentesChofer.Rows[a].Cells[2].Text.Trim();
                     }
+
                     txtFiltrarChoferAsistente.Text = "";
                     ModalPopupExtender_AsistentesChofer.Hide();
                 }
@@ -1885,8 +1886,8 @@ namespace Solution_CTT
                 {
                     txtItinerario.Text = "CÓDIGO: " + HttpUtility.HtmlDecode(dgvItinerarios.Rows[a].Cells[3].Text.Trim()) + " - RUTA: " + HttpUtility.HtmlDecode(dgvItinerarios.Rows[a].Cells[4].Text.Trim()) + " - HORA DE SALIDA: " + HttpUtility.HtmlDecode(dgvItinerarios.Rows[a].Cells[7].Text.Trim());
                     txtFiltrarItinerarios.Text = "";
-                    Session["destinoSMARTT"] = dgvItinerarios.Rows[a].Cells[5].Text.Trim();
-                    Session["viaSMARTT"] = dgvItinerarios.Rows[a].Cells[6].Text.Trim();
+                    Session["destinoSMARTT"] = HttpUtility.HtmlDecode(dgvItinerarios.Rows[a].Cells[5].Text.Trim());
+                    Session["viaSMARTT"] = HttpUtility.HtmlDecode(dgvItinerarios.Rows[a].Cells[6].Text.Trim());
                     Session["horaSMARTT"] = dgvItinerarios.Rows[a].Cells[7].Text.Trim();
                     Session["hora_seleccionada"] = dgvItinerarios.Rows[a].Cells[7].Text.Trim();
                     ModalPopupExtender_Itinerarios.Hide();

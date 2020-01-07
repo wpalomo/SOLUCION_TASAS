@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="frmPueblosHorarios.aspx.cs" Inherits="Solution_CTT.frmPueblosHorarios" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="frmAsignarDestinosRutas.aspx.cs" Inherits="Solution_CTT.frmAsignarDestinosRutas" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -28,14 +28,11 @@
                                 <asp:GridView ID="dgvDatos" runat="server" class="mGrid"
                                 AutoGenerateColumns="False"
                                 EmptyDataText="No hay Registros o Coindicencias..!!"
-                                OnSelectedIndexChanged="dgvDatos_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="dgvDatos_PageIndexChanging" PageSize="10" OnRowDataBound="dgvDatos_RowDataBound">
+                                OnSelectedIndexChanged="dgvDatos_SelectedIndexChanged" AllowPaging="True" OnPageIndexChanging="dgvDatos_PageIndexChanging" PageSize="10">
                                     <Columns>
-                                        <asp:BoundField DataField="INUMERO" HeaderText="No." ItemStyle-HorizontalAlign="Center" />
-                                        <asp:BoundField DataField="IIDPUEBLO" HeaderText="ID" />
-                                        <asp:BoundField DataField="IDESCRIPCION" HeaderText="TERMINAL" />
-                                        <asp:BoundField DataField="IPROVINCIA" HeaderText="PROVINCIA" />
-                                        <asp:BoundField DataField="IESTADO" HeaderText="ESTADO" ItemStyle-HorizontalAlign="Center" />
-                                        <asp:BoundField DataField="ICUENTA" HeaderText="No. REGISTROS" ItemStyle-HorizontalAlign="Center" />
+                                        <asp:BoundField DataField="id_ctt_ruta" HeaderText="ID" />
+                                        <asp:BoundField DataField="descripcion" HeaderText="RUTA" />
+                                        <asp:BoundField DataField="via" HeaderText="VIA" />
                                         <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="VER">
                                             <ItemTemplate>
                                                 <asp:LinkButton ID="lbtnEdit" runat="server" CommandName="Select" class="btn btn-xs btn-success"><i class="fa fa-bus"></i></asp:LinkButton>
@@ -53,7 +50,7 @@
                         <div class="box box-success">
                             <div class="box-header with-border">
                                 <h3 class="box-title">
-                                    <asp:Label ID="lblHorarios" runat="server" Text="Seleccione Terminal"></asp:Label></h3>
+                                    <asp:Label ID="lblRuta" runat="server" Text="Seleccione Ruta"></asp:Label></h3>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse">
                                         <i class="fa fa-minus"></i>
@@ -66,30 +63,18 @@
                                 <div class="register-box-body">
                                     <div class="row">
                                         <div class="col-md-offset-1 col-md-10">
-                                            <asp:Panel ID="pnlHorarios" Enabled="false" runat="server">
-                                                <asp:GridView ID="dgvHorarios" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" BackColor="LightGoldenrodYellow" BorderColor="Tan" BorderWidth="1px" CellPadding="2" ForeColor="Black" GridLines="None">
-                                                    <AlternatingRowStyle BackColor="PaleGoldenrod" />
-                                                    <Columns>
-                                                        <asp:BoundField DataField="IIDHORARIO" HeaderText="ID" />
-                                                        <asp:BoundField DataField="IHORA" HeaderText="HORA" ItemStyle-HorizontalAlign="Center" />
-                                                        <asp:BoundField DataField="IJORNADA" HeaderText="JORNADA" ItemStyle-HorizontalAlign="Center" />
-                                                        <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="Sel.">
-                                                            <ItemTemplate>
-                                                                <asp:CheckBox ID="chkSeleccionar" runat="server" CommandName="Select" />
-                                                            </ItemTemplate>
-                                                            <ItemStyle HorizontalAlign="Center" />
-                                                        </asp:TemplateField>
-                                                    </Columns>
-                                                    <FooterStyle BackColor="Tan" />
-                                                    <HeaderStyle BackColor="Tan" Font-Bold="True" />
-                                                    <PagerStyle HorizontalAlign="Center" CssClass="pagination-ys" BackColor="PaleGoldenrod" ForeColor="DarkSlateBlue" />
-                                                    <SelectedRowStyle BackColor="DarkSlateBlue" ForeColor="GhostWhite" />
-                                                    <SortedAscendingCellStyle BackColor="#FAFAE7" />
-                                                    <SortedAscendingHeaderStyle BackColor="#DAC09E" />
-                                                    <SortedDescendingCellStyle BackColor="#E1DB9C" />
-                                                    <SortedDescendingHeaderStyle BackColor="#C2A47B" />
-                                                </asp:GridView>
-                                            </asp:Panel>
+                                            <asp:GridView ID="dgvDestinos" runat="server" class="mGrid" AutoGenerateColumns="False" EmptyDataText="No hay Registros o Coindicencias..!!" >
+                                                <Columns>
+                                                    <asp:BoundField DataField="id_producto" HeaderText="ID" />
+                                                    <asp:BoundField DataField="nombre" HeaderText="DESTINO" />
+                                                    <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="Sel.">
+                                                        <ItemTemplate>
+                                                            <asp:CheckBox ID="chkSeleccionar" runat="server" CommandName="Select" />
+                                                        </ItemTemplate>
+                                                        <ItemStyle HorizontalAlign="Center" />
+                                                    </asp:TemplateField>
+                                                </Columns>
+                                            </asp:GridView>
                                         </div>
                                     </div>  
                                     <div class="row">
@@ -100,7 +85,7 @@
                                         </div>
                                         <div class=" col-md-5">
                                             <div class="form-group">
-                                                <asp:Button ID="btnSave" runat="server" Text="Crear" class="btn btn-sm btn-primary btn-block pull-right" OnClick="btnSave_Click" />
+                                                <asp:Button ID="btnSave" runat="server" Text="Guardar" class="btn btn-sm btn-primary btn-block pull-right" OnClick="btnSave_Click" />
                                             </div>
                                         </div>
                                     </div>
@@ -138,6 +123,35 @@
                 </div>
                 <%--FIN MODAL DE ERRORES--%>
 
+                <%--MODAL PARA CONFIRMAR--%>
+                <div class="modal fade" id="QuestionModalConfirmar" data-backdrop="static" data-keyboard="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">
+                                    <asp:Label ID="Label11" runat="server" Text="Información."></asp:Label>
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <asp:Label ID="lblAlertaMensajeCierre" runat="server" Text="¿Está seguro que desea generar los destinos?"></asp:Label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <asp:Button ID="btnNoCerrar" runat="server" Text="No, cancelar" class="btn btn-default" data-dismiss="modal"/>                                
+                                <asp:Button ID="btnAceptarCerrar" runat="server" Text="Sí, confirmar" class="btn btn-info" data-dismiss="modal" UseSubmitBehavior="false" OnClick="btnAceptarCerrar_Click"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <%--FIN MODAL PARA CONFIRMAR--%>
+
             </section>
             <!-- /.content -->
         </ContentTemplate>
@@ -154,5 +168,4 @@
             </div>
         </ProgressTemplate>
     </asp:UpdateProgress>
-
 </asp:Content>

@@ -392,6 +392,7 @@
                             <li><a href="frmConductoresContifico.aspx"><i class="fa fa-circle-o"></i>Conductores</a></li>
                             <li><a href="frmConsultaViajesContifico.aspx"><i class="fa fa-circle-o"></i>Consulta de Viajes</a></li>
                             <li><a href="frmConsultarVentasSmartt.aspx"><i class="fa fa-circle-o"></i>Consulta de Ventas</a></li>
+                            <li><a href="frmReporteVentasCooperativa.aspx"><i class="fa fa-circle-o"></i>Ventas por Cooperativa</a></li>
                         </ul>
                     </li>
 
@@ -453,6 +454,7 @@
                             <li><a href="frmRutas.aspx"><i class="fa fa-circle-o"></i>Rutas</a></li>
                             <li><a href="frmItinerarios.aspx"><i class="fa fa-circle-o"></i>Itinerarios</a></li>
                             <li><a href="frmPueblos.aspx"><i class="fa fa-circle-o"></i>Terminales - Destinos</a></li>
+                            <li><a href="frmAsignarDestinosRutas.aspx"><i class="fa fa-circle-o"></i>Asignación de Rutas</a></li>
                         </ul>
                     </li>
                     <li class="treeview">

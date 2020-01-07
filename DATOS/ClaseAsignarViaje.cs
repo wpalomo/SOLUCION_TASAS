@@ -56,7 +56,8 @@ namespace DATOS
                             IIDPUEBLOORIGEN = dtConsulta.Rows[i][17].ToString(),
                             IIDPUEBLODESTINO = dtConsulta.Rows[i][18].ToString(),
                             ICOBROADMINISTRATIVO = dtConsulta.Rows[i][19].ToString(),
-                            IIDVIAJECONTIFICO = dtConsulta.Rows[i]["id_viaje_contifico"].ToString()
+                            IIDVIAJECONTIFICO = dtConsulta.Rows[i]["id_viaje_contifico"].ToString(),
+                            IIDRUTA = dtConsulta.Rows[i]["id_ctt_ruta"].ToString()
                         };
                         coleccion.Add(todos);
                     }

@@ -642,6 +642,7 @@
     <Content Include="dist\css\adminlte.min.css.map" />
     <Content Include="dist\img\Thumbs.db" />
     <Content Include="frmAsignarDatosLocalidadesContifico.aspx" />
+    <Content Include="frmAsignarDestinosRutas.aspx" />
     <Content Include="frmBusesContifico.aspx" />
     <Content Include="frmCierreCajero.aspx" />
     <Content Include="frmConductoresContifico.aspx" />
@@ -7420,6 +7421,13 @@
     <Compile Include="frmAsignarDatosLocalidadesContifico.aspx.designer.cs">
       <DependentUpon>frmAsignarDatosLocalidadesContifico.aspx</DependentUpon>
     </Compile>
+    <Compile Include="frmAsignarDestinosRutas.aspx.cs">
+      <DependentUpon>frmAsignarDestinosRutas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmAsignarDestinosRutas.aspx.designer.cs">
+      <DependentUpon>frmAsignarDestinosRutas.aspx</DependentUpon>
+    </Compile>
     <Compile Include="frmAsistentes.aspx.cs">
       <DependentUpon>frmAsistentes.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -8195,6 +8203,8 @@
     <EmbeddedResource Include="Reportes\rptListadoPasajeros.rdlc" />
     <EmbeddedResource Include="Reportes\rptListaPasajeros.rdlc" />
     <EmbeddedResource Include="Reportes\rptManifiestoPasajeros.rdlc" />
+    <EmbeddedResource Include="Reportes\rptNotaEntrega_2.rdlc" />
+    <EmbeddedResource Include="Reportes\rptNotaEntrega.rdlc" />
     <EmbeddedResource Include="Reportes\rptPasajerosLocalidades.rdlc" />
     <EmbeddedResource Include="Reportes\rptReporteMovimientoCaja.rdlc" />
     <EmbeddedResource Include="Reportes\rptTasaUsuarioSMARTT.rdlc" />

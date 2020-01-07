@@ -588,8 +588,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox1</rd:DefaultName>
-        <Top>5.81782cm</Top>
-        <Left>0.15932cm</Left>
+        <Top>6.26168cm</Top>
+        <Left>0.14257cm</Left>
         <Height>0.40858cm</Height>
         <Width>1.97837cm</Width>
         <ZIndex>10</ZIndex>
@@ -712,8 +712,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox1</rd:DefaultName>
-        <Top>5.81781cm</Top>
-        <Left>2.16878cm</Left>
+        <Top>6.26167cm</Top>
+        <Left>2.15203cm</Left>
         <Height>0.40858cm</Height>
         <Width>4.91243cm</Width>
         <ZIndex>14</ZIndex>
@@ -740,8 +740,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>9.47265cm</Top>
-        <Left>0.19744cm</Left>
+        <Top>10.31781cm</Top>
+        <Left>0.18907cm</Left>
         <Height>0.81549cm</Height>
         <Width>6.88796cm</Width>
         <ZIndex>15</ZIndex>
@@ -880,8 +880,8 @@
         <Value>=First(Fields!codigo_qr.Value, "DataSet1")</Value>
         <MIMEType>image/jpeg</MIMEType>
         <Sizing>FitProportional</Sizing>
-        <Top>6.36751cm</Top>
-        <Left>1.68458cm</Left>
+        <Top>7.31849cm</Top>
+        <Left>1.6804cm</Left>
         <Height>2.96404cm</Height>
         <Width>3.70361cm</Width>
         <ZIndex>20</ZIndex>
@@ -891,8 +891,128 @@
           </Border>
         </Style>
       </Image>
+      <Textbox Name="Textbox27">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>No. Asiento::</Value>
+                <Style>
+                  <FontSize>8pt</FontSize>
+                  <FontWeight>Normal</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox1</rd:DefaultName>
+        <Top>5.81782cm</Top>
+        <Left>0.14676cm</Left>
+        <Height>0.40858cm</Height>
+        <Width>1.98256cm</Width>
+        <ZIndex>21</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox28">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!numero_asiento.Value, "DataSet1")</Value>
+                <Style>
+                  <FontSize>8pt</FontSize>
+                  <FontWeight>Normal</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox1</rd:DefaultName>
+        <Top>5.81782cm</Top>
+        <Left>2.17297cm</Left>
+        <Height>0.40858cm</Height>
+        <Width>4.91661cm</Width>
+        <ZIndex>22</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox50">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Desarrollado por: www.aplicsis.net</Value>
+                <Style>
+                  <FontStyle>Italic</FontStyle>
+                  <FontSize>7pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox27</rd:DefaultName>
+        <Top>6.77608cm</Top>
+        <Left>0.15514cm</Left>
+        <Height>0.40598cm</Height>
+        <Width>6.91771cm</Width>
+        <ZIndex>23</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <VerticalAlign>Middle</VerticalAlign>
+        </Style>
+      </Textbox>
+      <Line Name="Line2">
+        <Top>7.21734cm</Top>
+        <Left>0.14676cm</Left>
+        <Height>0cm</Height>
+        <Width>6.93864cm</Width>
+        <ZIndex>24</ZIndex>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+          </Border>
+        </Style>
+      </Line>
+      <Line Name="Line3">
+        <Top>6.77608cm</Top>
+        <Left>0.12582cm</Left>
+        <Height>0cm</Height>
+        <Width>6.93864cm</Width>
+        <ZIndex>25</ZIndex>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+          </Border>
+        </Style>
+      </Line>
     </ReportItems>
-    <Height>4.10417in</Height>
+    <Height>4.42708in</Height>
     <Style />
   </Body>
   <Width>2.85225in</Width>
@@ -978,6 +1098,10 @@
         <Field Name="codigo_qr">
           <DataField>codigo_qr</DataField>
           <rd:TypeName>System.Byte[]</rd:TypeName>
+        </Field>
+        <Field Name="numero_asiento">
+          <DataField>numero_asiento</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
