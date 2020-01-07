@@ -75,6 +75,7 @@
                                             <asp:BoundField DataField="IIDPUEBLODESTINO" HeaderText="ID" />
                                             <asp:BoundField DataField="ICOBROADMINISTRATIVO" HeaderText="COBRO ADMINISTATIVO" />
                                             <asp:BoundField DataField="IIDVIAJECONTIFICO" HeaderText="ID VIAJECONTIFICO" />
+                                            <asp:BoundField DataField="IIDRUTA" HeaderText="ID RUTA" />
                                             <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="VER">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="lbtnEdit" runat="server" CommandName="Select" class="btn btn-xs btn-success" OnClick="lbtnEdit_Click"><i class="fa fa-bus"></i></asp:LinkButton>
@@ -119,6 +120,7 @@
                                             <asp:BoundField DataField="IIDPUEBLODESTINO" HeaderText="ID" />
                                             <asp:BoundField DataField="ICOBROADMINISTRATIVO" HeaderText="COBRO ADMINISTATIVO" />
                                             <asp:BoundField DataField="IIDVIAJECONTIFICO" HeaderText="ID VIAJECONTIFICO" />
+                                            <asp:BoundField DataField="IIDRUTA" HeaderText="ID RUTA" />
                                             <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="VER">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="lbtnEditarExtra" runat="server" CommandName="Select" class="btn btn-xs btn-success"><i class="fa fa-bus"></i></asp:LinkButton>
@@ -226,7 +228,7 @@
                                                 <div class="input-group col-sm-8">
                                                     <asp:TextBox ID="txtDescuento" runat="server" BackColor="White" ReadOnly="true" class="form-control input-sm" Text="0.00" placeholder="Descuento" ></asp:TextBox>
                                                     <span class="input-group-addon input-sm">
-                                                        <asp:CheckBox ID="chkCortesia" runat="server" Text="&nbsp&nbspCortesía" Visible="false" AutoPostBack="true" />    
+                                                        <asp:CheckBox ID="chkCortesia" runat="server" Text="&nbsp&nbspCortesía" Visible="false" AutoPostBack="true" OnCheckedChanged="chkCortesia_CheckedChanged" />    
                                                     </span>
                                                 </div>
                                             </div>
@@ -857,6 +859,7 @@
                                             <asp:BoundField DataField="IIDPUEBLODESTINO" HeaderText="ID" />
                                             <asp:BoundField DataField="ICOBROADMINISTRATIVO" HeaderText="COBRO ADMINISTATIVO" />
                                             <asp:BoundField DataField="IIDVIAJECONTIFICO" HeaderText="ID VIAJECONTIFICO" />
+                                            <asp:BoundField DataField="IIDRUTA" HeaderText="ID RUTA" />
                                             <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="VER">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="lbtnEditarExtra" runat="server" CommandName="Select" class="btn btn-xs btn-success"><i class="fa fa-bus"></i></asp:LinkButton>

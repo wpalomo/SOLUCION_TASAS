@@ -350,7 +350,7 @@
                             <li id="devolucion_smartt" runat="server"><a href="frmDevolucionBoletosSMARTT.aspx"><i class="fa fa-circle-o"></i>Devoluciones</a></li>
                             <li><a href="frmCrearViaje.aspx"><i class="fa fa-circle-o"></i>Viajes Normales</a></li>
                             <li><a href="frmCrearViajeExtra.aspx"><i class="fa fa-circle-o"></i>Viajes Extras</a></li>
-                            <%--<li><a href="frmViajesMasivos.aspx"><i class="fa fa-circle-o"></i>Viajes Masivos</a></li>--%>
+                            <li><a href="frmViajesMasivos.aspx"><i class="fa fa-circle-o"></i>Viajes Masivos</a></li>
                             <li id="ingreso_pago_pendiente" runat="server"><a href="frmIngresoPagosPendientes.aspx"><i class="fa fa-circle-o"></i>Ingresar Pagos Pendientes</a></li>
                             <li id="cobrar_pago_pendiente" runat="server"><a href="frmPagosPendientes.aspx"><i class="fa fa-circle-o"></i>Cobrar Pagos Pendientes</a></li>
                             <li><a href="frmReimpresionFacturas.aspx"><i class="fa fa-circle-o"></i>Reimpresión de Facturas</a></li>
@@ -392,6 +392,7 @@
                             <li><a href="frmConductoresContifico.aspx"><i class="fa fa-circle-o"></i>Conductores</a></li>
                             <li><a href="frmConsultaViajesContifico.aspx"><i class="fa fa-circle-o"></i>Consulta de Viajes</a></li>
                             <li><a href="frmConsultarVentasSmartt.aspx"><i class="fa fa-circle-o"></i>Consulta de Ventas</a></li>
+                            <li><a href="frmReporteVentasCooperativa.aspx"><i class="fa fa-circle-o"></i>Ventas por Cooperativa</a></li>
                         </ul>
                     </li>
 
@@ -453,6 +454,7 @@
                             <li><a href="frmRutas.aspx"><i class="fa fa-circle-o"></i>Rutas</a></li>
                             <li><a href="frmItinerarios.aspx"><i class="fa fa-circle-o"></i>Itinerarios</a></li>
                             <li><a href="frmPueblos.aspx"><i class="fa fa-circle-o"></i>Terminales - Destinos</a></li>
+                            <li><a href="frmAsignarDestinosRutas.aspx"><i class="fa fa-circle-o"></i>Asignación de Rutas</a></li>
                         </ul>
                     </li>
                     <li class="treeview">
@@ -494,6 +496,7 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
+                            <li><a href="frmReporteListaBoletos.aspx"><i class="fa fa-circle-o"></i>Listado de Boletos por Viaje</a></li>
                             <li><a href="frmReporteVentaClientes.aspx"><i class="fa fa-circle-o"></i>Ventas por Clientes</a></li>
                             <li><a href="frmReporteListaPasajeros.aspx"><i class="fa fa-circle-o"></i>Reporte de Pasajeros</a></li>
                             <li><a href="frmReportePasajerosBus.aspx"><i class="fa fa-circle-o"></i>Pasajeros por Vehículo</a></li>
