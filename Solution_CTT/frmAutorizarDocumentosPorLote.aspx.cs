@@ -198,9 +198,14 @@ namespace Solution_CTT
             try
             {
                 sSql = "";
-                sSql += "select id_localidad_impresora, nombre_impresora" + Environment.NewLine;
-                sSql += "from tp_localidades_impresoras" + Environment.NewLine;
-                sSql += "where id_localidad=" + Application["idLocalidad"].ToString();
+                //sSql += "select id_localidad_impresora, nombre_impresora" + Environment.NewLine;
+                //sSql += "from tp_localidades_impresoras" + Environment.NewLine;
+                //sSql += "where id_localidad=" + Application["idLocalidad"].ToString();
+
+                sSql  = "";
+                sSql += "select id_localidad, nombre_localidad" + Environment.NewLine;
+                sSql += "from tp_vw_localidades" + Environment.NewLine;
+                sSql += "where emite_comprobante_electronico = 1";
 
                 dtConsulta = new DataTable();
                 dtConsulta.Clear();
@@ -220,8 +225,7 @@ namespace Solution_CTT
 
                         if (cmbLocalidad.Items.Count > 0)
                         {
-                            cmbLocalidad.SelectedIndex = 1;
-                            //cmbLocalidad.Enabled = false;
+                            cmbLocalidad.SelectedValue = Application["idLocalidad"].ToString();
                         }
                     }
                 }
@@ -246,7 +250,8 @@ namespace Solution_CTT
                 sSql += "select * from ctt_vw_enviar_facturas_boleteria" + Environment.NewLine;
                 sSql += "where fecha_factura between '" + sFechaInicial + "'" + Environment.NewLine;
                 sSql += "and '" + sFechaFinal + "'" + Environment.NewLine;
-                sSql += "and id_localidad = " + Convert.ToInt32(Application["idLocalidad"].ToString()) + Environment.NewLine;
+                //sSql += "and id_localidad = " + Convert.ToInt32(Application["idLocalidad"].ToString()) + Environment.NewLine;
+                sSql += "and id_localidad = " + cmbLocalidad.SelectedValue + Environment.NewLine;
                 sSql += "order by id_factura";
 
                 dtConsulta = new DataTable();
