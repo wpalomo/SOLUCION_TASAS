@@ -1203,6 +1203,7 @@
                                             <asp:BoundField DataField="ICLIENTE" HeaderText="CLIENTE" />
                                             <asp:BoundField DataField="IFACTURA" HeaderText="No. FACTURA" />
                                             <asp:BoundField DataField="IFECHAVIAJE" HeaderText="FECHA DE VIAJE" />
+                                            <asp:BoundField DataField="IITIPOCOMPROBANTE" HeaderText="TIPO COMPROBANTE" />
                                             <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="VER">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="lbtnEditarFactura" runat="server" CommandName="Select" class="btn btn-xs btn-warning" ToolTip="Clic aquí para reimprimir la factura."><i class="fa fa-print"></i></asp:LinkButton>

@@ -135,7 +135,7 @@
                                     <div class="col-md-6 form-group">
                                         <label></label>
                                         <div class="input-group col-sm-12">
-                                            <asp:LinkButton ID="btnImprimir" runat="server" class="form-control btn btn-flat btn-primary" ToolTip="Clic aquí para imprimir el reporte"><i class="fa fa-print"></i>Imprimir</asp:LinkButton>
+                                            <asp:LinkButton ID="btnImprimir" runat="server" class="form-control btn btn-flat btn-primary" ToolTip="Clic aquí para imprimir el reporte" OnClick="btnImprimir_Click" ><i class="fa fa-print"></i>Imprimir</asp:LinkButton>
                                         </div>
                                     </div>
                                     <div class="col-md-6 form-group">

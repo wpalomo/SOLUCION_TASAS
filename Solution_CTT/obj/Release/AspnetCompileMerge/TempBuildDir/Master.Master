@@ -439,7 +439,7 @@
                         <ul class="treeview-menu">
                             <li><a href="frmAsistentes.aspx"><i class="fa fa-circle-o"></i>Asistentes</a></li>
                             <li><a href="frmChoferes.aspx"><i class="fa fa-circle-o"></i>Choferes</a></li>
-                            <li><a href="frmOficinistas.aspx"><i class="fa fa-circle-o"></i>Oficinistas</a></li>
+                            <%--<li><a href="frmOficinistas.aspx"><i class="fa fa-circle-o"></i>Oficinistas</a></li>--%>
                         </ul>
                     </li>
                     <li class="treeview">
@@ -564,7 +564,7 @@
                         </ul>
                     </li>
 
-                    <li class="treeview">
+                    <li class="treeview" id="localidades" runat="server" visible="false">
                         <a href="#">
                             <i class="fa fa-home"></i>
                             <span>Localidades</span>

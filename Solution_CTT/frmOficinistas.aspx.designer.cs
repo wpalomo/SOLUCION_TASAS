@@ -94,6 +94,24 @@ namespace Solution_CTT {
         protected global::System.Web.UI.WebControls.LinkButton btnAbrirModalPersonas;
         
         /// <summary>
+        /// Control txtUsuarioSmartt.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtUsuarioSmartt;
+        
+        /// <summary>
+        /// Control txtPasswordSmartt.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtPasswordSmartt;
+        
+        /// <summary>
         /// Control txtPostSecret.
         /// </summary>
         /// <remarks>

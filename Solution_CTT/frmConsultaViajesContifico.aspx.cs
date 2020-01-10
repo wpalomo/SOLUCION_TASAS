@@ -18,6 +18,7 @@ namespace Solution_CTT
 
         Clases_Contifico.ClaseConsultaViajes viajesConsulta;
         Clase_Variables_Contifico.ConsultaViajes viaje;
+        Clase_Variables_Contifico.ErrorRespuesta errorRespuesta;
 
         string sSql;
         string sAccion;
@@ -67,13 +68,25 @@ namespace Solution_CTT
 
                 if (sRespuesta_A == "ERROR")
                 {
-                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'No se pudo obtener registros para la tasa de usuario SMARTT', 'error')</script>");
+                    if (viajesConsulta.iTipoError == 1)
+                    {
+                        errorRespuesta = JsonConvert.DeserializeObject<Clase_Variables_Contifico.ErrorRespuesta>(viajesConsulta.sError);
+                        lblMensajeError.Text = "<b>SMARTT - Información:</b><br/><br/>" + errorRespuesta.detail.Trim(); ;
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    }
+
+                    else if (viajesConsulta.iTipoError == 2)
+                    {
+                        lblMensajeError.Text = "<b>SMARTT - Información:</b><br/><br/>" + viajesConsulta.sError;
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    }
+
                     return;
                 }
 
                 if (sRespuesta_A == "ISNULL")
                 {
-                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Información.!', 'No se proporcionaron credenciales de autenticación. Tasa de Usuario SMARTT', 'info')</script>");
+                    ScriptManager.RegisterStartupScript((Page)this, base.GetType(), "Popup", "swal('Información', 'No se proporcionaron credenciales de autenticación. Tasa de Usuario SMARTT', 'info');", true);
                     return;
                 }
 

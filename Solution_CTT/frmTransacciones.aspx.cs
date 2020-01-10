@@ -372,12 +372,13 @@ namespace Solution_CTT
             dgvVendidos.Columns[1].Visible = ok;
             dgvVendidos.Columns[2].Visible = ok;
             dgvVendidos.Columns[3].Visible = ok;
+            dgvVendidos.Columns[8].Visible = ok;
 
             dgvVendidos.Columns[4].ItemStyle.Width = 150;
             dgvVendidos.Columns[5].ItemStyle.Width = 300;
             dgvVendidos.Columns[6].ItemStyle.Width = 150;
             dgvVendidos.Columns[7].ItemStyle.Width = 150;
-            dgvVendidos.Columns[8].ItemStyle.Width = 100;
+            dgvVendidos.Columns[9].ItemStyle.Width = 100;
 
             dgvVendidos.Columns[4].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
             dgvVendidos.Columns[6].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
@@ -2004,6 +2005,7 @@ namespace Solution_CTT
             lblEdad.BackColor = Color.White;
             chkCortesia.Checked = false;
             chkCortesia.ForeColor = Color.Black;
+            btnEditarPasajero.Enabled = true;
 
             asientosOcupados();
             extraerTotalCobrado();
@@ -4498,7 +4500,13 @@ namespace Solution_CTT
                     {
                         string[] sSeparar = dtConsulta.Rows[0]["txNombres"].ToString().Trim().Split(' ');
 
-                        if (sSeparar.Length >= 4)
+                        if (sSeparar.Length > 4)
+                        {
+                            sApellidos_P = dtConsulta.Rows[0]["txNombres"].ToString().Trim().ToUpper();
+                            sNombres_P = "";
+                        }
+
+                        else if (sSeparar.Length == 4)
                         {
                             sApellidos_P = sSeparar[0].Trim().ToUpper() + " " + sSeparar[1].Trim().ToUpper();
                             sNombres_P = "";
@@ -5893,6 +5901,7 @@ namespace Solution_CTT
         protected void btnBuscarCliente_Click(object sender, EventArgs e)
         {
             Session["idPasajero"] = null;
+            btnEditarPasajero.Enabled = true;
 
             if (txtIdentificacion.Text.Trim() == "")
             {                
@@ -6421,6 +6430,7 @@ namespace Solution_CTT
         protected void btnConsumimdorFinal_Click(object sender, EventArgs e)
         {
             txtIdentificacion.Text = Application["numero_consumidor_final"].ToString();
+            btnEditarPasajero.Enabled = false;
             buscarCliente(txtIdentificacion.Text.Trim());
         }
 
@@ -6738,6 +6748,7 @@ namespace Solution_CTT
                 int a = dgvVendidos.SelectedIndex;
                 columnasGridVendidos(true);
                 iIdFactura = Convert.ToInt32(dgvVendidos.Rows[a].Cells[2].Text);
+                iTipoComprobante_REP = Convert.ToInt32(dgvVendidos.Rows[a].Cells[8].Text);
                 columnasGridVendidos(false);
 
                 crearReporteImprimir();                

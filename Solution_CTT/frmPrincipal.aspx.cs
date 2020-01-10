@@ -76,11 +76,11 @@ namespace Solution_CTT
                 sSql = "";
                 sSql += "select count(*) cuenta " + Environment.NewLine;
                 sSql += "from cv403_cab_pedidos" + Environment.NewLine;
-                sSql += "where fecha_pedido = '" + sFecha_P + "'" + Environment.NewLine;
+                //sSql += "where fecha_pedido = '" + sFecha_P + "'" + Environment.NewLine;
+                sSql += "where cobro_boletos = 1" + Environment.NewLine;
                 sSql += "and cobro_retencion = 0" + Environment.NewLine;
                 sSql += "and cobro_administrativo = 0" + Environment.NewLine;
-                sSql += "and id_ctt_jornada = " + Convert.ToInt32(Session["idJornada"].ToString()) + Environment.NewLine;
-                sSql += "and id_localidad = " + Application["idLocalidad"].ToString();
+                sSql += "and id_ctt_cierre_caja = " + Convert.ToInt32(Session["idCierreCaja"].ToString());
 
                 dtConsulta = new DataTable();
                 dtConsulta.Clear();

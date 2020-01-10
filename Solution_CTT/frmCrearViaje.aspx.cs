@@ -31,6 +31,7 @@ namespace Solution_CTT
 
         Clases_Contifico.ClaseCrearViaje crearViajeAPI;
         Clase_Variables_Contifico.CrearViaje crearViajeVariables;
+        Clase_Variables_Contifico.ErrorRespuesta errorRespuesta;
 
         string sSql;
         string sFecha;
@@ -660,7 +661,21 @@ namespace Solution_CTT
 
                 if (sRespuesta_A == "ERROR")
                 {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('SMARTT - Información.', 'No se pudo crear el viaje.', 'error');", true);
+                    //ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('SMARTT - Información.', 'No se pudo crear el viaje.', 'error');", true);
+
+                    if (crearViajeAPI.iTipoError == 1)
+                    {
+                        errorRespuesta = JsonConvert.DeserializeObject<Clase_Variables_Contifico.ErrorRespuesta>(crearViajeAPI.sError);
+                        lblMensajeError.Text = "<b>SMARTT - Información:</b><br/><br/>" + errorRespuesta.detail.Trim(); ;
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    }
+
+                    else if (crearViajeAPI.iTipoError == 2)
+                    {
+                        lblMensajeError.Text = "<b>SMARTT - Información:</b><br/><br/>" + crearViajeAPI.sError;
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    }
+
                     return false;
                 }
 
@@ -699,7 +714,19 @@ namespace Solution_CTT
 
                 if (sRespuesta_A == "ERROR")
                 {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('SMARTT - Información.', 'No se pudo cambiar de disco.', 'error');", true);
+                    if (crearViajeAPI.iTipoError == 1)
+                    {
+                        errorRespuesta = JsonConvert.DeserializeObject<Clase_Variables_Contifico.ErrorRespuesta>(crearViajeAPI.sError);
+                        lblMensajeError.Text = "<b>SMARTT - Información:</b><br/><br/>" + errorRespuesta.detail.Trim(); ;
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    }
+
+                    else if (crearViajeAPI.iTipoError == 2)
+                    {
+                        lblMensajeError.Text = "<b>SMARTT - Información:</b><br/><br/>" + crearViajeAPI.sError;
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    }
+
                     return false;
                 }
 

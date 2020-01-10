@@ -8,6 +8,7 @@ using System.Data;
 using NEGOCIO;
 using ENTIDADES;
 using System.Drawing;
+using Microsoft.Reporting.WebForms;
 
 namespace Solution_CTT
 {
@@ -55,61 +56,6 @@ namespace Solution_CTT
             }
         }
 
-        #region FUNCIONES PARA LA IMPRESION
-
-        //FUNCION PARA CONSULTAR LA IMPRESORA DEL TERMINAL
-        private void consultarImpresora()
-        {
-            try
-            {
-                sSql = "";
-                sSql += "select descripcion, path_url, cortar_papel," + Environment.NewLine;
-                sSql += "abrir_cajon, numero_impresion" + Environment.NewLine;
-                sSql += "from ctt_impresora" + Environment.NewLine;
-                sSql += "where id_localidad = " + Convert.ToInt32(Application["idLocalidad"].ToString()) + Environment.NewLine;
-                sSql += "and estado = 'A'";
-
-                dtConsulta = new DataTable();
-                dtConsulta.Clear();
-
-                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
-
-                if (bRespuesta == true)
-                {
-                    if (dtConsulta.Rows.Count > 0)
-                    {
-                        sNombreImpresora = dtConsulta.Rows[0][0].ToString();
-                        sPathImpresora = dtConsulta.Rows[0][1].ToString();
-                        iCortarPapel = Convert.ToInt32(dtConsulta.Rows[0][2].ToString());
-                        iNumeroImpresiones = Convert.ToInt32(dtConsulta.Rows[0][4].ToString());
-
-                        imprimir.iniciarImpresion();
-                        imprimir.escritoEspaciadoCorto(sImprimir);
-                        imprimir.cortarPapel(iCortarPapel);
-                        imprimir.imprimirReporte(sPathImpresora);
-                    }
-
-                    else
-                    {
-                        ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'No existe una configuración de impresora para el terminal. Comuníquese con el administrador.', 'warning');", true);
-                    }
-                }
-
-                else
-                {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo cargar los parámetros de impresión. Comuníquese con el administrador.', 'danger');", true);
-                }
-            }
-
-            catch (Exception ex)
-            {
-                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-            }
-        }
-
-        #endregion
-
         #region FUNCIONES DEL USUARIO
 
         //FUNCION PARA LLENAR EL COMBOBOX DE VEHICULOS
@@ -139,32 +85,6 @@ namespace Solution_CTT
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
-
-        ////FUNCION PARA LLENAR EL COMBOBOX DE JORNADAS
-        //private void llenarComboJornadas()
-        //{
-        //    try
-        //    {
-        //        sSql = "";
-        //        sSql += "select id_ctt_jornada, descripcion" + Environment.NewLine;
-        //        sSql += "from ctt_jornada" + Environment.NewLine;
-        //        sSql += "where estado = 'A'" + Environment.NewLine;
-        //        sSql += "order by id_ctt_jornada";
-               
-        //        comboE.ISSQL = sSql;
-        //        cmbJornada.DataSource = comboM.listarCombo(comboE);
-        //        cmbJornada.DataValueField = "IID";
-        //        cmbJornada.DataTextField = "IDATO";
-        //        cmbJornada.DataBind();
-        //        cmbJornada.Items.Insert(0, new ListItem("Todos", "0"));
-        //    }
-
-        //    catch (Exception ex)
-        //    {
-        //        lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
-        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
-        //    }
-        //}
 
         //FUNCION PARA LLENAR EL COMBOBOX DE JORNADAS
         private void llenarComboOficinistas()
@@ -200,8 +120,8 @@ namespace Solution_CTT
                 sFechaInicial = Convert.ToDateTime(txtFechaDesde.Text.Trim()).ToString("yyyy/MM/dd");
                 sFechaFinal = Convert.ToDateTime(txtFechaHasta.Text.Trim()).ToString("yyyy/MM/dd");
 
-                Session["fecha_desde"] = sFechaInicial;
-                Session["fecha_hasta"] = sFechaFinal;
+                Session["fecha_desde_Retencion"] = sFechaInicial;
+                Session["fecha_hasta_Retencion"] = sFechaFinal;
 
                 sSql = "";
                 sSql += "select * from ctt_vw_reporte_cobro_retenciones" + Environment.NewLine;
@@ -219,20 +139,9 @@ namespace Solution_CTT
                     sSql += "and id_ctt_oficinista = " + Convert.ToInt32(cmbOficinista.SelectedValue) + Environment.NewLine;
                 }
 
-                //else if (iOp == 2)
-                //{
-                //    sSql += "and id_ctt_jornada = " + Convert.ToInt32(cmbJornada.SelectedValue) + Environment.NewLine;
-                //}
-
-                //else if (iOp == 3)
-                //{
-                //    sSql += "and id_ctt_vehiculo = " + Convert.ToInt32(cmbVehiculos.SelectedValue) + Environment.NewLine;
-                //    sSql += "and id_ctt_jornada = " + Convert.ToInt32(cmbJornada.SelectedValue) + Environment.NewLine;
-                //}
-
                 sSql += "order by fecha_viaje, hora_salida";
 
-                Session["instruccion"] = sSql;
+                Session["instruccionRetencion"] = sSql;
 
                 dgvDatos.Columns[7].Visible = true;
 
@@ -260,6 +169,7 @@ namespace Solution_CTT
 
                     btnImprimir.Visible = true;
                 }
+
                 dgvDatos.Columns[7].Visible = false;
             }
 
@@ -279,35 +189,35 @@ namespace Solution_CTT
                 dtConsulta = new DataTable();
                 dtConsulta.Clear();
 
-                bRespuesta = conexionM.consultarRegistro(Session["instruccion"].ToString(), dtConsulta);
+                bRespuesta = conexionM.consultarRegistro(Session["instruccionRetencion"].ToString(), dtConsulta);
 
-                if (bRespuesta == true)
+                if (bRespuesta == false)
                 {
-                    if (dtConsulta.Rows.Count > 0)
-                    {
-                        sImprimir = reporte.llenarBoleto(dtConsulta, Session["fecha_desde"].ToString(), Session["fecha_hasta"].ToString(), Session["usuario"].ToString());
-
-                        if (sImprimir == "ERROR")
-                        {
-                            ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'Ocurrió un problema al crear el reporte de impresión. Comuníquese con el administrador.', 'warning');", true);
-                        }
-
-                        else
-                        {
-                            consultarImpresora();
-                        }
-                    }
-
-                    else
-                    {
-                        ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'No hay registros en la consulta para continuar con la impresión. Comuníquese con el administrador.', 'warning');", true);
-                    }
+                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    return;
                 }
 
-                else
-                {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo crear el reporte de impresión. Comuníquese con el administrador.', 'danger');", true);
-                }
+                dsOtrosReportes ds = new dsOtrosReportes();
+
+                DataTable dt = ds.Tables["dtReporteRetenciones"];
+                dt.Clear();
+
+                dt = dtConsulta;
+
+                LocalReport reporteLocal = new LocalReport();
+                reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptReporteRetenciones.rdlc");
+
+                ReportParameter[] parametros = new ReportParameter[3];
+                parametros[0] = new ReportParameter("P_Fecha_Desde", Convert.ToDateTime(Session["fecha_desde_Retencion"].ToString()).ToString("dd-MMM-yyyy"));
+                parametros[1] = new ReportParameter("P_Fecha_Hasta", Convert.ToDateTime(Session["fecha_hasta_Retencion"].ToString()).ToString("dd-MMM-yyyy"));
+                parametros[2] = new ReportParameter("P_Usuario_Consulta", Session["usuario"].ToString().ToUpper());
+
+                ReportDataSource datasource = new ReportDataSource("DataSet1", dt);
+                reporteLocal.DataSources.Add(datasource);
+                reporteLocal.SetParameters(parametros);
+                Clases.Impresor imp = new Clases.Impresor();
+                imp.Imprime(reporteLocal);
             }
 
             catch(Exception ex)
@@ -334,9 +244,9 @@ namespace Solution_CTT
 
             btnImprimir.Visible = false;
 
-            Session["fecha_desde"] = null;
-            Session["fecha_hasta"] = null;
-            Session["instruccion"] = null;
+            Session["fecha_desde_Retencion"] = null;
+            Session["fecha_hasta_Retencion"] = null;
+            Session["instruccionRetencion"] = null;
         }
 
         #endregion
@@ -371,26 +281,6 @@ namespace Solution_CTT
             else
             {
                 llenarGrid();
-
-            //    if ((Convert.ToInt32(cmbVehiculos.SelectedValue) == 0) && (Convert.ToInt32(cmbJornada.SelectedValue) == 0))
-            //    {
-            //        llenarGrid(0);
-            //    }
-
-            //    else if ((Convert.ToInt32(cmbVehiculos.SelectedValue) != 0) && (Convert.ToInt32(cmbJornada.SelectedValue) == 0))
-            //    {
-            //        llenarGrid(1);
-            //    }
-
-            //    else if ((Convert.ToInt32(cmbVehiculos.SelectedValue) == 0) && (Convert.ToInt32(cmbJornada.SelectedValue) != 0))
-            //    {
-            //        llenarGrid(2);
-            //    }
-
-            //    else if ((Convert.ToInt32(cmbVehiculos.SelectedValue) != 0) && (Convert.ToInt32(cmbJornada.SelectedValue) != 0))
-            //    {
-            //        llenarGrid(3);
-            //    }
             }
         }
 
@@ -400,25 +290,6 @@ namespace Solution_CTT
             {
                 dgvDatos.PageIndex = e.NewPageIndex;
                 llenarGrid();
-                //if ((Convert.ToInt32(cmbVehiculos.SelectedValue) == 0) && (Convert.ToInt32(cmbJornada.SelectedValue) == 0))
-                //{
-                //    llenarGrid(0);
-                //}
-
-                //else if ((Convert.ToInt32(cmbVehiculos.SelectedValue) != 0) && (Convert.ToInt32(cmbJornada.SelectedValue) == 0))
-                //{
-                //    llenarGrid(1);
-                //}
-
-                //else if ((Convert.ToInt32(cmbVehiculos.SelectedValue) == 0) && (Convert.ToInt32(cmbJornada.SelectedValue) != 0))
-                //{
-                //    llenarGrid(2);
-                //}
-
-                //else if ((Convert.ToInt32(cmbVehiculos.SelectedValue) != 0) && (Convert.ToInt32(cmbJornada.SelectedValue) != 0))
-                //{
-                //    llenarGrid(3);
-                //}
             }
 
             catch (Exception ex)

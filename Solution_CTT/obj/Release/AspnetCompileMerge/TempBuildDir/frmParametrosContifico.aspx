@@ -21,7 +21,45 @@
                                     <div class="form-group">
                                         <%--PRIMERA FILA--%>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <asp:Label ID="Label7" runat="server" Text="Url Dominio de Pruebas *"></asp:Label>
+                                                    <div class="input-group col-sm-12">
+                                                        <asp:TextBox ID="txtUrlPruebas" runat="server" CssClass="form-control input-sm" placeholder="Dominio para Pruebas" BackColor="White"></asp:TextBox>
+                                                        <span class="input-group-addon input-sm"><i class="fa fa-car"></i></span>
+                                                    </div>                                                
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <asp:Label ID="Label9" runat="server" Text="Url Dominio de Producción *"></asp:Label>
+                                                    <div class="input-group col-sm-12">
+                                                        <asp:TextBox ID="txtUrlProduccion" runat="server" CssClass="form-control input-sm" placeholder="Dominio para Producción" BackColor="White"></asp:TextBox>
+                                                        <span class="input-group-addon input-sm"><i class="fa fa-male"></i></span>
+                                                    </div>                                                
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <asp:Label ID="Label14" runat="server" Text="Ambiente a Trabajar"></asp:Label>
+                                                    <div class="input-group col-sm-12">
+                                                        <asp:DropDownList ID="cmbAmbiente" runat="server" class="form-control input-sm">
+                                                            <asp:ListItem Value="0">Pruebas</asp:ListItem>
+                                                            <asp:ListItem Value="1">Producción</asp:ListItem>
+                                                        </asp:DropDownList>
+                                                        <span class="input-group-addon input-sm"><i class="fa fa-search"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <%--FIN PRIMERA FILA--%>
+
+                                        <%--PRIMERA FILA--%>
+                                        <div class="row">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <asp:Label ID="Label3" runat="server" Text="URL Autenticación"></asp:Label>
                                                     <div class="input-group col-sm-12">
@@ -31,12 +69,22 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <asp:Label ID="Label1" runat="server" Text="URL Localidades"></asp:Label>
                                                     <div class="input-group col-sm-12">
                                                         <asp:TextBox ID="txtUrlLocalidades" runat="server" CssClass="form-control input-sm" placeholder="URL para las Localidades" BackColor="White"></asp:TextBox>
                                                         <span class="input-group-addon input-sm"><i class="fa fa-male"></i></span>
+                                                    </div>                                                
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <asp:Label ID="Label2" runat="server" Text="URL Conductores"></asp:Label>
+                                                    <div class="input-group col-sm-12">
+                                                        <asp:TextBox ID="txtUrlConductores" runat="server" CssClass="form-control input-sm" placeholder="URL para Conductores" BackColor="White"></asp:TextBox>
+                                                        <span class="input-group-addon input-sm"><i class="fa fa-car"></i></span>
                                                     </div>                                                
                                                 </div>
                                             </div>
@@ -46,17 +94,7 @@
 
                                         <%--SEGUNDA FILA--%>
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <asp:Label ID="Label2" runat="server" Text="URL Conductores"></asp:Label>
-                                                    <div class="input-group col-sm-12">
-                                                        <asp:TextBox ID="txtUrlConductores" runat="server" CssClass="form-control input-sm" placeholder="URL para Conductores" BackColor="White"></asp:TextBox>
-                                                        <span class="input-group-addon input-sm"><i class="fa fa-car"></i></span>
-                                                    </div>                                                
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <asp:Label ID="Label6" runat="server" Text="URL Frecuencias"></asp:Label>
                                                     <div class="input-group col-sm-12">
@@ -65,12 +103,8 @@
                                                     </div>                                                
                                                 </div>
                                             </div>
-                                        </div>                                        
-                                        <%--FIN SEGUNDA FILA--%>
 
-                                        <%--TERCERA FILA--%>
-                                        <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <asp:Label ID="Label8" runat="server" Text="URL Buses"></asp:Label>
                                                     <div class="input-group col-sm-12">
@@ -80,7 +114,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <asp:Label ID="Label11" runat="server" Text="URL Rutas"></asp:Label>
                                                     <div class="input-group col-sm-12">
@@ -90,11 +124,11 @@
                                                 </div>
                                             </div>
                                         </div>                                        
-                                        <%--FIN TERCERA FILA--%>
+                                        <%--FIN SEGUNDA FILA--%>
 
-                                        <%--CUARTA FILA--%>
+                                        <%--TERCERA FILA--%>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <asp:Label ID="Label4" runat="server" Text="URL Ventas"></asp:Label>
                                                     <div class="input-group col-sm-12">
@@ -104,25 +138,11 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <asp:Label ID="Label5" runat="server" Text="URL Viajes"></asp:Label>
                                                     <div class="input-group col-sm-12">
                                                         <asp:TextBox ID="txtUrlViajes" runat="server" CssClass="form-control input-sm" placeholder="URL para los viajes" BackColor="White"></asp:TextBox>
-                                                        <span class="input-group-addon input-sm"><i class="fa fa-users"></i></span>
-                                                    </div>                                                
-                                                </div>
-                                            </div>
-                                        </div>                                        
-                                        <%--FIN CUARTA FILA--%>
-
-                                        <%--QUINTA FILA--%>
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <asp:Label ID="Label12" runat="server" Text="Tiempo de Respuesta en Segundos"></asp:Label>
-                                                    <div class="input-group col-sm-12">
-                                                        <asp:TextBox ID="txtTiempoRespuesta" runat="server" CssClass="form-control input-sm" Onkeypress="return ValidaDecimal(this.value);" placeholder="Tiempo de respuesta" BackColor="White" MaxLength="2"></asp:TextBox>
                                                         <span class="input-group-addon input-sm"><i class="fa fa-users"></i></span>
                                                     </div>                                                
                                                 </div>
@@ -137,9 +157,22 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>                                        
-                                        <%--FIN QUINTA FILA--%>
+                                        </div>                                          
+                                        <%--FIN TERCERA FILA--%>
 
+                                        <%--CUARTA FILA--%>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <asp:Label ID="Label12" runat="server" Text="Tiempo de Respuesta en Segundos"></asp:Label>
+                                                    <div class="input-group col-sm-12">
+                                                        <asp:TextBox ID="txtTiempoRespuesta" runat="server" CssClass="form-control input-sm" Onkeypress="return ValidaDecimal(this.value);" placeholder="Tiempo de respuesta" BackColor="White" MaxLength="2"></asp:TextBox>
+                                                        <span class="input-group-addon input-sm"><i class="fa fa-users"></i></span>
+                                                    </div>                                                
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <%--FIN CUARTA FILA--%>
                                     </div>
                                 </div>
                                 </asp:Panel>

@@ -97,6 +97,7 @@
       <HintPath>..\packages\QRCoder.1.3.6\lib\net40\QRCoder.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -735,6 +736,17 @@
     <Content Include="plugins\input-mask\phone-codes\phone-codes.json" />
     <Content Include="DSReportes.xsc">
       <DependentUpon>DSReportes.xsd</DependentUpon>
+    </Content>
+    <Content Include="dsOtrosReportes.xsc">
+      <DependentUpon>dsOtrosReportes.xsd</DependentUpon>
+    </Content>
+    <None Include="dsOtrosReportes.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsOtrosReportes.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="dsOtrosReportes.xss">
+      <DependentUpon>dsOtrosReportes.xsd</DependentUpon>
     </Content>
     <None Include="DSReportes.xsd">
       <Generator>MSDataSetGenerator</Generator>
@@ -7381,6 +7393,11 @@
     <Compile Include="Clase_Variables_Contifico\ClaseVariables.cs" />
     <Compile Include="DetalleEnvioAutorizacion.cs" />
     <Compile Include="DetalleGenerarXML.cs" />
+    <Compile Include="dsOtrosReportes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsOtrosReportes.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DSReportes.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -8200,6 +8217,8 @@
     <EmbeddedResource Include="Reportes\rptFactura_2.rdlc" />
     <EmbeddedResource Include="Reportes\rptGenerarRIDE.rdlc" />
     <EmbeddedResource Include="Reportes\rptListadoBoletos.rdlc" />
+    <EmbeddedResource Include="Reportes\rptReporteVentasCooperativaSMARTT.rdlc" />
+    <EmbeddedResource Include="Reportes\rptReporteRetenciones.rdlc" />
     <EmbeddedResource Include="Reportes\rptListadoPasajeros.rdlc" />
     <EmbeddedResource Include="Reportes\rptListaPasajeros.rdlc" />
     <EmbeddedResource Include="Reportes\rptManifiestoPasajeros.rdlc" />

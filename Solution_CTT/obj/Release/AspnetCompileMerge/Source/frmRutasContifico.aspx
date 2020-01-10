@@ -68,15 +68,6 @@
 
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <asp:Label ID="Label4" runat="server" Text="Seleccione la Tarifa"></asp:Label>
-                                                <div class="input-group col-sm-12">
-                                                    <%--<asp:DropDownList ID="cmbTarifa" runat="server" AutoPostBack="true" OnSelectedIndexChanged="cmbTarifa_SelectedIndexChanged" class="form-control input-sm"></asp:DropDownList>--%>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3">
-                                            <div class="form-group">
                                                 <asp:Label ID="Label6" runat="server" Text="Orden de Llegada"></asp:Label>
                                                 <div class="input-group col-sm-12">
                                                     <asp:TextBox ID="txtOrdenLlegada" ReadOnly="true" runat="server" class="form-control input-sm" placeholder="TIPO SERVICIO" BackColor="White"></asp:TextBox>

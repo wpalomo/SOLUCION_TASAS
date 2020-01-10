@@ -35,6 +35,8 @@ namespace Solution_CTT
         Clase_Variables_Contifico.Boleto boletoLiberar;
         Clase_Variables_Contifico.TasaUsuarioSmartt consultarTasaAnulada;
 
+        Clase_Variables_Contifico.ErrorRespuesta errorRespuesta;
+
         string sSql;
         string sEstadoViaje;
         string sFecha;
@@ -426,7 +428,21 @@ namespace Solution_CTT
 
                         if (sRespuesta_A == "ERROR")
                         {
-                            ScriptManager.RegisterStartupScript((Page)this, base.GetType(), "Popup", "swal('Error.!', 'No se pudo obtener registros para la tasa de usuario SMARTT', 'warning');", true);
+                            //ScriptManager.RegisterStartupScript((Page)this, base.GetType(), "Popup", "swal('Error.!', 'No se pudo obtener registros para la tasa de usuario SMARTT', 'warning');", true);
+
+                            if (anularLiberarBoleto.iTipoError == 1)
+                            {
+                                errorRespuesta = JsonConvert.DeserializeObject<Clase_Variables_Contifico.ErrorRespuesta>(anularLiberarBoleto.sError);
+                                lblMensajeError.Text = "<b>SMARTT - Información:</b><br/><br/>" + errorRespuesta.detail.Trim(); ;
+                                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                            }
+
+                            else if (anularLiberarBoleto.iTipoError == 2)
+                            {
+                                lblMensajeError.Text = "<b>SMARTT - Información:</b><br/><br/>" + anularLiberarBoleto.sError;
+                                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                            }
+
                             return false;
                         }
 
@@ -437,39 +453,6 @@ namespace Solution_CTT
                         }
 
                         Session["JsonLiberar"] = sRespuesta_A;
-
-                        //sRespuesta_A = "";
-                        //sRespuesta_A += "{" + Environment.NewLine;
-                        //sRespuesta_A += "\"id\": 56749," + Environment.NewLine;
-                        //sRespuesta_A += "\"asiento\": 44," + Environment.NewLine;
-                        //sRespuesta_A += "\"asiento_nombre\": \"44\"," + Environment.NewLine;
-                        //sRespuesta_A += "\"nivel\": 1," + Environment.NewLine;
-                        //sRespuesta_A += "\"valor\": 8," + Environment.NewLine;
-                        //sRespuesta_A += "\"localidad_embarque\": 1," + Environment.NewLine;
-                        //sRespuesta_A += "\"tipo_cliente\": 1," + Environment.NewLine;
-                        //sRespuesta_A += "\"parada_embarque\": null," + Environment.NewLine;
-                        //sRespuesta_A += "\"parada_destino\": 846," + Environment.NewLine;
-                        //sRespuesta_A += "\"pasajero\": {" + Environment.NewLine;
-                        //sRespuesta_A += "\"identificacion\": \"9999999999999\"," + Environment.NewLine;
-                        //sRespuesta_A += "\"id\": 5380," + Environment.NewLine;
-                        //sRespuesta_A += "\"nombre\": \"CONSUMIDOR FINAL\"," + Environment.NewLine;
-                        //sRespuesta_A += "\"correo\": \"contabilidad@expressatenas.com.ec\"," + Environment.NewLine;
-                        //sRespuesta_A += "\"tipo_cliente\": \"N\"," + Environment.NewLine;
-                        //sRespuesta_A += "\"direccion\": null," + Environment.NewLine;
-                        //sRespuesta_A += "\"telefono\": null," + Environment.NewLine;
-                        //sRespuesta_A += "\"tipo_identificacion\": \"RUC\"," + Environment.NewLine;
-                        //sRespuesta_A += "\"extranjero\": false," + Environment.NewLine;
-                        //sRespuesta_A += "\"is_active\": true," + Environment.NewLine;
-                        //sRespuesta_A += "\"is_enable\": true," + Environment.NewLine;
-                        //sRespuesta_A += "\"actualizacion\": \"2019-12-23T14:35:46.492711-05:00\"" + Environment.NewLine;
-                        //sRespuesta_A += "}," + Environment.NewLine;
-                        //sRespuesta_A += "\"tasa\": \"9385167124\"," + Environment.NewLine;
-                        //sRespuesta_A += "\"estado\": 0," + Environment.NewLine;
-                        //sRespuesta_A += "\"estado_nombre\": \"Anulado\"," + Environment.NewLine;
-                        //sRespuesta_A += "\"is_active\": true," + Environment.NewLine;
-                        //sRespuesta_A += "\"is_enable\": true," + Environment.NewLine;
-                        //sRespuesta_A += "\"actualizacion\": \"2019-12-23T14:42:38.429032-05:00\"" + Environment.NewLine;
-                        //sRespuesta_A += "}";
 
                         boletoLiberar = JsonConvert.DeserializeObject<Clase_Variables_Contifico.Boleto>(sRespuesta_A);
 
@@ -528,13 +511,27 @@ namespace Solution_CTT
 
                 if (sRespuesta_A == "ERROR")
                 {
-                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'No se pudo obtener registros para la tasa de usuario SMARTT', 'error')</script>");
+                    //ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'No se pudo obtener registros para la tasa de usuario SMARTT', 'error')</script>");
+
+                    if (anularLiberarBoleto.iTipoError == 1)
+                    {
+                        errorRespuesta = JsonConvert.DeserializeObject<Clase_Variables_Contifico.ErrorRespuesta>(anularLiberarBoleto.sError);
+                        lblMensajeError.Text = "<b>SMARTT - Información:</b><br/><br/>" + errorRespuesta.detail.Trim(); ;
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    }
+
+                    else if (anularLiberarBoleto.iTipoError == 2)
+                    {
+                        lblMensajeError.Text = "<b>SMARTT - Información:</b><br/><br/>" + anularLiberarBoleto.sError;
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    }
+
                     return false;
                 }
 
                 if (sRespuesta_A == "ISNULL")
                 {
-                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Información.!', 'No se proporcionaron credenciales de autenticación. Tasa de Usuario SMARTT', 'info')</script>");
+                    ScriptManager.RegisterStartupScript((Page)this, base.GetType(), "Popup", "swal('Información', 'No se proporcionaron credenciales de autenticación. Tasa de Usuario SMARTT', 'info');", true);
                     return false;
                 }
 

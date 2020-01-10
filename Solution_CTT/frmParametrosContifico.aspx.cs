@@ -123,6 +123,8 @@ namespace Solution_CTT
                     pnlRegistro.Enabled = true;
                     btnGuardar.Text = "Guardar";
 
+                    txtUrlPruebas.Text = "";
+                    txtUrlProduccion.Text = "";
                     txtUrlAutenticacion.Text = "";
                     txtUrlLocalidades.Text = "";
                     txtUrlConductores.Text = "";
@@ -148,6 +150,9 @@ namespace Solution_CTT
                     txtUrlViajes.Text = dtConsulta.Rows[0]["api_viajes_contifico"].ToString();
                     txtTiempoRespuesta.Text = (Convert.ToInt32(dtConsulta.Rows[0]["timeout"].ToString()) / 1000).ToString();
                     cmbProveedor.SelectedValue = dtConsulta.Rows[0]["id_ctt_proveedor_tasa"].ToString();
+                    txtUrlPruebas.Text = dtConsulta.Rows[0]["servidor_pruebas"].ToString();
+                    txtUrlProduccion.Text = dtConsulta.Rows[0]["servidor_produccion"].ToString();
+                    cmbAmbiente.SelectedValue = dtConsulta.Rows[0]["emision"].ToString();
 
                     pnlRegistro.Enabled = false;
                     btnGuardar.Text = "Editar";
@@ -166,6 +171,8 @@ namespace Solution_CTT
         private void limpiar()
         {
             Session["idRegistro_CONTIFICO"] = null;
+            txtUrlPruebas.Text = "";
+            txtUrlProduccion.Text = "";
             txtUrlAutenticacion.Text = "";
             txtUrlLocalidades.Text = "";
             txtUrlConductores.Text = "";
@@ -200,14 +207,15 @@ namespace Solution_CTT
                 sSql += "insert into ctt_tasa_parametros (" + Environment.NewLine;
                 sSql += "api_autenticacion_contifico, api_localidades_contifico, api_conductores_contifico," + Environment.NewLine;
                 sSql += "api_frecuencias_contifico, api_buses_contifico, api_rutas_contifico," + Environment.NewLine;
-                sSql += "api_ventas_contifico, api_viajes_contifico, id_ctt_proveedor_tasa, timeout, estado," + Environment.NewLine;
-                sSql += "fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                sSql += "api_ventas_contifico, api_viajes_contifico, id_ctt_proveedor_tasa, timeout, servidor_pruebas," + Environment.NewLine;
+                sSql += "servidor_produccion, emision, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += "'" + txtUrlAutenticacion.Text.Trim() + "', '" + txtUrlLocalidades.Text.Trim() + "'," + Environment.NewLine;
                 sSql += "'" + txtUrlConductores.Text.Trim() + "', '" + txtUrlFrecuencias.Text.Trim() + "'," + Environment.NewLine;
                 sSql += "'" + txtUrlBuses.Text.Trim() + "', '" + txtUrlRutas.Text.Trim() + "'," + Environment.NewLine;
                 sSql += "'" + txtUrlVentas.Text.Trim() + "', '" + txtUrlViajes.Text.Trim() + "'," + Environment.NewLine;
-                sSql += cmbProveedor.SelectedValue + ", " + iTiempoRespuesta + ", 'A', GETDATE()," + Environment.NewLine;
+                sSql += cmbProveedor.SelectedValue + ", " + iTiempoRespuesta + ", '" + txtUrlPruebas.Text.Trim() + "'," + Environment.NewLine;
+                sSql += "'" + txtUrlProduccion.Text.Trim() + "', " + Convert.ToInt32(cmbAmbiente.SelectedValue) + ", 'A', GETDATE()," + Environment.NewLine;
                 sSql += "'" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
@@ -247,6 +255,8 @@ namespace Solution_CTT
 
                 sSql = "";
                 sSql += "update ctt_tasa_parametros set" + Environment.NewLine;
+                sSql += "servidor_pruebas = '" + txtUrlPruebas.Text.Trim() + "'," + Environment.NewLine;
+                sSql += "servidor_produccion = '" + txtUrlProduccion.Text.Trim() + "'," + Environment.NewLine;
                 sSql += "api_autenticacion_contifico = '" + txtUrlAutenticacion.Text.Trim() + "'," + Environment.NewLine;
                 sSql += "api_localidades_contifico = '" + txtUrlLocalidades.Text.Trim() + "'," + Environment.NewLine;
                 sSql += "api_conductores_contifico = '" + txtUrlConductores.Text.Trim() + "'," + Environment.NewLine;
@@ -255,7 +265,8 @@ namespace Solution_CTT
                 sSql += "api_rutas_contifico = '" + txtUrlRutas.Text.Trim() + "'," + Environment.NewLine;
                 sSql += "api_ventas_contifico = '" + txtUrlVentas.Text.Trim() + "'," + Environment.NewLine;
                 sSql += "api_viajes_contifico = '" + txtUrlViajes.Text.Trim() + "'," + Environment.NewLine;
-                sSql += "timeout = " + iTiempoRespuesta + Environment.NewLine;
+                sSql += "timeout = " + iTiempoRespuesta + "," + Environment.NewLine;
+                sSql += "emision = " + Convert.ToInt32(cmbAmbiente.SelectedValue) + Environment.NewLine;
                 sSql += "where id_ctt_tasa_parametro = " + Session["idRegistro_CONTIFICO"].ToString();
 
                 if (!conexionM.ejecutarInstruccionSQL(sSql))
@@ -289,7 +300,7 @@ namespace Solution_CTT
                 if (btnGuardar.Text == "Editar")
                 {
                     pnlRegistro.Enabled = true;
-                    txtUrlAutenticacion.Focus();
+                    txtUrlPruebas.Focus();
                     btnGuardar.Text = "Guardar";
                     return;
                 }

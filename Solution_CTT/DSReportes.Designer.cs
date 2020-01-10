@@ -157,6 +157,10 @@ namespace Solution_CTT {
                 if ((ds.Tables["dtListaBoletosViaje"] != null)) {
                     base.Tables.Add(new dtListaBoletosViajeDataTable(ds.Tables["dtListaBoletosViaje"]));
                 }
+                if ((ds.Tables["dtReporteRetenciones"] != null))
+                {
+                    base.Tables.Add(new dtListaBoletosViajeDataTable(ds.Tables["dtReporteRetenciones"]));
+                }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
                 this.Namespace = ds.Namespace;

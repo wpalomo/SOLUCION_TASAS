@@ -2058,7 +2058,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!identificacion.Value, "DataSet1")</Value>
+                <Value>=First(Fields!identificacion_conductor.Value, "DataSet1")</Value>
                 <Style>
                   <FontSize>8pt</FontSize>
                 </Style>
@@ -2195,10 +2195,14 @@
           <DataField>tipo_viaje</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="identificacion_conductor">
+          <DataField>identificacion_conductor</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>DSReportes</rd:DataSetName>
-        <rd:SchemaPath>D:\SISTEMAS\BOLETERIA\SOLUCION\Solucion_Buses\Solution_CTT\DSReportes.xsd</rd:SchemaPath>
+        <rd:SchemaPath>C:\Users\Usuario\Desktop\SOLUCION_TASAS\Solution_CTT\DSReportes.xsd</rd:SchemaPath>
         <rd:TableName>dtManifiestoPasajeros</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />

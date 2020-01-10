@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using ENTIDADES;
 using NEGOCIO;
 using System.Data;
+using Microsoft.Reporting.WebForms;
 
 namespace Solution_CTT
 {
@@ -103,6 +104,12 @@ namespace Solution_CTT
         {
             try
             {
+                sFechaInicial = Convert.ToDateTime(txtFechaInicial.Text.Trim()).ToString("yyyy/MM/dd");
+                sFechaFinal = Convert.ToDateTime(txtFechaFinal.Text.Trim()).ToString("yyyy/MM/dd");
+
+                Session["fecha_desde_Venta_Smartt"] = sFechaInicial;
+                Session["fecha_hasta_Venta_Smartt"] = sFechaFinal;
+
                 sSql = "";
                 sSql += "select id_ctt_tipo_cliente, descripcion, 0 cantidad, 0.00 total" + Environment.NewLine;
                 sSql += "from ctt_tipo_cliente" + Environment.NewLine;
@@ -165,11 +172,15 @@ namespace Solution_CTT
                     dbSuma += Convert.ToDecimal(dtAyuda.Rows[0]["suma"].ToString());
                 }
 
+                Session["dtTipoPasaje"] = dtConsulta;
+
                 dgvDatos.Columns[0].Visible = true;
                 dgvDatos.DataSource = dtConsulta;
                 dgvDatos.DataBind();
                 dgvDatos.Columns[0].Visible = false;
                 Scroll.Visible = true;
+
+                btnImprimir.Visible = true;
 
                 lblSuma.Text = "Total: " + dbSuma.ToString("N2") + " $";
 
@@ -214,7 +225,7 @@ namespace Solution_CTT
                 txtCantidadTasas.Text = dtConsulta.Rows[0][0].ToString();
 
                 sSql = "";
-                sSql += "select sum(total_tasas)" + Environment.NewLine;
+                sSql += "select isnull(sum(total_tasas), 0) total_tasas" + Environment.NewLine;
                 sSql += "from ctt_detalle_tasa_smartt" + Environment.NewLine;
                 sSql += "where fecha_emision_tasa between '" + Convert.ToDateTime(txtFechaInicial.Text.Trim()).ToString("yyyy-MM-dd") + "'" + Environment.NewLine;
                 sSql += "and '" + Convert.ToDateTime(txtFechaFinal.Text.Trim()).ToString("yyyy-MM-dd") + "'";
@@ -283,6 +294,46 @@ namespace Solution_CTT
             }
         }
 
+        //FUNCION PARA IMPRIMIR EL REPORTE
+        private void imprimirReporte()
+        {
+            try
+            {
+                dtConsulta = new DataTable();
+                dtConsulta.Clear();
+                dtConsulta = Session["dtTipoPasaje"] as DataTable;
+                
+                dsOtrosReportes ds = new dsOtrosReportes();
+
+                DataTable dt = ds.Tables["dtTipoPasajes"];
+                dt.Clear();
+
+                dt = dtConsulta;
+
+                LocalReport reporteLocal = new LocalReport();
+                reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptReporteVentasCooperativaSMARTT.rdlc");
+
+                ReportParameter[] parametros = new ReportParameter[5];
+                parametros[0] = new ReportParameter("P_Fecha_Desde", Convert.ToDateTime(Session["fecha_desde_Venta_Smartt"].ToString()).ToString("dd-MMM-yyyy"));
+                parametros[1] = new ReportParameter("P_Fecha_Hasta", Convert.ToDateTime(Session["fecha_hasta_Venta_Smartt"].ToString()).ToString("dd-MMM-yyyy"));
+                parametros[2] = new ReportParameter("P_Usuario_Consulta", Session["usuario"].ToString().ToUpper());
+                parametros[3] = new ReportParameter("P_Cantidad_Tasas", Convert.ToInt32(txtCantidadTasas.Text.Trim()).ToString());
+                parametros[4] = new ReportParameter("P_Total_Tasas", txtSumaTotalTasas.Text.Trim().Replace(".", ","));
+
+                ReportDataSource datasource = new ReportDataSource("DataSet1", dt);
+                reporteLocal.DataSources.Add(datasource);
+                reporteLocal.SetParameters(parametros);
+                Clases.Impresor imp = new Clases.Impresor();
+                imp.Imprime(reporteLocal);
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
+
         #endregion
 
         protected void btnExtraerInformacion_Click(object sender, EventArgs e)
@@ -302,6 +353,11 @@ namespace Solution_CTT
         protected void btnLimpiar_Click(object sender, EventArgs e)
         {
             Response.Redirect("frmReporteVentasCooperativa.aspx");
+        }
+
+        protected void btnImprimir_Click(object sender, EventArgs e)
+        {
+            imprimirReporte();
         }
     }
 }

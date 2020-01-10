@@ -11,6 +11,7 @@ using System.Data;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace Solution_CTT
 {
@@ -22,6 +23,8 @@ namespace Solution_CTT
 
         Clases.ClaseParametros parametros = new Clases.ClaseParametros();
         Clases_Contifico.ClaseAutenticacion autenticacion;
+
+        Clase_Variables_Contifico.ErrorRespuesta errorRespuesta;
 
         DataTable dtConsulta;
 
@@ -103,13 +106,13 @@ namespace Solution_CTT
 
                 else
                 {
-                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'Error al cargar los parámetros de las jornadas.', 'error')</script>");
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'Error al cargar los parámetros de las jornadas.', 'danger');", true);
                 }
             }
 
             catch (Exception ex)
             {
-                ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'Error al cargar los parámetros de las jornadas.', 'error')</script>");
+                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'Error al cargar los parámetros de las jornadas.', 'danger');", true);
             }
         }
         
@@ -193,13 +196,13 @@ namespace Solution_CTT
 
                 else
                 {
-                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'Error al cargar los parámetros del terminal.', 'error')</script>");
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'Error al cargar los parámetros del terminal.', 'danger');", true);
                 }
             }
 
             catch (Exception)
             {
-                ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'Error al cargar los parámetros del terminal.', 'error')</script>");
+                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'Error al cargar los parámetros del terminal.', 'danger');", true);
             }
         }
 
@@ -247,13 +250,15 @@ namespace Solution_CTT
 
                     else
                     {
-                        ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'No se encuentra una configuración de parámetros.', 'error')</script>");
+                        ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se encuentra una configuración de parámetros.', 'danger');", true);
+                        //ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'No se encuentra una configuración de parámetros.', 'error')</script>");
                     }
                 }
 
                 else
                 {
-                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'Error al cargar los parámetros del sistema.', 'error')</script>");
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'Error al cargar los parámetros del sistema.', 'danger');", true);
+                    //ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'Error al cargar los parámetros del sistema.', 'error')</script>");
                 }
 
                 //DIRECTORIOS DE LA FACTURACION ELECTRONICA
@@ -280,19 +285,19 @@ namespace Solution_CTT
                     }
                     else
                     {
-                        ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'No se encuentra una configuración de parámetros.', 'error')</script>");
+                        ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se encuentra una configuración de parámetros.', 'danger');", true);
                     }
                 }
                 else
                 {
-                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'Error al cargar los parámetros del sistema.', 'error')</script>");
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'Error al cargar los parámetros del sistema.', 'danger');", true);
                 }
                 //FIN DIRECTORIOS
             }
 
             catch (Exception)
             {
-                ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'Error al cargar los parámetros del sistema.', 'error')</script>");
+                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'Error al cargar los parámetros del sistema.', 'danger');", true);
             }
         }
         
@@ -344,19 +349,22 @@ namespace Solution_CTT
 
                     else
                     {
-                        ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'No se encuentra una configuración de parámetros del terminal.', 'error')</script>");
+                        ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se encuentra una configuración de parámetros del terminal.', 'danger');", true);
+                        //ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'No se encuentra una configuración de parámetros del terminal.', 'error')</script>");
                     }
                 }
 
                 else
                 {
-                    ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'Error al cargar los parámetros del terminal.', 'error')</script>");
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se encuentra una configuración de parámetros del terminal.', 'danger');", true);
+                    //ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'Error al cargar los parámetros del terminal.', 'error')</script>");
                 }
             }
 
             catch (Exception)
             {
-                ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'Error al cargar los parámetros del terminal.', 'error')</script>");
+                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se encuentra una configuración de parámetros del terminal.', 'danger');", true);
+                //ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'Error al cargar los parámetros del terminal.', 'error')</script>");
             }
         }
 
@@ -367,7 +375,8 @@ namespace Solution_CTT
             {
                 sSql = "";
                 sSql += "select id_ctt_oficinista, descripcion, id_persona, claveacceso," + Environment.NewLine;
-                sSql += "isnull(pos_secret, '') pos_secret" + Environment.NewLine;
+                sSql += "isnull(pos_secret, '') pos_secret, isnull(usuario_smartt, '') usuario_smartt," + Environment.NewLine;
+                sSql += "isnull(claveacceso_smartt, '') claveacceso_smartt" + Environment.NewLine;
                 sSql += "from ctt_oficinista" + Environment.NewLine;
                 sSql += "where estado = 'A'" + Environment.NewLine;
                 sSql += "and usuario = '" + txtUsuario.Text.Trim().ToLower() + "'";
@@ -414,17 +423,17 @@ namespace Solution_CTT
                         {
                             autenticacion = new Clases_Contifico.ClaseAutenticacion();
 
-                            string sRespuesta_A = autenticacion.recuperarToken(dtConsulta.Rows[0][1].ToString().Trim().ToLower(), dtConsulta.Rows[0][3].ToString().Trim(), dtConsulta.Rows[0]["pos_secret"].ToString().Trim());
+                            string sRespuesta_A = autenticacion.recuperarToken(dtConsulta.Rows[0]["usuario_smartt"].ToString().Trim().ToLower(), dtConsulta.Rows[0]["claveacceso_smartt"].ToString().Trim(), dtConsulta.Rows[0]["pos_secret"].ToString().Trim());
 
                             if (sRespuesta_A == "ERROR")
                             {
-                                ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', 'No se pudo obtener registros para la tasa de usuario SMARTT', 'error')</script>");
+                                ScriptManager.RegisterStartupScript((Page)this, base.GetType(), "Popup", "swal('Información - SMARTT', 'No se proporcionaron credenciales de autenticación. Tasa de Usuario SMARTT', 'warning');", true);
                                 return;
                             }
 
                             if (sRespuesta_A == "ISNULL")
                             {
-                                ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Información.!', 'No se proporcionaron credenciales de autenticación. Tasa de Usuario SMARTT', 'info')</script>");
+                                ScriptManager.RegisterStartupScript((Page)this, base.GetType(), "Popup", "swal('Información', 'No se proporcionaron credenciales de autenticación. Tasa de Usuario SMARTT', 'info');", true);
                                 return;
                             }
 

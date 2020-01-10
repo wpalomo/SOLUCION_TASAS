@@ -43,7 +43,9 @@ namespace DATOS
                             IUSUARIO = dtConsulta.Rows[i][5].ToString(),
                             IESTADO = dtConsulta.Rows[i][6].ToString(),
                             ICLAVE = dtConsulta.Rows[i][7].ToString(),
-                            IPOSSECRET = dtConsulta.Rows[i]["pos_secret"].ToString()
+                            IPOSSECRET = dtConsulta.Rows[i]["pos_secret"].ToString(),
+                            IUSUARIO_SMARTT = dtConsulta.Rows[i]["usuario_smartt"].ToString(),
+                            IIPASSWORD_SMARTT = dtConsulta.Rows[i]["claveacceso_smartt"].ToString()
                         };
                         coleccion.Add(todos);
                     }

@@ -24,11 +24,19 @@ namespace Solution_CTT.Clases_Contifico
         string sRespuestaJson;
         string sUrlBuses;
         string sMetodo = "GET";
+        string sUrlPruebas;
+        string sUrlProduccion;
+        string sUrlEnviar;
+
+        public string sError;
 
         bool bRespuesta;
 
         int iCantidad;
         int iTiempoRespuesta;
+        int iEmision;
+
+        public int iTipoError;
 
         //FUNCION QUE DEVUELVE EL JSON
         public string recuperarJson(string sToken_P, int iOp, int iPagina_P)
@@ -39,6 +47,8 @@ namespace Solution_CTT.Clases_Contifico
 
                 if (iCantidad == -1)
                 {
+                    iTipoError = 2;
+                    sError = "No se pudo obtener los parámetros de la Tasa de Usuario SMARTT.";
                     return "ERROR";
                 }
 
@@ -57,7 +67,15 @@ namespace Solution_CTT.Clases_Contifico
                     sUrlBuses = dtConsulta.Rows[0]["api_buses_contifico"].ToString().Trim() + "?page=" + iPagina_P.ToString();
                 }
 
+                sUrlPruebas = dtConsulta.Rows[0]["servidor_pruebas"].ToString().Trim();
+                sUrlProduccion = dtConsulta.Rows[0]["servidor_produccion"].ToString().Trim();
                 iTiempoRespuesta = Convert.ToInt32(dtConsulta.Rows[0]["timeout"].ToString());
+                iEmision = Convert.ToInt32(dtConsulta.Rows[0]["emision"].ToString());
+
+                if (iEmision == 0)
+                    sUrlEnviar = sUrlPruebas + sUrlBuses;
+                else
+                    sUrlEnviar = sUrlProduccion + sUrlBuses;
 
                 if (enviarJson(sToken_P) == false)
                 {
@@ -79,7 +97,8 @@ namespace Solution_CTT.Clases_Contifico
             try
             {
                 sSql = "";
-                sSql += "select api_buses_contifico, timeout" + Environment.NewLine;
+                sSql += "select api_buses_contifico, timeout," + Environment.NewLine;
+                sSql += "servidor_pruebas, servidor_produccion, emision" + Environment.NewLine;
                 sSql += "from ctt_vw_parametros_contifico" + Environment.NewLine;
                 sSql += "where codigo = '02'";
 
@@ -117,7 +136,7 @@ namespace Solution_CTT.Clases_Contifico
                 ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications);
 
                 //Declara el objeto con el que haremos la llamada al servicio
-                HttpWebRequest request = WebRequest.Create(sUrlBuses) as HttpWebRequest;
+                HttpWebRequest request = WebRequest.Create(sUrlEnviar) as HttpWebRequest;
                 //Configurar las propiedad del objeto de llamada
                 request.Method = sMetodo;
                 request.ContentType = "application/json";
@@ -144,8 +163,29 @@ namespace Solution_CTT.Clases_Contifico
                 }
             }
 
-            catch (Exception)
+            catch (WebException ex)
             {
+                if (ex.Status == WebExceptionStatus.ProtocolError)
+                {
+                    using (var stream = new StreamReader(ex.Response.GetResponseStream()))
+                    {
+                        iTipoError = 1;
+                        sError = stream.ReadToEnd();
+                    }
+                }
+
+                else if (ex.Status == WebExceptionStatus.Timeout)
+                {
+                    iTipoError = 2;
+                    sError = "Excedió el tiempo de respuesta del servidor.";
+                }
+
+                else
+                {
+                    iTipoError = 2;
+                    sError = ex.Message;
+                }
+
                 return false;
             }
         }

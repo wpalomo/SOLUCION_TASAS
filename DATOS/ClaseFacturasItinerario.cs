@@ -45,7 +45,8 @@ namespace DATOS
                             IFECHAVIAJE = Convert.ToDateTime(dtConsulta.Rows[i].ItemArray[9].ToString()).ToString("dd-MM-yyyy"),
                             IIDCTTPUEBLOORIGEN = dtConsulta.Rows[i][10].ToString(),
                             IIDCTTPUEBLODESTNO = dtConsulta.Rows[i][11].ToString(),
-                            IIDTASASMARTT = dtConsulta.Rows[i]["id_tasa_smartt"].ToString()
+                            IIDTASASMARTT = dtConsulta.Rows[i]["id_tasa_smartt"].ToString(),
+                            IITIPOCOMPROBANTE = dtConsulta.Rows[i]["idtipocomprobante"].ToString()
                         };
                         coleccion.Add(todos);
                     }

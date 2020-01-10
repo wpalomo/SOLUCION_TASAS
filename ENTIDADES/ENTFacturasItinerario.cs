@@ -103,5 +103,13 @@ namespace ENTIDADES
             get { return iIDTASASMARTT; }
             set { iIDTASASMARTT = value; }
         }
+
+        private string iITIPOCOMPROBANTE;
+
+        public string IITIPOCOMPROBANTE
+        {
+            get { return iITIPOCOMPROBANTE; }
+            set { iITIPOCOMPROBANTE = value; }
+        }
     }
 }

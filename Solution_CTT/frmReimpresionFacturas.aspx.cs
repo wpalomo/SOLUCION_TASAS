@@ -146,7 +146,7 @@ namespace Solution_CTT
 
         #region FUNCIONES PARA IMPRIMIR
 
-        private void crearReporteImprimir()
+        private void crearReporteImprimir(int iIdTipoComprobante_P)
         {
             try
             {
@@ -238,7 +238,12 @@ namespace Solution_CTT
                         if (bRespuesta == true)
                         {
                             LocalReport reporteLocal = new LocalReport();
-                            reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFactura_2.rdlc");
+
+                            if (iIdTipoComprobante_P == 1)
+                                reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptFactura_2.rdlc");
+                            else
+                                reporteLocal.ReportPath = Server.MapPath("~/Reportes/rptNotaEntrega_2.rdlc");
+
                             ReportDataSource datasource = new ReportDataSource("DataSet1", dt);
                             ReportDataSource datasource2 = new ReportDataSource("DataSet2", dt2);
                             reporteLocal.DataSources.Add(datasource);
@@ -324,12 +329,13 @@ namespace Solution_CTT
             dgvVendidos.Columns[1].Visible = ok;
             dgvVendidos.Columns[2].Visible = ok;
             dgvVendidos.Columns[3].Visible = ok;
+            dgvVendidos.Columns[8].Visible = ok;
 
             dgvVendidos.Columns[4].ItemStyle.Width = 150;
             dgvVendidos.Columns[5].ItemStyle.Width = 300;
             dgvVendidos.Columns[6].ItemStyle.Width = 150;
             dgvVendidos.Columns[7].ItemStyle.Width = 150;
-            dgvVendidos.Columns[8].ItemStyle.Width = 100;
+            dgvVendidos.Columns[9].ItemStyle.Width = 100;
 
             dgvVendidos.Columns[4].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
             dgvVendidos.Columns[6].ItemStyle.HorizontalAlign = HorizontalAlign.Center;
@@ -651,9 +657,10 @@ namespace Solution_CTT
                 int a = dgvVendidos.SelectedIndex;
                 columnasGridVendidos(true);
                 iIdFactura = Convert.ToInt32(dgvVendidos.Rows[a].Cells[2].Text);
+                int iTipoComprobante_R = Convert.ToInt32(dgvVendidos.Rows[a].Cells[8].Text);
                 columnasGridVendidos(false);
 
-                crearReporteImprimir();
+                crearReporteImprimir(iTipoComprobante_R);
             }
 
             catch (Exception ex)

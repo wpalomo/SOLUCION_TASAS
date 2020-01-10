@@ -36,6 +36,8 @@
                                 <asp:BoundField DataField="IESTADO" HeaderText="ESTADO"  />
                                 <asp:BoundField DataField="ICLAVE" HeaderText="CLAVE"/>
                                 <asp:BoundField DataField="IPOSSECRET" HeaderText="SECRET"/>
+                                <asp:BoundField DataField="IUSUARIO_SMARTT" HeaderText="USUARIO_SMARTT"/>
+                                <asp:BoundField DataField="IIPASSWORD_SMARTT" HeaderText="PASSWORD_SMARTT"/>
                                 <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="EDITAR">
                                     <ItemTemplate>
                                         <asp:LinkButton ID="lbtnEdit" runat="server" CommandName="Select" class="btn btn-xs btn-warning" OnClick="lbtnEdit_Click"><i class="fa fa-pencil"></i></asp:LinkButton>
@@ -87,6 +89,12 @@
                                             <div class="form-group has-feedback">                                                       
                                                 <asp:LinkButton ID="btnAbrirModalPersonas" runat="server" Text="" class="btn btn-block btn-success" OnClick="btnAbrirModalPersonas_Click"><i class="fa fa-search"> BUSCAR OFICINISTA</i></asp:LinkButton>                                                    
                                             </div>
+                                            <div class="form-group has-feedback">
+                                                <asp:TextBox ID="txtUsuarioSmartt" runat="server" CssClass="form-control" placeholder="Usuario SMARTT" autocomplete="off"></asp:TextBox>
+                                            </div> 
+                                            <div class="form-group has-feedback">
+                                                <asp:TextBox ID="txtPasswordSmartt" runat="server" CssClass="form-control" placeholder="Password SMARTT" autocomplete="off"></asp:TextBox>
+                                            </div> 
                                             <div class="form-group has-feedback">
                                                 <asp:TextBox ID="txtPostSecret" runat="server" CssClass="form-control" placeholder="Pos_Secret SMARTT" autocomplete="off"></asp:TextBox>
                                             </div>                                         

@@ -371,6 +371,7 @@ namespace Solution_CTT
         private void limpiar()
         {
             consultarCodigoMaximo();
+            txtFiltrar.Text = "";
             txtDescripcion.Text = "";
             TxtPersona.Text = "";
             txtCedula.Text = "";

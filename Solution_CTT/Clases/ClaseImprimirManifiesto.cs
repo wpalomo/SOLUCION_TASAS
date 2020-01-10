@@ -20,6 +20,7 @@ namespace Solution_CTT.Clases
         string sNumeroViaje;
         string sDiscoPlaca;
         string sTipoViaje;
+        string sIdentificacionConductor;
 
         int iIdProgramacion;
         int iCantidadLocal;
@@ -48,7 +49,7 @@ namespace Solution_CTT.Clases
                 sSql = "";
                 sSql += "select CH.descripcion conductor, P.fecha_viaje, P.numero_viaje," + Environment.NewLine;
                 sSql += "case when P.hora_reemplazo_extra is null then H.hora_salida else P.hora_reemplazo_extra end hora_salida," + Environment.NewLine;
-                sSql += "D.descripcion + ' - ' + V.placa disco_placa, TS.descripcion tipo_viaje" + Environment.NewLine;
+                sSql += "D.descripcion + ' - ' + V.placa disco_placa, TS.descripcion tipo_viaje, TP.identificacion" + Environment.NewLine;
                 sSql += "from ctt_programacion P INNER JOIN" + Environment.NewLine;
                 sSql += "ctt_vehiculo V ON V.id_ctt_vehiculo = P.id_ctt_vehiculo" + Environment.NewLine;
                 sSql += "and V.estado = 'A'" + Environment.NewLine;
@@ -62,7 +63,9 @@ namespace Solution_CTT.Clases
                 sSql += "ctt_disco D ON D.id_ctt_disco = V.id_ctt_disco" + Environment.NewLine;
                 sSql += "and D.estado = 'A' INNER JOIN" + Environment.NewLine;
                 sSql += "ctt_tipo_servicio TS ON TS.id_ctt_tipo_servicio = P.id_ctt_tipo_servicio" + Environment.NewLine;
-                sSql += "and TS.estado = 'A'" + Environment.NewLine;
+                sSql += "and TS.estado = 'A' INNER JOIN" + Environment.NewLine;
+                sSql += "tp_personas TP ON TP.id_persona = CH.id_persona" + Environment.NewLine;
+                sSql += "and TP.estado = 'A'" + Environment.NewLine;
                 sSql += "where P.id_ctt_programacion = " + iIdProgramacion_P;
 
 
@@ -82,6 +85,7 @@ namespace Solution_CTT.Clases
                 dtHoraViaje = Convert.ToDateTime(dtConsulta.Rows[0]["hora_salida"].ToString());
                 sDiscoPlaca = dtConsulta.Rows[0]["disco_placa"].ToString();
                 sTipoViaje = dtConsulta.Rows[0]["tipo_viaje"].ToString();
+                sIdentificacionConductor = dtConsulta.Rows[0]["identificacion"].ToString();
 
                 sSql = "";
                 sSql += "select identificacion, numero_asiento, descripcion, pasajero," + Environment.NewLine;
@@ -188,6 +192,10 @@ namespace Solution_CTT.Clases
                 tipo_viaje.DataType = System.Type.GetType("System.String");
                 dtConsulta.Columns.Add(tipo_viaje);
 
+                DataColumn identificacion_conductor = new DataColumn("identificacion_conductor");
+                identificacion_conductor.DataType = System.Type.GetType("System.String");
+                dtConsulta.Columns.Add(identificacion_conductor);
+
                 //LLENAR EL DATATABLE
                 for (int i = 0; i < dtConsulta.Rows.Count; i++)
                 {
@@ -205,6 +213,7 @@ namespace Solution_CTT.Clases
                     dtConsulta.Rows[i]["retencion_otros"] = dbRetencionOtros;
                     dtConsulta.Rows[i]["pago_administracion"] = dbPagoAdministracion;
                     dtConsulta.Rows[i]["tipo_viaje"] = sTipoViaje;
+                    dtConsulta.Rows[i]["identificacion_conductor"] = sIdentificacionConductor;
 
                     iCantidadLocal = 0;
                     iCantidadOtros = 0;

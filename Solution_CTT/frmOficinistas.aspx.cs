@@ -143,13 +143,15 @@ namespace Solution_CTT
             dgvDatos.Columns[4].ItemStyle.Width = 250;
             dgvDatos.Columns[5].ItemStyle.Width = 100;
             dgvDatos.Columns[6].ItemStyle.Width = 100;
-            dgvDatos.Columns[9].ItemStyle.Width = 100;
-            dgvDatos.Columns[10].ItemStyle.Width = 100;
+            dgvDatos.Columns[11].ItemStyle.Width = 100;
+            dgvDatos.Columns[12].ItemStyle.Width = 100;
 
             dgvDatos.Columns[0].Visible = ok;
             dgvDatos.Columns[1].Visible = ok;
             dgvDatos.Columns[7].Visible = ok;
             dgvDatos.Columns[8].Visible = ok;
+            dgvDatos.Columns[9].Visible = ok;
+            dgvDatos.Columns[10].Visible = ok;
         }
         
         //FUNCION PARA LLENAR EL GRIDVIEW
@@ -161,7 +163,8 @@ namespace Solution_CTT
                 sSql += "select O.id_ctt_oficinista, O.id_persona, O.codigo," + Environment.NewLine;
                 sSql += "ltrim(isnull(TP.nombres, '') + ' ' + TP.apellidos) propietario, O.descripcion, O.usuario," + Environment.NewLine;
                 sSql += "case O.estado when 'A' then 'ACTIVO' else 'ELIMINADO' end estado, O.claveacceso," + Environment.NewLine;
-                sSql += "pos_secret" + Environment.NewLine;
+                sSql += "isnull(pos_secret, '') pos_secret, isnull(usuario_smartt, '') usuario_smartt," + Environment.NewLine;
+                sSql += "isnull(claveacceso_smartt, '') claveacceso_smartt" + Environment.NewLine;
                 sSql += "from tp_personas TP INNER JOIN" + Environment.NewLine;
                 sSql += "ctt_oficinista O ON O.id_persona = TP.id_persona" + Environment.NewLine;
                 sSql += "and O.estado = 'A'" + Environment.NewLine;
@@ -222,11 +225,13 @@ namespace Solution_CTT
                 sSql = "";
                 sSql += "insert into ctt_oficinista (" + Environment.NewLine;
                 sSql += "id_persona, codigo, descripcion, usuario, claveacceso, cambiar_clave," + Environment.NewLine;
-                sSql += "pos_secret, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                sSql += "pos_secret, usuario_smartt, claveacceso_smartt, estado, fecha_ingreso," + Environment.NewLine;
+                sSql += "usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(Session["id_PersonaOFICINISTA"].ToString()) + ", '" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;
                 sSql += "'" + txtDescripcion.Text.Trim().ToUpper() + "', '" + txtUsuario.Text.Trim().ToLower() + "', '" + txtUsuario.Text.Trim().ToLower() + "'," + Environment.NewLine;
-                sSql += "0, '" + txtPostSecret.Text.Trim() + "', 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
+                sSql += "0, '" + txtPostSecret.Text.Trim() + "', '" + txtUsuarioSmartt.Text.Trim().ToLower() + "',";
+                sSql += "'" + txtPasswordSmartt.Text.Trim() + "', 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
                 {
@@ -268,7 +273,9 @@ namespace Solution_CTT
                 sSql += "update ctt_oficinista set" + Environment.NewLine;
                 sSql += "id_persona = " + Convert.ToInt32(Session["id_PersonaOFICINISTA"]) + "," + Environment.NewLine;
                 sSql += "pos_secret = '" + txtPostSecret.Text.Trim() + "'," + Environment.NewLine;
-                sSql += "descripcion = '" + txtDescripcion.Text.Trim().ToUpper() + "'" + Environment.NewLine;
+                sSql += "descripcion = '" + txtDescripcion.Text.Trim().ToUpper() + "'," + Environment.NewLine;
+                sSql += "usuario_smartt = '" + txtUsuarioSmartt.Text.Trim().ToLower() + "'," + Environment.NewLine;
+                sSql += "claveacceso_smartt = '" + txtPasswordSmartt.Text.Trim() + "'" + Environment.NewLine;
                 sSql += "where id_ctt_oficinista = " + Convert.ToInt32(Session["idRegistroOFICINISTA"]) + Environment.NewLine;
                 sSql += "and estado = 'A'";
 
@@ -413,6 +420,8 @@ namespace Solution_CTT
                     txtDescripcion.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[4].Text.Trim());
                     txtUsuario.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[5].Text.Trim());
                     txtPostSecret.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[8].Text.Trim());
+                    txtUsuarioSmartt.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[9].Text.Trim());
+                    txtPasswordSmartt.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[10].Text.Trim());
                     txtUsuario.ReadOnly = true;
                     txtCodigo.ReadOnly = true;
                 }

@@ -112,10 +112,10 @@
                                                 <asp:TextBox ID="txtCodigo" runat="server" CssClass="form-control input-sm" autocomplete="off" placeholder="Código *"></asp:TextBox>
                                             </div>                                          
                                             <div class="form-group has-feedback">
-                                                <asp:TextBox ID="txtValor" runat="server" CssClass="form-control input-sm" placeholder="Costo Pasaje *" ToolTip="Ingrese el precio del pasaje" Onkeypress="return ValidaDecimal(this.value);"></asp:TextBox>
+                                                <asp:TextBox ID="txtValor" runat="server" CssClass="form-control input-sm" placeholder="Costo Pasaje *" autocomplete="off" ToolTip="Ingrese el precio del pasaje" Onkeypress="return ValidaDecimal(this.value);"></asp:TextBox>
                                             </div>
                                             <div class="form-group has-feedback">
-                                                <asp:TextBox ID="txtValorOtros" runat="server" CssClass="form-control input-sm" placeholder="Costo Pasaje Otros *" ToolTip="Ingrese el precio del pasaje para tarifas especiales" Onkeypress="return ValidaDecimal(this.value);"></asp:TextBox>
+                                                <asp:TextBox ID="txtValorOtros" runat="server" CssClass="form-control input-sm" autocomplete="off" placeholder="Costo Pasaje Otros *" ToolTip="Ingrese el precio del pasaje para tarifas especiales" Onkeypress="return ValidaDecimal(this.value);"></asp:TextBox>
                                                 <%--<asp:TextBox ID="txtValor" runat="server" CssClass="form-control" placeholder="Costo Pasaje *" ToolTip="Ingrese el precio del pasaje" Onkeypress="return ValidaDecimal(this.value);"></asp:TextBox>--%>
                                             </div>
                                             <div class="form-group has-feedback">

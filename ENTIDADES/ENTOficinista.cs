@@ -87,5 +87,21 @@ namespace ENTIDADES
             get { return iPOSSECRET; }
             set { iPOSSECRET = value; }
         }
+
+        private string iUSUARIO_SMARTT;
+
+        public string IUSUARIO_SMARTT
+        {
+            get { return iUSUARIO_SMARTT; }
+            set { iUSUARIO_SMARTT = value; }
+        }
+
+        private string iIPASSWORD_SMARTT;
+
+        public string IIPASSWORD_SMARTT
+        {
+            get { return iIPASSWORD_SMARTT; }
+            set { iIPASSWORD_SMARTT = value; }
+        }
     }
 }

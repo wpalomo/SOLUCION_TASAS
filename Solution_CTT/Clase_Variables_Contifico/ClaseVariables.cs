@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -249,7 +251,9 @@ namespace Solution_CTT.Clase_Variables_Contifico
         public List<TasaUsuarioSmartt> results { get; set; }
     }
 
-    //VARIABLES DE LA LIBERACION DE ASIENTOS
-
-
+    //VARIABLE DE ERROR
+    public class ErrorRespuesta
+    {
+        public string detail { get; set; }
+    }
 }
