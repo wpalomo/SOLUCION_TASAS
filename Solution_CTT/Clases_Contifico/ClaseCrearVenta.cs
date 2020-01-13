@@ -234,8 +234,10 @@ namespace Solution_CTT.Clases_Contifico
                     return true;
                 }
 
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    iTipoError = 2;
+                    sError = ex.Message;
                     return false;
                 }
             }

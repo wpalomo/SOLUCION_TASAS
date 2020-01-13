@@ -703,7 +703,6 @@ namespace Solution_CTT
                         //ImageButton boton = new ImageButton();
                         Button boton = new Button();
 
-
                         DataRow[] dFila = dtAsientos.Select("posicion_x = " + i + " and posicion_y = " + j);
 
                         if (dFila.Length != 0)
