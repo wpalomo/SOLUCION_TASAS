@@ -65,11 +65,13 @@ namespace Solution_CTT.Clase_Variables_Contifico
         public string tipo_servicio_nombre { get; set; }
         public int tipo_cliente { get; set; }
         public string tipo_cliente_nombre { get; set; }
-        public Decimal tarifa { get; set; }
+        //public Decimal tarifa { get; set; }
+        public string tarifa { get; set; }
         public bool especial { get; set; }
         public bool is_active { get; set; }
         public bool is_enable { get; set; }
-        public DateTime actualizacion { get; set; }
+        //public DateTime actualizacion { get; set; }
+        public string actualizacion { get; set; }
     }
 
     //VARIABLE PARA OBTENER LAS FRECUENCIAS

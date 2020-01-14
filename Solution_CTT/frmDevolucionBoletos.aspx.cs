@@ -90,7 +90,7 @@ namespace Solution_CTT
         int iBanderaSincronizarTasasAnuladas;
         int iBanderaMensajeEmite_P;
         int iBanderaMensajeAnula_P;
-        int iBanderaMensajeToken_P;
+        int iBanderaMensajeToken_P;        
 
         int iCgTipoDocumento = 7456;
         int iCgEstadoDctoPorCobrar = 7461;
@@ -143,7 +143,19 @@ namespace Solution_CTT
         Decimal dbDisponible_Notificacion;
         Decimal dbPorcentaje_Notificacion;        
 
-        Byte[] Logo { get; set; }        
+        Byte[] Logo { get; set; }
+
+
+        //VARIABLES PARA MOSTRAR LOS MENSAJES
+        //-------------------------------------------------------------------------------------------------
+
+        int iBanderaMensaje_1;
+        int iBanderaMensaje_2;
+
+        string sMensajeProceso_1;
+        string sMensajeProceso_2;
+
+        //-------------------------------------------------------------------------------------------------
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -399,9 +411,9 @@ namespace Solution_CTT
 
                 enviarJsonTasaPendiente();
 
-                if (this.sIdTasaRespuesta != "0")
+                if (sIdTasaRespuesta != "0")
                 {
-                    this.actualizarTasaPendiente();
+                    actualizarTasaPendiente();
                 }
 
                 return true;
@@ -1193,6 +1205,7 @@ namespace Solution_CTT
             try
             {
                 //PRIMERO VERIFICAR LA TASA DE USUARIO
+
                 if (anularTasaUsuario() == false)
                 {
                     cerrarModal();
@@ -2846,7 +2859,7 @@ namespace Solution_CTT
             }
 
             reversa: { conexionM.reversaTransaccion(); return false; }
-        }
+        }        
 
         //ELIMINACION DE LA TASA DE USUARIO EN CASO DE NO SER USADA
         private bool anularTasaUsuario()
@@ -3446,7 +3459,7 @@ namespace Solution_CTT
                 sSql += "ltrim(isnull(nombres,'') + ' ' + apellidos) cliente, clave_acceso," + Environment.NewLine;
                 sSql += "descripcion_ruta, destino, fecha_viaje, hora_salida, id_origen," + Environment.NewLine;
                 sSql += "id_ctt_pueblo id_destino, tasa_usuario, id_tasa_emitida," + Environment.NewLine;
-                sSql += "ambiente_tasa_usuario" + Environment.NewLine;
+                sSql += "ambiente_tasa_usuario, emite_tasa_usuario" + Environment.NewLine;
                 sSql += "from ctt_vw_factura" + Environment.NewLine;
                 sSql += "where id_pedido = " + iIdPedido_P;
 
@@ -3479,6 +3492,7 @@ namespace Solution_CTT
                         Session["tasa_usuario_emitida"] = dtConsulta.Rows[0]["tasa_usuario"].ToString();
                         Session["id_tasa_usuario_emitida"] = dtConsulta.Rows[0]["id_tasa_emitida"].ToString();
                         Session["ambiente_tasa_usuario_actual"] = dtConsulta.Rows[0]["ambiente_tasa_usuario"].ToString();
+                        Session["emite_tasa_usuario"] = dtConsulta.Rows[0]["emite_tasa_usuario"].ToString();
                     }
 
                     else
@@ -3503,6 +3517,250 @@ namespace Solution_CTT
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
         }
+
+        #endregion
+
+        #region NUEVAS FUNCIONES PARA ANULAR UNA TASA DE USUARIO
+
+        private void procesarFactura_V2(int iOp, int iIdFactura_P, int iIdPedido_P, int iRestaAsientos)
+        {
+            try
+            {
+                iBanderaMensaje_1 = 0;
+                iBanderaMensaje_2 = 0;
+
+                sMensajeProceso_1 = "";
+                sMensajeProceso_2 = "";
+
+                //PRIMERO VERIFICAR LA TASA DE USUARIO
+                if (Convert.ToInt32(Session["emite_tasa_usuario"].ToString()) == 1)
+                {
+                    if (conexionInternet() == true)
+                    {
+                        if (emitirTasaUsuarioPendiente_V2() == false)
+                        {
+                            iBanderaMensaje_2 = 3;
+                        }
+
+                        else
+                        {
+                            //AQUI ANULAR LA TASA DE USUARIO
+
+                        }
+                    }
+
+                    else
+                    {
+                        iBanderaMensaje_2 = 4;
+                    }
+                }
+
+                if (conexionM.iniciarTransaccion() == false)
+                {
+                    cerrarModal();
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo iniciar la transacción para el proceso de información.', 'danger');", true);
+                    goto fin;
+                }
+
+                //  1. GENERAR UN NUEVO PEDIDO CON LOS ITEMS QUE SE MANTENDRÁN
+
+                if (iOp == 1)
+                {
+                    if (insertarPedido() == false)
+                    {
+                        goto fin;
+                    }
+
+                    if (insertarPagos() == false)
+                    {
+                        goto fin;
+                    }
+
+                    if (insertarFactura() == false)
+                    {
+                        goto fin;
+                    }
+                }
+
+                //  SE PROCEDE A ELIMINAR EL REGISTRO ANTERIOR
+
+                if (eliminarPedido(iIdPedido_P) == false)
+                {
+                    goto fin;
+                }
+
+                if (eliminarPagos() == false)
+                {
+                    goto fin;
+                }
+
+                if (eliminarFactura(iIdFactura_P) == false)
+                {
+                    goto fin;
+                }
+
+                //INSTRUCCION SQL PARA ACTUALIZAR EL NUMERO DE ASIENTOS
+                sSql = "";
+                sSql += "update ctt_programacion set" + Environment.NewLine;
+                sSql += "asientos_ocupados = asientos_ocupados - " + iRestaAsientos + Environment.NewLine;
+                sSql += "where id_ctt_programacion = " + Convert.ToInt32(Session["idProgramacion"]) + Environment.NewLine;
+                sSql += "and estado = 'A'";
+
+                //EJECUCION DE INSTRUCCION SQL
+                if (!conexionM.ejecutarInstruccionSQL(sSql))
+                {
+                    cerrarModal();
+                    conexionM.reversaTransaccion();
+                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                    goto fin;
+                }
+
+                conexionM.terminaTransaccion();
+
+                if (iOp == 1)
+                {
+                    crearReporteImprimir();
+                }
+
+                btnPopUp_ModalPopupExtender.Hide();
+
+                #region MENSAJES ANULACION
+
+                if (Convert.ToInt32(this.Session["genera_tasa_usuario"].ToString()) == 1)
+                {
+                    if (iOp == 1)
+                    {
+                        if ((this.iIdTasaAnulada != 0) || (this.iIdTasaAnulada != -1))
+                        {
+                            if (((iBanderaMensajeToken_P == 1) && (iBanderaMensajeAnula_P == 1)) && (iBanderaMensajeEmite_P == 1))
+                            {
+                                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Nueva factura emitida éxitosamente', 'success');", true);
+                            }
+                            else
+                            {
+                                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'Nueva factura emitida éxitosamente. Sincronización en segundo plano. Devolución de tasa usuario no permitida.', 'success');", true);
+                            }
+                        }
+
+                        else if (((iBanderaMensajeToken_P == 1) && (iBanderaMensajeAnula_P == 1)) && (iBanderaMensajeEmite_P == 1))
+                        {
+                            ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'Nueva factura emitida éxitosamente. La tasa de usuario excedió el límite de tiempo para anular o ya fue utilizada.', 'info');", true);
+                        }
+
+                        else
+                        {
+                            ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'Nueva factura emitida éxitosamente. Sincronización en segundo plano. Devolución de tasa usuario no permitida.', 'success');", true);
+                        }
+                    }
+
+                    else if ((iIdTasaAnulada != 0) || (iIdTasaAnulada != -1))
+                    {
+                        if ((iBanderaMensajeToken_P == 2) && (iBanderaMensajeAnula_P == 2))
+                        {
+                            ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Factura anulada éxitosamente. Sincronización en segundo plano. Devolución de tasa usuario no permitida.', 'success');", true);
+                        }
+
+                        else if ((iBanderaMensajeToken_P == 1) && (iBanderaMensajeAnula_P == 1))
+                        {
+                            ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Factura anulada éxitosamente. Tasa de usuario anulada éxitosamente.', 'success');", true);
+                        }
+
+                        else
+                        {
+                            ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'Factura anulada éxitosamente. Devolución de tasa usuario no permitida.', 'success');", true);
+                        }
+                    }
+
+                    else
+                    {
+                        ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'Factura anulada éxitosamente. La tasa de usuario se encuentra pendiente a sincronizar.', 'info');", true);
+                    }
+
+                    if (Convert.ToInt32(Session["notificacion_emergente_dev"].ToString()) == 1)
+                    {
+                        consultarDatosToken();
+                    }
+                }
+
+                else if (iOp == 1)
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Nueva factura emitida éxitosamente', 'success');", true);
+                }
+
+                else
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Factura anulada éxitosamente', 'success');", true);
+                }
+
+                #endregion
+
+                llenarGridVendidos(0);
+
+                goto fin;
+            }
+
+            catch (Exception ex)
+            {
+                cerrarModal();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+
+        fin: { };
+        }
+
+        //PASO 1. EMITIR LA TASA DE USUARIO
+        private bool emitirTasaUsuarioPendiente_V2()
+        {
+            try
+            {
+                if (Session["id_tasa_usuario_emitida"].ToString().Trim() == "")
+                {
+                    if (crearJsonEliminar() == false)
+                    {
+                        iBanderaMensaje_2 = 2;
+                        Session["id_tasa_anulada"] = "0";
+                    }
+                }
+
+                return true;
+            }
+
+            catch (Exception ex)
+            {
+                cerrarModal();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                return false;
+            }
+        }
+
+        //PASO 2. ANULAR LA TASA DE USUARIO
+        private bool anularTasaUsuario_V2()
+        {
+            try
+            {
+                if (Convert.ToInt32(Session["id_tasa_usuario_emitida"].ToString()) != 0)
+                {
+                    if (crearJsonTasaPendiente() == false)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            catch (Exception ex)
+            {
+                cerrarModal();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                return false;
+            }
+        }
+
 
         #endregion
 

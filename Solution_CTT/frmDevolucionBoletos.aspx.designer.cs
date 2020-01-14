@@ -211,6 +211,42 @@ namespace Solution_CTT {
         protected global::System.Web.UI.WebControls.Button btnCancelarError;
         
         /// <summary>
+        /// Control lblPrimerTituloModal.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPrimerTituloModal;
+        
+        /// <summary>
+        /// Control lblPrimerMensajeModal.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPrimerMensajeModal;
+        
+        /// <summary>
+        /// Control lblSegundoTituloModal.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSegundoTituloModal;
+        
+        /// <summary>
+        /// Control lblSegundoMensajeModal.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSegundoMensajeModal;
+        
+        /// <summary>
         /// Control btnInicial.
         /// </summary>
         /// <remarks>
