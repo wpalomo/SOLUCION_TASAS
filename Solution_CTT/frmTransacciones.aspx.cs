@@ -64,6 +64,8 @@ namespace Solution_CTT
 
         Button botonSeleccionado;
 
+        Button[,] botones;
+
         string sSql;
         string sAccion;
         string sAccionPersonas;
@@ -109,6 +111,7 @@ namespace Solution_CTT
         DataTable dtOcupados;
         DataTable dtTipos;
         DataTable dtTasasDisponibles;
+        DataTable dtEnProceso;
 
         bool bRespuesta;
 
@@ -248,6 +251,7 @@ namespace Solution_CTT
                 Session["auxiliar"] = "1";
                 Session["idVehiculo"] = null;
                 Session["idProgramacion"] = null;
+                Session["enProceso"] = null;
 
                 if (Convert.ToInt32(Session["aplica_cortesia"].ToString()) == 1)
                 {
@@ -260,22 +264,13 @@ namespace Solution_CTT
                 }
             }
 
-            else
+            if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
             {
-                if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
-                {
-                    btnReimprimirFactura.Visible = false;
-                    consultarParametrosTasa();
-                }
-
-                if (Session["auxiliar"].ToString() == "1")
-                {
-                    //if (Convert.ToInt32(Session["idVehiculo"].ToString()) != 0)
-                    //{
-                        mostrarBotones();
-                    //}
-                }
+                btnReimprimirFactura.Visible = false;
+                consultarParametrosTasa();
             }
+
+            mostrarBotones();
         }
 
         #region FUNCIONES DE INTEGRACION
@@ -757,6 +752,13 @@ namespace Solution_CTT
             }
         }
 
+        //CREAR DATATABLE
+        private void crearDatatableAsientos()
+        {
+            dtEnProceso = new DataTable();
+            dtEnProceso.Columns.Add("id_ctt_asiento");
+        }
+
         //FUNCION PARA DIBUJAR LOS BOTONES
         public void mostrarBotones()
         {
@@ -767,109 +769,146 @@ namespace Solution_CTT
                     goto reversa;
                 }
 
-
                 int icuenta = dtAsientos.Rows.Count;
                 int a = 1;
 
+                botones = new Button[11, 5];
+
                 pnlAsientos.Controls.Clear();
+
                 //AQUI LLENAMOS EL PANEL
                 for (int i = 0; i < 11; i++)
                 {
                     for (int j = 0; j < 5; j++)
                     {
-                        //ImageButton boton = new ImageButton();
-                        Button boton = new Button();
-
-
+                        botones[i, j] = new Button();
                         DataRow[] dFila = dtAsientos.Select("posicion_x = " + i + " and posicion_y = " + j);
 
                         if (dFila.Length != 0)
                         {
-                            boton.ForeColor = Color.Black;
-                            boton.Click += new EventHandler (boton_clic_asiento);
-                            //boton.Attributes.Add("Class", "btn bg-olive btn-default btn-sm");
-                            boton.Attributes.Add("Class", "btn bg-darken-3 btn-default btn-sm");
-                            boton.Width = 30;
-                            boton.Height = 30;
-                            boton.ID = "btnAsiento" + a.ToString();
-                            boton.Text = dFila[0][1].ToString();
-                            boton.CommandArgument = dFila[0][0].ToString();
+                            botones[i, j].ForeColor = Color.Black;
+                            botones[i, j].Click += new EventHandler(boton_clic_asiento);
+                            botones[i, j].Attributes.Add("Class", "btn bg-darken-3 btn-default btn-sm");
+                            botones[i, j].Width = 30;
+                            botones[i, j].Height = 30;
+                            botones[i, j].ID = "btnAsiento" + a.ToString();
+                            botones[i, j].Text = dFila[0][1].ToString();
+                            botones[i, j].CommandArgument = dFila[0][0].ToString();
+                            botones[i, j].ViewStateMode = System.Web.UI.ViewStateMode.Inherit;
+                            botones[i, j].CausesValidation = true;
+                            botones[i, j].ClientIDMode = System.Web.UI.ClientIDMode.Inherit;
+                            botones[i, j].Enabled = true;
+                            botones[i, j].EnableTheming = true;
+                            botones[i, j].EnableViewState = true;
+                            botones[i, j].UseSubmitBehavior = true;
+                            botones[i, j].ValidateRequestMode = System.Web.UI.ValidateRequestMode.Inherit;
 
-                            DataRow[] dOcupado = dtOcupados.Select("id_ctt_asiento = " + Convert.ToInt32(dFila[0][0].ToString()));
-                            
-                            if (dOcupado.Length != 0)
+                            int iBandera = 0;
+
+                            if (Session["enProceso"] != null)
                             {
-                                if (dOcupado[0][8].ToString().Trim() != Application["idLocalidad"].ToString())
-                                {
-                                    boton.Attributes.Add("Class", "btn bg-black btn-default btn-sm");
-                                }
+                                dtEnProceso = new DataTable();
+                                dtEnProceso.Clear();
+                                dtEnProceso = Session["enProceso"] as DataTable;
 
-                                else if (dOcupado[0][6].ToString().Trim() == "1")
+                                for (int l = 0; l < dtEnProceso.Rows.Count; l++)
                                 {
-                                    //boton.Attributes.Add("Class", "btn bg-lime btn-default btn-sm");
-                                    boton.Attributes.Add("Class", "btn bg-lime btn-primary btn-sm");
-                                }
+                                    int iIdAsiento_P = Convert.ToInt32(dFila[0][0].ToString());
 
-                                else if (dOcupado[0][6].ToString().Trim() == "2")
-                                {
-                                    boton.Attributes.Add("Class", "btn bg-red btn-default btn-sm");
-                                }
-
-                                else if (dOcupado[0][6].ToString().Trim() == "3")
-                                {
-                                    boton.Attributes.Add("Class", "btn bg-fuchsia btn-default btn-sm");
-                                }
-
-                                else if (dOcupado[0][6].ToString().Trim() == "4")
-                                {
-                                    boton.Attributes.Add("Class", "btn bg-blue btn-default btn-sm");
-                                }
-
-                                else
-                                {
-                                    boton.Attributes.Add("Class", "btn bg-maroon btn-default btn-sm");
-                                }
-
-
-                                if (dOcupado[0][4].ToString().Trim() == "")
-                                {
-                                    boton.ToolTip = "PASAJERO: " + Environment.NewLine + "NOMBRE: " + dOcupado[0][3].ToString().Trim().ToUpper() +
-                                                    Environment.NewLine + "C.I. / RUC: " + dOcupado[0][2].ToString().Trim().ToUpper() +
-                                                    Environment.NewLine + "TIPO CLIENTE: " + dOcupado[0][7].ToString().Trim().ToUpper() +
-                                                    Environment.NewLine + "OFICINA VENTA: " + dOcupado[0][9].ToString().Trim().ToUpper();
-                                }
-
-                                else
-                                {
-                                    boton.ToolTip = "PASAJERO: " + Environment.NewLine + "NOMBRE: " + dOcupado[0][4].ToString().Trim().ToUpper() +
-                                                    Environment.NewLine + "OFICINA VENTA: " + dOcupado[0][9].ToString().Trim().ToUpper();
+                                    if (iIdAsiento_P == Convert.ToInt32(dtEnProceso.Rows[l]["id_ctt_asiento"].ToString()))
+                                    {
+                                        botones[i, j].Attributes.Add("class", "btn bg-orange btn-default btn-sm");
+                                        botones[i, j].ToolTip = "ASIENTO EN PROCESO";   
+                                        iBandera = 1;
+                                        break;
+                                    }
                                 }
                             }
 
-                            else
+                            if (iBandera == 0)
                             {
-                                boton.ToolTip = "ASIENTO DISPONIBLE";
+                                DataRow[] dOcupado = dtOcupados.Select("id_ctt_asiento = " + Convert.ToInt32(dFila[0][0].ToString()));
+
+                                if (dOcupado.Length != 0)
+                                {
+                                    if (dOcupado[0][8].ToString().Trim() != Application["idLocalidad"].ToString())
+                                    {
+                                        botones[i, j].Attributes.Add("Class", "btn bg-black btn-default btn-sm");
+                                    }
+
+                                    else if (dOcupado[0][6].ToString().Trim() == "1")
+                                    {
+                                        botones[i, j].Attributes.Add("Class", "btn bg-lime btn-primary btn-sm");
+                                    }
+
+                                    else if (dOcupado[0][6].ToString().Trim() == "2")
+                                    {
+                                        botones[i, j].Attributes.Add("Class", "btn bg-red btn-default btn-sm");
+                                    }
+
+                                    else if (dOcupado[0][6].ToString().Trim() == "3")
+                                    {
+                                        botones[i, j].Attributes.Add("Class", "btn bg-fuchsia btn-default btn-sm");
+                                    }
+
+                                    else if (dOcupado[0][6].ToString().Trim() == "4")
+                                    {
+                                        botones[i, j].Attributes.Add("Class", "btn bg-blue btn-default btn-sm");
+                                    }
+
+                                    else
+                                    {
+                                        botones[i, j].Attributes.Add("Class", "btn bg-maroon btn-default btn-sm");
+                                    }
+
+
+                                    if (dOcupado[0][4].ToString().Trim() == "")
+                                    {
+                                        botones[i, j].ToolTip = "PASAJERO: " + Environment.NewLine + "NOMBRE: " + dOcupado[0][3].ToString().Trim().ToUpper() +
+                                                        Environment.NewLine + "C.I. / RUC: " + dOcupado[0][2].ToString().Trim().ToUpper() +
+                                                        Environment.NewLine + "TIPO CLIENTE: " + dOcupado[0][7].ToString().Trim().ToUpper() +
+                                                        Environment.NewLine + "OFICINA VENTA: " + dOcupado[0][9].ToString().Trim().ToUpper();
+                                    }
+
+                                    else
+                                    {
+                                        botones[i, j].ToolTip = "PASAJERO: " + Environment.NewLine + "NOMBRE: " + dOcupado[0][4].ToString().Trim().ToUpper() +
+                                                        Environment.NewLine + "OFICINA VENTA: " + dOcupado[0][9].ToString().Trim().ToUpper();
+                                    }
+                                }
+
+                                else
+                                {
+                                    botones[i, j].ToolTip = "ASIENTO DISPONIBLE";
+                                }
                             }
                         }
 
                         else
                         {
-                            boton.ForeColor = Color.Black;
-                            boton.BackColor = Color.White;
-                            boton.Width = 40;
-                            boton.Height = 40;
-                            boton.ID = "btnAsiento" + a.ToString();
-                            boton.Text = " ";
-                            boton.BorderStyle = BorderStyle.None;
+                            botones[i, j].ForeColor = Color.Black;
+                            botones[i, j].BackColor = Color.White;
+                            botones[i, j].Width = 40;
+                            botones[i, j].Height = 40;
+                            botones[i, j].ID = "btnAsiento" + a.ToString();
+                            botones[i, j].Text = " ";
+                            botones[i, j].BorderStyle = BorderStyle.None;
                         }
-
-                        pnlAsientos.Controls.Add(boton);
                         a++;
                     }
+                }
+
+                for (int k = 0; k < 11; k++)
+                {
+                    for (int m = 0; m < 5; m++)
+                    {
+                        pnlAsientos.Controls.Add(botones[k, m]);
+                    }
+
                     pnlAsientos.Controls.Add(new LiteralControl("<br />"));
                 }
 
-                goto fin;
+                return;
             }
 
             catch (Exception ex)
@@ -884,8 +923,6 @@ namespace Solution_CTT
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>Error al consultar los asientos del vehículo.";
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
-
-        fin: { }
         }
 
         //EVENTO CLIC DEL BOTON DE ASIENTO
@@ -917,10 +954,11 @@ namespace Solution_CTT
 
                 else if (botonSeleccionado.ToolTip != "ASIENTO DISPONIBLE")
                 {
-                    //ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", " alert('Asiento " + botonSeleccionado.Text + " ocupado.')", true);
                     lblMensajeError.Text = "<b>Asiento " + botonSeleccionado.Text + " ocupado.</b><br/><br/>";
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 }
+
+                mostrarBotones();
             }
 
             catch(Exception ex)
@@ -939,13 +977,13 @@ namespace Solution_CTT
                 if (Convert.ToInt32(cmbDestino.SelectedValue) == 0)
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'No ha seleccionado el destino.', 'warning');", true);
-                    goto fin;
+                    return;
                 }
 
-                else if (Convert.ToInt32(cmbTipoCliente.SelectedValue) == 0)
+                if (Convert.ToInt32(cmbTipoCliente.SelectedValue) == 0)
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'No ha seleccionado el tipo de cliente.', 'warning');", true);
-                    goto fin;
+                    return;
                 }
 
                 if (Convert.ToInt32(Session["genera_tasa_usuario"].ToString()) == 1)
@@ -988,19 +1026,9 @@ namespace Solution_CTT
 
                 if (Session["idPasajero"] == null)
                 {
-                    //if (Convert.ToInt32(Session["idPersonaTipoCliente"].ToString()) == Convert.ToInt32(Application["idPersonaMenorEdad"].ToString()))
-                    //{
-                    //    iIdPersona = Convert.ToInt32(Application["idPersonaMenorEdad"].ToString());
-                    //}
-
-                    //else
-                    //{
-                    //    iIdPersona = 0;
-                    //}
-
                     if (txtNombrePasajero.Text.Trim() == "")
                     {
-                        ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'Favor ingrese la identificación o un nombre para la lista de pasajeros.', 'success');", true);
+                        ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'Favor ingrese la identificación o un nombre para la lista de pasajeros.', 'info');", true);
                         return;
                     }
 
@@ -1018,12 +1046,6 @@ namespace Solution_CTT
                         sIdentificacionPasajero =Application["numero_id_sin_datos"].ToString();
                     }
                 }
-
-                //else
-                //{
-                //    iIdPersona = 0;
-                //    Session["idPasajero"] = iIdPersona.ToString();
-                //}
                                 
                 DataRow row = dtAlmacenar.NewRow();
                 row["IDASIENTO"] = botonProcesar.CommandArgument; 
@@ -1044,15 +1066,32 @@ namespace Solution_CTT
                     txtTasaUsuario.Text = dtAlmacenar.Rows.Count.ToString();
                 }
 
-                Session["dtClientes"] = dtAlmacenar;
+                Session["dtClientes"] = dtAlmacenar;                
 
-                botonProcesar.Attributes.Add("class", "btn bg-orange btn-default btn-sm");
-                botonProcesar.ToolTip = "ASIENTO EN PROCESO";
+                //AQUI INSERTAMOS EL CODIGO PARA ASIENTOS Y TRATAR EL NUMERO 1
+                //-----------------------------------------------------------------------------------
+
+                if (Session["enProceso"] == null)
+                {
+                    crearDatatableAsientos();
+                }
+
+                else
+                {
+                    dtEnProceso = new DataTable();
+                    dtEnProceso.Clear();
+                    dtEnProceso = Session["enProceso"] as DataTable;
+                }
+
+                dtEnProceso.Rows.Add(botonProcesar.CommandArgument);
+                Session["enProceso"] = dtEnProceso;
+
+                //-----------------------------------------------------------------------------------
 
                 txtIdentificacion.Attributes.Add("onKeyPress", "doClick('" + btnBuscarCliente.ClientID + "',event)");
                 txtIdentificacion.Focus();
 
-                goto fin;
+                return;
             }
 
             catch(Exception ex)
@@ -1061,8 +1100,6 @@ namespace Solution_CTT
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
-
-            fin: { }
         }
 
         //FUNCION PARA ELIMINAR UN ASIENTO
@@ -1088,9 +1125,26 @@ namespace Solution_CTT
 
                 Session["dtClientes"] = dtAlmacenar;
 
-                //botonSeleccionado.Attributes.Add("Class", "btn bg-olive btn-default btn-sm");
-                botonSeleccionado.Attributes.Add("Class", "btn bg-darken-3 btn-default btn-sm");
-                botonSeleccionado.ToolTip = "ASIENTO DISPONIBLE";
+                
+                //REMOVER EL ASIENTO DE LA TABLA TEMPORAL
+                //-------------------------------------------------------------------------------------------
+
+                dtEnProceso = new DataTable();
+                dtEnProceso.Clear();
+                dtEnProceso = Session["enProceso"] as DataTable;
+
+                for (int j = 0; j < dtEnProceso.Rows.Count; j++)
+                {
+                    if (Convert.ToInt32(dtEnProceso.Rows[j][0].ToString()) == Convert.ToInt32(botonProcesar.CommandArgument))
+                    {
+                        dtEnProceso.Rows.RemoveAt(j);
+                        return;
+                    }
+                }
+
+                Session["enProceso"] = dtEnProceso;
+
+                //-------------------------------------------------------------------------------------------
             }
 
             catch (Exception ex)
@@ -1999,6 +2053,7 @@ namespace Solution_CTT
             Session["idPueblo"] = null;
             Session["tasa_usuario"] = null;
             Session["Json"] = null;
+            Session["enProceso"] = null;
             txtTasaUsuario.Text = "0";
             lblEdad.Text = "SIN ASIGNAR";
             lblEdad.ForeColor = Color.Black;
