@@ -239,6 +239,12 @@ namespace Solution_CTT
                     return;
                 }
 
+                foreach (GridViewRow row in dgvDestinos.Rows)
+                {
+                    CheckBox chkSeleccion = (CheckBox)row.FindControl("chkSeleccionar");
+                    chkSeleccion.Checked = false;
+                }
+
                 dgvDestinos.Columns[0].Visible = true;
 
                 foreach (GridViewRow row in dgvDestinos.Rows)

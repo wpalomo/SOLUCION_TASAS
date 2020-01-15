@@ -213,6 +213,7 @@ namespace Solution_CTT
                 Session["auxiliar"] = "1";
                 Session["idVehiculo"] = null;
                 Session["idProgramacion"] = null;
+                Session["enProceso"] = null;
                 
                 if (Convert.ToInt32(Session["aplica_cortesia"].ToString()) == 1)
                 {
@@ -1929,6 +1930,7 @@ namespace Solution_CTT
             Session["idPueblo"] = null;
             Session["tasa_usuario"] = null;
             Session["Json"] = null;
+            Session["enProceso"] = null;
             lblEdad.Text = "SIN ASIGNAR";
             lblEdad.ForeColor = Color.Black;
             lblEdad.BackColor = Color.White;
@@ -1964,6 +1966,8 @@ namespace Solution_CTT
             }
 
             txtIdentificacion.Attributes.Add("onKeyPress", "doClick('" + btnBuscarCliente.ClientID + "',event)");
+
+            mostrarBotones();
         }
 
         //FUNCION PARA CREAR EL DATATABLE

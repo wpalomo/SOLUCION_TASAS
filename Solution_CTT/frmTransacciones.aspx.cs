@@ -2101,7 +2101,7 @@ namespace Solution_CTT
 
             txtIdentificacion.Attributes.Add("onKeyPress", "doClick('" + btnBuscarCliente.ClientID + "',event)");
 
-            //cmbDestino.Focus();
+            mostrarBotones();
         }
 
         //FUNCION PARA CREAR EL DATATABLE
