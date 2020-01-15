@@ -243,6 +243,44 @@
                 </div>
                 <%--FIN MODAL DE ERRORES--%>
 
+                <%--PERSONALIZADO--%>
+                <div class="modal fade" id="ModalMensajes">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">PALATIUM</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="alert alert-info">
+                                <%--<div style="background-color: #deeef2;">--%>
+                                    <blockquote>
+                                        <p class="text-aqua">
+                                            <asp:Label ID="lblPrimerTituloModal" runat="server" Text="Label"></asp:Label>
+                                        </p>
+                                        <small>
+                                            <asp:Label ID="lblPrimerMensajeModal" runat="server" Text="Label"></asp:Label>
+                                        </small>
+                                    </blockquote>
+                                </div>
+
+                                <div class="alert alert-error">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    <h4><i class="icon fa fa-info"></i>
+                                        <asp:Label ID="lblSegundoTituloModal" runat="server" Text="Label"></asp:Label>
+                                    </h4>
+                                    <asp:Label ID="lblSegundoMensajeModal" runat="server" Text="Label"></asp:Label>
+                                </div>                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success pull-right" data-dismiss="modal">Aceptar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <%--FIN PERSONALIZADO--%>
+
             </section>
         </ContentTemplate>
     </asp:UpdatePanel>

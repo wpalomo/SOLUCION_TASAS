@@ -127,16 +127,16 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:51:43</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>01/10/2020 06:37:57</publishTime>
+      <publishTime>01/15/2020 10:24:04</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>01/10/2020 06:37:57</publishTime>
+      <publishTime>01/15/2020 10:24:04</publishTime>
     </File>
     <File Include="bin/App_GlobalResources.compiled">
-      <publishTime>01/10/2020 06:37:56</publishTime>
+      <publishTime>01/15/2020 10:24:03</publishTime>
     </File>
     <File Include="bin/App_GlobalResources.dll">
-      <publishTime>01/10/2020 06:37:56</publishTime>
+      <publishTime>01/15/2020 10:24:03</publishTime>
     </File>
     <File Include="bin/BarcodeLib.dll">
       <publishTime>11/13/2019 20:52:14</publishTime>
@@ -190,7 +190,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>12/19/2019 13:46:41</publishTime>
     </File>
     <File Include="bin/Solution_CTT.dll">
-      <publishTime>01/10/2020 06:37:32</publishTime>
+      <publishTime>01/15/2020 10:23:04</publishTime>
     </File>
     <File Include="bin/SqlServerTypes/x64/msvcr100.dll">
       <publishTime>11/13/2019 20:52:14</publishTime>
@@ -20884,7 +20884,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/20/2019 16:01:26</publishTime>
     </File>
     <File Include="frmDevolucionBoletos.aspx">
-      <publishTime>11/20/2019 22:30:42</publishTime>
+      <publishTime>01/14/2020 15:21:02</publishTime>
     </File>
     <File Include="frmDevolucionBoletosSMARTT.aspx">
       <publishTime>12/23/2019 14:03:09</publishTime>
@@ -21571,7 +21571,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:52:14</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>01/10/2020 06:37:53</publishTime>
+      <publishTime>01/15/2020 10:23:45</publishTime>
     </File>
     <File Include="Site.Mobile.Master">
       <publishTime>11/13/2019 20:51:43</publishTime>
