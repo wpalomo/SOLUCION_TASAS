@@ -127,6 +127,19 @@ namespace Solution_CTT
                 mostrarNotificacionEmergente();
             }
 
+            if (Convert.ToInt32(Session["privilegio"].ToString()) == 0)
+            {
+                facturacion_electronica.Visible = false;
+                parametrizacion_general.Visible = false;
+                localidades.Visible = false;
+            }
+
+            else
+            {
+                facturacion_electronica.Visible = true;
+                parametrizacion_general.Visible = true;
+                localidades.Visible = true;
+            }
         }
 
         protected void btnOkNotificacionAutomatica_Click(object sender, EventArgs e)

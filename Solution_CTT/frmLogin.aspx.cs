@@ -375,7 +375,7 @@ namespace Solution_CTT
                 sSql = "";
                 sSql += "select id_ctt_oficinista, descripcion, id_persona, claveacceso," + Environment.NewLine;
                 sSql += "isnull(pos_secret, '') pos_secret, isnull(usuario_smartt, '') usuario_smartt," + Environment.NewLine;
-                sSql += "isnull(claveacceso_smartt, '') claveacceso_smartt" + Environment.NewLine;
+                sSql += "isnull(claveacceso_smartt, '') claveacceso_smartt, isnull(privilegio, 0) privilegio" + Environment.NewLine;
                 sSql += "from ctt_oficinista" + Environment.NewLine;
                 sSql += "where estado = 'A'" + Environment.NewLine;
                 sSql += "and usuario = '" + txtUsuario.Text.Trim().ToLower() + "'";
@@ -388,7 +388,7 @@ namespace Solution_CTT
                 if (bRespuesta == false)
                 {                    
                     ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', '" + sSql + "', 'error')</script>");                    
-                    goto fin;
+                    return;
                 }
 
                 if (dtConsulta.Rows.Count == 0)
@@ -397,7 +397,7 @@ namespace Solution_CTT
                     txtUsuario.Text = "";
                     txtPassword.Text = "";
                     txtUsuario.Focus();
-                    goto fin;
+                    return;
                 }
 
                 if (txtPassword.Text.Trim() == dtConsulta.Rows[0][3].ToString().Trim())
@@ -405,6 +405,7 @@ namespace Solution_CTT
                     Session["idUsuario"] = dtConsulta.Rows[0][0].ToString().ToUpper();
                     Session["usuario"] = dtConsulta.Rows[0][1].ToString().ToUpper();
                     Session["pos_secret"] = dtConsulta.Rows[0]["pos_secret"].ToString();
+                    Session["privilegio"] = dtConsulta.Rows[0]["privilegio"].ToString();
 
                     sDatosMaximo[0] = Session["usuario"].ToString().ToUpper();
                     sDatosMaximo[1] = Environment.MachineName.ToString();
@@ -465,8 +466,6 @@ namespace Solution_CTT
             {
                 ClientScript.RegisterStartupScript(this.GetType(), "mensaje", "<script>swal('Error.!', '" + ex.Message + "', 'error')</script>");
             }
-
-        fin: { }
         }
 
         //FUNCION PARA CONSULTAR EL ESTADO DE CIERRE DE CAJA NUEVA VERSION

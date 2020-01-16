@@ -508,7 +508,7 @@
                         </ul>
                     </li>
 
-                    <li class="treeview">
+                    <li class="treeview" id="facturacion_electronica" runat="server">
                         <a href="#">
                             <i class="fa fa-refresh"></i><span>Facturación Electrónica</span>
                             <span class="pull-right-container">
@@ -547,7 +547,7 @@
                         </ul>
                     </li>
 
-                    <li class="treeview">
+                    <li class="treeview" id="parametrizacion_general" runat="server">
                         <a href="#">
                             <i class="fa fa-android"></i>
                             <span>Parametrización</span>
@@ -564,7 +564,7 @@
                         </ul>
                     </li>
 
-                    <li class="treeview" id="localidades" runat="server" visible="false">
+                    <li class="treeview" id="localidades" runat="server">
                         <a href="#">
                             <i class="fa fa-home"></i>
                             <span>Localidades</span>

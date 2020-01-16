@@ -139,6 +139,24 @@ namespace Solution_CTT {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl reporte_pagos_administrativos;
         
         /// <summary>
+        /// Control facturacion_electronica.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl facturacion_electronica;
+        
+        /// <summary>
+        /// Control parametrizacion_general.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl parametrizacion_general;
+        
+        /// <summary>
         /// Control localidades.
         /// </summary>
         /// <remarks>

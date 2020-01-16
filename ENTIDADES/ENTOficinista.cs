@@ -103,5 +103,13 @@ namespace ENTIDADES
             get { return iIPASSWORD_SMARTT; }
             set { iIPASSWORD_SMARTT = value; }
         }
+
+        private string iPERMISOS;
+
+        public string IPERMISOS
+        {
+            get { return iPERMISOS; }
+            set { iPERMISOS = value; }
+        }
     }
 }

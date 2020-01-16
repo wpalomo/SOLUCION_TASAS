@@ -264,8 +264,16 @@ namespace Solution_Encomiendas
 
         protected void lbtnDelete_Click(object sender, EventArgs e)
         {
-            sAccion = "Eliminar";
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#QuestionModal').modal('show');</script>", false);
+            if (Convert.ToInt32(Session["privilegio"].ToString()) == 0)
+            {
+                ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'No tiene permisos para realizar esta acción.', 'warning');", true);
+            }
+
+            else
+            {
+                sAccion = "Eliminar";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#QuestionModal').modal('show');</script>", false);
+            }
         }
         
         protected void dgvDatos_SelectedIndexChanged(object sender, EventArgs e)

@@ -30,6 +30,7 @@ namespace Solution_CTT
         bool bRespuesta;
 
         int iConsultarRegistro;
+        int iPermisos;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -143,8 +144,8 @@ namespace Solution_CTT
             dgvDatos.Columns[4].ItemStyle.Width = 250;
             dgvDatos.Columns[5].ItemStyle.Width = 100;
             dgvDatos.Columns[6].ItemStyle.Width = 100;
-            dgvDatos.Columns[11].ItemStyle.Width = 100;
             dgvDatos.Columns[12].ItemStyle.Width = 100;
+            dgvDatos.Columns[13].ItemStyle.Width = 100;
 
             dgvDatos.Columns[0].Visible = ok;
             dgvDatos.Columns[1].Visible = ok;
@@ -152,6 +153,7 @@ namespace Solution_CTT
             dgvDatos.Columns[8].Visible = ok;
             dgvDatos.Columns[9].Visible = ok;
             dgvDatos.Columns[10].Visible = ok;
+            dgvDatos.Columns[11].Visible = ok;
         }
         
         //FUNCION PARA LLENAR EL GRIDVIEW
@@ -164,7 +166,7 @@ namespace Solution_CTT
                 sSql += "ltrim(isnull(TP.nombres, '') + ' ' + TP.apellidos) propietario, O.descripcion, O.usuario," + Environment.NewLine;
                 sSql += "case O.estado when 'A' then 'ACTIVO' else 'ELIMINADO' end estado, O.claveacceso," + Environment.NewLine;
                 sSql += "isnull(pos_secret, '') pos_secret, isnull(usuario_smartt, '') usuario_smartt," + Environment.NewLine;
-                sSql += "isnull(claveacceso_smartt, '') claveacceso_smartt" + Environment.NewLine;
+                sSql += "isnull(claveacceso_smartt, '') claveacceso_smartt, isnull(privilegio, 0) privilegio" + Environment.NewLine;
                 sSql += "from tp_personas TP INNER JOIN" + Environment.NewLine;
                 sSql += "ctt_oficinista O ON O.id_persona = TP.id_persona" + Environment.NewLine;
                 sSql += "and O.estado = 'A'" + Environment.NewLine;
@@ -205,7 +207,7 @@ namespace Solution_CTT
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'Ya existe un registro con el codigo o usuario ingresado.', 'error');", true);
                     txtCodigo.Text = "";
                     txtCodigo.Focus();
-                    goto fin;
+                    return;
                 }
 
                 else if (iConsultarRegistro == -1)
@@ -213,25 +215,25 @@ namespace Solution_CTT
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'Ocurrió un problema al consultar el código para el registro.', 'danger');", true);
                     txtCodigo.Text = "";
                     txtCodigo.Focus();
-                    goto fin;
+                    return;
                 }
 
                 if (conexionM.iniciarTransaccion() == false)
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo iniciar la transacción para el proceso de información.', 'danger');", true);
-                    goto fin;
+                    return;
                 }
 
                 sSql = "";
                 sSql += "insert into ctt_oficinista (" + Environment.NewLine;
                 sSql += "id_persona, codigo, descripcion, usuario, claveacceso, cambiar_clave," + Environment.NewLine;
-                sSql += "pos_secret, usuario_smartt, claveacceso_smartt, estado, fecha_ingreso," + Environment.NewLine;
-                sSql += "usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                sSql += "pos_secret, usuario_smartt, claveacceso_smartt, privilegio," + Environment.NewLine;
+                sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(Session["id_PersonaOFICINISTA"].ToString()) + ", '" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;
                 sSql += "'" + txtDescripcion.Text.Trim().ToUpper() + "', '" + txtUsuario.Text.Trim().ToLower() + "', '" + txtUsuario.Text.Trim().ToLower() + "'," + Environment.NewLine;
                 sSql += "0, '" + txtPostSecret.Text.Trim() + "', '" + txtUsuarioSmartt.Text.Trim().ToLower() + "',";
-                sSql += "'" + txtPasswordSmartt.Text.Trim() + "', 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
+                sSql += "'" + txtPasswordSmartt.Text.Trim() + "', " + iPermisos + ", 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
                 {
@@ -243,7 +245,7 @@ namespace Solution_CTT
                 conexionM.terminaTransaccion();
                 ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Registro ingresado correctamente', 'success');", true);
                 limpiar();
-                goto fin;
+                return;
             }
 
             catch (Exception ex)
@@ -254,8 +256,6 @@ namespace Solution_CTT
             }
 
             reversa: { conexionM.reversaTransaccion(); };
-
-            fin: { };
         }
 
         //FUNCION PARA ACTUALIZAR EN LA BASE DE DATOS
@@ -266,7 +266,7 @@ namespace Solution_CTT
                 if (conexionM.iniciarTransaccion() == false)
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo iniciar la transacción para el proceso de información.', 'danger');", true);
-                    goto fin;
+                    return;
                 }
 
                 sSql = "";
@@ -275,7 +275,8 @@ namespace Solution_CTT
                 sSql += "pos_secret = '" + txtPostSecret.Text.Trim() + "'," + Environment.NewLine;
                 sSql += "descripcion = '" + txtDescripcion.Text.Trim().ToUpper() + "'," + Environment.NewLine;
                 sSql += "usuario_smartt = '" + txtUsuarioSmartt.Text.Trim().ToLower() + "'," + Environment.NewLine;
-                sSql += "claveacceso_smartt = '" + txtPasswordSmartt.Text.Trim() + "'" + Environment.NewLine;
+                sSql += "claveacceso_smartt = '" + txtPasswordSmartt.Text.Trim() + "'," + Environment.NewLine;
+                sSql += "privilegio = " + iPermisos + Environment.NewLine;
                 sSql += "where id_ctt_oficinista = " + Convert.ToInt32(Session["idRegistroOFICINISTA"]) + Environment.NewLine;
                 sSql += "and estado = 'A'";
 
@@ -289,7 +290,7 @@ namespace Solution_CTT
                 conexionM.terminaTransaccion();
                 ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Registro actualizado correctamente', 'success');", true);
                 limpiar();
-                goto fin;
+                return;
             }
 
             catch (Exception ex)
@@ -300,8 +301,6 @@ namespace Solution_CTT
             }
 
             reversa: { conexionM.reversaTransaccion(); };
-
-            fin: { };
         }
 
         //FUNCION PARA ELIMINAR EN LA BASE DE DATOS
@@ -312,7 +311,7 @@ namespace Solution_CTT
                 if (conexionM.iniciarTransaccion() == false)
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo iniciar la transacción para el proceso de información.', 'danger');", true);
-                    goto fin;
+                    return;
                 }
 
                 sSql = "";
@@ -333,7 +332,7 @@ namespace Solution_CTT
                 conexionM.terminaTransaccion();
                 ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Registro eliminado correctamente', 'success');", true);
                 limpiar();
-                goto fin;
+                return;
             }
 
             catch (Exception ex)
@@ -344,8 +343,6 @@ namespace Solution_CTT
             }
 
             reversa: { conexionM.reversaTransaccion(); };
-
-            fin: { };
         }
 
         //FUNCION PARA CONSULTAR SI EXISTE EL REGISTRO EN LA BASE DE DATOS
@@ -398,6 +395,7 @@ namespace Solution_CTT
             txtUsuario.ReadOnly = false;
             MsjValidarCampos.Visible = false;
             btnSave.Text = "Crear";
+            chkPermisos.Checked = false;
             llenarGrid(0);
         }
 
@@ -422,6 +420,12 @@ namespace Solution_CTT
                     txtPostSecret.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[8].Text.Trim());
                     txtUsuarioSmartt.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[9].Text.Trim());
                     txtPasswordSmartt.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[10].Text.Trim());
+
+                    if (Convert.ToInt32(dgvDatos.Rows[a].Cells[11].Text) == 0)
+                        chkPermisos.Checked = false;
+                    else
+                        chkPermisos.Checked = true;
+
                     txtUsuario.ReadOnly = true;
                     txtCodigo.ReadOnly = true;
                 }
@@ -559,6 +563,11 @@ namespace Solution_CTT
 
             else
             {
+                if (chkPermisos.Checked == true)
+                    iPermisos = 1;
+                else
+                    iPermisos = 0;
+
                 if (Session["idRegistroOFICINISTA"] == null)
                 {
                     //ENVIO A FUNCION DE INSERCION
