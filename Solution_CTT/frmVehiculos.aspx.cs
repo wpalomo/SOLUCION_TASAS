@@ -27,6 +27,8 @@ namespace Solution_CTT
         DataTable dtConsulta;
         bool bRespuesta;
 
+        int iActivo;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["usuario"] == null)
@@ -80,6 +82,7 @@ namespace Solution_CTT
             dgvDatos.Columns[17].Visible = ok;
             dgvDatos.Columns[18].Visible = ok;
             dgvDatos.Columns[20].Visible = ok;
+            dgvDatos.Columns[21].Visible = ok;
         }
 
         //FUNCION PARA LLENAR EL COMOBOX DE FORMATO DE ASIENTOS
@@ -244,7 +247,8 @@ namespace Solution_CTT
                 sSql += "MOV.descripcion modelo_vehiculo, V.id_ctt_tipo_asiento, TA.descripcion tipo_bus," + Environment.NewLine;
                 sSql += "V.id_ctt_disco, D.descripcion disco, V.placa, V.chasis, V.motor, V.anio_produccion," + Environment.NewLine;
                 sSql += "V.pais_origen, V.cilindraje, V.peso, V.numero_pasajeros," + Environment.NewLine;
-                sSql += "case V.estado when 'A' then 'ACTIVO' else 'INACTIVO' end estado, FA.id_ctt_formato_asiento" + Environment.NewLine;
+                //sSql += "case V.estado when 'A' then 'ACTIVO' else 'INACTIVO' end estado, FA.id_ctt_formato_asiento" + Environment.NewLine;
+                sSql += "case V.is_active when 1 then 'ACTIVO' else 'INACTIVO' end estado, FA.id_ctt_formato_asiento, V.is_active" + Environment.NewLine;
                 sSql += "from ctt_tipo_vehiculo TV INNER JOIN" + Environment.NewLine;
                 sSql += "ctt_vehiculo V ON V.id_ctt_tipo_vehiculo = TV.id_ctt_tipo_vehiculo" + Environment.NewLine;
                 sSql += "and V.estado = 'A'" + Environment.NewLine;
@@ -309,8 +313,8 @@ namespace Solution_CTT
                 sSql += "insert into ctt_vehiculo (" + Environment.NewLine;
                 sSql += "id_ctt_tipo_vehiculo, id_ctt_marca_vehiculo, id_ctt_modelo_vehiculo," + Environment.NewLine;
                 sSql += "id_ctt_tipo_asiento, id_ctt_disco, id_ctt_formato_asiento, placa, chasis, motor," + Environment.NewLine;
-                sSql += "anio_produccion, pais_origen, cilindraje, peso, numero_pasajeros, estado, fecha_ingreso," + Environment.NewLine;
-                sSql += "usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                sSql += "anio_produccion, pais_origen, cilindraje, peso, numero_pasajeros, is_active," + Environment.NewLine;
+                sSql += "estado, fecha_ingreso,usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(cmbTipoVehiculo.SelectedValue) + ", " + Convert.ToInt32(cmbMarca.SelectedValue) + ", ";
                 sSql += Convert.ToInt32(cmbModelo.SelectedValue) + ", " + Convert.ToInt32(cmbTipoAsiento.SelectedValue) + "," + Environment.NewLine;
@@ -318,7 +322,7 @@ namespace Solution_CTT
                 sSql += "'" + txtChasis.Text.Trim().ToUpper() + "', '" + txtMotor.Text.Trim().ToUpper() + "'," + Environment.NewLine;
                 sSql += "'" + txtAnioProduccion.Text.Trim().ToUpper() + "', '" + txtPaisOrigen.Text.Trim().ToUpper() + "'," + Environment.NewLine;
                 sSql += "'" + txtCilindraje.Text.Trim().ToUpper() + "', " + Convert.ToDecimal(txtPeso.Text.Trim()) + "," + Environment.NewLine;
-                sSql += "'" + txtNumeroPasajeros.Text.Trim().ToUpper() + "', 'A', GETDATE(), '" + sDatosMaximo[0] + "'," + Environment.NewLine;
+                sSql += "'" + txtNumeroPasajeros.Text.Trim().ToUpper() + "', 1, 'A', GETDATE(), '" + sDatosMaximo[0] + "'," + Environment.NewLine;
                 sSql += "'" + sDatosMaximo[1] + "')";
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
@@ -372,8 +376,9 @@ namespace Solution_CTT
                 sSql += "pais_origen = '" + txtPaisOrigen.Text.Trim().ToUpper() + "'," + Environment.NewLine;
                 sSql += "cilindraje = '" + txtCilindraje.Text.Trim().ToUpper() + "'," + Environment.NewLine;
                 sSql += "peso = " + Convert.ToDecimal(txtPeso.Text.Trim()) + "," + Environment.NewLine;
-                sSql += "numero_pasajeros = '" + txtNumeroPasajeros.Text.Trim().ToUpper() + "'" + Environment.NewLine;
-                sSql += "where id_ctt_vehiculo = " + Convert.ToInt32(Session["idRegistro"]) + Environment.NewLine;
+                sSql += "numero_pasajeros = '" + txtNumeroPasajeros.Text.Trim().ToUpper() + "'," + Environment.NewLine;
+                sSql += "is_active = " + iActivo + Environment.NewLine;
+                sSql += "where id_ctt_vehiculo = " + Convert.ToInt32(Session["idRegistroVehiculo"].ToString()) + Environment.NewLine;
                 sSql += "and estado = 'A'";
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
@@ -414,11 +419,12 @@ namespace Solution_CTT
 
                 sSql = "";
                 sSql += "update ctt_vehiculo set" + Environment.NewLine;
-                sSql += "estado = 'E'," + Environment.NewLine;
-                sSql += "fecha_anula = GETDATE()," + Environment.NewLine;
-                sSql += "usuario_anula = '" + sDatosMaximo[0] + "'," + Environment.NewLine;
-                sSql += "terminal_anula = '" + sDatosMaximo[1] + "'" + Environment.NewLine;
-                sSql += "where id_ctt_vehiculo = " + Convert.ToInt32(Session["idRegistro"]);
+                sSql += "is_active = 0" + Environment.NewLine;
+                //sSql += "estado = 'E'," + Environment.NewLine;
+                //sSql += "fecha_anula = GETDATE()," + Environment.NewLine;
+                //sSql += "usuario_anula = '" + sDatosMaximo[0] + "'," + Environment.NewLine;
+                //sSql += "terminal_anula = '" + sDatosMaximo[1] + "'" + Environment.NewLine;
+                sSql += "where id_ctt_vehiculo = " + Convert.ToInt32(Session["idRegistroVehiculo"]);
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
                 {
@@ -499,7 +505,9 @@ namespace Solution_CTT
             txtCilindraje.Text = "";
             txtPeso.Text = "";
             txtPlaca.Text = "";
-            Session["idRegistro"] = null;
+            Session["idRegistroVehiculo"] = null;
+            chkActivo.Checked = true;
+            chkActivo.Enabled = false;
             //pnlRegistro.Visible = false;
             //pnlGrid.Visible = true;
             llenarGrid(0);
@@ -517,7 +525,7 @@ namespace Solution_CTT
             cmbTipoAsiento.SelectedIndex = 0;
             cmbDisco.SelectedIndex = 0;
             cmbFormatoAsiento.SelectedIndex = 0;
-            Session["idRegistro"] = null;            
+            Session["idRegistroVehiculo"] = null;            
             txtChasis.Text = "";
             txtMotor.Text = "";
             txtAnioProduccion.Text = "";
@@ -604,7 +612,7 @@ namespace Solution_CTT
 
             else
             {
-                if (Session["idRegistro"] == null)
+                if (Session["idRegistroVehiculo"] == null)
                 {
                     //ENVIO A FUNCION DE INSERCION
                     insertarRegistro();
@@ -612,6 +620,11 @@ namespace Solution_CTT
 
                 else
                 {
+                    if (chkActivo.Checked == true)
+                        iActivo = 1;
+                    else
+                        iActivo = 0;
+
                     actualizarRegistro();
                 }
             }
@@ -622,7 +635,7 @@ namespace Solution_CTT
             try
             {
                 int a = dgvDatos.SelectedIndex;
-                Session["idRegistro"] = dgvDatos.Rows[a].Cells[0].Text;
+                Session["idRegistroVehiculo"] = dgvDatos.Rows[a].Cells[0].Text;
 
                 if (sAccion == "Editar")
                 {
@@ -642,6 +655,12 @@ namespace Solution_CTT
                     txtPeso.Text = Convert.ToDouble(dgvDatos.Rows[a].Cells[17].Text).ToString("N2");
                     txtNumeroPasajeros.Text = dgvDatos.Rows[a].Cells[18].Text;
 
+                    if (Convert.ToInt32(dgvDatos.Rows[a].Cells[21].Text) == 1)
+                        chkActivo.Checked = true;
+                    else
+                        chkActivo.Checked = false;
+
+                    chkActivo.Enabled = true;
                     pnlGrid.Visible = false;
                     pnlRegistro.Visible = true;
                 }

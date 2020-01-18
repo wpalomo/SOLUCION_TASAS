@@ -114,6 +114,7 @@ namespace Solution_CTT
                 sSql += "and V.estado = 'A'" + Environment.NewLine;
                 sSql += "and D.estado = 'A'" + Environment.NewLine;
                 sSql += "and TV.estado = 'A'" + Environment.NewLine;
+                sSql += "and V.is_active = 1" + Environment.NewLine;
 
                 if (iOp == 1)
                 {
@@ -207,6 +208,7 @@ namespace Solution_CTT
                 sSql += "where C.id_persona = TP.id_persona" + Environment.NewLine;
                 sSql += "and C.estado = 'A'" + Environment.NewLine;
                 sSql += "and TP.estado = 'A'" + Environment.NewLine;
+                sSql += "and C.is_active = 1" + Environment.NewLine;
 
                 if (iOp == 1)
                 {
@@ -515,7 +517,7 @@ namespace Solution_CTT
         }
 
         //FUNCION PARA LLENAR EL COMOBOX DE HORARIOS NORMALES
-        private void llenarGridItinerarios(int iOp)
+        private void llenarGridItinerarios()
         {
             try
             {
@@ -532,12 +534,6 @@ namespace Solution_CTT
                 sSql += "ctt_pueblos P ON P.id_ctt_pueblo = R.id_ctt_pueblo_destino" + Environment.NewLine;
                 sSql += "and P.estado = 'A'" + Environment.NewLine;
                 sSql += "and R.id_ctt_pueblo_origen = " + Session["id_pueblo"].ToString() + Environment.NewLine;
-
-                if (iOp == 1)
-                {
-                    sSql += "where I.codigo = '" + txtFiltrarItinerarios.Text.Trim().ToUpper() + "'" + Environment.NewLine;
-                }
-
                 sSql += "order by H.hora_salida";
 
                 columnasGridItinerario(true);
@@ -1301,6 +1297,7 @@ namespace Solution_CTT
             Session["ChoferAsistente"] = "1";
             ModalPopupExtender_AsistentesChofer.Show();
             llenarGridAsistente(0);
+            txtFiltrarChoferAsistente.Focus();
         }
 
         protected void btnAbrirModalChofer_Click(object sender, EventArgs e)
@@ -1308,6 +1305,7 @@ namespace Solution_CTT
             Session["ChoferAsistente"] = "2";
             ModalPopupExtender_AsistentesChofer.Show();
             llenarGridChofer(0);
+            txtFiltrarChoferAsistente.Focus();
         }
 
         protected void btnCerrarModalPersonas_Click(object sender, EventArgs e)
@@ -1634,7 +1632,7 @@ namespace Solution_CTT
         protected void btnAbrirModalItinerario_Click(object sender, EventArgs e)
         {
             ModalPopupExtender_Itinerarios.Show();
-            llenarGridItinerarios(0);
+            llenarGridItinerarios();
         }
 
         protected void btnCerrarModalItinerario_Click(object sender, EventArgs e)
@@ -1644,15 +1642,7 @@ namespace Solution_CTT
 
         protected void btnFiltarItinearios_Click(object sender, EventArgs e)
         {
-            if (txtFiltrarItinerarios.Text.Trim() == "")
-            {
-                llenarGridItinerarios(0);
-            }
-
-            else
-            {
-                llenarGridItinerarios(1);
-            }
+            llenarGridItinerarios();
         }
 
         protected void dgvItinerarios_SelectedIndexChanged(object sender, EventArgs e)
@@ -1666,7 +1656,6 @@ namespace Solution_CTT
                 if (sAccionFiltroItinerario == "Seleccion")
                 {
                     txtItinerario.Text = "CÓDIGO: " + HttpUtility.HtmlDecode(dgvItinerarios.Rows[a].Cells[3].Text.Trim()) + " - RUTA: " + HttpUtility.HtmlDecode(dgvItinerarios.Rows[a].Cells[4].Text.Trim()) + " - HORA DE SALIDA: " + HttpUtility.HtmlDecode(dgvItinerarios.Rows[a].Cells[7].Text.Trim());
-                    txtFiltrarItinerarios.Text = "";
                     Session["destinoSMARTT"] = HttpUtility.HtmlDecode(dgvItinerarios.Rows[a].Cells[5].Text.Trim());
                     Session["viaSMARTT"] = HttpUtility.HtmlDecode(dgvItinerarios.Rows[a].Cells[6].Text.Trim());
                     Session["horaSMARTT"] = dgvItinerarios.Rows[a].Cells[7].Text.Trim();
@@ -1688,16 +1677,7 @@ namespace Solution_CTT
         protected void dgvItinerarios_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             dgvItinerarios.PageIndex = e.NewPageIndex;
-
-            if (txtFiltrarItinerarios.Text.Trim() == "")
-            {
-                llenarGridItinerarios(0);
-            }
-
-            else
-            {
-                llenarGridItinerarios(1);
-            }
+            llenarGridItinerarios();
         }
 
         protected void lbtnSeleccionItinerario_Click(object sender, EventArgs e)

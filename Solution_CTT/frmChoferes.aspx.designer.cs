@@ -94,6 +94,15 @@ namespace Solution_CTT {
         protected global::System.Web.UI.WebControls.LinkButton btnAbrirModalPersonas;
         
         /// <summary>
+        /// Control chkActivo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkActivo;
+        
+        /// <summary>
         /// Control btnCancel.
         /// </summary>
         /// <remarks>

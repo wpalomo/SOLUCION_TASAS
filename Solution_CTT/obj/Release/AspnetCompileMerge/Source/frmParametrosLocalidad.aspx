@@ -228,7 +228,7 @@
                                             <div class="form-group">
                                                 <asp:Label ID="Label13" runat="server" Text="Nota Entrega Extra"></asp:Label>
                                                 <div class="input-group col-sm-12">
-                                                    <asp:CheckBox ID="chkExtraNotaEntrega" CssClass="form-control input-sm" runat="server" Text="&nbsp;&nbsp;Aplica Nota Entrega Extra" />
+                                                    <asp:CheckBox ID="chkExtraNotaEntrega" CssClass="form-control input-sm" runat="server" Text="&nbsp;&nbsp;Aplica Nota Entrega Extra" Visible="false" />
                                                 </div>
                                             </div>
                                         </div>

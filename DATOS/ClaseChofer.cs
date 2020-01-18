@@ -43,7 +43,8 @@ namespace DATOS
                             IIDENTIFICACION = dtConsulta.Rows[i]["identificacion"].ToString(),
                             INOMBRE = dtConsulta.Rows[i]["propietario"].ToString(),
                             IDESCRIPCION = dtConsulta.Rows[i]["descripcion"].ToString(),
-                            IESTADO = dtConsulta.Rows[i]["estado"].ToString()
+                            IESTADO = dtConsulta.Rows[i]["estado"].ToString(),
+                            IACTIVO = dtConsulta.Rows[i]["is_active"].ToString()
                         };
                         coleccion.Add(todos);
                     }

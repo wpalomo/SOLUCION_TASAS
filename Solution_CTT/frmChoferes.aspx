@@ -33,14 +33,15 @@
                                         <asp:BoundField DataField="INOMBRE" HeaderText="PROPIETARIO" />
                                         <asp:BoundField DataField="IIDENTIFICACION" HeaderText="No. IDENTIFICACIÓN" />
                                         <asp:BoundField DataField="IDESCRIPCION" HeaderText="DESCRIPCIÓN" />
-                                        <asp:BoundField DataField="IESTADO" HeaderText="ESTADO" />
+                                        <asp:BoundField DataField="IESTADO" HeaderText="ESTADO" ItemStyle-HorizontalAlign="Center" />
+                                        <asp:BoundField DataField="IACTIVO" HeaderText="IACTIVO" />
                                         <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="EDITAR">
                                             <ItemTemplate>
                                                 <asp:LinkButton ID="lbtnEdit" runat="server" CommandName="Select" class="btn btn-xs btn-warning" OnClick="lbtnEdit_Click"><i class="fa fa-pencil"></i></asp:LinkButton>
                                             </ItemTemplate>
                                             <ItemStyle HorizontalAlign="Center" />
                                         </asp:TemplateField>
-                                        <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="BORRAR">
+                                        <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="DESACTIVAR">
                                             <ItemTemplate>
                                                 <asp:LinkButton ID="lbtnDelete" runat="server" CommandName="Select" class="btn btn-xs btn-danger" OnClick="lbtnDelete_Click"><i class="fa fa-trash"></i></asp:LinkButton>
                                             </ItemTemplate>
@@ -84,6 +85,9 @@
                                             </div>
                                             <div class="form-group has-feedback">
                                                 <asp:LinkButton ID="btnAbrirModalPersonas" runat="server" Text="" class="btn btn-block btn-success" OnClick="btnAbrirModalPersonas_Click"><i class="fa fa-search"> BUSCAR CHOFER</i></asp:LinkButton>
+                                            </div>
+                                            <div class="form-group has-feedback">
+                                                <asp:CheckBox ID="chkActivo" runat="server" Text="&nbsp&nbspEstado Activo" Checked="true" Enabled="false" />
                                             </div>
                                         </div>
                                     </div>

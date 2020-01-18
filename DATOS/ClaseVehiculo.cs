@@ -55,7 +55,8 @@ namespace DATOS
                             IPESO = dtConsulta.Rows[i][17].ToString(),
                             INUMEROPASAJEROS = dtConsulta.Rows[i][18].ToString(),
                             IESTADO = dtConsulta.Rows[i][19].ToString(),
-                            IIDFORMATOASIENTO = dtConsulta.Rows[i][20].ToString()
+                            IIDFORMATOASIENTO = dtConsulta.Rows[i][20].ToString(),
+                            IACTIVO = dtConsulta.Rows[i]["is_active"].ToString()
                         };
                         coleccion.Add(todos);
                     }

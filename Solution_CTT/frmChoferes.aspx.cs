@@ -30,6 +30,7 @@ namespace Solution_CTT
         bool bRespuesta;
 
         int iConsultarRegistro;
+        int iActivo;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -140,6 +141,7 @@ namespace Solution_CTT
             dgvDatos.Columns[0].Visible = ok;
             dgvDatos.Columns[1].Visible = ok;
             dgvDatos.Columns[3].Visible = ok;
+            dgvDatos.Columns[7].Visible = ok;
         }
 
         //FUNCION PARA LLENAR EL GRIDVIEW
@@ -150,7 +152,8 @@ namespace Solution_CTT
                 sSql = "";
                 sSql += "select C.id_ctt_chofer, C.id_persona, C.codigo," + Environment.NewLine;
                 sSql += "ltrim(isnull(TP.nombres, '') + ' ' + TP.apellidos) propietario, C.descripcion," + Environment.NewLine;
-                sSql += "TP.identificacion, case C.estado when 'a' then 'ACTIVO' else 'ELIMINADO' end estado" + Environment.NewLine;
+                //sSql += "TP.identificacion, case C.estado when 'a' then 'ACTIVO' else 'ELIMINADO' end estado" + Environment.NewLine;
+                sSql += "TP.identificacion, case C.is_active when 1 then 'ACTIVO' else 'ELIMINADO' end estado, C.is_active" + Environment.NewLine;
                 sSql += "from tp_personas TP INNER JOIN" + Environment.NewLine;
                 sSql += "ctt_chofer C ON C.id_persona = TP.id_persona" + Environment.NewLine;
                 sSql += "and C.estado = 'A'" + Environment.NewLine;
@@ -211,10 +214,11 @@ namespace Solution_CTT
 
                 sSql = "";
                 sSql += "insert into ctt_chofer (" + Environment.NewLine;
-                sSql += "id_persona, codigo, descripcion, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                sSql += "id_persona, codigo, descripcion, is_active estado, fecha_ingreso," + Environment.NewLine;
+                sSql += "usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(Session["id_PersonaChofer"].ToString()) + ", '" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;
-                sSql += "'" + txtDescripcion.Text.Trim().ToUpper() + "', 'A', GETDATE(), '" + sDatosMaximo[0] + "'," + Environment.NewLine;
+                sSql += "'" + txtDescripcion.Text.Trim().ToUpper() + "', 1, 'A', GETDATE(), '" + sDatosMaximo[0] + "'," + Environment.NewLine;
                 sSql += "'" + sDatosMaximo[1] + "')";
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
@@ -257,7 +261,8 @@ namespace Solution_CTT
                 sSql += "update ctt_chofer set" + Environment.NewLine;
                 sSql += "id_persona = " + Convert.ToInt32(Session["id_PersonaChofer"].ToString()) + "," + Environment.NewLine;
                 sSql += "codigo = '" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;
-                sSql += "descripcion = '" + txtDescripcion.Text.Trim().ToUpper() + "'" + Environment.NewLine;
+                sSql += "descripcion = '" + txtDescripcion.Text.Trim().ToUpper() + "'," + Environment.NewLine;
+                sSql += "is_active = " + iActivo + Environment.NewLine;
                 sSql += "where id_ctt_chofer = " + Convert.ToInt32(Session["idRegistroChofer"]) + Environment.NewLine;
                 sSql += "and estado = 'A'";
 
@@ -299,10 +304,11 @@ namespace Solution_CTT
 
                 sSql = "";
                 sSql += "update ctt_chofer set" + Environment.NewLine;
-                sSql += "estado = 'E'," + Environment.NewLine;
-                sSql += "fecha_anula = GETDATE()," + Environment.NewLine;
-                sSql += "usuario_anula = '" + sDatosMaximo[0]+ "'," + Environment.NewLine;
-                sSql += "terminal_anula = '" + sDatosMaximo[1] + "'" + Environment.NewLine;
+                sSql += "is_active = 0" + Environment.NewLine;
+                //sSql += "estado = 'E'," + Environment.NewLine;
+                //sSql += "fecha_anula = GETDATE()," + Environment.NewLine;
+                //sSql += "usuario_anula = '" + sDatosMaximo[0]+ "'," + Environment.NewLine;
+                //sSql += "terminal_anula = '" + sDatosMaximo[1] + "'" + Environment.NewLine;
                 sSql += "where id_ctt_chofer = " + Convert.ToInt32(Session["idRegistroChofer"]);
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
@@ -378,7 +384,9 @@ namespace Solution_CTT
             Session["idRegistroChofer"] = null;
             Session["id_PersonaChofer"] = null;
             btnSave.Text = "Crear";
-            MsjValidarCampos.Visible = false;         
+            MsjValidarCampos.Visible = false;
+            chkActivo.Checked = true;
+            chkActivo.Enabled = false;
             llenarGrid(0);
         }
 
@@ -396,13 +404,18 @@ namespace Solution_CTT
 
                 if (sAccion == "E")
                 {
-
                     txtCodigo.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[2].Text.Trim());
                     TxtPersona.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[3].Text.Trim());
                     txtCedula.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[4].Text.Trim());
                     txtDescripcion.Text =  HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[5].Text.Trim());
-                    //txtUsuario.Text = dgvDatos.Rows[a].Cells[5].Text.Trim();
-                    //txtUsuario.ReadOnly = true;
+
+                    if (Convert.ToInt32(dgvDatos.Rows[a].Cells[7].Text) == 1)
+                        chkActivo.Checked = true;
+                    else
+                        chkActivo.Checked = false;
+
+                    chkActivo.Enabled = true;
+
                     txtCodigo.ReadOnly = true;
                 }
 
@@ -555,6 +568,11 @@ namespace Solution_CTT
 
                 else
                 {
+                    if (chkActivo.Checked == true)
+                        iActivo = 1;
+                    else
+                        iActivo = 0;
+
                     actualizarRegistro();
                 }
             }

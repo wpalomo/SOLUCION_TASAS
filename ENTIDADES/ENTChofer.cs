@@ -71,5 +71,13 @@ namespace ENTIDADES
             get { return iSSQL; }
             set { iSSQL = value; }
         }
+
+        private string iACTIVO;
+
+        public string IACTIVO
+        {
+            get { return iACTIVO; }
+            set { iACTIVO = value; }
+        }
     }
 }

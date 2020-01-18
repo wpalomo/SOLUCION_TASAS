@@ -59,13 +59,14 @@
                                             <asp:BoundField DataField="INUMEROPASAJEROS" HeaderText="MOTOR" />
                                             <asp:BoundField DataField="IESTADO" HeaderText="ESTADO" ItemStyle-HorizontalAlign="Center" />
                                             <asp:BoundField DataField="IIDFORMATOASIENTO" HeaderText="ID" />
+                                            <asp:BoundField DataField="IACTIVO" HeaderText="IACTIVO" />
                                             <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="EDITAR">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="lbtnEdit" runat="server" CommandName="Select" class="btn btn-xs btn-warning" OnClick="lbtnEdit_Click"><i class="fa fa-pencil"></i></asp:LinkButton>
                                                 </ItemTemplate>
                                                 <ItemStyle HorizontalAlign="Center" />
                                             </asp:TemplateField>
-                                            <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="BORRAR">
+                                            <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="DESACTIVAR">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="lbtnDelete" runat="server" CommandName="Select" class="btn btn-xs btn-danger" OnClick="lbtnDelete_Click"><i class="fa fa-trash"></i></asp:LinkButton>
                                                 </ItemTemplate>
@@ -289,6 +290,15 @@
                                                 <div class="input-group col-sm-12">
                                                     <asp:TextBox ID="txtFechaCaducidadMatricula" runat="server" class="form-control" BackColor="White"></asp:TextBox>
                                                     <ajaxToolkit:MaskedEditExtender ID="txtFechaCaducidadMatricula_MaskedEditExtender" runat="server" BehaviorID="txtFechaCaducidadMatricula_MaskedEditExtender" Century="2000" CultureAMPMPlaceholder="" CultureCurrencySymbolPlaceholder="" CultureDateFormat="" CultureDatePlaceholder="" CultureDecimalPlaceholder="" CultureThousandsPlaceholder="" CultureTimePlaceholder="" Mask="99/99/9999" MaskType="Date" TargetControlID="txtFechaCaducidadMatricula" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <asp:Label ID="Label4" runat="server" Text="Estado Actual"></asp:Label>
+                                                <div class="input-group col-sm-12">
+                                                    <asp:CheckBox ID="chkActivo" runat="server" Text="&nbsp&nbspEstado Activo" Checked="true" Enabled="false" />
                                                 </div>
                                             </div>
                                         </div>

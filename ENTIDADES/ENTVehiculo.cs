@@ -183,5 +183,13 @@ namespace ENTIDADES
             get { return iTIPOVEHICULO; }
             set { iTIPOVEHICULO = value; }
         }
+
+        private string iACTIVO;
+
+        public string IACTIVO
+        {
+            get { return iACTIVO; }
+            set { iACTIVO = value; }
+        }
     }
 }

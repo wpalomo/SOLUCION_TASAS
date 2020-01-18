@@ -505,7 +505,7 @@
                         <h4 class="modal-title" id="myModalLabel17">Registros</h4>
                     </div>
                     <div class="modal-body">
-                        <asp:Panel ID="Panel1" runat="server" DefaultButton="btnFiltarItinearios">
+<%--                        <asp:Panel ID="Panel1" runat="server" DefaultButton="btnFiltarItinearios">
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-8">
@@ -517,7 +517,7 @@
                                     </div>
                                 </div>   
                             </div>
-                        </asp:Panel>
+                        </asp:Panel>--%>
                                            
                         <div class="form-group">
                             <div class="row">
