@@ -1370,14 +1370,14 @@ namespace Solution_CTT
                     if (Session["ChoferAsistente"].ToString() == "1")
                     {
                         Session["id_Asistente"] = dgvAsistentesChofer.Rows[a].Cells[1].Text.Trim();
-                        txtAsistente.Text = dgvAsistentesChofer.Rows[a].Cells[2].Text.Trim();
+                        txtAsistente.Text = HttpUtility.HtmlDecode(dgvAsistentesChofer.Rows[a].Cells[2].Text.Trim());
                     }
 
                     else if (Session["ChoferAsistente"].ToString() == "2")
                     {
                         Session["id_Chofer"] = dgvAsistentesChofer.Rows[a].Cells[1].Text.Trim();
-                        Session["identificacionSMARTT"] = dgvAsistentesChofer.Rows[a].Cells[5].Text.Trim();
-                        txtChofer.Text = dgvAsistentesChofer.Rows[a].Cells[2].Text.Trim();
+                        Session["identificacionSMARTT"] = HttpUtility.HtmlDecode(dgvAsistentesChofer.Rows[a].Cells[5].Text.Trim());
+                        txtChofer.Text = HttpUtility.HtmlDecode(dgvAsistentesChofer.Rows[a].Cells[2].Text.Trim());
                     }
                     txtFiltrarChoferAsistente.Text = "";
                     ModalPopupExtender_AsistentesChofer.Hide();

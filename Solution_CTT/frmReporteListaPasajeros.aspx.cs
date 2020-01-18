@@ -50,6 +50,7 @@ namespace Solution_CTT
             if (!IsPostBack)
             {
                 sFecha = DateTime.Now.ToString("dd/MM/yyyy");
+                Session["fecha"] = sFecha;
                 txtDate.Text = sFecha;
                 llenarGrid(sFecha);
                 Session["idVehiculo"] = null;
@@ -137,25 +138,32 @@ namespace Solution_CTT
                 if (bRespuesta == false)
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo cargar el informe.', 'danger');", true);
-                    goto fin;
+                    return;
                 }
 
                 if (bRespuesta == true)
                 {
-                    if (dtPasajeros.Rows.Count == 0)
-                    {
-                        ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Advertencia.!', 'No existen pasajeros en el viaje. Favor comuníquese con administración.', 'warning');", true);
-                        goto fin;
-                    }
+                    //if (dtPasajeros.Rows.Count == 0)
+                    //{
+                    //    ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Advertencia.!', 'No existen pasajeros en el viaje. Favor comuníquese con administración.', 'warning');", true);
+                    //    return;
+                    //}
 
-                    else
-                    {
-                        dbSuma = 0;
+                    //else
+                    //{
+                    //    dbSuma = 0;
 
-                        for (int i = 0; i < dtPasajeros.Rows.Count; i++)
-                        {
-                            dbSuma = dbSuma + Convert.ToDouble(dtPasajeros.Rows[i]["valor"].ToString());
-                        }
+                    //    for (int i = 0; i < dtPasajeros.Rows.Count; i++)
+                    //    {
+                    //        dbSuma = dbSuma + Convert.ToDouble(dtPasajeros.Rows[i]["valor"].ToString());
+                    //    }
+                    //}
+
+                    dbSuma = 0;
+
+                    for (int i = 0; i < dtPasajeros.Rows.Count; i++)
+                    {
+                        dbSuma = dbSuma + Convert.ToDouble(dtPasajeros.Rows[i]["valor"].ToString());
                     }
                 }
 
@@ -173,7 +181,7 @@ namespace Solution_CTT
                 if (bRespuesta == false)
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo cargar el informe.', 'danger');", true);
-                    goto fin;
+                    return;
                 }
 
                 if (bRespuesta == true)
@@ -181,7 +189,7 @@ namespace Solution_CTT
                     if (dtConsulta.Rows.Count == 0)
                     {
                         ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Advertencia.!', 'Ocurrió un problema al cargar los campos. Favor comuníquese con administración.', 'warning');", true);
-                        goto fin;
+                        return;
                     }
                 }
 
@@ -217,7 +225,34 @@ namespace Solution_CTT
 
                 dbTotal_2 = dbTotal_1 - dbRetencion;
                 dbTotal_3 = dbTotal_2 - dbPago;
-                
+
+                if (dtPasajeros.Rows.Count == 0)
+                {
+                    sSql = "";
+                    sSql += "select * from ctt_vw_datos_viaje" + Environment.NewLine;
+                    sSql += "where id_ctt_programacion = " + iIdProgramacion;
+
+                    dtConsulta = new DataTable();
+                    dtConsulta.Clear();
+
+                    bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
+
+                    if (bRespuesta == false)
+                    {
+                        ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo cargar el informe.', 'danger');", true);
+                        return;
+                    }
+
+                    dtPasajeros = dtConsulta;
+
+                    //dtPasajeros.Rows.Add(dtConsulta.Rows[0]["id_ctt_programacion"].ToString(),
+                    //                     dtConsulta.Rows[0]["descripcion_chofer"].ToString(),
+                    //                     dtConsulta.Rows[0]["fecha_viaje"].ToString(),
+                    //                     dtConsulta.Rows[0]["numero_viaje"].ToString(),
+                    //                     dtConsulta.Rows[0]["hora_salida"].ToString(),
+                    //                     dtConsulta.Rows[0]["disco_placa"].ToString(),
+                    //                     "", "", "", "", "", "", "", "", "");
+                }                
 
                 ModalPopupExtender_Reporte.Show();
 
@@ -243,7 +278,7 @@ namespace Solution_CTT
                 rptListaPasajeros.LocalReport.DataSources.Add(datasource);
                 rptListaPasajeros.LocalReport.Refresh();
 
-                goto fin;
+                return;
             }
 
             catch(Exception ex)
@@ -251,8 +286,6 @@ namespace Solution_CTT
                 lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
             }
-
-            fin: {}
         }
 
         #endregion

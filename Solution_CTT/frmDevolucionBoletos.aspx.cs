@@ -3853,6 +3853,7 @@ namespace Solution_CTT
                 columnasGridVendidos(false);
 
                 btnPopUp_ModalPopupExtender.Show();
+                btnProcesar.Enabled = true;
                 llenarGridDetalle();
                 consultarFactura(Convert.ToInt32(Session["idPedido"].ToString()));
             }
@@ -3909,9 +3910,12 @@ namespace Solution_CTT
                 {
                     lblAdvertencia.Text = "No ha seleccionado ningún registro.";
                     //ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Información.!', 'No ha seleccionado ningún registro.', 'info');", true);
+                    return;
                 }
 
-                else if (iCuentaRegistros == iTotalRegistros)
+                btnProcesar.Enabled = false;
+
+                if (iCuentaRegistros == iTotalRegistros)
                 {
                     //ENVIAR A FUNCION SOLO PARA ELIMINAR LA FACTURA
                     procesarFactura(2, Convert.ToInt32(Session["idFacturaAnular"].ToString()), Convert.ToInt32(Session["idPedido"].ToString()), iTotalRegistros);

@@ -214,6 +214,7 @@ namespace Solution_CTT
                 Session["idVehiculo"] = null;
                 Session["idProgramacion"] = null;
                 Session["enProceso"] = null;
+                Session["idPersonaConsulta"] = null;
                 
                 if (Convert.ToInt32(Session["aplica_cortesia"].ToString()) == 1)
                 {
@@ -1923,6 +1924,7 @@ namespace Solution_CTT
             txtNombrePasajero.Text = "";
             Session["dtClientes"] = null;
             Session["idPasajero"] = null;
+            Session["idPersonaConsulta"] = null;
             Session["idAsiento"] = null;
             Session["numeroAsiento"] = null;
             Session["identificacion"] = null;
@@ -3536,7 +3538,19 @@ namespace Solution_CTT
                                 ModalPopupExtenderCrearEditar.Show();
                                 lblAlerta.Text = "";
                                 cmbIdentificacion.SelectedValue = iIdTipoIdentificacion.ToString();
+
+                                if (iIdTipoIdentificacion == 179)
+                                {
+                                    txtFechaNacimiento.Text = "01/01/2000";
+                                }
+
+                                else
+                                {
+                                    txtFechaNacimiento.Text = "";
+                                }
+
                                 txtIdentificacionRegistro.Text = txtIdentificacion.Text.Trim();
+                                txtRazonSocial.Focus();
                             }
                         }
                     }
@@ -5106,7 +5120,7 @@ namespace Solution_CTT
 
                     else if ((iTercerDigito >= 0) && (iTercerDigito < 6))
                     {
-                        iIdTipoIdentificacion = 178;
+                        iIdTipoIdentificacion = 179;
                         iIdTipoPersona = 2447;
 
                         if (ruc.validarRucNatural(txtIdentificacion.Text.Trim()) == false)

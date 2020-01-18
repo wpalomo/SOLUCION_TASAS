@@ -439,6 +439,7 @@
                         <ul class="treeview-menu">
                             <li><a href="frmAsistentes.aspx"><i class="fa fa-circle-o"></i>Asistentes</a></li>
                             <li><a href="frmChoferes.aspx"><i class="fa fa-circle-o"></i>Choferes</a></li>
+                            <li><a href="frmRegistroPersonas.aspx"><i class="fa fa-circle-o"></i>Registro de Personas</a></li>
                             <%--<li><a href="frmOficinistas.aspx"><i class="fa fa-circle-o"></i>Oficinistas</a></li>--%>
                         </ul>
                     </li>

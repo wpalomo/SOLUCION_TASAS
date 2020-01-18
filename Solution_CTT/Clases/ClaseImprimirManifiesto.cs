@@ -68,7 +68,6 @@ namespace Solution_CTT.Clases
                 sSql += "and TP.estado = 'A'" + Environment.NewLine;
                 sSql += "where P.id_ctt_programacion = " + iIdProgramacion_P;
 
-
                 dtConsulta = new DataTable();
                 dtConsulta.Clear();
 
@@ -195,6 +194,11 @@ namespace Solution_CTT.Clases
                 DataColumn identificacion_conductor = new DataColumn("identificacion_conductor");
                 identificacion_conductor.DataType = System.Type.GetType("System.String");
                 dtConsulta.Columns.Add(identificacion_conductor);
+
+                if (dtConsulta.Rows.Count == 0)
+                {
+                    dtConsulta.Rows.Add();
+                }
 
                 //LLENAR EL DATATABLE
                 for (int i = 0; i < dtConsulta.Rows.Count; i++)

@@ -159,5 +159,13 @@ namespace ENTIDADES
             get { return iBOLETOCORTESIA; }
             set { iBOLETOCORTESIA = value; }
         }
+
+        private string iNOTAENTREGAEXTRA;
+
+        public string INOTAENTREGAEXTRA
+        {
+            get { return iNOTAENTREGAEXTRA; }
+            set { iNOTAENTREGAEXTRA = value; }
+        }
     }
 }

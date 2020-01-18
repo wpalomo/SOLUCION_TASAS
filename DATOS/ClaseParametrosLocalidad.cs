@@ -51,7 +51,8 @@ namespace DATOS
                             IEJECUTACOBROADMINISTRACION = dtConsulta.Rows[i][16].ToString(),
                             IIDPROVEEDORTASAS = dtConsulta.Rows[i][17].ToString(),
                             ICODIGOPROVEEDOR = dtConsulta.Rows[i][18].ToString(),
-                            IBOLETOCORTESIA = dtConsulta.Rows[i]["boleto_cortesia"].ToString()
+                            IBOLETOCORTESIA = dtConsulta.Rows[i]["boleto_cortesia"].ToString(),
+                            INOTAENTREGAEXTRA = dtConsulta.Rows[i]["nota_entrega_extra"].ToString()
                         };
                         coleccion.Add(todos);
                     }

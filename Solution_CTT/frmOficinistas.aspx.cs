@@ -517,6 +517,7 @@ namespace Solution_CTT
             sAccion = "Eliminar";
             ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#QuestionModal').modal('show');</script>", false);
         }
+
         protected void btnCancel_Click(object sender, EventArgs e)
         {
             limpiar();

@@ -301,6 +301,24 @@ namespace Solution_CTT {
         protected global::System.Web.UI.WebControls.CheckBox chkBoletoCortesia;
         
         /// <summary>
+        /// Control Label13.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label13;
+        
+        /// <summary>
+        /// Control chkExtraNotaEntrega.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkExtraNotaEntrega;
+        
+        /// <summary>
         /// Control btnSave.
         /// </summary>
         /// <remarks>

@@ -35,6 +35,7 @@ namespace Solution_CTT
         int iEjecutaCobroAdministrativo;
         int iIdProveedorTasa;
         int iBoletoCortesia;
+        int iNotaEntregaExtra;
         
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -230,6 +231,7 @@ namespace Solution_CTT
             dgvDatos.Columns[15].Visible = ok;
             dgvDatos.Columns[16].Visible = ok;
             dgvDatos.Columns[17].Visible = ok;
+            dgvDatos.Columns[18].Visible = ok;
 
             dgvDatos.Columns[0].ItemStyle.Width = 75;
             dgvDatos.Columns[5].ItemStyle.Width = 200;
@@ -399,12 +401,14 @@ namespace Solution_CTT
                 sSql += "insert into ctt_parametro_localidad (" + Environment.NewLine;
                 sSql += "id_ctt_pueblo, id_producto_retencion, id_producto_pagos, cg_ciudad," + Environment.NewLine;
                 sSql += "id_vendedor, genera_tasa_usuario, cantidad_manifiesto, ejecuta_cobro_administrativo," + Environment.NewLine;
-                sSql += "id_ctt_proveedor_tasa, boleto_cortesia, estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                sSql += "id_ctt_proveedor_tasa, boleto_cortesia, nota_entrega_extra," + Environment.NewLine;
+                sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(cmbTerminales.SelectedValue) + ", " + Convert.ToInt32(Session["idProductoRetencion"].ToString()) + ", ";
                 sSql += Convert.ToInt32(Session["idProductoPago"].ToString()) + ", " + Convert.ToInt32(cmbCiudad.SelectedValue) + ", " + Environment.NewLine;
                 sSql += Convert.ToInt32(cmbVendedor.SelectedValue) + ", " + iTasaUsuario + ", " + Convert.ToInt32(txtCantidadManifiesto.Text.Trim()) + "," + Environment.NewLine;
-                sSql += + iEjecutaCobroAdministrativo + ", " + iIdProveedorTasa + ", " + iBoletoCortesia + ", 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
+                sSql += + iEjecutaCobroAdministrativo + ", " + iIdProveedorTasa + ", " + iBoletoCortesia + ", " + iNotaEntregaExtra + "," + Environment.NewLine;
+                sSql += "'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                 //EJECUCIÓN DE INSTRUCCION SQL
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
@@ -456,7 +460,8 @@ namespace Solution_CTT
                 sSql += "cantidad_manifiesto = " + Convert.ToInt32(txtCantidadManifiesto.Text.Trim()) + "," + Environment.NewLine;
                 sSql += "ejecuta_cobro_administrativo = " + iEjecutaCobroAdministrativo + "," + Environment.NewLine;
                 sSql += "id_ctt_proveedor_tasa = " + iIdProveedorTasa + "," + Environment.NewLine;
-                sSql += "boleto_cortesia = " + iBoletoCortesia + Environment.NewLine;
+                sSql += "boleto_cortesia = " + iBoletoCortesia + "," + Environment.NewLine;
+                sSql += "nota_entrega_extra = " + iNotaEntregaExtra + Environment.NewLine;
                 sSql += "where id_ctt_parametro_localidad = " + Convert.ToInt32(Session["idRegistroPLOCALIDAD"].ToString()) + Environment.NewLine;
                 sSql += "and estado = 'A'";
 
@@ -609,6 +614,7 @@ namespace Solution_CTT
             chkEjecutaCobrosAdministrativos.Checked = false;
             cmbProveedoresTasas.Enabled = false;
             chkBoletoCortesia.Checked = false;
+            chkExtraNotaEntrega.Checked = false;
         }
 
         #endregion
@@ -667,6 +673,16 @@ namespace Solution_CTT
                     else
                     {
                         chkBoletoCortesia.Checked = false;
+                    }
+
+                    if (dgvDatos.Rows[a].Cells[18].Text.Trim() == "1")
+                    {
+                        chkExtraNotaEntrega.Checked = true;
+                    }
+
+                    else
+                    {
+                        chkExtraNotaEntrega.Checked = false;
                     }
                 }
 
@@ -789,6 +805,16 @@ namespace Solution_CTT
                 else
                 {
                     iBoletoCortesia = 0;
+                }
+
+                if (chkExtraNotaEntrega.Checked == true)
+                {
+                    iNotaEntregaExtra = 1;
+                }
+
+                else
+                {
+                    iNotaEntregaExtra = 0;
                 }
 
                 iIdProveedorTasa = Convert.ToInt32(cmbProveedoresTasas.SelectedValue);

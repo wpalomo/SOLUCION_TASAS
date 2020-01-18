@@ -44,6 +44,7 @@
                                         <asp:BoundField DataField="IIDPROVEEDORTASAS" HeaderText="ID PROVEEDOR" />
                                         <asp:BoundField DataField="ICODIGOPROVEEDOR" HeaderText="CODIGO PROVEEDOR" />
                                         <asp:BoundField DataField="IBOLETOCORTESIA" HeaderText="CORTESIA" />
+                                        <asp:BoundField DataField="INOTAENTREGAEXTRA" HeaderText="NOTA ENTREGA EXTRA" />
                                         <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="EDITAR">
                                             <ItemTemplate>
                                                 <asp:LinkButton ID="lbtnEdit" runat="server" CommandName="Select" class="btn btn-xs btn-warning" OnClick="lbtnEdit_Click"><i class="fa fa-pencil"></i></asp:LinkButton>
@@ -219,7 +220,20 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>                                    
+                                    </div> 
+                                    
+                                    <%--SEXTA FILA--%>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <asp:Label ID="Label13" runat="server" Text="Nota Entrega Extra"></asp:Label>
+                                                <div class="input-group col-sm-12">
+                                                    <asp:CheckBox ID="chkExtraNotaEntrega" CssClass="form-control input-sm" runat="server" Text="&nbsp;&nbsp;Aplica Nota Entrega Extra" Visible="false" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                                                       
                                 </div>
                             </div>
 
