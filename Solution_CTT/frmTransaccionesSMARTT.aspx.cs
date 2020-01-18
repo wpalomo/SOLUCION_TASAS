@@ -1860,7 +1860,7 @@ namespace Solution_CTT
                 sSql += "update tp_personas set" + Environment.NewLine;
                 sSql += "cg_tipo_persona = " + iIdTipoPersona_P + "," + Environment.NewLine;
                 sSql += "cg_tipo_identificacion = " + iIdTipoIdentificacion_P + "," + Environment.NewLine;
-                sSql += "identificacion = '" + txtIdentificacionRegistro.Text.Trim() + "'," + Environment.NewLine;
+                //sSql += "identificacion = '" + txtIdentificacionRegistro.Text.Trim() + "'," + Environment.NewLine;
                 sSql += "nombres = '" + txtNombreRegistro.Text.Trim().ToUpper() + "'," + Environment.NewLine;
                 sSql += "apellidos = '" + txtRazonSocial.Text.Trim().ToUpper() + "'," + Environment.NewLine;
                 sSql += "fecha_nacimiento = '" + Convert.ToDateTime(txtFechaNacimiento.Text.Trim()).ToString("yyyy/MM/dd") + "'," + Environment.NewLine;
@@ -3484,7 +3484,7 @@ namespace Solution_CTT
                         string sFechaAyuda = Convert.ToDateTime(dtConsulta.Rows[0][5].ToString()).ToString("yyyy/MM/dd");
                         DateTime nacimiento = Convert.ToDateTime(sFechaAyuda);
 
-                        //DateTime nacimiento = Convert.ToDateTime(dtConsulta.Rows[0][5].ToString()).ToString("yyyy/MM/dd");
+                        calcularEdad_V2(nacimiento);
                         int edad = calcularEdad(nacimiento, DateTime.Now);
 
                         if (sDescripcionMes == "")
@@ -3536,9 +3536,10 @@ namespace Solution_CTT
                             {
                                 //AQUI ABRIR MODAL PARA CREAR NUEVO PASAJERO                        
                                 ModalPopupExtenderCrearEditar.Show();
+                                txtIdentificacionRegistro.ReadOnly = false;
                                 lblAlerta.Text = "";
                                 cmbIdentificacion.SelectedValue = iIdTipoIdentificacion.ToString();
-
+                                
                                 if (iIdTipoIdentificacion == 179)
                                 {
                                     txtFechaNacimiento.Text = "01/01/2000";
@@ -3561,6 +3562,37 @@ namespace Solution_CTT
                     lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
                 }
+            }
+
+            catch (Exception ex)
+            {
+                cerrarModal();
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
+
+        //FUNCION PARA CALCULAR LA EDAD V2
+        private void calcularEdad_V2(DateTime birthday)
+        {
+            try
+            {
+                var now = DateTime.Now;
+                string sCadena;
+
+                var yearsOld = now - birthday;
+                int years = (int)(yearsOld.TotalDays / 365.25);
+                int months = (int)(((yearsOld.TotalDays / 365.25) - years) * 12);
+
+                sCadena = "";
+                sCadena += years + " AÑOS";
+
+                if (months > 0)
+                {
+                    sCadena += ", " + months + " MESES";
+                }
+
+                lblEdad.Text = sCadena;
             }
 
             catch (Exception ex)
@@ -4091,7 +4123,7 @@ namespace Solution_CTT
                 sSql += "idempresa, cg_tipo_persona, cg_tipo_identificacion," + Environment.NewLine;
                 sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
-                sSql += "'" + sCedula_P + "', '" + sApellidos_P.Trim().ToUpper() + "', ' " + sNombres_P.Trim().ToUpper() + "', '" + sFechaNacimiento_P + "'," + Environment.NewLine;
+                sSql += "'" + sCedula_P + "', '" + sApellidos_P.Trim().ToUpper() + "', '" + sNombres_P.Trim().ToUpper() + "', '" + sFechaNacimiento_P + "'," + Environment.NewLine;
                 sSql += Convert.ToInt32(Application["idEmpresa"].ToString()) + ", " + iTipoPersona_P + ", " + iTipoIdentificacion_P + "," + Environment.NewLine;
                 sSql += "'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
@@ -5155,7 +5187,7 @@ namespace Solution_CTT
 
             if ((txtIdentificacion.Text.Trim() == "") || (Session["idPasajero"] == null))
             {
-
+                txtIdentificacionRegistro.ReadOnly = false;
             }
 
             else
@@ -5164,10 +5196,12 @@ namespace Solution_CTT
                 txtIdentificacionRegistro.Text = txtIdentificacion.Text.Trim();
                 txtNombreRegistro.Text = Session["nombrePersona"].ToString();
                 txtRazonSocial.Text = Session["apellidoPersona"].ToString();
+                txtIdentificacionRegistro.ReadOnly = true;
 
                 txtFechaNacimiento.Text = Convert.ToDateTime(Session["fechaNacimiento"].ToString()).ToString("dd/MM/yyyy");
                 cmbIdentificacion.SelectedValue = Session["cgTipoIdentificacion"].ToString();
                 lblAlerta.Text = "";
+                txtRazonSocial.Focus();
             }
         }
 
