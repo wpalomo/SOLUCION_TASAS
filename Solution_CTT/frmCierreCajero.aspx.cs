@@ -537,7 +537,7 @@ namespace Solution_CTT
                 if (conexionM.iniciarTransaccion() == false)
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Error.!', 'No se pudo iniciar la transacción para el proceso de información.', 'danger');", true);
-                    goto fin;
+                    return;
                 }
 
                 sFecha = DateTime.Now.ToString("yyyy/MM/dd");
@@ -562,16 +562,12 @@ namespace Solution_CTT
 
                 conexionM.terminaTransaccion();
 
-                dtConsulta = new DataTable();
-                dtConsulta.Clear();
-                dtConsulta = Session["dtTasasPagadas"] as DataTable;
-
                 //if (reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), dtConsulta, Convert.ToInt32(Session["idUsuario"].ToString()), 1) == true)
-                if (reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), dtConsulta, Convert.ToInt32(Session["idUsuario"].ToString()), 1, Convert.ToInt32(Session["idCierreCaja"].ToString())) == true)
+                if (reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), Convert.ToInt32(Session["idUsuario"].ToString()), 1, Convert.ToInt32(Session["idCierreCaja"].ToString())) == true)
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Cierre de caja procesado éxitosamente.', 'success');", true);
                     Response.Redirect("frmCerrarSesion.aspx");
-                    goto fin;
+                    return;
                 }
             }
 
@@ -583,7 +579,6 @@ namespace Solution_CTT
             }
 
         reversa: { conexionM.reversaTransaccion(); }
-        fin: { }
         }
 
         //FUNCION PARA CREAR EL REPORTE 
@@ -727,11 +722,8 @@ namespace Solution_CTT
                     return;
                 }
 
-                dtConsulta = new DataTable();
-                dtConsulta.Clear();
-                dtConsulta = Session["dtTasasPagadas"] as DataTable;
                 //reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), dtConsulta, Convert.ToInt32(Session["idUsuario"].ToString()), 0);
-                reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), dtConsulta, Convert.ToInt32(Session["idUsuario"].ToString()), 0, Convert.ToInt32(Session["idCierreCaja"].ToString()));
+                reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), Convert.ToInt32(Session["idUsuario"].ToString()), 0, Convert.ToInt32(Session["idCierreCaja"].ToString()));
             }
 
             catch (Exception ex)
@@ -778,7 +770,7 @@ namespace Solution_CTT
             else
             {
                 //reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), dtConsulta, Convert.ToInt32(Session["idUsuario"].ToString()), 1);
-                reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), dtConsulta, Convert.ToInt32(Session["idUsuario"].ToString()), 1, Convert.ToInt32(Session["idCierreCaja"].ToString()));
+                reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), Convert.ToInt32(Session["idUsuario"].ToString()), 1, Convert.ToInt32(Session["idCierreCaja"].ToString()));
             }
         }
 

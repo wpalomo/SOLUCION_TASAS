@@ -285,16 +285,16 @@
                                         <Columns>
                                             <asp:BoundField DataField="IIDVEHICULO" HeaderText="ID" />
                                             <asp:BoundField DataField="IIDTIPOVEHICULO" HeaderText="ID" />
-                                            <asp:BoundField DataField="ITIPOVEHICULO" HeaderText="TIPO" />
+                                            <asp:BoundField DataField="ITIPOVEHICULO" HeaderText="TIPO" ItemStyle-HorizontalAlign="Center" />
                                             <asp:BoundField DataField="IIDMARCAVEHICULO" HeaderText="ID" />
-                                            <asp:BoundField DataField="IMARCAVEHICULO" HeaderText="MARCA" />
+                                            <asp:BoundField DataField="IMARCAVEHICULO" HeaderText="MARCA" ItemStyle-HorizontalAlign="Center" />
                                             <asp:BoundField DataField="IIDMODELOVEHICULO" HeaderText="ID" />
-                                            <asp:BoundField DataField="IMODELOVEHICULO" HeaderText="MODELO" />
+                                            <asp:BoundField DataField="IMODELOVEHICULO" HeaderText="MODELO" ItemStyle-HorizontalAlign="Center" />
                                             <asp:BoundField DataField="IIDTIPOBUS" HeaderText="ID" />
-                                            <asp:BoundField DataField="ITIPOBUS" HeaderText="TIPO DE BUS" />
+                                            <asp:BoundField DataField="ITIPOBUS" HeaderText="TIPO DE BUS" ItemStyle-HorizontalAlign="Center" />
                                             <asp:BoundField DataField="IIDDISCO" HeaderText="ID" />
-                                            <asp:BoundField DataField="IDISCO" HeaderText="DISCO" />
-                                            <asp:BoundField DataField="IPLACA" HeaderText="PLACA" />
+                                            <asp:BoundField DataField="IDISCO" HeaderText="DISCO" ItemStyle-HorizontalAlign="Center" />
+                                            <asp:BoundField DataField="IPLACA" HeaderText="PLACA" ItemStyle-HorizontalAlign="Center" />
                                             <asp:BoundField DataField="ICHASIS" HeaderText="CHASIS" />
                                             <asp:BoundField DataField="IMOTOR" HeaderText="MOTOR" />
                                             <asp:BoundField DataField="IANIOPRODUCCION" HeaderText="MOTOR" />
@@ -302,7 +302,7 @@
                                             <asp:BoundField DataField="ICILINDRAJE" HeaderText="MOTOR" />
                                             <asp:BoundField DataField="IPESO" HeaderText="MOTOR" />
                                             <asp:BoundField DataField="INUMEROPASAJEROS" HeaderText="MOTOR" />
-                                            <asp:BoundField DataField="IESTADO" HeaderText="ESTADO" />
+                                            <asp:BoundField DataField="IESTADO" HeaderText="ESTADO" ItemStyle-HorizontalAlign="Center" />
                                             <asp:BoundField DataField="IIDFORMATOASIENTO" HeaderText="ID" />   
                                             <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="SELECCIONAR">
                                                 <ItemTemplate>

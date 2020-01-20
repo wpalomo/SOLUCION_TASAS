@@ -601,6 +601,7 @@ namespace Solution_CTT
                 {
                     btnSave.Text = "Editar";
                     Session["idRegistroPERSONAS"] = dtConsulta.Rows[0]["id_persona"].ToString().Trim();
+                    txtIdentificacion.ReadOnly = true;
                     //txtIdentificacion.Text = dtConsulta.Rows[0]["identificacion"].ToString().Trim();
                     txtApellidos.Text = dtConsulta.Rows[0]["apellidos"].ToString().Trim();
                     txtNombres.Text = dtConsulta.Rows[0]["nombres"].ToString().Trim();
@@ -614,6 +615,8 @@ namespace Solution_CTT
                     {
                         chkPasaporte.Checked = false;
                     }
+
+                    txtApellidos.Focus();
                 }
             }
 

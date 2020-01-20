@@ -118,7 +118,7 @@ namespace Solution_CTT
                 sSql += "And F.facturaelectronica = 1" + Environment.NewLine;
                 sSql += "And CP.bandera_boleteria = 1" + Environment.NewLine;
                 sSql += "And CP.bandera_encomienda = 0" + Environment.NewLine;
-                sSql += "And F.id_localidad = " + Application["idLocalidad"].ToString() + Environment.NewLine; 
+                //sSql += "And F.id_localidad = " + Application["idLocalidad"].ToString() + Environment.NewLine; 
                 sSql += "order by DP.Id_Det_Pedido";
 
                 dtConsulta = new DataTable();
@@ -384,11 +384,11 @@ namespace Solution_CTT
             {
                 sSql = "";
                 sSql += "select * from ctt_vw_facturas_paso_a_paso" + Environment.NewLine;
-                sSql += "where id_localidad = " + Application["idLocalidad"].ToString() + Environment.NewLine;
+                //sSql += "where id_localidad = " + Application["idLocalidad"].ToString() + Environment.NewLine;
 
                 if (iOp == 1)
                 {
-                    sSql += "and numero_factura = " + Convert.ToInt32(txtFiltrarModalBuscarFacturas.Text.Trim());
+                    sSql += "where numero_factura = " + Convert.ToInt32(txtFiltrarModalBuscarFacturas.Text.Trim());
                 }
 
                 columnaGrid(true);

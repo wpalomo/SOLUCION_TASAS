@@ -72,7 +72,7 @@
                                         <div class="col-md-offset-1 col-md-10">
                                             <asp:Panel ID="Panel10" runat="server" DefaultButton="btnBuscarCliente">
                                                 <div class="input-group col-sm-12">
-                                                <asp:TextBox ID="txtIdentificacion" runat="server" CssClass="form-control" placeholder="Identificación *" autocomplete="off"></asp:TextBox>                                                
+                                                <asp:TextBox ID="txtIdentificacion" runat="server" CssClass="form-control" placeholder="Identificación *" BackColor="White" autocomplete="off"></asp:TextBox>                                                
                                                     <span class="input-group-addon input-sm"><asp:LinkButton ID="btnBuscarCliente" runat="server" Text="" OnClick="btnBuscarCliente_Click" tooltip="Buscar Cliente"><i class="fa fa-search"></i></asp:LinkButton></span>
                                                 </div>
                                             </asp:Panel>

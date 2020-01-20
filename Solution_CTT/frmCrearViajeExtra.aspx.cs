@@ -1442,6 +1442,7 @@ namespace Solution_CTT
             Session["banderaVehiculo"] = "1";
             ModalPopupExtender_Vehiculo.Show();
             llenarGridVehiculo(0);
+            txtFiltrarVehiculos.Focus();
         }
 
         protected void btnAbrirModalVehiculoReemplazo_Click(object sender, EventArgs e)

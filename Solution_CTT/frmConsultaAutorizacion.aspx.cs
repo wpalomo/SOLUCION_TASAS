@@ -103,30 +103,10 @@ namespace Solution_CTT
         {
             try
             {
-                //sSql = "";
-                //sAyuda = consultarXML.GSub_ActualizaPantalla(Session["sCodigoDocumento"].ToString(), 2);//JONA - SOLO 2 PARAMETROS XQ ESTA EN CLASE YA EL IDEMPRESA
-                //sSql = sAyuda;
-
-                //dtConsulta = new DataTable();
-                //dtConsulta.Clear();
-
-                //bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
-
-                //if (bRespuesta == true)
-                //{
-                //    if (dtConsulta.Rows.Count > 0)
-                //    {
-                //        ColumnasCargarDatosModal(true);
-                //        dgvFiltrarModalBuscarXML.DataSource = dtConsulta;
-                //        dgvFiltrarModalBuscarXML.DataBind();
-                //        ColumnasCargarDatosModal(false);
-                //    }
-                //}
-
                 sSql = "";
                 sSql += "select * from ctt_vw_facturas_paso_a_paso" + Environment.NewLine;
                 sSql += "where clave_acceso <> ''" + Environment.NewLine;
-                sSql += "and id_localidad = " + Application["idLocalidad"].ToString() + Environment.NewLine;
+                //sSql += "and id_localidad = " + Application["idLocalidad"].ToString() + Environment.NewLine;
 
                 if (iOp == 1)
                 {

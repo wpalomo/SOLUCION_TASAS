@@ -46,6 +46,25 @@ namespace Solution_CTT.Clases
             {
                 this.iIdProgramacion = iIdProgramacion_P;
 
+                //INSTRUCCION PARA OBTENER LOS PAGOS PENDIENTES
+                sSql = "";
+                sSql += "select sum(valor) suma" + Environment.NewLine;
+                sSql += "from cv403_documentos_pagados" + Environment.NewLine;
+                sSql += "where estado = 'A'" + Environment.NewLine;
+                sSql += "and id_ctt_programacion = " + iIdProgramacion;
+
+                dtConsulta = new DataTable();
+                dtConsulta.Clear();
+
+                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
+
+                if (bRespuesta == false)
+                {
+                    return false;
+                }
+
+                dbPagosPendientes_P = Convert.ToDecimal(dtConsulta.Rows[0][0].ToString());
+
                 sSql = "";
                 sSql += "select CH.descripcion conductor, P.fecha_viaje, P.numero_viaje," + Environment.NewLine;
                 sSql += "case when P.hora_reemplazo_extra is null then H.hora_salida else P.hora_reemplazo_extra end hora_salida," + Environment.NewLine;

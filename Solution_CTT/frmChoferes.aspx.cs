@@ -214,7 +214,7 @@ namespace Solution_CTT
 
                 sSql = "";
                 sSql += "insert into ctt_chofer (" + Environment.NewLine;
-                sSql += "id_persona, codigo, descripcion, is_active estado, fecha_ingreso," + Environment.NewLine;
+                sSql += "id_persona, codigo, descripcion, is_active, estado, fecha_ingreso," + Environment.NewLine;
                 sSql += "usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(Session["id_PersonaChofer"].ToString()) + ", '" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;

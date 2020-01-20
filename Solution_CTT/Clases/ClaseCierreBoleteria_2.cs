@@ -30,7 +30,7 @@ namespace Solution_CTT.Clases
         DataTable dtConsulta;
         DataTable dtAyuda;
 
-        public bool llenarReporte(string sFecha_P, int iJornada_P, string sJornada, string sUsuario, DataTable dtTasasPagadas_P, int iIdOficinista_P, int iBanderaEnviaImprime, int iIdCierreCaja_P)
+        public bool llenarReporte(string sFecha_P, int iJornada_P, string sJornada, string sUsuario, int iIdOficinista_P, int iBanderaEnviaImprime, int iIdCierreCaja_P)
         {
             try
             {

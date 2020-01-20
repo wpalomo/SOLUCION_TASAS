@@ -5,15 +5,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <title>Ingresar al Sistema</title>
-    <link rel="icon" type="image/png" href="../assets/img/favicon_exp_ate.png" />
-	<link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css"/>
-	<link rel="stylesheet" type="text/css" href="assets/css/my-login.css"/>  
-    <%--sweet alert--%>
-    <link href="assets/css/sweetalert.css" rel="stylesheet" />
-    <script src="assets/js/sweetalert.min.js"></script>
-    
+<title>Ingresar al Sistema</title>
+<link rel="icon" type="image/png" href="../assets/img/favicon_exp_ate.png" />
+<link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="assets/css/my-login.css"/>  
+<%--sweet alert--%>
+<link href="assets/css/sweetalert.css" rel="stylesheet" />
+<script src="assets/js/sweetalert.min.js"></script>    
 </head>
+
 <body class="my-login-page" id="animate-area">
 	<section class="h-100" id="animationSandbox">
 		<div class="container h-100">

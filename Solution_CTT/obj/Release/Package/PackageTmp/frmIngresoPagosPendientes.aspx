@@ -30,7 +30,7 @@
                                         </div>                                        
                                         <div class="col-md-2">
                                             <asp:Label ID="Label3" runat="server" Text="Valor a Ingresar"></asp:Label>
-                                            <asp:TextBox ID="txtValor" runat="server" class="form-control" Text="0.00" AutoComplete="off" Onkeypress="return ValidaDecimal(this.value);"></asp:TextBox>
+                                            <asp:TextBox ID="txtValor" runat="server" ReadOnly="true" BackColor="White" class="form-control" Text="0.00" AutoComplete="off" Onkeypress="return ValidaDecimal(this.value);"></asp:TextBox>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">

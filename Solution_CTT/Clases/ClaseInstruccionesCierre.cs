@@ -78,7 +78,8 @@ namespace Solution_CTT.Clases
         public bool iniciarCierre(DataTable dtConsulta_P, double dbTotalCobrado_P, double dbPagoRetencion_P, 
             double dbPagoAdministracion_P, int iIdProgramacion_P, string sFecha_P, string[] sDatosMaximo_P, 
             string[,] sIdPedido_P, int iLongitud_P, int iExtra_P, Decimal dbPagoPendienteInfo_P, 
-            Decimal dbIngresoEfectivoInfo_P, string sObservacion_P, int iEjecutarCobroAdministracion_P)
+            Decimal dbIngresoEfectivoInfo_P, string sObservacion_P, int iEjecutarCobroAdministracion_P,
+            string[,] sIdPedidoActual_P)
         {
             try
             {
@@ -125,12 +126,21 @@ namespace Solution_CTT.Clases
                 {
                     if (iEjecutarCobroAdministracion == 1)
                     {
+                        Double dbPagoActualRecibido = Convert.ToDouble(sIdPedidoActual_P[0, 1]);
+
                         //SEGUNDA LLAMADA PARA INSERTAR EL PAGO DE ADMINISTRACION
-                        if (creaRegistroPagos(dbPagoAdministracion, iExtra_P) == false)
+                        if (creaRegistroPagos(dbPagoActualRecibido, iExtra_P) == false)
                         {
                             conexionM.reversaTransaccion();
                             return false;
                         }
+
+                        ////SEGUNDA LLAMADA PARA INSERTAR EL PAGO DE ADMINISTRACION
+                        //if (creaRegistroPagos(dbPagoAdministracion, iExtra_P) == false)
+                        //{
+                        //    conexionM.reversaTransaccion();
+                        //    return false;
+                        //}
                     }
                 }
 
@@ -422,8 +432,7 @@ namespace Solution_CTT.Clases
                 return false;
             }
         }
-
-
+        
         //CONSULTAR LOS DATOS DEL PROPIETARIO DEL VEHICULO DE REEMPLAZO
         private bool consultarPropietarioReemplazo(int iIdPersona_P)
         {
@@ -1659,11 +1668,12 @@ namespace Solution_CTT.Clases
                 sSql += "insert into cv403_documentos_pagados (" + Environment.NewLine;
                 sSql += "id_documento_cobrar, id_pago, valor," + Environment.NewLine;
                 sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso," + Environment.NewLine;
-                sSql += "fecha_pago, id_ctt_jornada, id_ctt_cierre_caja)" + Environment.NewLine;
+                sSql += "fecha_pago, id_ctt_jornada, id_ctt_cierre_caja, id_ctt_programacion)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += iIdDocumentoCobrar + ", " + iIdPago + ", " + dbPago_P + ", 'A'," + Environment.NewLine;
                 sSql += "GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "', '" + DateTime.Now.ToString("yyyy/MM/dd") + "'," + Environment.NewLine;
-                sSql += Convert.ToInt32(HttpContext.Current.Session["idJornada"].ToString()) + ", " + HttpContext.Current.Session["idCierreCaja"].ToString() + ")";
+                sSql += Convert.ToInt32(HttpContext.Current.Session["idJornada"].ToString()) + ", " + Environment.NewLine;
+                sSql += HttpContext.Current.Session["idCierreCaja"].ToString() + ", " + iIdProgramacion + ")";
 
                 //EJECUCION DE INSTRUCCION SQL
                 if (!conexionM.ejecutarInstruccionSQL(sSql))

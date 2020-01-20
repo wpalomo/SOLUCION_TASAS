@@ -195,6 +195,7 @@ namespace Solution_CTT
                 sSql += "where V.id_ctt_disco = D.id_ctt_disco" + Environment.NewLine;
                 sSql += "and V.estado = 'A'" + Environment.NewLine;
                 sSql += "and D.estado = 'A'" + Environment.NewLine;
+                sSql += "and V.is_active = 1" + Environment.NewLine;
                 sSql += "order by D.descripcion";
 
                 comboE.ISSQL = sSql;

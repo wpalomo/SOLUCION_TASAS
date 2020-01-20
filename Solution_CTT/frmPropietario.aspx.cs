@@ -59,7 +59,7 @@ namespace Solution_CTT
 
 
         //FUNCION PARA LLENAR EL GRIDVIEW
-        private void llenarGridVehiculos(int iOp)
+        private void llenarGridVehiculos()
         {
             try
             {
@@ -69,7 +69,9 @@ namespace Solution_CTT
                 sSql += "MOV.descripcion modelo_vehiculo, V.id_ctt_tipo_asiento, TA.descripcion tipo_bus," + Environment.NewLine;
                 sSql += "V.id_ctt_disco, D.descripcion disco, V.placa, V.chasis, V.motor, V.anio_produccion," + Environment.NewLine;
                 sSql += "V.pais_origen, V.cilindraje, V.peso, V.numero_pasajeros," + Environment.NewLine;
-                sSql += "case V.estado when 'A' then 'ACTIVO' else 'INACTIVO' end estado, FA.id_ctt_formato_asiento" + Environment.NewLine;
+                //sSql += "case V.estado when 'A' then 'ACTIVO' else 'INACTIVO' end estado, FA.id_ctt_formato_asiento," + Environment.NewLine;
+                sSql += "case V.is_active when 1 then 'ACTIVO' else 'INACTIVO' end estado, FA.id_ctt_formato_asiento," + Environment.NewLine;
+                sSql += "V.is_active" + Environment.NewLine;
                 sSql += "from ctt_tipo_vehiculo TV INNER JOIN" + Environment.NewLine;
                 sSql += "ctt_vehiculo V ON V.id_ctt_tipo_vehiculo = TV.id_ctt_tipo_vehiculo" + Environment.NewLine;
                 sSql += "and V.estado = 'A'" + Environment.NewLine;
@@ -84,10 +86,12 @@ namespace Solution_CTT
                 sSql += "and D.estado = 'A' INNER JOIN" + Environment.NewLine;
                 sSql += "ctt_formato_asientos FA ON V.id_ctt_formato_asiento = FA.id_ctt_formato_asiento" + Environment.NewLine;
                 sSql += "and FA.estado = 'A'" + Environment.NewLine;
+                sSql += "where V.is_active = 1" + Environment.NewLine;
 
-                if (iOp == 1)
+                if (txtFiltrarVehiculos.Text.Trim() != "")
                 {
-
+                    sSql += "and (D.descripcion like '%" + txtFiltrarVehiculos.Text.Trim() + "%'" + Environment.NewLine;
+                    sSql += "or V.placa like '%" + txtFiltrarVehiculos.Text.Trim() + "%')" + Environment.NewLine;
                 }
 
                 sSql += "order by D.descripcion" + Environment.NewLine;
@@ -666,7 +670,7 @@ namespace Solution_CTT
         protected void btnAbrirModalVehiculos_Click(object sender, EventArgs e)
         {
             btnPopUp_ModalPopupExtender2.Show();
-            llenarGridVehiculos(0);
+            llenarGridVehiculos();
         }
 
         protected void btnCerrarModal2_Click(object sender, EventArgs e)
@@ -679,16 +683,7 @@ namespace Solution_CTT
             try
             {
                 dgvFiltrarVehiculos.PageIndex = e.NewPageIndex;
-
-                if (txtFiltrarVehiculos.Text.Trim() == "")
-                {
-                    llenarGridVehiculos(0);
-                }
-
-                else
-                {
-                    llenarGridVehiculos(1);
-                }
+                llenarGridVehiculos();
             }
 
             catch (Exception ex)
@@ -704,15 +699,7 @@ namespace Solution_CTT
         {
             try
             {
-                if (txtFiltrarVehiculos.Text.Trim() == "")
-                {
-                    llenarGridVehiculos(0);
-                }
-
-                else
-                {
-                    llenarGridVehiculos(1);
-                }
+                llenarGridVehiculos();
             }
 
             catch (Exception ex)

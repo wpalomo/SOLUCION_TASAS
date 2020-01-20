@@ -384,38 +384,10 @@ namespace Solution_CTT
         {
             try
             {
-                //sSql = "";
-                //sSql = "select ";
-                //sSql += "NF.Numero_Factura," + Environment.NewLine;
-                //sSql += "ltrim(P.apellidos + ' ' + isnull(P.nombres,'')) Cliente," + Environment.NewLine;
-                //sSql += "SubString(LOCALIDAD.valor_texto, 1, 25) Localidad,F.fecha_factura," + Environment.NewLine;
-                //sSql += "F.id_factura," + Environment.NewLine;
-                //sSql += "F.clave_acceso," + Environment.NewLine;
-                //sSql += "L.establecimiento estab,isnull(L.punto_emision,'009') ptoEmi," + Environment.NewLine;
-                //sSql += "isnull(autorizacion,'') autorizacion," + Environment.NewLine;
-                //sSql += "isnull(CONVERT (nvarchar(19), fecha_autorizacion, 120),'') fecha_autorizacion," + Environment.NewLine;
-                //sSql += "id_tipo_emision,id_tipo_ambiente" + Environment.NewLine;
-                //sSql += "from" + Environment.NewLine;
-                //sSql += "cv403_facturas F,  cv403_numeros_facturas NF, tp_personas P," + Environment.NewLine;
-                //sSql += "tp_localidades L, tp_codigos LOCALIDAD, vta_tipocomprobante TC" + Environment.NewLine;
-                //sSql += "where" + Environment.NewLine;
-                //sSql += "F.idempresa =" + Convert.ToInt32(Application["idEmpresa"]) + Environment.NewLine;//JONA, ID = 1
-                //sSql += "and F.estado = 'A'" + Environment.NewLine;
-                //sSql += "and F.estado in ('A','E')" + Environment.NewLine;
-                //sSql += "and NF.estado = 'A'" + Environment.NewLine;
-                //sSql += "and NF.id_factura = F.id_factura" + Environment.NewLine;
-                //sSql += "and F.id_persona = P.id_persona" + Environment.NewLine;
-                //sSql += "and F.id_localidad = L.id_localidad" + Environment.NewLine;
-                //sSql += "and F.clave_acceso is not null" + Environment.NewLine;
-                //sSql += "and L.cg_localidad = LOCALIDAD.correlativo" + Environment.NewLine;
-                //sSql += "and TC.idtipocomprobante=F.idtipocomprobante" + Environment.NewLine;
-                //sSql += "and TC.codigo='Fac'" + Environment.NewLine;
-                //sSql += "order by F.id_factura desc";
-
                 sSql = "";
                 sSql += "select * from ctt_vw_facturas_paso_a_paso" + Environment.NewLine;
                 sSql += "where clave_acceso <> ''" + Environment.NewLine;
-                sSql += "and id_localidad = " + Application["idLocalidad"].ToString() + Environment.NewLine;
+                //sSql += "and id_localidad = " + Application["idLocalidad"].ToString() + Environment.NewLine;
 
                 if (iOp == 1)
                 {

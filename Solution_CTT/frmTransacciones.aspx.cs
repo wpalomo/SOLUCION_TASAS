@@ -4770,6 +4770,7 @@ namespace Solution_CTT
                         Decimal dbValorAbono_P;
                         int iCgEstadoDcto;
                         string[,] sIdPedido = new string[dgvDetalle.Rows.Count, 3];
+                        string[,] sIdPedidoActual = new string[1, 3];
                         int i = 0;
 
                         foreach(GridViewRow row in dgvDetalle.Rows)
@@ -4779,14 +4780,14 @@ namespace Solution_CTT
 
                             if (check.Checked == true)
                             {
+                                Label lblAbono_G = row.FindControl("lblAbonoGrid") as Label;
+                                Label lblSaldo_G = row.FindControl("lblSaldoGrid") as Label;
+
+                                dbValorSaldo_P = Convert.ToDecimal(lblSaldo_G.Text.Trim());
+                                dbValorAbono_P = Convert.ToDecimal(lblAbono_G.Text.Trim());
+
                                 if (sEstadoPendiente == "PAGO PENDIENTE")
                                 {
-                                    Label lblAbono_G = row.FindControl("lblAbonoGrid") as Label;
-                                    Label lblSaldo_G = row.FindControl("lblSaldoGrid") as Label;
-
-                                    dbValorSaldo_P = Convert.ToDecimal(lblSaldo_G.Text.Trim());
-                                    dbValorAbono_P = Convert.ToDecimal(lblAbono_G.Text.Trim());
-
                                     if (dbValorSaldo_P == 0)
                                     {
                                         iCgEstadoDcto = 7461;
@@ -4803,22 +4804,22 @@ namespace Solution_CTT
                                     i++;
                                 }
 
-                                //sIdPedido[i, 0] = row.Cells[1].Text;
-                                //sIdPedido[i, 1] = row.Cells[6].Text;
-                                //sIdPedido[i, 2] = row.Cells[7].Text;
+                                else
+                                {
+                                    if (dbValorSaldo_P == 0)
+                                    {
+                                        iCgEstadoDcto = 7461;
+                                    }
 
-                                //if (sEstadoPendiente == "PAGO PENDIENTE")
-                                //{                                    
-                                //    sIdPedido[i, 3] = "P";
-                                    
-                                //}
+                                    else
+                                    {
+                                        iCgEstadoDcto = 7462;
+                                    }
 
-                                //else
-                                //{
-                                //    sIdPedido[i, 3] = "A";
-                                //}
-
-                                //i++;
+                                    sIdPedidoActual[0, 0] = "0";
+                                    sIdPedidoActual[0, 1] = dbValorAbono_P.ToString("N2");
+                                    sIdPedidoActual[0, 2] = iCgEstadoDcto.ToString();
+                                }
                             }
                         }
 
@@ -4839,7 +4840,7 @@ namespace Solution_CTT
                                      //Convert.ToDouble(Session["pago_administracion"].ToString()), Convert.ToInt32(Session["idProgramacion"].ToString()),
                                      DateTime.Now.ToString("yyyy/MM/dd"), sDatosMaximo, sIdPedido, i, Convert.ToInt32(Session["extra"].ToString()),
                                      Convert.ToDecimal(txtPagosPendientesModal.Text.Trim()), Convert.ToDecimal(txtEfectivoModal.Text.Trim()), txtObservacionProgramacion.Text.Trim(),
-                                     Convert.ToInt32(Session["cobrar_administracion_boletos"].ToString()));
+                                     Convert.ToInt32(Session["cobrar_administracion_boletos"].ToString()), sIdPedidoActual);
 
                         if (bRespuesta == false)                        
                         {
