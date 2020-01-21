@@ -31,6 +31,8 @@ namespace Solution_CTT
 
         int iConsultarRegistro;
         int iPermisos;
+        int iBoleteria;
+        int iEncomiendas;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -144,8 +146,8 @@ namespace Solution_CTT
             dgvDatos.Columns[4].ItemStyle.Width = 250;
             dgvDatos.Columns[5].ItemStyle.Width = 100;
             dgvDatos.Columns[6].ItemStyle.Width = 100;
-            dgvDatos.Columns[12].ItemStyle.Width = 100;
-            dgvDatos.Columns[13].ItemStyle.Width = 100;
+            dgvDatos.Columns[14].ItemStyle.Width = 100;
+            dgvDatos.Columns[15].ItemStyle.Width = 100;
 
             dgvDatos.Columns[0].Visible = ok;
             dgvDatos.Columns[1].Visible = ok;
@@ -154,6 +156,8 @@ namespace Solution_CTT
             dgvDatos.Columns[9].Visible = ok;
             dgvDatos.Columns[10].Visible = ok;
             dgvDatos.Columns[11].Visible = ok;
+            dgvDatos.Columns[12].Visible = ok;
+            dgvDatos.Columns[13].Visible = ok;
         }
         
         //FUNCION PARA LLENAR EL GRIDVIEW
@@ -166,7 +170,8 @@ namespace Solution_CTT
                 sSql += "ltrim(isnull(TP.nombres, '') + ' ' + TP.apellidos) propietario, O.descripcion, O.usuario," + Environment.NewLine;
                 sSql += "case O.estado when 'A' then 'ACTIVO' else 'ELIMINADO' end estado, O.claveacceso," + Environment.NewLine;
                 sSql += "isnull(pos_secret, '') pos_secret, isnull(usuario_smartt, '') usuario_smartt," + Environment.NewLine;
-                sSql += "isnull(claveacceso_smartt, '') claveacceso_smartt, isnull(privilegio, 0) privilegio" + Environment.NewLine;
+                sSql += "isnull(claveacceso_smartt, '') claveacceso_smartt, isnull(privilegio, 0) privilegio," + Environment.NewLine;
+                sSql += "isnull(acceso_boleteria, 0) acceso_boleteria, isnull(acceso_encomienda, 0) acceso_encomienda" + Environment.NewLine;
                 sSql += "from tp_personas TP INNER JOIN" + Environment.NewLine;
                 sSql += "ctt_oficinista O ON O.id_persona = TP.id_persona" + Environment.NewLine;
                 sSql += "and O.estado = 'A'" + Environment.NewLine;
@@ -228,12 +233,14 @@ namespace Solution_CTT
                 sSql += "insert into ctt_oficinista (" + Environment.NewLine;
                 sSql += "id_persona, codigo, descripcion, usuario, claveacceso, cambiar_clave," + Environment.NewLine;
                 sSql += "pos_secret, usuario_smartt, claveacceso_smartt, privilegio," + Environment.NewLine;
-                sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
+                sSql += "acceso_boleteria, acceso_encomienda, estado, fecha_ingreso," + Environment.NewLine;
+                sSql += "usuario_ingreso, terminal_ingreso)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(Session["id_PersonaOFICINISTA"].ToString()) + ", '" + txtCodigo.Text.Trim().ToUpper() + "'," + Environment.NewLine;
                 sSql += "'" + txtDescripcion.Text.Trim().ToUpper() + "', '" + txtUsuario.Text.Trim().ToLower() + "', '" + txtUsuario.Text.Trim().ToLower() + "'," + Environment.NewLine;
                 sSql += "0, '" + txtPostSecret.Text.Trim() + "', '" + txtUsuarioSmartt.Text.Trim().ToLower() + "',";
-                sSql += "'" + txtPasswordSmartt.Text.Trim() + "', " + iPermisos + ", 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
+                sSql += "'" + txtPasswordSmartt.Text.Trim() + "', " + iPermisos + ", " + iBoleteria + ", " + Environment.NewLine;
+                sSql += iEncomiendas + ", 'A', GETDATE(), '" + sDatosMaximo[0] + "', '" + sDatosMaximo[1] + "')";
 
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
                 {
@@ -276,7 +283,9 @@ namespace Solution_CTT
                 sSql += "descripcion = '" + txtDescripcion.Text.Trim().ToUpper() + "'," + Environment.NewLine;
                 sSql += "usuario_smartt = '" + txtUsuarioSmartt.Text.Trim().ToLower() + "'," + Environment.NewLine;
                 sSql += "claveacceso_smartt = '" + txtPasswordSmartt.Text.Trim() + "'," + Environment.NewLine;
-                sSql += "privilegio = " + iPermisos + Environment.NewLine;
+                sSql += "privilegio = " + iPermisos + "," + Environment.NewLine;
+                sSql += "acceso_boleteria = " + iBoleteria + "," + Environment.NewLine;
+                sSql += "acceso_encomienda = " + iEncomiendas + Environment.NewLine;
                 sSql += "where id_ctt_oficinista = " + Convert.ToInt32(Session["idRegistroOFICINISTA"]) + Environment.NewLine;
                 sSql += "and estado = 'A'";
 
@@ -396,6 +405,8 @@ namespace Solution_CTT
             MsjValidarCampos.Visible = false;
             btnSave.Text = "Crear";
             chkPermisos.Checked = false;
+            chkBoleteria.Checked = false;
+            chkEncomiendas.Checked = false;
             llenarGrid(0);
         }
 
@@ -425,6 +436,16 @@ namespace Solution_CTT
                         chkPermisos.Checked = false;
                     else
                         chkPermisos.Checked = true;
+
+                    if (Convert.ToInt32(dgvDatos.Rows[a].Cells[12].Text) == 0)
+                        chkBoleteria.Checked = false;
+                    else
+                        chkBoleteria.Checked = true;
+
+                    if (Convert.ToInt32(dgvDatos.Rows[a].Cells[13].Text) == 0)
+                        chkEncomiendas.Checked = false;
+                    else
+                        chkEncomiendas.Checked = true;
 
                     txtUsuario.ReadOnly = true;
                     txtCodigo.ReadOnly = true;
@@ -568,6 +589,16 @@ namespace Solution_CTT
                     iPermisos = 1;
                 else
                     iPermisos = 0;
+
+                if (chkBoleteria.Checked == true)
+                    iBoleteria = 1;
+                else
+                    iBoleteria = 0;
+
+                if (chkEncomiendas.Checked == true)
+                    iEncomiendas = 1;
+                else
+                    iEncomiendas = 0;
 
                 if (Session["idRegistroOFICINISTA"] == null)
                 {

@@ -43,7 +43,7 @@ namespace DATOS
                             IDESTINO = dtConsulta.Rows[i]["destino"].ToString(),
                             IHORASALIDA = Convert.ToDateTime(dtConsulta.Rows[i]["hora_salida"].ToString()).ToString("HH:mm"),
                             IESTADO = dtConsulta.Rows[i]["estado"].ToString(),
-                            IVIA = dtConsulta.Rows[i]["via"].ToString(),
+                            IVIA = dtConsulta.Rows[i]["via"].ToString()
                         };
                         coleccion.Add(todos);
                     }

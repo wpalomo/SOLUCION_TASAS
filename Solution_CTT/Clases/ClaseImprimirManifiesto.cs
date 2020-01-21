@@ -48,7 +48,7 @@ namespace Solution_CTT.Clases
 
                 //INSTRUCCION PARA OBTENER LOS PAGOS PENDIENTES
                 sSql = "";
-                sSql += "select sum(valor) suma" + Environment.NewLine;
+                sSql += "select isnull(sum(valor), 0) suma" + Environment.NewLine;
                 sSql += "from cv403_documentos_pagados" + Environment.NewLine;
                 sSql += "where estado = 'A'" + Environment.NewLine;
                 sSql += "and id_ctt_programacion = " + iIdProgramacion;

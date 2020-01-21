@@ -170,9 +170,9 @@
                                                     <label class="col-sm-3 control-label">CI / RUC:</label>
                                                     <div class="input-group col-sm-8">                                                    
                                                         <asp:TextBox ID="txtIdentificacion" runat="server" class="form-control input-sm" autocomplete="off" placeholder="IDENTIFICACIÓN" tooltip="Para buscar presione la lupa" OnTextChanged="txtIdentificacionRegistro_TextChanged" onkeypress="return validar_numeros(event)"></asp:TextBox>                                                    
-                                                        <span class="input-group-addon input-sm"><asp:LinkButton ID="btnBuscarCliente" runat="server" Text="" OnClick="btnBuscarCliente_Click" tooltip="Buscar Cliente"><i class="fa fa-search"></i></asp:LinkButton></span>
-                                                        <span class="input-group-addon input-sm"><asp:LinkButton ID="btnEditarPasajero" runat="server" Text="" tooltip="Agregar / Editar Cliente" OnClick="btnEditarPasajero_Click"><i class="fa fa-user-plus"></i></asp:LinkButton></span>
-                                                        <span class="input-group-addon input-sm"><asp:LinkButton ID="btnConsumimdorFinal" runat="server" Text="" tooltip="Consumidor Final" OnClick="btnConsumimdorFinal_Click">C.F.</asp:LinkButton></span>
+                                                        <asp:LinkButton ID="btnBuscarCliente" runat="server" Text="" class="input-group-addon input-sm btn btn-flat btn-info" OnClick="btnBuscarCliente_Click" ToolTip="Clic aquí, para buscar un cliente"><i class="fa fa-search"></i></asp:LinkButton>
+                                                        <asp:LinkButton ID="btnEditarPasajero" runat="server" Text="" class="input-group-addon input-sm btn btn-flat btn-warning" OnClick="btnEditarPasajero_Click" ToolTip="Clic aquí, para editar un cliente"><i class="fa fa-user-plus"></i></asp:LinkButton>
+                                                        <asp:LinkButton ID="btnConsumimdorFinal" runat="server" Text="CF" class="input-group-addon input-sm btn btn-flat btn-success" OnClick="btnConsumimdorFinal_Click" ToolTip="Clic aquí, para seleccionar el Consumidor Final"></asp:LinkButton>
                                                     </div>                                                
                                                 </div>
                                             </asp:Panel>

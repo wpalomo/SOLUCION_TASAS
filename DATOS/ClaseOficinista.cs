@@ -46,7 +46,9 @@ namespace DATOS
                             IPOSSECRET = dtConsulta.Rows[i]["pos_secret"].ToString(),
                             IUSUARIO_SMARTT = dtConsulta.Rows[i]["usuario_smartt"].ToString(),
                             IIPASSWORD_SMARTT = dtConsulta.Rows[i]["claveacceso_smartt"].ToString(),
-                            IPERMISOS = dtConsulta.Rows[i]["privilegio"].ToString()
+                            IPERMISOS = dtConsulta.Rows[i]["privilegio"].ToString(),
+                            IBOLETERIA = dtConsulta.Rows[i]["acceso_boleteria"].ToString(),
+                            IENCOMIENDA = dtConsulta.Rows[i]["acceso_encomienda"].ToString()
                         };
                         coleccion.Add(todos);
                     }

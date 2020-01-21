@@ -111,5 +111,21 @@ namespace ENTIDADES
             get { return iPERMISOS; }
             set { iPERMISOS = value; }
         }
+
+        private string iBOLETERIA;
+
+        public string IBOLETERIA
+        {
+            get { return iBOLETERIA; }
+            set { iBOLETERIA = value; }
+        }
+
+        private string iENCOMIENDA;
+
+        public string IENCOMIENDA
+        {
+            get { return iENCOMIENDA; }
+            set { iENCOMIENDA = value; }
+        }
     }
 }

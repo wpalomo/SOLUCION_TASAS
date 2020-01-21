@@ -121,6 +121,24 @@ namespace Solution_CTT {
         protected global::System.Web.UI.WebControls.TextBox txtPostSecret;
         
         /// <summary>
+        /// Control chkBoleteria.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkBoleteria;
+        
+        /// <summary>
+        /// Control chkEncomiendas.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkEncomiendas;
+        
+        /// <summary>
         /// Control chkPermisos.
         /// </summary>
         /// <remarks>
