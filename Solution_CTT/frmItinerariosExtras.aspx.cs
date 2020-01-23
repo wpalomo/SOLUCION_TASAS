@@ -50,7 +50,7 @@ namespace Solution_CTT
                 llenarComboHorarios();
                 llenarComboTipoViajes();
                 consultarCodigoMaximo();
-                llenarGrid(0);
+                llenarGrid();
 
             }
         }
@@ -180,7 +180,7 @@ namespace Solution_CTT
         }
 
         //FUNCION PARA LLENAR EL GRIDVIEW
-        private void llenarGrid(int iOp)
+        private void llenarGrid()
         {
             try
             {
@@ -201,9 +201,9 @@ namespace Solution_CTT
                 sSql += "where R.id_ctt_pueblo_origen = " + Convert.ToInt32(cmbLocalidad.SelectedValue) + Environment.NewLine;
                 sSql += "and S.extra = 1" + Environment.NewLine;
 
-                if (iOp == 1)
+                if (txtFiltrar.Text.Trim() != "")
                 {
-                    sSql += "and I.codigo = '" + txtCodigo.Text.Trim().ToUpper() + "'" + Environment.NewLine;
+                    sSql += "and I.codigo = '" + txtFiltrar.Text.Trim().ToUpper() + "'" + Environment.NewLine;
                 }
 
                 sSql += "order by I.codigo";
@@ -443,7 +443,7 @@ namespace Solution_CTT
             Session["idRegistroIEXTRA"] = null;
             btnGuardar.Text = "Crear";
             MsjValidarCampos.Visible = false;
-            llenarGrid(0);
+            llenarGrid();
         }
 
         #endregion
@@ -510,16 +510,7 @@ namespace Solution_CTT
             try
             {
                 dgvDatos.PageIndex = e.NewPageIndex;
-
-                if (txtFiltrar.Text.Trim() == "")
-                {
-                    llenarGrid(0);
-                }
-
-                else
-                {
-                    llenarGrid(1);
-                }
+                llenarGrid();
             }
 
             catch (Exception ex)
@@ -591,7 +582,7 @@ namespace Solution_CTT
         protected void cmbLocalidad_SelectedIndexChanged(object sender, EventArgs e)
         {
             llenarComboRutas();
-            llenarGrid(0);
+            llenarGrid();
         }
 
         protected void dgvDatos_RowDataBound(object sender, GridViewRowEventArgs e)

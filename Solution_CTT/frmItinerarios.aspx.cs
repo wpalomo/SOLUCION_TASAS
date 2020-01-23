@@ -49,7 +49,7 @@ namespace Solution_CTT
                 llenarComboRutas();
                 llenarComboHorarios();
                 consultarCodigoMaximo();
-                llenarGrid(0);
+                llenarGrid();
                 
             }
         }
@@ -151,7 +151,7 @@ namespace Solution_CTT
         }
 
         //FUNCION PARA LLENAR EL GRIDVIEW
-        private void llenarGrid(int iOp)
+        private void llenarGrid()
         {
             try
             {
@@ -168,9 +168,9 @@ namespace Solution_CTT
                 sSql += "ctt_pueblos P ON P.id_ctt_pueblo = R.id_ctt_pueblo_destino" + Environment.NewLine;
                 sSql += "and P.estado = 'A'" + Environment.NewLine;
 
-                if (iOp == 1)
+                if (txtFiltrar.Text.Trim() != "")
                 {
-                    sSql += "and I.codigo = '" + txtCodigo.Text.Trim().ToUpper() + "'" + Environment.NewLine;
+                    sSql += "and I.codigo = '" + txtFiltrar.Text.Trim().ToUpper() + "'" + Environment.NewLine;
                 }
 
                 sSql += "order by I.codigo";
@@ -419,7 +419,7 @@ namespace Solution_CTT
             Session["idRegistroINORMAL"] = null;
             btnGuardar.Text = "Crear";
             MsjValidarCampos.Visible = false;
-            llenarGrid(0);
+            llenarGrid();
         }
 
         //FUNCION PARA OBTENER EL ID DEL TIPO DE VIAJE NORMAL
@@ -516,16 +516,7 @@ namespace Solution_CTT
             try
             {
                 dgvDatos.PageIndex = e.NewPageIndex;
-
-                if (txtFiltrar.Text.Trim() == "")
-                {
-                    llenarGrid(0);
-                }
-
-                else
-                {
-                    llenarGrid(1);
-                }
+                llenarGrid();
             }
 
             catch (Exception ex)
@@ -594,7 +585,7 @@ namespace Solution_CTT
         protected void cmbLocalidad_SelectedIndexChanged(object sender, EventArgs e)
         {
             llenarComboRutas();
-            llenarGrid(0);
+            llenarGrid();
         }
 
         protected void dgvDatos_RowDataBound(object sender, GridViewRowEventArgs e)
