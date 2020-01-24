@@ -384,7 +384,6 @@ namespace Solution_CTT
             {
                 sSql = "";
                 sSql += "select * from ctt_vw_facturas_paso_a_paso" + Environment.NewLine;
-                //sSql += "where id_localidad = " + Application["idLocalidad"].ToString() + Environment.NewLine;
 
                 if (iOp == 1)
                 {

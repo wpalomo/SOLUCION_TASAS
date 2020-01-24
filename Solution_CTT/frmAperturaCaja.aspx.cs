@@ -82,6 +82,8 @@ namespace Solution_CTT
                 sSql += "ctt_oficinista O ON O.id_ctt_oficinista = CC.id_ctt_oficinista" + Environment.NewLine;
                 sSql += "and O.estado = 'A'" + Environment.NewLine;
                 sSql += "where CC.id_ctt_pueblo = " + Session["id_pueblo"].ToString().Trim() + Environment.NewLine;
+                sSql += "and CC.caja_boleteria = 1" + Environment.NewLine;
+                sSql += "and CC.caja_encomienda = 0" + Environment.NewLine;
                 sSql += "order by CC.id_ctt_cierre_caja desc";
 
                 dtConsulta = new DataTable();
@@ -299,12 +301,13 @@ namespace Solution_CTT
                 sSql += "insert into ctt_cierre_caja (" + Environment.NewLine;
                 sSql += "id_ctt_pueblo, id_ctt_oficinista, fecha_apertura, hora_apertura," + Environment.NewLine;
                 sSql += "estado_cierre_caja, porcentaje_iva, estado, fecha_ingreso," + Environment.NewLine;
-                sSql += "usuario_ingreso, terminal_ingreso, id_ctt_jornada, saldo_inicial, observaciones)" + Environment.NewLine;
+                sSql += "usuario_ingreso, terminal_ingreso, id_ctt_jornada, saldo_inicial," + Environment.NewLine;
+                sSql += "observaciones, caja_boleteria, caja_encomienda)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(Session["id_pueblo"].ToString()) + ", " + Convert.ToInt32(Session["idUsuario"].ToString()) + "," + Environment.NewLine;
                 sSql += "'" + sFecha + "', '" + sHora + "', 'Abierta', " + Convert.ToDouble(Application["iva"].ToString()) + ", 'A'," + Environment.NewLine;
                 sSql += "GETDATE(), '" + Session["usuario"].ToString() + "', '" + Environment.MachineName.ToString() + "', " + iJornada + "," + Environment.NewLine;
-                sSql += Convert.ToDecimal(txtSaldoInicial.Text.Trim()) + ", '" + txtObservaciones.Text.Trim() + "')";
+                sSql += Convert.ToDecimal(txtSaldoInicial.Text.Trim()) + ", '" + txtObservaciones.Text.Trim() + "', 1, 0)";
 
                 //EJECUCIÓN DE INSTRUCCION SQL
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)
