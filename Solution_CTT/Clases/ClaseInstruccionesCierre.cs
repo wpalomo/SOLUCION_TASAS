@@ -518,7 +518,8 @@ namespace Solution_CTT.Clases
                 sSql += "cg_facturado, id_ctt_programacion, id_ctt_oficinista," + Environment.NewLine;
                 sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso, ctt_fecha_pago_pendiente," + Environment.NewLine;
                 sSql += "cobro_boletos, cobro_retencion, cobro_administrativo, pago_cumplido, id_ctt_jornada," + Environment.NewLine;
-                sSql += "pago_pendiente_info, ingreso_efectivo_info, comentarios, id_ctt_cierre_caja)" + Environment.NewLine;
+                sSql += "pago_pendiente_info, ingreso_efectivo_info, comentarios, id_ctt_cierre_caja," + Environment.NewLine;
+                sSql += "bandera_boleteria, bandera_encomienda)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(HttpContext.Current.Application["idEmpresa"].ToString()) + ", " + Convert.ToInt32(HttpContext.Current.Application["cgEmpresa"].ToString()) + ", ";
                 sSql += Convert.ToInt32(HttpContext.Current.Application["idLocalidad"].ToString()) + ", '" + sFecha + "', " + iIdPersona + "," + Environment.NewLine;
@@ -540,7 +541,7 @@ namespace Solution_CTT.Clases
 
                 sSql += "0, " + iCobraRetencion + ", " + iCobraAdministracion + ", " + iBanderaPagoCumplido + ", ";
                 sSql += Convert.ToInt32(HttpContext.Current.Session["idJornada"].ToString()) + ", ";
-                sSql += dbPagoPendienteInfo + ", " + dbIngresoEfectivoInfo + ", '" + sObservacion + "', " + HttpContext.Current.Session["idCierreCaja"].ToString() + ")";
+                sSql += dbPagoPendienteInfo + ", " + dbIngresoEfectivoInfo + ", '" + sObservacion + "', " + HttpContext.Current.Session["idCierreCaja"].ToString() + ", 1, 0)";
 
                 //EJECUCION DE LA INSTRUCCION SQL
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)

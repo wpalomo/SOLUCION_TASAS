@@ -2304,7 +2304,7 @@ namespace Solution_CTT
                 sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso," + Environment.NewLine;
                 sSql += "numero_replica_trigger, numero_control_replica, cobro_boletos, cobro_retencion," + Environment.NewLine;
                 sSql += "cobro_administrativo, id_ctt_pueblo_origen, id_ctt_pueblo_destino," + Environment.NewLine;
-                sSql += "bandera_boleteria, id_ctt_jornada, id_ctt_cierre_caja)" + Environment.NewLine;
+                sSql += "bandera_boleteria, id_ctt_jornada, id_ctt_cierre_caja, bandera_encomienda)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(Application["idEmpresa"].ToString()) + ", " + Convert.ToInt32(Application["cgEmpresa"].ToString()) + ", ";
                 sSql += Convert.ToInt32(Application["idLocalidad"].ToString()) + ", '" + sFecha + "', " + iIdPersona + "," + Environment.NewLine;
@@ -2313,7 +2313,7 @@ namespace Solution_CTT
                 sSql += Convert.ToInt32(Session["idUsuario"].ToString()) + ", '" + sNombrePasajero + "', ";
                 sSql += "'A', GETDATE(), '" + sDatosMaximo[0] + "'," + Environment.NewLine;
                 sSql += "'" + sDatosMaximo[1] + "', 0, 0, 1, 0, 0, " + iIdPuebloOrigen + ", " + iIdPuebloDestino + ", 1," + Environment.NewLine;
-                sSql += Convert.ToInt32(Session["idJornada"].ToString()) + ", " + Session["idCierreCaja"].ToString() + ")";
+                sSql += Convert.ToInt32(Session["idJornada"].ToString()) + ", " + Session["idCierreCaja"].ToString() + ", 0)";
 
                 //EJECUCION DE LA INSTRUCCION SQL
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)

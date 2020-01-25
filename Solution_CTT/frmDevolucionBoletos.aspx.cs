@@ -1387,7 +1387,7 @@ namespace Solution_CTT
                 sSql += "cg_facturado, id_ctt_programacion, id_ctt_oficinista," + Environment.NewLine;
                 sSql += "estado, fecha_ingreso, usuario_ingreso, terminal_ingreso," + Environment.NewLine;
                 sSql += "cobro_boletos, cobro_retencion, cobro_administrativo, bandera_boleteria," + Environment.NewLine;
-                sSql += "id_ctt_jornada, id_ctt_pueblo_origen, id_ctt_pueblo_destino, id_ctt_cierre_caja)" + Environment.NewLine;
+                sSql += "id_ctt_jornada, id_ctt_pueblo_origen, id_ctt_pueblo_destino, id_ctt_cierre_caja, bandera_encomienda)" + Environment.NewLine;
                 sSql += "values (" + Environment.NewLine;
                 sSql += Convert.ToInt32(Application["idEmpresa"].ToString()) + ", " + Convert.ToInt32(Application["cgEmpresa"].ToString()) + ", ";
                 sSql += Convert.ToInt32(Application["idLocalidad"].ToString()) + ", '" + sFecha + "', " + iIdPersona + "," + Environment.NewLine;
@@ -1397,7 +1397,7 @@ namespace Solution_CTT
                 sSql += "'A', GETDATE(), '" + sDatosMaximo[0] + "'," + Environment.NewLine;
                 sSql += "'" + sDatosMaximo[1] + "', 1, 0, 0, 1, " + Convert.ToInt32(Session["idJornada"].ToString()) + "," + Environment.NewLine;
                 sSql += Convert.ToInt32(Session["idPuebloOrigen_P"].ToString()) + ", " + Convert.ToInt32(Session["idPuebloDestino_P"].ToString()) + ", ";
-                sSql += Session["idCierreCaja"].ToString() + ")";
+                sSql += Session["idCierreCaja"].ToString() + ", 0)";
 
                 //EJECUCION DE LA INSTRUCCION SQL
                 if (conexionM.ejecutarInstruccionSQL(sSql) == false)

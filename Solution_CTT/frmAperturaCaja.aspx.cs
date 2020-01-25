@@ -347,6 +347,8 @@ namespace Solution_CTT
                 sSql += "ctt_oficinista O ON O.id_ctt_oficinista = CC.id_ctt_oficinista" + Environment.NewLine;
                 sSql += "and O.estado = 'A'" + Environment.NewLine;
                 sSql += "where CC.id_ctt_pueblo = " + Session["id_pueblo"].ToString().Trim() + Environment.NewLine;
+                sSql += "and CC.caja_boleteria = 1" + Environment.NewLine;
+                sSql += "and CC.caja_encomienda = 0" + Environment.NewLine;
                 sSql += "and CC.id_ctt_cierre_caja = " + iIdCierreCaja ; 
 
                 //sSql = "";
