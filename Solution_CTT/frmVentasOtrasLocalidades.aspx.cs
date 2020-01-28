@@ -173,7 +173,7 @@ namespace Solution_CTT
                     sSql += "and id_ctt_pueblo = " + Convert.ToInt32(cmbTerminal.SelectedValue) + Environment.NewLine;
                 }
 
-                sSql += "order by id_ctt_programacion";
+                sSql += "order by fecha_viaje, hora_salida";
 
                 columnasGrid(true);
                 asignarE.ISSQL = sSql;

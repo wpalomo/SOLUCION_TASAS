@@ -39,6 +39,8 @@
                                 <asp:BoundField DataField="IUSUARIO_SMARTT" HeaderText="USUARIO_SMARTT"/>
                                 <asp:BoundField DataField="IIPASSWORD_SMARTT" HeaderText="PASSWORD_SMARTT"/>
                                 <asp:BoundField DataField="IPERMISOS" HeaderText="PERMISOS"/>
+                                <asp:BoundField DataField="IBOLETERIA" HeaderText="BOLETERIA"/>
+                                <asp:BoundField DataField="IENCOMIENDA" HeaderText="ENCOMIENDA"/>
                                 <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="EDITAR">
                                     <ItemTemplate>
                                         <asp:LinkButton ID="lbtnEdit" runat="server" CommandName="Select" class="btn btn-xs btn-warning" OnClick="lbtnEdit_Click"><i class="fa fa-pencil"></i></asp:LinkButton>
@@ -98,6 +100,12 @@
                                             </div> 
                                             <div class="form-group has-feedback">
                                                 <asp:TextBox ID="txtPostSecret" runat="server" CssClass="form-control" placeholder="Pos_Secret SMARTT" autocomplete="off"></asp:TextBox>
+                                            </div>
+                                            <div class="form-group has-feedback">
+                                                <asp:CheckBox ID="chkBoleteria" runat="server" Text="&nbsp;&nbsp;Acceso Boletería" />
+                                            </div>
+                                            <div class="form-group has-feedback">
+                                                <asp:CheckBox ID="chkEncomiendas" runat="server" Text="&nbsp;&nbsp;Acceso Encomiendas" />
                                             </div>
                                             <div class="form-group has-feedback">
                                                 <asp:CheckBox ID="chkPermisos" runat="server" Text="&nbsp&nbspDar Permisos al usuario" />

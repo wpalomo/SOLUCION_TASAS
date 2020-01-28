@@ -201,25 +201,7 @@
                                     <asp:GridView ID="dgvFiltrarModalBuscarXML" runat="server" class="mGrid" AutoGenerateColumns="False" 
                                         EmptyDataText="No hay Registros o Coindicencias..!!" AllowPaging="true" PageSize="10" 
                                         OnSelectedIndexChanged="dgvFiltrarModalBuscarXML_SelectedIndexChanged" OnPageIndexChanging="dgvFiltrarModalBuscarXML_PageIndexChanging" OnRowDataBound="dgvFiltrarModalBuscarXML_RowDataBound">
-                                        <Columns>
-                                            <%--<asp:BoundField DataField="Numero_factura" HeaderText="Numero_FACTURA"  />
-                                            <asp:BoundField DataField="id_factura" HeaderText="N° FACTURA"  />                                            
-                                            <asp:BoundField DataField="Cliente" HeaderText="NOMBRE DEL CLIENTE"  />
-                                            <asp:BoundField DataField="Localidad" HeaderText="LOCALIDAD"  />
-                                            <asp:BoundField DataField="fecha_factura" HeaderText="FECHA FACTURACIÓN"  />                                            
-                                            <asp:BoundField DataField="clave_acceso" HeaderText="CLAVE ACCESO"  />
-                                            <asp:BoundField DataField="estab" HeaderText="ESTABLECIMIENTO"  />
-                                            <asp:BoundField DataField="ptoEmi" HeaderText="PTO EMISION"  />
-                                            <asp:BoundField DataField="autorizacion" HeaderText="AUTORIZACIÓN"  />     
-                                            <asp:BoundField DataField="fecha_autorizacion" HeaderText="FECHA AUTO."  />
-                                            <asp:BoundField DataField="id_tipo_emision" HeaderText="TIPO EMISION"  />
-                                            <asp:BoundField DataField="id_tipo_ambiente" HeaderText="TIPO AMBIENTE"  />
-                                            <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="">
-                                                <ItemTemplate>
-                                                    <asp:LinkButton ID="lbtnSeleccion" runat="server" CommandName="Select" class="btn btn-xs btn-success" OnClick="lbtnSeleccion_Click" ><i class="fa fa-check-square-o"></i></asp:LinkButton>
-                                                </ItemTemplate>
-                                                <ItemStyle HorizontalAlign="Center" />
-                                            </asp:TemplateField>           --%>                                                               
+                                        <Columns>                                                          
                                             <asp:BoundField DataField="INUMERO" HeaderText="N°" />
                                             <asp:BoundField DataField="IIDFACTURA" HeaderText="ID FACTURA" />
                                             <asp:BoundField DataField="IFECHAFACTURA" HeaderText="FECHA DE FACTURA" />

@@ -174,7 +174,8 @@
                                                     <asp:Label ID="Label3" runat="server" Text="Seleccione el vehículo"></asp:Label>
                                                     <div class="input-group col-sm-12">
                                                         <asp:TextBox ID="txtVehiculo" ReadOnly="true" runat="server" CssClass="form-control input-sm" placeholder="Vehículo *" BackColor="White"></asp:TextBox>
-                                                        <span class="input-group-addon input-sm"><asp:LinkButton ID="btnAbrirModalVehiculo" runat="server" Text="" OnClick="btnAbrirModalVehiculo_Click" tooltip="Seleccionar Vehículo"><i class="fa fa-car"></i></asp:LinkButton></span>
+                                                        <asp:LinkButton ID="btnAbrirModalVehiculo" runat="server" Text="" class="input-group-addon input-sm btn btn-flat btn-info" OnClick="btnAbrirModalVehiculo_Click" ToolTip="Clic aquí, para seleccionar Vehículo"><i class="fa fa-car"></i></asp:LinkButton>
+                                                        <%--<span class="input-group-addon input-sm"><asp:LinkButton ID="btnAbrirModalVehiculo" runat="server" Text="" OnClick="btnAbrirModalVehiculo_Click" tooltip="Seleccionar Vehículo"><i class="fa fa-car"></i></asp:LinkButton></span>--%>
                                                     </div>                                                
                                                 </div>
                                             </div>
@@ -184,7 +185,8 @@
                                                     <asp:Label ID="Label1" runat="server" Text="Seleccione el chofer"></asp:Label>
                                                     <div class="input-group col-sm-12">
                                                         <asp:TextBox ID="txtChofer" ReadOnly="true" runat="server" CssClass="form-control input-sm" placeholder="Chofer *" BackColor="White"></asp:TextBox>
-                                                        <span class="input-group-addon input-sm"><asp:LinkButton ID="btnAbrirModalChofer" runat="server" Text="" OnClick="btnAbrirModalChofer_Click" tooltip="Seleccionar Chofer"><i class="fa fa-male"></i></asp:LinkButton></span>
+                                                        <asp:LinkButton ID="btnAbrirModalChofer" runat="server" Text="" class="input-group-addon input-sm btn btn-flat btn-info" OnClick="btnAbrirModalChofer_Click" ToolTip="Clic aquí, para seleccionar Chofer"><i class="fa fa-male"></i></asp:LinkButton>
+                                                        <%--<span class="input-group-addon input-sm"><asp:LinkButton ID="btnAbrirModalChofer" runat="server" Text="" OnClick="btnAbrirModalChofer_Click" tooltip="Seleccionar Chofer"><i class="fa fa-male"></i></asp:LinkButton></span>--%>
                                                     </div>                                                
                                                 </div>
                                             </div>
@@ -194,7 +196,8 @@
                                                     <asp:Label ID="Label6" runat="server" Text="Seleccione el asistente"></asp:Label>
                                                     <div class="input-group col-sm-12">
                                                         <asp:TextBox ID="txtAsistente" ReadOnly="true" runat="server" CssClass="form-control input-sm" placeholder="Asistente *" BackColor="White"></asp:TextBox>
-                                                        <span class="input-group-addon input-sm"><asp:LinkButton ID="btnAbrirModalAsistente" runat="server" Text="" OnClick="btnAbrirModalAsistente_Click" tooltip="Seleccionar Asistente"><i class="fa fa-male"></i></asp:LinkButton></span>
+                                                        <asp:LinkButton ID="btnAbrirModalAsistente" runat="server" Text="" class="input-group-addon input-sm btn btn-flat btn-info" OnClick="btnAbrirModalAsistente_Click" ToolTip="Clic aquí, para seleccionar Asistente"><i class="fa fa-male"></i></asp:LinkButton>
+                                                        <%--<span class="input-group-addon input-sm"><asp:LinkButton ID="btnAbrirModalAsistente" runat="server" Text="" OnClick="btnAbrirModalAsistente_Click" tooltip="Seleccionar Asistente"><i class="fa fa-male"></i></asp:LinkButton></span>--%>
                                                     </div>                                                
                                                 </div>
                                             </div>
@@ -209,7 +212,8 @@
                                                     <asp:Label ID="Label2" runat="server" Text="Seleccione el itinerario"></asp:Label>
                                                     <div class="input-group col-sm-12">
                                                         <asp:TextBox ID="txtItinerario" ReadOnly="true" runat="server" CssClass="form-control input-sm" placeholder="Itinerario *" BackColor="White"></asp:TextBox>
-                                                        <span class="input-group-addon input-sm"><asp:LinkButton ID="btnAbrirModalItinerario" runat="server" Text="" OnClick="btnAbrirModalItinerario_Click" tooltip="Seleccionar el itinerario"><i class="fa fa-send"></i></asp:LinkButton></span>
+                                                        <asp:LinkButton ID="btnAbrirModalItinerario" runat="server" Text="" class="input-group-addon input-sm btn btn-flat btn-info" OnClick="btnAbrirModalItinerario_Click" ToolTip="Clic aquí, para seleccionar Itinerario"><i class="fa fa-send"></i></asp:LinkButton>
+                                                        <%--<span class="input-group-addon input-sm"><asp:LinkButton ID="btnAbrirModalItinerario" runat="server" Text="" OnClick="btnAbrirModalItinerario_Click" tooltip="Seleccionar el itinerario"><i class="fa fa-send"></i></asp:LinkButton></span>--%>
                                                     </div>                                                
                                                 </div>
                                             </div>
