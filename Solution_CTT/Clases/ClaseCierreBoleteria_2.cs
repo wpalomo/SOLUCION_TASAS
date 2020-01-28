@@ -30,7 +30,8 @@ namespace Solution_CTT.Clases
         DataTable dtConsulta;
         DataTable dtAyuda;
 
-        public bool llenarReporte(string sFecha_P, int iJornada_P, string sJornada, string sUsuario, int iIdOficinista_P, int iBanderaEnviaImprime, int iIdCierreCaja_P)
+        //public bool llenarReporte(string sFecha_P, int iJornada_P, string sJornada, string sUsuario, int iIdOficinista_P, int iBanderaEnviaImprime, int iIdCierreCaja_P)
+        public bool llenarReporte(int iBanderaEnviaImprime, int iIdCierreCaja_P)
         {
             try
             {
@@ -167,14 +168,43 @@ namespace Solution_CTT.Clases
                     return false;
                 }
 
+                sSql = "";
+                sSql += "select CC.fecha_apertura, J.descripcion jornada, O.descripcion oficinista" + Environment.NewLine;
+                sSql += "from ctt_cierre_caja CC INNER JOIN" + Environment.NewLine;
+                sSql += "ctt_jornada J ON J.id_ctt_jornada = CC.id_ctt_jornada" + Environment.NewLine;
+                sSql += "and J.estado = 'A'" + Environment.NewLine;
+                sSql += "and CC.estado = 'A' INNER JOIN" + Environment.NewLine;
+                sSql += "ctt_oficinista O ON O.id_ctt_oficinista = CC.id_ctt_oficinista" + Environment.NewLine;
+                sSql += "and O.estado = 'A'" + Environment.NewLine;
+                sSql += "where CC.id_ctt_cierre_caja = " + iIdCierreCaja_P;
+
+                dtConsulta = new DataTable();
+                dtConsulta.Clear();
+
+                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
+
+                if (bRespuesta == false)
+                {
+                    return false;
+                }
+
+                if (dtConsulta.Rows.Count == 0)
+                {
+                    return false;
+                }
+
+                string sFecha_P = Convert.ToDateTime(dtConsulta.Rows[0]["fecha_apertura"].ToString()).ToString("dd-MMM-yyyy");
+                string sJornada_P = dtConsulta.Rows[0]["jornada"].ToString().Trim().ToUpper();
+                string sOficinista_P = dtConsulta.Rows[0]["oficinista"].ToString().Trim().ToUpper();
+
                 //CREANDO EL REPORTE
                 LocalReport reporteLocal = new LocalReport();
                 reporteLocal.ReportPath = HttpContext.Current.Server.MapPath("~/Reportes/rptCierreBoleteria_2.rdlc");
                 //reporteLocal.ReportPath = HttpContext.Current.Server.MapPath("~/Reportes/rptCierrePrueba.rdlc");
                 ReportParameter[] parametros = new ReportParameter[3];
-                parametros[0] = new ReportParameter("P_Fecha", Convert.ToDateTime(sFecha_P).ToString("dd-MMM-yyyy"));
-                parametros[1] = new ReportParameter("P_Jornada", sJornada);
-                parametros[2] = new ReportParameter("P_Usuario", sUsuario);
+                parametros[0] = new ReportParameter("P_Fecha", sFecha_P);
+                parametros[1] = new ReportParameter("P_Jornada", sJornada_P);
+                parametros[2] = new ReportParameter("P_Usuario", sOficinista_P);
                 ReportDataSource datasource_1 = new ReportDataSource("dsFrecuencias", dt);
                 ReportDataSource datasource_2 = new ReportDataSource("dsPagos", dtPagos);
                 ReportDataSource datasource_3 = new ReportDataSource("dsPagosAtrasados", dtPendiente);
@@ -211,8 +241,8 @@ namespace Solution_CTT.Clases
 
                         SCuerpoMensaje = "";
                         SCuerpoMensaje += "CIERRE DE CAJA:</br></br>";
-                        SCuerpoMensaje += "USUARIO: " + sUsuario + "</br>";
-                        SCuerpoMensaje += "JORNADA: " + sJornada + "</br>";
+                        SCuerpoMensaje += "USUARIO: " + sOficinista_P + "</br>";
+                        SCuerpoMensaje += "JORNADA: " + sJornada_P + "</br>";
                         SCuerpoMensaje += "FECHA:" + sFecha_P + "</br></br>";
                         SCuerpoMensaje += "Saludos cordiales.";
 

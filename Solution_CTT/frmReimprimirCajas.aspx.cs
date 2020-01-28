@@ -20,7 +20,7 @@ namespace Solution_CTT
         manejadorReporteViajesActivos reporteViajesM = new manejadorReporteViajesActivos();
         manejadorComboDatos comboM = new manejadorComboDatos();
 
-        Clases.ClaseCierreBoleteria_2 reporte = new Clases.ClaseCierreBoleteria_2();
+        Clases.ClaseCierreBoleteria_2 reporte;
 
         string sSql;
         string sFechaInicial;
@@ -145,8 +145,8 @@ namespace Solution_CTT
 
                 int iIdCierreCaja = Convert.ToInt32(dgvDatos.Rows[a].Cells[0].Text);
 
-                reporte.llenarReporte(Convert.ToDateTime(dgvDatos.Rows[a].Cells[1].Text).ToString("yyyy-MM-dd"),
-                                      Convert.ToInt32(Session["idJornada"].ToString()), dgvDatos.Rows[a].Cells[5].Text.ToUpper(), dgvDatos.Rows[a].Cells[4].Text, Convert.ToInt32(Session["idUsuario"].ToString()), 0, iIdCierreCaja);
+                reporte = new Clases.ClaseCierreBoleteria_2();
+                reporte.llenarReporte(0, iIdCierreCaja);
 
                 dgvDatos.Columns[0].Visible = false;
             }

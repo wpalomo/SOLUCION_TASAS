@@ -1799,7 +1799,6 @@ namespace Solution_CTT
 
                 else
                 {
-
                     verificarCobros();
                     Session["idRegistroViajeNormal"] = dgvDatos.Rows[a].Cells[1].Text.Trim();
                     Session["ocupados"] = dgvDatos.Rows[a].Cells[23].Text.Trim();
@@ -1817,7 +1816,6 @@ namespace Solution_CTT
                         string[] sObtenerDisco = dgvDatos.Rows[a].Cells[4].Text.Trim().Split('-');
 
                         Session["numeroDiscoSMARTT"] = sObtenerDisco[0].Trim();
-
                         txtNumeroViaje.Text = dgvDatos.Rows[a].Cells[2].Text.Trim();
                         TxtFechaViaje.Text = dgvDatos.Rows[a].Cells[3].Text.Trim();
                         txtVehiculo.Text = dgvDatos.Rows[a].Cells[4].Text.Trim();

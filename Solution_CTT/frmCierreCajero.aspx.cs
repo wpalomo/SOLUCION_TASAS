@@ -24,7 +24,7 @@ namespace Solution_CTT
 
         Clases.ClaseReporteCierreCaja reporteCierre = new Clases.ClaseReporteCierreCaja();
         //Clases.ClaseCierreBoleteria reporte = new Clases.ClaseCierreBoleteria();
-        Clases.ClaseCierreBoleteria_2 reporte = new Clases.ClaseCierreBoleteria_2();
+        Clases.ClaseCierreBoleteria_2 reporte;
         Clases.ClaseImpresion imprimir = new Clases.ClaseImpresion();
 
         string sSql;
@@ -562,8 +562,9 @@ namespace Solution_CTT
 
                 conexionM.terminaTransaccion();
 
-                //if (reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), dtConsulta, Convert.ToInt32(Session["idUsuario"].ToString()), 1) == true)
-                if (reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), Convert.ToInt32(Session["idUsuario"].ToString()), 1, Convert.ToInt32(Session["idCierreCaja"].ToString())) == true)
+                reporte = new Clases.ClaseCierreBoleteria_2();
+
+                if (reporte.llenarReporte(1, Convert.ToInt32(Session["idCierreCaja"].ToString())) == true)
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Éxito.!', 'Cierre de caja procesado éxitosamente.', 'success');", true);
                     Response.Redirect("frmCerrarSesion.aspx");
@@ -722,8 +723,9 @@ namespace Solution_CTT
                     return;
                 }
 
-                //reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), dtConsulta, Convert.ToInt32(Session["idUsuario"].ToString()), 0);
-                reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), Convert.ToInt32(Session["idUsuario"].ToString()), 0, Convert.ToInt32(Session["idCierreCaja"].ToString()));
+                reporte = new Clases.ClaseCierreBoleteria_2();
+
+                reporte.llenarReporte(0, Convert.ToInt32(Session["idCierreCaja"].ToString()));
             }
 
             catch (Exception ex)
@@ -769,8 +771,8 @@ namespace Solution_CTT
 
             else
             {
-                //reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), dtConsulta, Convert.ToInt32(Session["idUsuario"].ToString()), 1);
-                reporte.llenarReporte(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToInt32(Session["idJornada"].ToString()), Session["nombreJornada"].ToString(), Session["usuario"].ToString(), Convert.ToInt32(Session["idUsuario"].ToString()), 1, Convert.ToInt32(Session["idCierreCaja"].ToString()));
+                reporte = new Clases.ClaseCierreBoleteria_2();
+                reporte.llenarReporte(1, Convert.ToInt32(Session["idCierreCaja"].ToString()));
             }
         }
 
