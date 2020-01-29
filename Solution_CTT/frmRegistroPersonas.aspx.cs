@@ -704,6 +704,9 @@ namespace Solution_CTT
                     txtIdentificacion.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[3].Text.Trim());
                     txtApellidos.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[5].Text.Trim());
                     txtNombres.Text = HttpUtility.HtmlDecode(dgvDatos.Rows[a].Cells[6].Text.Trim());
+
+                    pnlDatosRegistro.Visible = true;
+                    pnlDatosRegistro_2.Visible = true;
                 }
 
                 columnasGrid(false);

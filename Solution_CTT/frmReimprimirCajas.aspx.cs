@@ -106,7 +106,9 @@ namespace Solution_CTT
                 sSql += "where id_ctt_pueblo = " + Session["id_pueblo"].ToString().Trim() + Environment.NewLine;
                 sSql += "and fecha_apertura between '" + sFechaInicial + "'" + Environment.NewLine;
                 sSql += "and '" + sFechaFinal + "'" + Environment.NewLine;
-                sSql += "order by fecha_apertura";
+                sSql += "and caja_boleteria = 1" + Environment.NewLine;
+                sSql += "and caja_encomienda = 0" + Environment.NewLine;
+                sSql += "order by fecha_apertura desc";
 
                 dtConsulta = new DataTable();
                 dtConsulta.Clear();

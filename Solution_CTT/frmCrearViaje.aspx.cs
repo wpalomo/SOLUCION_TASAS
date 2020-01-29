@@ -170,6 +170,7 @@ namespace Solution_CTT
                 sSql += "where A.id_persona = TP.id_persona" + Environment.NewLine;
                 sSql += "and A.estado = 'A'" + Environment.NewLine;
                 sSql += "and TP.estado = 'A'" + Environment.NewLine;
+                sSql += "and A.is_active = 1" + Environment.NewLine;
 
                 if (iOp == 1)
                 {
