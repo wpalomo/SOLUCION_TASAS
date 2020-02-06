@@ -49,11 +49,11 @@
                              OnRowDataBound="dgvDatos_RowDataBound" OnSelectedIndexChanged="dgvDatos_SelectedIndexChanged">
                              <Columns>
                                 <asp:BoundField DataField="id_ctt_cierre_caja" HeaderText="ID" ItemStyle-HorizontalAlign="Center" />
-                                <asp:BoundField DataField="fecha_apertura" HeaderText="NO. VIAJE" ItemStyle-HorizontalAlign="Center" />
-                                <asp:BoundField DataField="hora_apertura" HeaderText="DISCO - PLACA" ItemStyle-HorizontalAlign="Center" />
-                                <asp:BoundField DataField="estado_cierre_caja" HeaderText="FECHA SALIDA" ItemStyle-HorizontalAlign="Center" />
-                                <asp:BoundField DataField="oficinista" HeaderText="HORA SALIDA" ItemStyle-HorizontalAlign="Center" />
-                                <asp:BoundField DataField="jornada" HeaderText="TIPO DE VIAJE" ItemStyle-HorizontalAlign="Center" />
+                                <asp:BoundField DataField="fecha_apertura" HeaderText="FECHA CAJA" ItemStyle-HorizontalAlign="Center" />
+                                <asp:BoundField DataField="hora_apertura" HeaderText="HORA APERTURA" ItemStyle-HorizontalAlign="Center" />
+                                <asp:BoundField DataField="estado_cierre_caja" HeaderText="ESTADO CAJA" ItemStyle-HorizontalAlign="Center" />
+                                <asp:BoundField DataField="oficinista" HeaderText="OFICINISTA APERTURA" ItemStyle-HorizontalAlign="Center" />
+                                <asp:BoundField DataField="jornada" HeaderText="JORNADA" ItemStyle-HorizontalAlign="Center" />
                                 <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="VER">
                                     <ItemTemplate>
                                         <asp:LinkButton ID="lbtnImprimir" runat="server" CommandName="Select" class="btn btn-xs btn-info" OnClick="lbtnImprimir_Click"><i class="fa fa-print"></i></asp:LinkButton>

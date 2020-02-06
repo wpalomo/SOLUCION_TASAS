@@ -138,7 +138,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <asp:Button ID="btnImprimirReporte" runat="server" Text="Imprimir" class="btn btn btn-success" />
+                        <asp:Button ID="btnImprimirReporte" runat="server" Text="Imprimir" class="btn btn btn-success" OnClick="btnImprimirReporte_Click" />
                         <asp:Button ID="btnCerrarModalReporte" runat="server" Text="Salir" class="btn btn btn-warning" OnClick="btnCerrarModalReporte_Click" />                        
                     </div>
                 </div>

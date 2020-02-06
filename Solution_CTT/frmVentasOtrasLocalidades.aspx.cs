@@ -216,7 +216,7 @@ namespace Solution_CTT
                 {
                     if (dtPasajeros.Rows.Count == 0)
                     {
-                        ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Advertencia.!', 'No existen pasajeros en el viaje. Favor comuníquese con administración.', 'warning');", true);
+                        ScriptManager.RegisterStartupScript(this, GetType(), "Popup", "swal('Advertencia.!', 'No existen pasajeros en el viaje.', 'warning');", true);
                     }
 
                     else
@@ -332,6 +332,51 @@ namespace Solution_CTT
                 columnasGrid(false);
 
                 visualizarReporte(Convert.ToInt32(Session["idProgramacion"].ToString()));
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
+
+        protected void btnImprimirReporte_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Clases.ClaseImprimirManifiesto manifiesto = new Clases.ClaseImprimirManifiesto();
+
+                sSql = "";
+                sSql += "select pago_pendiente_info, ingreso_efectivo_info" + Environment.NewLine;
+                sSql += "from cv403_cab_pedidos" + Environment.NewLine;
+                sSql += "where id_ctt_programacion = " + Convert.ToInt32(Session["idProgramacion"].ToString()) + Environment.NewLine;
+                sSql += "and cobro_administrativo = 1" + Environment.NewLine;
+                sSql += "and estado = 'A'";
+
+                dtConsulta = new DataTable();
+                dtConsulta.Clear();
+
+                bRespuesta = conexionM.consultarRegistro(sSql, dtConsulta);
+
+                if (bRespuesta == true)
+                {
+                    if (dtConsulta.Rows.Count > 0)
+                    {
+                        manifiesto.llenarReporte(Convert.ToInt32(Session["idProgramacion"].ToString()), Session["usuario"].ToString(), 1, Convert.ToDecimal(dtConsulta.Rows[0]["pago_pendiente_info"].ToString()), Convert.ToDecimal(dtConsulta.Rows[0]["ingreso_efectivo_info"].ToString()), 0);
+                    }
+
+                    else
+                    {
+                        manifiesto.llenarReporte(Convert.ToInt32(Session["idProgramacion"].ToString()), Session["usuario"].ToString(), 1, 0, 0, 0);
+                    }
+                }
+
+                else
+                {
+                    lblMensajeError.Text = "<b>Error en la instrucción SQL:</b><br/><br/>" + sSql.Replace("\n", "<br/>");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+                }
             }
 
             catch (Exception ex)

@@ -21,10 +21,3 @@ D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\DATOS\bin\Debug\ENTIDADES.pdb
 D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\DATOS\obj\Debug\DATOS.csprojResolveAssemblyReference.cache
 D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\DATOS\obj\Debug\DATOS.dll
 D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\DATOS\obj\Debug\DATOS.pdb
-C:\Users\Usuario\Desktop\SOLUCION_TASAS\DATOS\bin\Debug\DATOS.dll
-C:\Users\Usuario\Desktop\SOLUCION_TASAS\DATOS\bin\Debug\DATOS.pdb
-C:\Users\Usuario\Desktop\SOLUCION_TASAS\DATOS\bin\Debug\ENTIDADES.dll
-C:\Users\Usuario\Desktop\SOLUCION_TASAS\DATOS\bin\Debug\ENTIDADES.pdb
-C:\Users\Usuario\Desktop\SOLUCION_TASAS\DATOS\obj\Debug\DATOS.csprojResolveAssemblyReference.cache
-C:\Users\Usuario\Desktop\SOLUCION_TASAS\DATOS\obj\Debug\DATOS.dll
-C:\Users\Usuario\Desktop\SOLUCION_TASAS\DATOS\obj\Debug\DATOS.pdb

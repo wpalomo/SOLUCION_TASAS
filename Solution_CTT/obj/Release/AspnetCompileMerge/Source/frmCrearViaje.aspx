@@ -372,7 +372,7 @@
     </asp:Panel>
 
 
-    <%--MODAL DE VEHICULOS--%>
+    <%--MODAL DE ASISTENTES Y CHOFERES--%>
 
     <asp:Button ID="btnAsistentesI" runat="server" Text="Button" style="display:none"/>
 
@@ -437,7 +437,7 @@
         </asp:UpdatePanel>
     </asp:Panel>
 
-    <%--FIN DE MODAL DE VEHICULOS--%>
+    <%--FIN DE MODAL DE ASISTENTES Y CHOFERES--%>
 
     <%--PROGRESS--%>
 

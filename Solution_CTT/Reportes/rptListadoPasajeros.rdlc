@@ -81,7 +81,7 @@
               <TextRun>
                 <Value />
                 <Style>
-                  <FontSize>7pt</FontSize>
+                  <FontSize>4pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                 </Style>
               </TextRun>
@@ -106,8 +106,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox1</rd:DefaultName>
-        <Left>0.0064cm</Left>
-        <Height>2.64804cm</Height>
+        <Left>0.0096cm</Left>
+        <Height>2.47165cm</Height>
         <Width>7.3997cm</Width>
         <Style>
           <Border>
@@ -116,8 +116,7 @@
         </Style>
       </Textbox>
       <Line Name="Line1">
-        <Top>2.64804cm</Top>
-        <Left>0.0064cm</Left>
+        <Top>3.0452cm</Top>
         <Height>0cm</Height>
         <Width>7.3933cm</Width>
         <ZIndex>1</ZIndex>
@@ -144,8 +143,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>3.12457cm</Top>
-        <Left>0.25763cm</Left>
+        <Top>3.52173cm</Top>
+        <Left>0.25123cm</Left>
         <Height>0.3707cm</Height>
         <Width>2.88579cm</Width>
         <ZIndex>2</ZIndex>
@@ -172,8 +171,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>3.52173cm</Top>
-        <Left>0.25763cm</Left>
+        <Top>3.91889cm</Top>
+        <Left>0.25123cm</Left>
         <Height>0.40598cm</Height>
         <Width>2.88579cm</Width>
         <ZIndex>3</ZIndex>
@@ -200,8 +199,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>2.71859cm</Top>
-        <Left>0.25603cm</Left>
+        <Top>3.11575cm</Top>
+        <Left>0.24963cm</Left>
         <Height>0.3707cm</Height>
         <Width>2.88739cm</Width>
         <ZIndex>4</ZIndex>
@@ -228,8 +227,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>6.01934cm</Top>
-        <Left>0.28331cm</Left>
+        <Top>6.4165cm</Top>
+        <Left>0.27691cm</Left>
         <Height>0.71466cm</Height>
         <Width>2.88579cm</Width>
         <ZIndex>5</ZIndex>
@@ -256,8 +255,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>4.33369cm</Top>
-        <Left>0.25603cm</Left>
+        <Top>4.73085cm</Top>
+        <Left>0.24963cm</Left>
         <Height>0.3707cm</Height>
         <Width>2.88579cm</Width>
         <ZIndex>6</ZIndex>
@@ -284,8 +283,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>4.73085cm</Top>
-        <Left>0.25603cm</Left>
+        <Top>5.12801cm</Top>
+        <Left>0.24963cm</Left>
         <Height>0.40598cm</Height>
         <Width>2.88579cm</Width>
         <ZIndex>7</ZIndex>
@@ -312,8 +311,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>3.92771cm</Top>
-        <Left>0.25443cm</Left>
+        <Top>4.32487cm</Top>
+        <Left>0.24803cm</Left>
         <Height>0.3707cm</Height>
         <Width>2.88739cm</Width>
         <ZIndex>8</ZIndex>
@@ -324,8 +323,8 @@
         </Style>
       </Textbox>
       <Line Name="Line2">
-        <Top>6.80456cm</Top>
-        <Left>0.03528cm</Left>
+        <Top>7.20172cm</Top>
+        <Left>0.02888cm</Left>
         <Height>0cm</Height>
         <Width>7.3997cm</Width>
         <ZIndex>9</ZIndex>
@@ -352,8 +351,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>usuario_consulta</rd:DefaultName>
-        <Top>3.12457cm</Top>
-        <Left>3.14342cm</Left>
+        <Top>3.52173cm</Top>
+        <Left>3.13702cm</Left>
         <Height>0.3707cm</Height>
         <Width>4.25948cm</Width>
         <ZIndex>10</ZIndex>
@@ -380,8 +379,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>numero_viaje</rd:DefaultName>
-        <Top>3.49527cm</Top>
-        <Left>3.14342cm</Left>
+        <Top>3.89243cm</Top>
+        <Left>3.13702cm</Left>
         <Height>0.43244cm</Height>
         <Width>4.25948cm</Width>
         <ZIndex>11</ZIndex>
@@ -411,8 +410,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>fecha_salida</rd:DefaultName>
-        <Top>3.92771cm</Top>
-        <Left>3.14342cm</Left>
+        <Top>4.32487cm</Top>
+        <Left>3.13702cm</Left>
         <Height>0.3707cm</Height>
         <Width>4.25948cm</Width>
         <ZIndex>12</ZIndex>
@@ -442,8 +441,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>hora_salida</rd:DefaultName>
-        <Top>4.29841cm</Top>
-        <Left>3.14182cm</Left>
+        <Top>4.69557cm</Top>
+        <Left>3.13542cm</Left>
         <Height>0.43244cm</Height>
         <Width>4.26108cm</Width>
         <ZIndex>13</ZIndex>
@@ -470,8 +469,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>disco_placa</rd:DefaultName>
-        <Top>4.73085cm</Top>
-        <Left>3.14342cm</Left>
+        <Top>5.12801cm</Top>
+        <Left>3.13702cm</Left>
         <Height>0.40598cm</Height>
         <Width>4.25948cm</Width>
         <ZIndex>14</ZIndex>
@@ -498,8 +497,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>conductor</rd:DefaultName>
-        <Top>6.01934cm</Top>
-        <Left>3.1723cm</Left>
+        <Top>6.4165cm</Top>
+        <Left>3.1659cm</Left>
         <Height>0.71466cm</Height>
         <Width>4.25948cm</Width>
         <ZIndex>15</ZIndex>
@@ -766,8 +765,8 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet1</DataSetName>
-        <Top>7.63221cm</Top>
-        <Left>0.28651cm</Left>
+        <Top>8.02937cm</Top>
+        <Left>0.28011cm</Left>
         <Height>1.37667cm</Height>
         <Width>7.14207cm</Width>
         <ZIndex>16</ZIndex>
@@ -797,8 +796,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>6.87511cm</Top>
-        <Left>0.28651cm</Left>
+        <Top>7.27227cm</Top>
+        <Left>0.28011cm</Left>
         <Height>0.40598cm</Height>
         <Width>7.14527cm</Width>
         <ZIndex>17</ZIndex>
@@ -827,8 +826,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>P_Fecha</rd:DefaultName>
-        <Top>2.71888cm</Top>
-        <Left>3.14182cm</Left>
+        <Top>3.11604cm</Top>
+        <Left>3.13542cm</Left>
         <Height>0.37041cm</Height>
         <Width>4.25788cm</Width>
         <ZIndex>18</ZIndex>
@@ -855,8 +854,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>5.17211cm</Top>
-        <Left>0.25763cm</Left>
+        <Top>5.56927cm</Top>
+        <Left>0.25123cm</Left>
         <Height>0.40598cm</Height>
         <Width>2.88579cm</Width>
         <ZIndex>19</ZIndex>
@@ -883,8 +882,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>tipo_viaje</rd:DefaultName>
-        <Top>5.17211cm</Top>
-        <Left>3.1787cm</Left>
+        <Top>5.56927cm</Top>
+        <Left>3.1723cm</Left>
         <Height>0.40598cm</Height>
         <Width>4.221cm</Width>
         <ZIndex>20</ZIndex>
@@ -916,8 +915,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>9.25582cm</Top>
-        <Left>0.28331cm</Left>
+        <Top>9.65298cm</Top>
+        <Left>0.27691cm</Left>
         <Height>0.40598cm</Height>
         <Width>7.14527cm</Width>
         <ZIndex>21</ZIndex>
@@ -928,8 +927,8 @@
         </Style>
       </Textbox>
       <Line Name="Line6">
-        <Top>9.14999cm</Top>
-        <Left>0.03528cm</Left>
+        <Top>9.54715cm</Top>
+        <Left>0.02888cm</Left>
         <Height>0cm</Height>
         <Width>7.3997cm</Width>
         <ZIndex>22</ZIndex>
@@ -956,8 +955,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>tipo_viaje</rd:DefaultName>
-        <Top>5.61337cm</Top>
-        <Left>3.1723cm</Left>
+        <Top>6.01053cm</Top>
+        <Left>3.1659cm</Left>
         <Height>0.40597cm</Height>
         <Width>4.2242cm</Width>
         <ZIndex>23</ZIndex>
@@ -984,8 +983,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox27</rd:DefaultName>
-        <Top>5.61337cm</Top>
-        <Left>0.26243cm</Left>
+        <Top>6.01053cm</Top>
+        <Left>0.25603cm</Left>
         <Height>0.40598cm</Height>
         <Width>2.88579cm</Width>
         <ZIndex>24</ZIndex>
@@ -995,15 +994,44 @@
           </Border>
         </Style>
       </Textbox>
+      <Textbox Name="usuario_consulta2">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!ruta.Value, "DataSet1")</Value>
+                <Style>
+                  <FontSize>8pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>usuario_consulta</rd:DefaultName>
+        <Top>2.56866cm</Top>
+        <Height>0.3707cm</Height>
+        <Width>7.3901cm</Width>
+        <ZIndex>25</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Textbox>
     </ReportItems>
-    <Height>3.90277in</Height>
+    <Height>4.01735in</Height>
     <Style>
       <Border>
         <Style>None</Style>
       </Border>
     </Style>
   </Body>
-  <Width>2.94523in</Width>
+  <Width>2.94649in</Width>
   <Page>
     <PageHeight>21cm</PageHeight>
     <PageWidth>8cm</PageWidth>
@@ -1113,6 +1141,10 @@
         </Field>
         <Field Name="identificacion_conductor">
           <DataField>identificacion_conductor</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ruta">
+          <DataField>ruta</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
