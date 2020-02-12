@@ -219,10 +219,13 @@ namespace Solution_CTT.Clases
 
                 reporteLocal.SetParameters(parametros);
 
-                Clases.Impresor imp = new Clases.Impresor();
-                imp.Imprime(reporteLocal);
+                if (iBanderaEnviaImprime != 2)
+                {
+                    Clases.Impresor imp = new Clases.Impresor();
+                    imp.Imprime(reporteLocal);
+                }
 
-                if (iBanderaEnviaImprime == 1)
+                if ((iBanderaEnviaImprime == 1) || (iBanderaEnviaImprime == 2))
                 {
                     iRespuestaParametros = cargarParametrosMail();
 

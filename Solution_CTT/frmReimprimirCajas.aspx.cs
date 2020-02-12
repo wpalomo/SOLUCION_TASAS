@@ -25,6 +25,7 @@ namespace Solution_CTT
         string sSql;
         string sFechaInicial;
         string sFechaFinal;
+        string sAccion;
 
         bool bRespuesta;
 
@@ -108,6 +109,12 @@ namespace Solution_CTT
                 sSql += "and '" + sFechaFinal + "'" + Environment.NewLine;
                 sSql += "and caja_boleteria = 1" + Environment.NewLine;
                 sSql += "and caja_encomienda = 0" + Environment.NewLine;
+
+                if (Convert.ToInt32(cmbUsuarios.SelectedValue) != 0)
+                {
+                    sSql += "and id_ctt_oficinista = " + cmbUsuarios.SelectedValue + Environment.NewLine;
+                }
+
                 sSql += "order by fecha_apertura desc";
 
                 dtConsulta = new DataTable();
@@ -144,13 +151,20 @@ namespace Solution_CTT
                 int a = dgvDatos.SelectedIndex;
 
                 dgvDatos.Columns[0].Visible = true;
-
                 int iIdCierreCaja = Convert.ToInt32(dgvDatos.Rows[a].Cells[0].Text);
-
-                reporte = new Clases.ClaseCierreBoleteria_2();
-                reporte.llenarReporte(0, iIdCierreCaja);
-
                 dgvDatos.Columns[0].Visible = false;
+
+                if (sAccion == "I")
+                {
+                    reporte = new Clases.ClaseCierreBoleteria_2();
+                    reporte.llenarReporte(0, iIdCierreCaja);
+                }
+
+                else if (sAccion == "R")
+                {
+                    reporte = new Clases.ClaseCierreBoleteria_2();
+                    reporte.llenarReporte(2, iIdCierreCaja);
+                }
             }
 
             catch (Exception ex)
@@ -193,7 +207,12 @@ namespace Solution_CTT
 
         protected void lbtnImprimir_Click(object sender, EventArgs e)
         {
-            //btnSave.Text = "Editar";
+            sAccion = "I";
+        }
+
+        protected void lbtnReimprimir_Click(object sender, EventArgs e)
+        {
+            sAccion = "R";
         }
 
         protected void btnConsultar_Click(object sender, EventArgs e)

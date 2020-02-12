@@ -247,3 +247,13 @@ D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\NEGOCIO\bin\Debug\ENTIDADES.pdb
 D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\NEGOCIO\obj\Debug\NEGOCIO.csprojResolveAssemblyReference.cache
 D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\NEGOCIO\obj\Debug\NEGOCIO.dll
 D:\SISTEMAS\BOLETERIA\SOLUCION_TASAS\NEGOCIO\obj\Debug\NEGOCIO.pdb
+C:\Users\Usuario\Desktop\SOLUCION_TASAS\NEGOCIO\bin\Debug\NEGOCIO.dll
+C:\Users\Usuario\Desktop\SOLUCION_TASAS\NEGOCIO\bin\Debug\NEGOCIO.pdb
+C:\Users\Usuario\Desktop\SOLUCION_TASAS\NEGOCIO\bin\Debug\DATOS.dll
+C:\Users\Usuario\Desktop\SOLUCION_TASAS\NEGOCIO\bin\Debug\ENTIDADES.dll
+C:\Users\Usuario\Desktop\SOLUCION_TASAS\NEGOCIO\bin\Debug\ConexionBD.dll
+C:\Users\Usuario\Desktop\SOLUCION_TASAS\NEGOCIO\bin\Debug\DATOS.pdb
+C:\Users\Usuario\Desktop\SOLUCION_TASAS\NEGOCIO\bin\Debug\ENTIDADES.pdb
+C:\Users\Usuario\Desktop\SOLUCION_TASAS\NEGOCIO\obj\Debug\NEGOCIO.csprojResolveAssemblyReference.cache
+C:\Users\Usuario\Desktop\SOLUCION_TASAS\NEGOCIO\obj\Debug\NEGOCIO.dll
+C:\Users\Usuario\Desktop\SOLUCION_TASAS\NEGOCIO\obj\Debug\NEGOCIO.pdb

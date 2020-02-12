@@ -54,9 +54,14 @@
                                 <asp:BoundField DataField="estado_cierre_caja" HeaderText="ESTADO CAJA" ItemStyle-HorizontalAlign="Center" />
                                 <asp:BoundField DataField="oficinista" HeaderText="OFICINISTA APERTURA" ItemStyle-HorizontalAlign="Center" />
                                 <asp:BoundField DataField="jornada" HeaderText="JORNADA" ItemStyle-HorizontalAlign="Center" />
-                                <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="VER">
+                                <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="IMPRIMIR">
                                     <ItemTemplate>
                                         <asp:LinkButton ID="lbtnImprimir" runat="server" CommandName="Select" class="btn btn-xs btn-info" OnClick="lbtnImprimir_Click"><i class="fa fa-print"></i></asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                 <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="REENVIAR REPORTE">
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="lbtnReimprimir" runat="server" CommandName="Select" class="btn btn-xs btn-warning" OnClick="lbtnReimprimir_Click"><i class="fa fa-send"></i></asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>
