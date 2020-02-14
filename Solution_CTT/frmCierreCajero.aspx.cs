@@ -344,7 +344,7 @@ namespace Solution_CTT
                 sSql += "where fecha_viaje >= '" + sFecha_P + "'" + Environment.NewLine;
                 sSql += "and estado_salida = 'Abierta'" + Environment.NewLine;
                 sSql += "and id_ctt_pueblo_origen = " + Session["id_pueblo"].ToString() + Environment.NewLine;
-                sSql += "order by hora_salida";
+                sSql += "order by fecha_viaje, hora_salida";
 
                 dtConsulta = new DataTable();
                 dtConsulta.Clear();
@@ -456,7 +456,7 @@ namespace Solution_CTT
                 sSql += "where estado_salida = 'Cerrada'" + Environment.NewLine;
                 sSql += "and id_ctt_cierre_caja = " + Session["idCierreCaja"].ToString() + Environment.NewLine;
                 sSql += "and id_ctt_pueblo_origen = " + Session["id_pueblo"].ToString() + Environment.NewLine;
-                sSql += "order by hora_salida";
+                sSql += "order by fecha_viaje, hora_salida";
 
                 dtConsulta = new DataTable();
                 dtConsulta.Clear();

@@ -43,7 +43,7 @@ namespace Solution_CTT.Clases
                 sSql += "from ctt_vw_cierre_caja_2" + Environment.NewLine;
                 sSql += "where estado_salida = 'Cerrada'" + Environment.NewLine;
                 sSql += "and id_ctt_cierre_caja = " + iIdCierreCaja_P + Environment.NewLine;
-                sSql += "order by hora_salida";
+                sSql += "order by fecha_viaje, hora_salida";
 
                 dtConsulta = new DataTable();
                 dtConsulta.Clear();

@@ -127,16 +127,16 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:51:43</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>02/11/2020 18:58:56</publishTime>
+      <publishTime>02/12/2020 07:16:45</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>02/11/2020 18:58:56</publishTime>
+      <publishTime>02/12/2020 07:16:45</publishTime>
     </File>
     <File Include="bin/App_GlobalResources.compiled">
-      <publishTime>02/11/2020 18:58:54</publishTime>
+      <publishTime>02/12/2020 07:16:43</publishTime>
     </File>
     <File Include="bin/App_GlobalResources.dll">
-      <publishTime>02/11/2020 18:58:53</publishTime>
+      <publishTime>02/12/2020 07:16:43</publishTime>
     </File>
     <File Include="bin/BarcodeLib.dll">
       <publishTime>11/13/2019 20:52:14</publishTime>
@@ -190,7 +190,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>12/19/2019 13:46:41</publishTime>
     </File>
     <File Include="bin/Solution_CTT.dll">
-      <publishTime>02/11/2020 18:58:12</publishTime>
+      <publishTime>02/12/2020 07:16:10</publishTime>
     </File>
     <File Include="bin/SqlServerTypes/x64/msvcr100.dll">
       <publishTime>11/13/2019 20:52:14</publishTime>
@@ -21046,7 +21046,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/20/2019 17:05:26</publishTime>
     </File>
     <File Include="frmReimprimirCajas.aspx">
-      <publishTime>02/11/2020 18:49:46</publishTime>
+      <publishTime>02/12/2020 06:52:26</publishTime>
     </File>
     <File Include="frmReporteCodigo.aspx">
       <publishTime>11/13/2019 20:51:50</publishTime>
@@ -21574,7 +21574,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/13/2019 20:52:14</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>02/11/2020 18:58:48</publishTime>
+      <publishTime>02/12/2020 07:16:38</publishTime>
     </File>
     <File Include="Site.Mobile.Master">
       <publishTime>11/13/2019 20:51:43</publishTime>

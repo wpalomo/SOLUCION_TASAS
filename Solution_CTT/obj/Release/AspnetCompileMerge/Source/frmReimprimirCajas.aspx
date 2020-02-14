@@ -32,6 +32,10 @@
                                         <div class="col-md-3">
                                             <asp:Label ID="Label4" runat="server" Text="Usuarios"></asp:Label>
                                             <asp:DropDownList ID="cmbUsuarios" runat="server" class="form-control"></asp:DropDownList>
+                                        </div>  
+                                        <div class="col-md-3">
+                                            <asp:Label ID="Label3" runat="server" Text="Boleterías"></asp:Label>
+                                            <asp:DropDownList ID="cmbBoleteria" runat="server" class="form-control"></asp:DropDownList>
                                         </div>                                  
                                     </div>
                                 </div>

@@ -55,7 +55,7 @@ namespace Solution_CTT
             try
             {
                 sSql = "";
-                sSql += "select id_ctt_oficinista, usuario" + Environment.NewLine;
+                sSql += "select id_ctt_oficinista, descripcion" + Environment.NewLine;
                 sSql += "from ctt_oficinista" + Environment.NewLine;
                 sSql += "where estado = 'A'";
 
@@ -74,6 +74,33 @@ namespace Solution_CTT
             }
         }
 
+        //FUNCION PARA LLENAR EL COMBOBOX DE USUARIOS
+        private void llenarComboBoleterias()
+        {
+            try
+            {
+                sSql = "";
+                sSql += "select id_ctt_pueblo, descripcion" + Environment.NewLine;
+                sSql += "from ctt_pueblos" + Environment.NewLine;
+                sSql += "where estado = 'A'" + Environment.NewLine;
+                sSql += "and terminal = 1" + Environment.NewLine;
+                sSql += "order by descripcion";
+
+                comboE.ISSQL = sSql;
+                cmbBoleteria.DataSource = comboM.listarCombo(comboE);
+                cmbBoleteria.DataValueField = "IID";
+                cmbBoleteria.DataTextField = "IDATO";
+                cmbBoleteria.DataBind();
+                cmbBoleteria.Items.Insert(0, new ListItem("Todos", "0"));
+            }
+
+            catch (Exception ex)
+            {
+                lblMensajeError.Text = "<b>Se ha producido el siguiente error:</b><br/><br/>" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ModalView", "<script>$('#modalError').modal('show');</script>", false);
+            }
+        }
+
         //FUNCION PARA LIMPIAR
         private void limpiar()
         {
@@ -81,6 +108,7 @@ namespace Solution_CTT
             txtFechaHasta.Text = DateTime.Now.ToString("dd/MM/yyyy");
 
             llenarComboUsuarios();
+            llenarComboBoleterias();
             dtConsulta = new DataTable();
             dtConsulta.Clear();
             dgvDatos.DataSource = dtConsulta;
@@ -104,8 +132,8 @@ namespace Solution_CTT
                 sSql += "select id_ctt_cierre_caja, convert(varchar(10), fecha_apertura, 103) fecha_apertura," + Environment.NewLine;
                 sSql += "hora_apertura, estado_cierre_caja, oficinista, jornada" + Environment.NewLine;
                 sSql += "from ctt_vw_reabrir_ultima_caja" + Environment.NewLine;
-                sSql += "where id_ctt_pueblo = " + Session["id_pueblo"].ToString().Trim() + Environment.NewLine;
-                sSql += "and fecha_apertura between '" + sFechaInicial + "'" + Environment.NewLine;
+                //sSql += "where id_ctt_pueblo = " + Session["id_pueblo"].ToString().Trim() + Environment.NewLine;
+                sSql += "where fecha_apertura between '" + sFechaInicial + "'" + Environment.NewLine;
                 sSql += "and '" + sFechaFinal + "'" + Environment.NewLine;
                 sSql += "and caja_boleteria = 1" + Environment.NewLine;
                 sSql += "and caja_encomienda = 0" + Environment.NewLine;
@@ -113,6 +141,11 @@ namespace Solution_CTT
                 if (Convert.ToInt32(cmbUsuarios.SelectedValue) != 0)
                 {
                     sSql += "and id_ctt_oficinista = " + cmbUsuarios.SelectedValue + Environment.NewLine;
+                }
+
+                if (Convert.ToInt32(cmbBoleteria.SelectedValue) != 0)
+                {
+                    sSql += "and id_ctt_pueblo = " + cmbBoleteria.SelectedValue + Environment.NewLine;
                 }
 
                 sSql += "order by fecha_apertura desc";
